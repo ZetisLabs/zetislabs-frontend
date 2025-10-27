@@ -1,26 +1,129 @@
 @import "tailwindcss";
 
+/*
+  Global theme tokens for light/dark, aligned to the palette provided.
+  We use an attribute-driven theme (html[data-theme="..."]) so that
+  the ThemeToggle can switch instantly without relying on media queries.
+*/
+
+/* Light theme (default) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f8f8;            /* Light background */
+  --foreground: #1a1a1a;            /* Light text */
+  --accent: #3a7bd5;                /* Accent */
+  --accent-foreground: #ffffff;     /* Accent button text */
+
+  --card-background: #ffffff;       /* Light cards use white by default */
+  --card-foreground: #1a1a1a;
+  --border: #e2e2e2;
+  --hover-background: #e2e2e2;      /* Hover/highlight background */
+  --hover-foreground: #1a1a1a;      /* Hover/highlight text */
+  --underline: #3a7bd5;             /* Link underline */
 }
 
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --background: #1a1a1a;            /* Dark background */
+  --foreground: #f8f8f8;            /* Dark text */
+  --accent: #3a7bd5;                /* Accent (same) */
+  --accent-foreground: #ffffff;
+
+  --card-background: #3C3C3C;       /* Card */
+  --card-foreground: #f8f8f8;
+  --border: #e2e2e2;
+  --hover-background: #2a2a2a;      /* Slightly darker hover for dark theme */
+  --hover-foreground: #f8f8f8;
+  --underline: #3a7bd5;
+}
+
+/* Expose tokens to Tailwind v4 via @theme inline */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card-background);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-hover: var(--hover-background);
+  --color-hover-foreground: var(--hover-foreground);
+  --color-underline: var(--underline);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base document styles */
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  text-rendering: optimizeLegibility;
+}
+
+/* Simple utility to draw a subtle grid + radial glow for hero background */
+.hero-surface {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-surface::before {
+  content: "";
+  position: absolute;
+  inset: -10% -10% 0 -10%;
+  background:
+    radial-gradient(60% 40% at 50% 0%, color(display-p3 0.227 0.482 0.835 / 0.18), transparent 60%),
+    radial-gradient(40% 30% at 80% 10%, color(display-p3 0.227 0.482 0.835 / 0.15), transparent 55%),
+    linear-gradient(var(--background), var(--background));
+  z-index: -2;
+}
+
+.hero-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+  background-position: center;
+  mask-image: radial-gradient(80% 60% at 50% 20%, rgba(0,0,0,0.35), transparent 60%);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+/* Show appropriate logo variant per theme without JS */
+[data-theme="light"] .logo-dark { display: none; }
+[data-theme="dark"] .logo-light { display: none; }
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+.btn-primary:hover {
+  filter: brightness(0.95);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--foreground);
+}
+.btn-ghost:hover {
+  background-color: var(--hover-background);
+  color: var(--hover-foreground);
+}
+
+/* Minimal link underline style */
+.link-underline {
+  text-decoration: none;
+  background-image: linear-gradient(var(--underline), var(--underline));
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
 }
