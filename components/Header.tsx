@@ -3,9 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import ThemeToggle from "@/components/ThemeToggle";
 
-// Shared glassmorphism utilities scoped to this header.
-const GLASS_BASE_CLASS =
-  'overflow-hidden border border-white/30 bg-white/10 shadow-[0_14px_40px_rgba(15,23,42,0.35)] backdrop-blur-xl';
+// Use the provided `.glass-card` with a lighter header-specific variant.
+const GLASS_BASE_CLASS = 'glass-card glass-card--inline glass-pill';
 
 /**
  * Compose the baseline glassmorphism classes with caller specific utilities.
@@ -50,10 +49,10 @@ export default function Header() {
 
         {/* Centered menu with glassmorphism background (absolutely centered) */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className={glassLayeredClass("pointer-events-auto rounded-full h-8 px-4 transition-[background-color,border-color,box-shadow] hover:bg-white/15 hover:border-white/40")}> 
+          <div className={glassLayeredClass("pointer-events-auto rounded-full h-12 px-6 transition-[opacity,transform] hover:opacity-95")}> 
             <nav className="flex h-full items-center gap-4 text-sm text-foreground/85">
-              <Link href="/" className="mx-1 rounded-full border border-transparent px-3 py-0.5 hover:border-white/20 hover:bg-white/15 hover:text-foreground transition-colors">Home</Link>
-              <Link href="/blog" className="mx-1 rounded-full border border-transparent px-3 py-0.5 hover:border-white/20 hover:bg-white/15 hover:text-foreground transition-colors">blog</Link>
+              <Link href="/" className="mx-1 rounded-full px-3 py-0.5 transition-colors hover:text-foreground">Home</Link>
+              <Link href="/blog" className="mx-1 rounded-full px-3 py-0.5 transition-colors hover:text-foreground">blog</Link>
             </nav>
           </div>
         </div>

@@ -43,18 +43,18 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border/80 hover:bg-hover transition-colors"
+      className="glass-card glass-card--inline glass-pill inline-flex h-12 w-12 items-center justify-center rounded-full p-0 transition-[opacity,transform] hover:opacity-95"
     >
       {/* Simple inline icons to avoid extra deps */}
       {mounted && isDark ? (
         // Sun icon
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <svg className="h-10 w-10" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path d="M12 4V2m0 20v-2M4 12H2m20 0h-2M5.64 5.64 4.22 4.22m15.56 15.56-1.42-1.42M18.36 5.64l1.42-1.42M4.22 19.78l1.42-1.42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
         </svg>
       ) : (
         // Moon icon
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <svg className="h-10 w-10" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )}

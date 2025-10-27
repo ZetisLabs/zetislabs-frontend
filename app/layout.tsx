@@ -37,7 +37,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}> 
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen banner-inspired-bg text-foreground`}> 
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <div className="flex min-h-screen flex-col">
           <Header />
