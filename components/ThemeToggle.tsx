@@ -43,7 +43,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className="glass-card glass-card--inline glass-pill inline-flex h-12 w-12 items-center justify-center rounded-full p-0 transition-[opacity,transform] hover:opacity-95"
+      className="glass-pill glass-card--inline inline-flex h-12 w-12 items-center justify-center rounded-full p-0 transition-[opacity,transform] hover:opacity-95"
     >
       {/* Simple inline icons to avoid extra deps */}
       {mounted && isDark ? (
