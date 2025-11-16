@@ -226,23 +226,11 @@ input {
   background-position: 0 100%;
 }
 
-/* Navigation hover shadow effect - positioned under nav-group container */
-.nav-group {
-  position: relative;
-  overflow: visible;
+/* Navigation link hover shadow effect */
+header:has(.nav-link:first-of-type:hover) .nav-link-home-shadow {
+  opacity: 1;
 }
 
-.nav-group:has(.nav-menu a:hover)::after {
-  content: "";
-  position: absolute;
-  bottom: -18px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: transparent;
-  box-shadow: 0 4px 20px rgba(58, 123, 213, 0.6), 0 0 30px rgba(58, 123, 213, 0.3);
-  pointer-events: none;
-  z-index: -1;
-  border-radius: 50%;
+header:has(.nav-link:last-of-type:hover) .nav-link-blog-shadow {
   opacity: 1;
 }
