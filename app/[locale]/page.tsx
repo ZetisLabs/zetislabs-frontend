@@ -16,8 +16,8 @@ export default async function Home({ params }: Props) {
 
   return (
     <>
-      <section className="relative isolate">
-        <div className="mx-auto max-w-screen-xl px-4 pt-20 pb-24 sm:pt-24 sm:pb-28">
+      <section className="relative isolate min-h-screen flex flex-col justify-center">
+        <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-3 py-1 text-xs uppercase tracking-wider text-foreground/70">
@@ -49,8 +49,8 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* What We Make Section */}
-      <section className="py-20 sm:py-28">
-        <div className="mx-auto max-w-screen-xl px-4">
+      <section className="min-h-screen flex flex-col justify-center">
+        <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.whatWeMake.title")}
@@ -105,8 +105,8 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section className="py-20 sm:py-28">
-        <div className="mx-auto max-w-screen-xl px-4">
+      <section className="min-h-screen flex flex-col justify-center">
+        <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.exampleProjects.title")}
@@ -151,8 +151,8 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Why ZetisLabs Section */}
-      <section className="py-20 sm:py-28">
-        <div className="mx-auto max-w-screen-xl px-4">
+      <section className="min-h-screen flex flex-col justify-center">
+        <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.whyZetisLabs.title")}
@@ -227,8 +227,8 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-20 sm:py-28">
-        <div className="mx-auto max-w-screen-xl px-4">
+      <section className="min-h-screen flex flex-col justify-center">
+        <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.cta.title")}
