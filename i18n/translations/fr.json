@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "title": "ZetisLabs — Automatisation alimentée par des agents IA",
+    "description": "ZetisLabs aide les entreprises à automatiser leurs processus en utilisant des flux de travail intelligents pilotés par des agents."
+  },
+  "header": {
+    "home": "Accueil",
+    "blog": "Blog",
+    "homeAriaLabel": "Aller à l'accueil",
+    "blogAriaLabel": "Aller au blog",
+    "logoAriaLabel": "Accueil ZetisLabs"
+  },
+  "footer": {
+    "copyright": "© {year} ZetisLabs. Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Arrêtez de perdre du temps sur des tâches répétitives",
+      "title": "Renforcez votre flux de travail. Sans effort.",
+      "subtitle": "ZetisLabs crée des automatisations sur mesure qui vous font gagner des heures chaque semaine.",
+      "cta": "Obtenir un audit gratuit"
+    },
+    "whatWeMake": {
+      "title": "Ce que nous créons",
+      "description": "ZetisLabs aide les entreprises à automatiser leurs processus en utilisant des flux de travail intelligents pilotés par des agents. Nous construisons des solutions d'automatisation alimentées par l'IA qui transforment la façon dont les entreprises fonctionnent.",
+      "features": {
+        "aiAgents": {
+          "title": "Agents IA",
+          "description": "Des agents intelligents qui comprennent le contexte et exécutent des flux de travail complexes de manière autonome."
+        },
+        "processAutomation": {
+          "title": "Automatisation des processus",
+          "description": "Rationalisez les tâches et flux de travail répétitifs pour gagner du temps et réduire les erreurs humaines."
+        },
+        "intelligentWorkflows": {
+          "title": "Flux de travail intelligents",
+          "description": "Créez des flux de travail adaptatifs qui apprennent et s'améliorent au fil du temps grâce aux informations alimentées par l'IA."
+        },
+        "enterpriseIntegration": {
+          "title": "Intégration d'entreprise",
+          "description": "Intégrez-vous parfaitement à vos outils et systèmes existants pour une automatisation unifiée."
+        }
+      }
+    },
+    "exampleProjects": {
+      "title": "Exemples de projets",
+      "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
+      "projects": {
+        "ecommerce": {
+          "title": "Traitement des commandes e-commerce",
+          "description": "Flux de travail automatisé de traitement des commandes qui traite les commandes, met à jour les stocks et envoie des notifications, réduisant le temps de traitement de 80%."
+        },
+        "customerSupport": {
+          "title": "Automatisation du support client",
+          "description": "Système de routage et de réponse de tickets alimenté par l'IA qui gère les demandes courantes, libérant le personnel de support pour les problèmes complexes."
+        },
+        "dataMigration": {
+          "title": "Pipeline de migration de données",
+          "description": "Système intelligent de transformation et de migration de données qui valide, nettoie et transfère les données entre systèmes de manière transparente."
+        }
+      }
+    },
+    "whyZetisLabs": {
+      "title": "Pourquoi ZetisLabs",
+      "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
+      "reasons": {
+        "expertTeam": {
+          "title": "Équipe d'experts",
+          "description": "Notre équipe apporte des années d'expérience en IA, automatisation et développement de logiciels d'entreprise."
+        },
+        "customSolutions": {
+          "title": "Solutions personnalisées",
+          "description": "Chaque automatisation est adaptée à vos besoins et flux de travail spécifiques, pas une approche unique."
+        },
+        "provenResults": {
+          "title": "Résultats prouvés",
+          "description": "Nos clients constatent des améliorations mesurables en termes d'efficacité, de précision et d'économies de temps dès le premier jour."
+        },
+        "ongoingSupport": {
+          "title": "Support continu",
+          "description": "Nous fournissons une surveillance, une optimisation et un support continus pour garantir que vos automatisations restent efficaces."
+        },
+        "scalableArchitecture": {
+          "title": "Architecture évolutive",
+          "description": "Conçu pour grandir avec votre entreprise, gérant l'augmentation du volume et de la complexité au fur et à mesure de votre expansion."
+        },
+        "securityFirst": {
+          "title": "Sécurité d'abord",
+          "description": "Sécurité et conformité de niveau entreprise intégrées dans chaque solution dès le départ."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à automatiser ?",
+      "description": "Obtenez un audit gratuit de vos flux de travail et découvrez combien de temps vous pourriez économiser avec l'automatisation intelligente.",
+      "primary": "Obtenir un audit gratuit",
+      "secondary": "En savoir plus",
+      "primaryAriaLabel": "Obtenir un audit gratuit",
+      "secondaryAriaLabel": "En savoir plus"
+    }
+  }
+}
+

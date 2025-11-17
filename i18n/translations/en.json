@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "title": "ZetisLabs — Automation powered by AI agents",
+    "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows."
+  },
+  "header": {
+    "home": "Home",
+    "blog": "Blog",
+    "homeAriaLabel": "Navigate to home",
+    "blogAriaLabel": "Navigate to blog",
+    "logoAriaLabel": "ZetisLabs home"
+  },
+  "footer": {
+    "copyright": "© {year} ZetisLabs. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Stop wasting time on repetitive tasks",
+      "title": "Empower your workflow. Effortlessly.",
+      "subtitle": "ZetisLabs builds custom automations that save you hours every week.",
+      "cta": "Get a free audit"
+    },
+    "whatWeMake": {
+      "title": "What We Make",
+      "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows. We build AI-powered automation solutions that transform how businesses operate.",
+      "features": {
+        "aiAgents": {
+          "title": "AI Agents",
+          "description": "Intelligent agents that understand context and execute complex workflows autonomously."
+        },
+        "processAutomation": {
+          "title": "Process Automation",
+          "description": "Streamline repetitive tasks and workflows to save time and reduce human error."
+        },
+        "intelligentWorkflows": {
+          "title": "Intelligent Workflows",
+          "description": "Build adaptive workflows that learn and improve over time with AI-powered insights."
+        },
+        "enterpriseIntegration": {
+          "title": "Enterprise Integration",
+          "description": "Seamlessly integrate with your existing tools and systems for unified automation."
+        }
+      }
+    },
+    "exampleProjects": {
+      "title": "Example Projects",
+      "description": "See how we've helped companies automate their workflows and save valuable time.",
+      "projects": {
+        "ecommerce": {
+          "title": "E-commerce Order Processing",
+          "description": "Automated order fulfillment workflow that processes orders, updates inventory, and sends notifications, reducing processing time by 80%."
+        },
+        "customerSupport": {
+          "title": "Customer Support Automation",
+          "description": "AI-powered ticket routing and response system that handles common inquiries, freeing up support staff for complex issues."
+        },
+        "dataMigration": {
+          "title": "Data Migration Pipeline",
+          "description": "Intelligent data transformation and migration system that validates, cleans, and transfers data between systems seamlessly."
+        }
+      }
+    },
+    "whyZetisLabs": {
+      "title": "Why ZetisLabs",
+      "description": "We combine cutting-edge AI technology with deep automation expertise to deliver solutions that work.",
+      "reasons": {
+        "expertTeam": {
+          "title": "Expert Team",
+          "description": "Our team brings years of experience in AI, automation, and enterprise software development."
+        },
+        "customSolutions": {
+          "title": "Custom Solutions",
+          "description": "Every automation is tailored to your specific needs and workflows, not a one-size-fits-all approach."
+        },
+        "provenResults": {
+          "title": "Proven Results",
+          "description": "Our clients see measurable improvements in efficiency, accuracy, and time savings from day one."
+        },
+        "ongoingSupport": {
+          "title": "Ongoing Support",
+          "description": "We provide continuous monitoring, optimization, and support to ensure your automations stay effective."
+        },
+        "scalableArchitecture": {
+          "title": "Scalable Architecture",
+          "description": "Built to grow with your business, handling increased volume and complexity as you expand."
+        },
+        "securityFirst": {
+          "title": "Security First",
+          "description": "Enterprise-grade security and compliance built into every solution from the ground up."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Automate?",
+      "description": "Get a free audit of your workflows and discover how much time you could save with intelligent automation.",
+      "primary": "Get a free audit",
+      "secondary": "Learn more",
+      "primaryAriaLabel": "Get a free audit",
+      "secondaryAriaLabel": "Learn more"
+    }
+  }
+}
+

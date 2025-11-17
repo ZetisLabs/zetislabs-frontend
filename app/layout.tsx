@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 /**
  * GeneralSans font family - loaded from local files
@@ -76,25 +73,21 @@ const generalSans = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "ZetisLabs — Automation powered by AI agents",
-  description: "ZetisLabs helps companies automate processes using intelligent agent-driven workflows.",
-};
-
+/**
+ * Root Layout
+ * Next.js requires the root layout to have html and body tags.
+ * The lang attribute is set dynamically by the locale layout via script tag.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       {/* Apply GeneralSans font variable to body */}
       <body className={`${generalSans.variable} antialiased min-h-screen text-foreground`}>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        {children}
       </body>
     </html>
   );
