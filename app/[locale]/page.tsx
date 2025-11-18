@@ -20,14 +20,16 @@ export default async function Home({ params }: Props) {
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-3 py-1 text-xs uppercase tracking-wider text-foreground/70">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-3 py-1 text-xs uppercase tracking-wider text-foreground/70 animate-fade-in-slide">
+              <span className="h-2 w-2 rounded-full bg-accent animate-pulse-glow" />
               {t("home.hero.eyebrow")}
             </div>
 
             {/* Headline */}
-            <h1 className="text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              {t("home.hero.title")}
+            <h1 className="hero-halo text-balance text-4xl leading-tight tracking-tight sm:text-5xl animate-fade-in-slide-delayed">
+              <span className="font-semibold">{t("home.hero.title.default")}</span>
+              <span className="font-normal">{t("home.hero.title.thin")}</span>
+              <span className="font-semibold glass-text">{t("home.hero.title.accent")}</span>
             </h1>
 
             {/* Subcopy */}
@@ -39,9 +41,30 @@ export default async function Home({ params }: Props) {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-6 rounded-md bg-accent/70 px-6 py-0 backdrop-blur-lg border border-accent shadow-md text-sm font-medium text-white"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent/70 px-6 py-2 backdrop-blur-lg border border-accent shadow-md text-base font-medium text-white"
               >
                 {t("home.hero.cta")}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="shrink-0"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M16.3153 16.6681C15.9247 17.0587 15.9247 17.6918 16.3153 18.0824C16.7058 18.4729 17.339 18.4729 17.7295 18.0824L22.3951 13.4168C23.1761 12.6357 23.1761 11.3694 22.3951 10.5883L17.7266 5.9199C17.3361 5.52938 16.703 5.52938 16.3124 5.91991C15.9219 6.31043 15.9219 6.9436 16.3124 7.33412L19.9785 11.0002L2 11.0002C1.44772 11.0002 1 11.4479 1 12.0002C1 12.5524 1.44772 13.0002 2 13.0002L19.9832 13.0002L16.3153 16.6681Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#examples"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/40 px-6 py-2 backdrop-blur-lg text-base font-medium text-foreground hover:bg-card/60 transition-colors"
+                aria-label={t("home.hero.ctaSecondaryAriaLabel")}
+              >
+                {t("home.hero.ctaSecondary")}
               </a>
             </div>
           </div>
@@ -105,7 +128,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section className="min-h-screen flex flex-col justify-center">
+      <section id="examples" className="min-h-screen flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">

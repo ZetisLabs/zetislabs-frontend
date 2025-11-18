@@ -19,9 +19,15 @@
   "home": {
     "hero": {
       "eyebrow": "Arrêtez de perdre du temps sur des tâches répétitives",
-      "title": "Renforcez votre flux de travail. Sans effort.",
+      "title": {
+        "default": "Renforcez votre ",
+        "thin": "flux de travail. ",
+        "accent": "Sans effort."
+      },
       "subtitle": "ZetisLabs crée des automatisations sur mesure qui vous font gagner des heures chaque semaine.",
-      "cta": "Obtenir un audit gratuit"
+      "cta": "Obtenir un audit gratuit",
+      "ctaSecondary": "Voir des exemples",
+      "ctaSecondaryAriaLabel": "Voir des exemples de projets"
     },
     "whatWeMake": {
       "title": "Ce que nous créons",

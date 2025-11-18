@@ -19,9 +19,15 @@
   "home": {
     "hero": {
       "eyebrow": "Stop wasting time on repetitive tasks",
-      "title": "Empower your workflow. Effortlessly.",
+      "title": {
+        "default": "Empower your workflow. ",
+        "thin": "Effortlessly.",
+        "accent": ""
+      },
       "subtitle": "ZetisLabs builds custom automations that save you hours every week.",
-      "cta": "Get a free audit"
+      "cta": "Start saving time",
+      "ctaSecondary": "View examples",
+      "ctaSecondaryAriaLabel": "View example projects"
     },
     "whatWeMake": {
       "title": "What We Make",
@@ -103,4 +109,3 @@
     }
   }
 }
-

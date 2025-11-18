@@ -1,5 +1,6 @@
 import { getTranslation } from "@/lib/i18n";
 import { type Locale } from "@/i18n/config";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 type Props = {
   locale: Locale;
@@ -29,6 +30,7 @@ export default function Footer({ locale }: Props) {
           <a href="#" className="hover:text-foreground transition-colors">
             {t("footer.contact")}
           </a>
+          <LanguageSwitcher currentLocale={locale} />
         </div>
       </div>
     </footer>

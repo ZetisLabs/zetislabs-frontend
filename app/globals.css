@@ -226,11 +226,106 @@ input {
   background-position: 0 100%;
 }
 
-/* Navigation link hover shadow effect */
-header:has(.nav-link:first-of-type:hover) .nav-link-home-shadow {
+/* Navigation link hover shadow effect - slow fade-in */
+header:has(.nav-link-home:hover) .nav-link-home-shadow {
   opacity: 1;
 }
 
-header:has(.nav-link:last-of-type:hover) .nav-link-blog-shadow {
+header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 1;
+}
+
+/* Fade-in slide animation */
+@keyframes fade-in-slide {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in-slide {
+  animation: fade-in-slide 0.35s ease-out forwards;
+  opacity: 0;
+}
+
+@utility animate-fade-in-slide-delayed {
+  animation: fade-in-slide 0.35s ease-out 0.25s forwards;
+  opacity: 0;
+}
+
+/* Glow/shine pulse animation for dot */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 3px rgba(58, 123, 213, 0.4), 0 0 6px rgba(58, 123, 213, 0.2);
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+    box-shadow: 0 0 6px rgba(58, 123, 213, 0.7), 0 0 12px rgba(58, 123, 213, 0.5), 0 0 18px rgba(58, 123, 213, 0.3);
+    filter: brightness(1.2);
+  }
+}
+
+@utility animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Header slide-down animation from top */
+@keyframes slide-down-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-slide-down {
+  animation: slide-down-from-top 0.6s ease-out forwards;
+}
+
+/* Glass text effect for accent text */
+@utility glass-text {
+  position: relative;
+  text-shadow:
+    0 0 12px rgba(255, 255, 255, 0.4),
+    0 0 24px rgba(255, 255, 255, 0.25),
+    0 1px 3px rgba(255, 255, 255, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+/* Hero halo effect - subtle radial gradient glow */
+@utility hero-halo {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 150%;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        rgba(60, 60, 60, 0.06) 0%,
+        rgba(60, 60, 60, 0.03) 40%,
+        transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
 }
