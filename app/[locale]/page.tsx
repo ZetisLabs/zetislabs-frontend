@@ -26,14 +26,14 @@ export default async function Home({ params }: Props) {
             </div>
 
             {/* Headline */}
-            <h1 className="hero-halo text-balance text-4xl leading-tight tracking-tight sm:text-5xl animate-fade-in-slide-delayed">
+            <h1 className="text-balance text-4xl leading-tight tracking-tight sm:text-5xl animate-fade-in-slide-title apple-breathing-title-wrapper">
               <span className="font-semibold">{t("home.hero.title.default")}</span>
               <span className="font-normal">{t("home.hero.title.thin")}</span>
               <span className="font-semibold glass-text">{t("home.hero.title.accent")}</span>
             </h1>
 
             {/* Subcopy */}
-            <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg animate-fade-in-slide-subtle">
               {t("home.hero.subtitle")}
             </p>
 
@@ -41,7 +41,7 @@ export default async function Home({ params }: Props) {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background apple-breathing-wrapper"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background apple-breathing-wrapper animate-fade-in-slide-cta "
               >
                 {t("home.hero.cta")}
                 <svg
@@ -61,7 +61,7 @@ export default async function Home({ params }: Props) {
               </a>
               <a
                 href="#examples"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/70 px-5.5 py-1.75 text-base font-sm text-card-foreground transition-colors"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/70 px-5.5 py-1.75 text-base font-sm text-card-foreground transition-colors animate-fade-in-slide-cta-2"
                 aria-label={t("home.hero.ctaSecondaryAriaLabel")}
               >
                 {t("home.hero.ctaSecondary")}

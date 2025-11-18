@@ -253,8 +253,23 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 0;
 }
 
-@utility animate-fade-in-slide-delayed {
+@utility animate-fade-in-slide-title {
   animation: fade-in-slide 0.35s ease-out 0.25s forwards;
+  opacity: 0;
+}
+
+@utility animate-fade-in-slide-subtle {
+  animation: fade-in-slide 0.35s ease-out 0.32s forwards;
+  opacity: 0;
+}
+
+@utility animate-fade-in-slide-cta {
+  animation: fade-in-slide 0.35s ease-out 0.450s forwards;
+  opacity: 0;
+}
+
+@utility animate-fade-in-slide-cta-2 {
+  animation: fade-in-slide 0.35s ease-out 0.550s forwards;
   opacity: 0;
 }
 
@@ -333,18 +348,21 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 /* Biological breathing curve */
 @keyframes appleBreathA {
   0% {
-    opacity: 0.018;
+    /* opacity: 0.018; */
+    opacity: 0.2;
     transform: translate(-50%, -50%) scale(0.96);
   }
 
   40% {
-    opacity: 0.055;
+    /* opacity: 0.055; */
+    opacity: 0.55;
     /* slow inhale */
     transform: translate(-50%, -50%) scale(1.03);
   }
 
   100% {
-    opacity: 0.02;
+    /* opacity: 0.02; */
+    opacity: 0.2;
     /* fast exhale */
     transform: translate(-50%, -50%) scale(0.97);
   }
@@ -400,5 +418,40 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 .apple-breathing-wrapper::after {
   width: 320px;
   height: 320px;
+  animation: appleBreathB 11s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+.apple-breathing-title-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.apple-breathing-title-wrapper::before,
+.apple-breathing-title-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.14),
+      rgba(90, 130, 255, 0) 70%);
+  filter: blur(60px);
+}
+
+/* Halo A – large and slow */
+.apple-breathing-title-wrapper::before {
+  width: 950px;
+  height: 350px;
+  animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+/* Halo B – smaller, delayed, adds organic realism */
+.apple-breathing-title-wrapper::after {
+  width: 700px;
+  height: 260px;
   animation: appleBreathB 11s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
