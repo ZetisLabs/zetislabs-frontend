@@ -41,7 +41,7 @@ export default async function Home({ params }: Props) {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent/70 px-6 py-2 backdrop-blur-lg border border-accent shadow-md text-base font-medium text-white"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background"
               >
                 {t("home.hero.cta")}
                 <svg
@@ -61,7 +61,7 @@ export default async function Home({ params }: Props) {
               </a>
               <a
                 href="#examples"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/40 px-6 py-2 backdrop-blur-lg text-base font-medium text-foreground hover:bg-card/60 transition-colors"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/70 px-5.5 py-1.75 text-base font-sm text-card-foreground transition-colors"
                 aria-label={t("home.hero.ctaSecondaryAriaLabel")}
               >
                 {t("home.hero.ctaSecondary")}
