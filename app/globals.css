@@ -329,3 +329,76 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
     z-index: -1;
   }
 }
+
+/* Biological breathing curve */
+@keyframes appleBreathA {
+  0% {
+    opacity: 0.018;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+
+  40% {
+    opacity: 0.055;
+    /* slow inhale */
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+
+  100% {
+    opacity: 0.02;
+    /* fast exhale */
+    transform: translate(-50%, -50%) scale(0.97);
+  }
+}
+
+@keyframes appleBreathB {
+  0% {
+    opacity: 0.01;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+
+  60% {
+    opacity: 0.04;
+    /* delayed inhale */
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+
+  100% {
+    opacity: 0.012;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+
+.apple-breathing-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.apple-breathing-wrapper::before,
+.apple-breathing-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.12),
+      rgba(90, 130, 255, 0) 70%);
+  filter: blur(60px);
+}
+
+/* Halo A – large and slow */
+.apple-breathing-wrapper::before {
+  width: 420px;
+  height: 420px;
+  animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+/* Halo B – smaller, delayed, adds organic realism */
+.apple-breathing-wrapper::after {
+  width: 320px;
+  height: 320px;
+  animation: appleBreathB 11s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}

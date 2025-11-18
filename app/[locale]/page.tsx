@@ -41,7 +41,7 @@ export default async function Home({ params }: Props) {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background apple-breathing-wrapper"
               >
                 {t("home.hero.cta")}
                 <svg
