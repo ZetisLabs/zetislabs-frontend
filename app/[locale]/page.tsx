@@ -1,5 +1,6 @@
 import { getTranslation } from "@/lib/i18n";
 import { type Locale } from "@/i18n/config";
+import { Reveal } from "@/components/ui/Reveal";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -75,16 +76,21 @@ export default async function Home({ params }: Props) {
       <section className="min-h-screen flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
+            <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.whatWeMake.title")}
             </h2>
+            </Reveal>
+            <Reveal>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
               {t("home.whatWeMake.description")}
             </p>
+            </Reveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Feature Card 1 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whatWeMake.features.aiAgents.title")}
@@ -93,8 +99,10 @@ export default async function Home({ params }: Props) {
                 {t("home.whatWeMake.features.aiAgents.description")}
               </p>
             </div>
+            </Reveal>
 
             {/* Feature Card 2 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whatWeMake.features.processAutomation.title")}
@@ -103,8 +111,10 @@ export default async function Home({ params }: Props) {
                 {t("home.whatWeMake.features.processAutomation.description")}
               </p>
             </div>
+            </Reveal>
 
             {/* Feature Card 3 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whatWeMake.features.intelligentWorkflows.title")}
@@ -113,8 +123,10 @@ export default async function Home({ params }: Props) {
                 {t("home.whatWeMake.features.intelligentWorkflows.description")}
               </p>
             </div>
+            </Reveal>
 
             {/* Feature Card 4 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whatWeMake.features.enterpriseIntegration.title")}
@@ -123,7 +135,8 @@ export default async function Home({ params }: Props) {
                 {t("home.whatWeMake.features.enterpriseIntegration.description")}
               </p>
             </div>
-          </div>
+            </Reveal>
+            </div>
         </div>
       </section>
 

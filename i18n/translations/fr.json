@@ -4,7 +4,7 @@
     "description": "ZetisLabs aide les entreprises à automatiser leurs processus en utilisant des flux de travail intelligents pilotés par des agents."
   },
   "header": {
-    "home": "Accueil",
+    "home": "Home",
     "blog": "Blog",
     "homeAriaLabel": "Aller à l'accueil",
     "blogAriaLabel": "Aller au blog",
@@ -20,11 +20,11 @@
     "hero": {
       "eyebrow": "Arrêtez de perdre du temps sur des tâches répétitives",
       "title": {
-        "default": "Renforcez votre ",
-        "thin": "flux de travail. ",
-        "accent": "Sans effort."
+        "default": "Renforcez votre workflow. ",
+        "thin": "Sans effort. ",
+        "accent": ""
       },
-      "subtitle": "ZetisLabs crée des automatisations sur mesure qui vous font gagner des heures chaque semaine.",
+      "subtitle": "ZetisLabs crée des automatisations sur mesure qui vous font gagner des heures de travail chaque semaine.",
       "cta": "Obtenir un audit gratuit",
       "ctaSecondary": "Voir des exemples",
       "ctaSecondaryAriaLabel": "Voir des exemples de projets"
@@ -109,4 +109,3 @@
     }
   }
 }
-
