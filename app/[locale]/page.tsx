@@ -73,7 +73,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* What We Make Section */}
-      <section className="min-h-screen flex flex-col justify-center">
+      <section className="py-20 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -141,19 +141,24 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section id="examples" className="min-h-screen flex flex-col justify-center">
+      <section id="examples" className="py-20 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
+            <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.exampleProjects.title")}
             </h2>
+            </Reveal>
+            <Reveal>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
               {t("home.exampleProjects.description")}
             </p>
+            </Reveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Project Card 1 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.exampleProjects.projects.ecommerce.title")}
@@ -162,8 +167,9 @@ export default async function Home({ params }: Props) {
                 {t("home.exampleProjects.projects.ecommerce.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Project Card 2 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.exampleProjects.projects.customerSupport.title")}
@@ -172,8 +178,9 @@ export default async function Home({ params }: Props) {
                 {t("home.exampleProjects.projects.customerSupport.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Project Card 3 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.exampleProjects.projects.dataMigration.title")}
@@ -182,24 +189,30 @@ export default async function Home({ params }: Props) {
                 {t("home.exampleProjects.projects.dataMigration.description")}
               </p>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Why ZetisLabs Section */}
-      <section className="min-h-screen flex flex-col justify-center">
+      <section className="py-20 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
+            <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.whyZetisLabs.title")}
             </h2>
+            </Reveal>
+            <Reveal>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
               {t("home.whyZetisLabs.description")}
             </p>
+            </Reveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Reason Card 1 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.expertTeam.title")}
@@ -208,8 +221,10 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.expertTeam.description")}
               </p>
             </div>
+            </Reveal>
 
             {/* Reason Card 2 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.customSolutions.title")}
@@ -218,8 +233,9 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.customSolutions.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Reason Card 3 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.provenResults.title")}
@@ -228,8 +244,9 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.provenResults.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Reason Card 4 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.ongoingSupport.title")}
@@ -238,8 +255,9 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.ongoingSupport.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Reason Card 5 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.scalableArchitecture.title")}
@@ -248,8 +266,9 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.scalableArchitecture.description")}
               </p>
             </div>
-
+            </Reveal>
             {/* Reason Card 6 */}
+            <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
                 {t("home.whyZetisLabs.reasons.securityFirst.title")}
@@ -258,30 +277,37 @@ export default async function Home({ params }: Props) {
                 {t("home.whyZetisLabs.reasons.securityFirst.description")}
               </p>
             </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Call to Action Section */}
-      <section className="min-h-screen flex flex-col justify-center">
+      <section className="py-20 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto mb-48 max-w-3xl text-center">
+            <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.cta.title")}
             </h2>
+            </Reveal>
+            <Reveal>
             <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
               {t("home.cta.description")}
             </p>
-
+            </Reveal>
             {/* CTAs */}
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
+            <Reveal>
+            <a
                 href="#"
                 className="inline-flex w-auto items-center justify-center gap-6 rounded-md bg-accent/70 px-6 py-0 backdrop-blur-lg border border-accent shadow-md text-sm font-medium text-white hover:bg-accent transition-colors"
                 aria-label={t("home.cta.primaryAriaLabel")}
               >
                 {t("home.cta.primary")}
               </a>
+              </Reveal>
+              <Reveal delay={250}>
               <a
                 href="#"
                 className="inline-flex w-auto items-center justify-center gap-6 rounded-md border border-border/70 bg-card/40 px-6 py-0 backdrop-blur-lg text-sm font-medium text-foreground hover:bg-card/60 transition-colors"
@@ -289,6 +315,7 @@ export default async function Home({ params }: Props) {
               >
                 {t("home.cta.secondary")}
               </a>
+              </Reveal>
             </div>
           </div>
         </div>
