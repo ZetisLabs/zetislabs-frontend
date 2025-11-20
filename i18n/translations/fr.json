@@ -18,23 +18,23 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Arrêtez de perdre du temps sur des tâches répétitives",
+      "eyebrow": "Vos journées disparaissent dans des tâches répétitives.",
       "title": {
-        "default": "Renforcez votre workflow. ",
-        "thin": "Sans effort. ",
+        "default": "Retrouvez du temps pour ce qui ",
+        "thin": "compte. ",
         "accent": ""
       },
-      "subtitle": "ZetisLabs crée des automatisations sur mesure qui vous font gagner des heures de travail chaque semaine.",
+      "subtitle": "Nous créons des systèmes d’automatisation alimentés par l’IA, parfaitement adaptés à votre activité. Réduisez les tâches répétitives, accélérez vos opérations, et gagnez des heures chaque semaine.",
       "cta": "Obtenir un audit gratuit",
       "ctaSecondary": "Voir des exemples",
       "ctaSecondaryAriaLabel": "Voir des exemples de projets"
     },
     "whatWeMake": {
-      "title": "Ce que nous créons",
-      "description": "ZetisLabs aide les entreprises à automatiser leurs processus en utilisant des flux de travail intelligents pilotés par des agents. Nous construisons des solutions d'automatisation alimentées par l'IA qui transforment la façon dont les entreprises fonctionnent.",
+      "title": "Nos solutions d’automatisation",
+      "description": "Nous construisons des systèmes d’automatisation sur mesure, capables de gérer les tâches répétitives, d’optimiser vos processus internes et de s’intégrer parfaitement à vos outils existants.",
       "features": {
         "aiAgents": {
-          "title": "Agents IA",
+          "title": "Agents",
           "description": "Création d'outil pour automatiser des tâches complexes en utilisant l'IA."
         },
         "processAutomation": {
@@ -100,12 +100,12 @@
       }
     },
     "cta": {
-      "title": "Prêt à automatiser ?",
+      "title": "Vous voulez  ?",
       "description": "Obtenez un audit gratuit de vos flux de travail et découvrez combien de temps vous pourriez économiser avec l'automatisation intelligente.",
       "primary": "Obtenir un audit gratuit",
-      "secondary": "En savoir plus",
+      "secondary": "Nous contacter",
       "primaryAriaLabel": "Obtenir un audit gratuit",
-      "secondaryAriaLabel": "En savoir plus"
+      "secondaryAriaLabel": "Nous contacter"
     }
   }
 }

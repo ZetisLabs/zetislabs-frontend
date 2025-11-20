@@ -21,15 +21,17 @@ export default async function Home({ params }: Props) {
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-3 py-1 text-xs uppercase tracking-wider text-foreground/70 animate-fade-in-slide">
-              <span className="h-2 w-2 rounded-full bg-accent animate-pulse-glow" />
+            {/* Eyebrow */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/40 bg-transparent px-3 py-1 text-xs uppercase tracking-wider text-foreground/60 animate-fade-in-slide">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse-glow" />
               {t("home.hero.eyebrow")}
             </div>
 
             {/* Headline */}
-            <h1 className="text-balance text-4xl leading-tight tracking-tight sm:text-5xl animate-fade-in-slide-title apple-breathing-title-wrapper">
+            {/* Headline */}
+            <h1 className="text-balance text-4xl leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl animate-fade-in-slide-title apple-breathing-title-wrapper">
               <span className="font-semibold">{t("home.hero.title.default")}</span>
-              <span className="font-normal">{t("home.hero.title.thin")}</span>
+              <span className="font-normal text-foreground/90">{t("home.hero.title.thin")}</span>
               <span className="font-semibold glass-text">{t("home.hero.title.accent")}</span>
             </h1>
 
@@ -39,10 +41,10 @@ export default async function Home({ params }: Props) {
             </p>
 
             {/* CTAs */}
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm bg-accent px-5.5 py-2 shadow-md shadow-card text-base font-medium text-background apple-breathing-wrapper animate-fade-in-slide-cta "
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 shadow-sm shadow-accent/20 text-base font-medium text-background apple-breathing-wrapper animate-fade-in-slide-cta hover:scale-105 transition-transform duration-300"
               >
                 {t("home.hero.cta")}
                 <svg
@@ -62,7 +64,7 @@ export default async function Home({ params }: Props) {
               </a>
               <a
                 href="#examples"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-sm border border-border/70 bg-card/70 px-5.5 py-1.75 text-base font-sm text-card-foreground transition-colors animate-fade-in-slide-cta-2"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all animate-fade-in-slide-cta-2 hover:scale-105 duration-300"
                 aria-label={t("home.hero.ctaSecondaryAriaLabel")}
               >
                 {t("home.hero.ctaSecondary")}
