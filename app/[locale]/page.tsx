@@ -73,7 +73,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* What We Make Section */}
-      <section className="py-20 flex flex-col justify-center">
+      <section className="py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -141,7 +141,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section id="examples" className="py-20 flex flex-col justify-center">
+      <section id="examples" className="py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -195,7 +195,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Why ZetisLabs Section */}
-      <section className="py-20 flex flex-col justify-center">
+      <section className="py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -283,7 +283,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-20 flex flex-col justify-center">
+      <section className="py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto mb-48 max-w-3xl text-center">
             <Reveal>

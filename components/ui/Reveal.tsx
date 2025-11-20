@@ -137,34 +137,17 @@ const useRevealState = (
       const now = Date.now();
       const timeSinceLastChange = now - lastChangeTimeRef.current;
 
-      if (currentDirection === "down") {
-        // Scrolling down: reveal when entering from top, unreveal when exiting bottom
-        if (top <= viewportHeight * 0.07) {
-          // Unreveal takes priority (more restrictive)
-          desiredState = "hidden";
-        } else if (top <= viewportHeight * 0.65) {
-          desiredState = "visible";
-        } else {
-          desiredState = "hidden";
-        }
-      } else if (currentDirection === "up") {
-        // Scrolling up: reveal when entering from bottom, unreveal when exiting top
-        if (top >= viewportHeight * 0.95) {
-          // Unreveal takes priority (more restrictive)
-          desiredState = "hidden";
-        } else if (top >= viewportHeight * 0.07) {
-          desiredState = "visible";
-        } else {
-          desiredState = "hidden";
-        }
+      // Static "Safe Zone" Logic
+      // Visible when element is within the "safe zone" of the viewport.
+      // Safe zone: 10% from top to 85% from top (15% from bottom).
+      // This ensures it disappears just before the header and just before leaving the bottom.
+      const safeZoneTop = viewportHeight * 0.1;
+      const safeZoneBottom = viewportHeight * 0.85;
+
+      if (top > safeZoneTop && top < safeZoneBottom) {
+        desiredState = "visible";
       } else {
-        // No scroll direction yet: use initial visibility check
-        // If element is already in viewport, show it
-        if (top < viewportHeight && bottom > 0 && top >= viewportHeight * 0.35) {
-          desiredState = "visible";
-        } else {
-          desiredState = "hidden";
-        }
+        desiredState = "hidden";
       }
 
       // Apply hysteresis: only change state if enough time has passed
@@ -247,12 +230,10 @@ export const Reveal = ({
   const delayStyle = delay > 0 ? { transitionDelay: `${delay}ms` } : undefined;
 
   return (
-    <div
-      ref={ref}
-      className={`${baseClasses} ${animationClasses} ${className}`}
-      style={delayStyle}
-    >
-      {children}
+    <div ref={ref} className={className}>
+      <div className={`${baseClasses} ${animationClasses}`} style={delayStyle}>
+        {children}
+      </div>
     </div>
   );
 };
