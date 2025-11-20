@@ -35,14 +35,14 @@
       "features": {
         "aiAgents": {
           "title": "Agents IA",
-          "description": "Des agents intelligents qui comprennent le contexte et exécutent des flux de travail complexes de manière autonome."
+          "description": "Création d'outil pour automatiser des tâches complexes en utilisant l'IA."
         },
         "processAutomation": {
           "title": "Automatisation des processus",
           "description": "Rationalisez les tâches et flux de travail répétitifs pour gagner du temps et réduire les erreurs humaines."
         },
         "intelligentWorkflows": {
-          "title": "Flux de travail intelligents",
+          "title": "",
           "description": "Créez des flux de travail adaptatifs qui apprennent et s'améliorent au fil du temps grâce aux informations alimentées par l'IA."
         },
         "enterpriseIntegration": {
