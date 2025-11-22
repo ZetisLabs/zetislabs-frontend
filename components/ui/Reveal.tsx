@@ -141,10 +141,10 @@ const useRevealState = (
       // Visible when element is within the "safe zone" of the viewport.
       // Safe zone: 10% from top to 85% from top (15% from bottom).
       // This ensures it disappears just before the header and just before leaving the bottom.
-      const safeZoneTop = viewportHeight * 0.1;
+      const safeZoneTop = viewportHeight * 0.16;
       const safeZoneBottom = viewportHeight * 0.85;
 
-      if (top > safeZoneTop && top < safeZoneBottom) {
+      if (bottom > safeZoneTop && top < safeZoneBottom) {
         desiredState = "visible";
       } else {
         desiredState = "hidden";

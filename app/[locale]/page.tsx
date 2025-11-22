@@ -1,6 +1,7 @@
-import { getTranslation } from "@/lib/i18n";
+import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
+import { ProjectShowcase } from "@/components/ProjectShowcase";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -14,6 +15,7 @@ type Props = {
 export default async function Home({ params }: Props) {
   const { locale } = await params;
   const t = (key: string) => getTranslation(locale, key);
+  const dict = getTranslations(locale);
 
   return (
     <>
@@ -95,10 +97,10 @@ export default async function Home({ params }: Props) {
             <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
-                {t("home.whatWeMake.features.aiAgents.title")}
+              {t("home.whatWeMake.features.aiAgents.title")}
               </h3>
               <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whatWeMake.features.aiAgents.description")}
+              {t("home.whatWeMake.features.aiAgents.description")}
               </p>
             </div>
             </Reveal>
@@ -107,10 +109,10 @@ export default async function Home({ params }: Props) {
             <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
-                {t("home.whatWeMake.features.processAutomation.title")}
+              {t("home.whatWeMake.features.processAutomation.title")}
               </h3>
               <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whatWeMake.features.processAutomation.description")}
+              {t("home.whatWeMake.features.processAutomation.description")}
               </p>
             </div>
             </Reveal>
@@ -119,10 +121,10 @@ export default async function Home({ params }: Props) {
             <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
-                {t("home.whatWeMake.features.intelligentWorkflows.title")}
+              {t("home.whatWeMake.features.intelligentWorkflows.title")}
               </h3>
               <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whatWeMake.features.intelligentWorkflows.description")}
+              {t("home.whatWeMake.features.intelligentWorkflows.description")}
               </p>
             </div>
             </Reveal>
@@ -131,10 +133,10 @@ export default async function Home({ params }: Props) {
             <Reveal>
             <div className="rounded-lg border border-border/50 bg-card/40 p-6">
               <h3 className="text-xl font-semibold">
-                {t("home.whatWeMake.features.enterpriseIntegration.title")}
+              {t("home.whatWeMake.features.enterpriseIntegration.title")}
               </h3>
               <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whatWeMake.features.enterpriseIntegration.description")}
+              {t("home.whatWeMake.features.enterpriseIntegration.description")}
               </p>
             </div>
             </Reveal>
@@ -143,9 +145,9 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section id="examples" className="py-32 flex flex-col justify-center">
+      <section id="examples" className="py-16 flex flex-col justify-center min-h-screen">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-3xl text-center mb-8">
             <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.exampleProjects.title")}
@@ -158,41 +160,7 @@ export default async function Home({ params }: Props) {
             </Reveal>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Project Card 1 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.exampleProjects.projects.ecommerce.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.exampleProjects.projects.ecommerce.description")}
-              </p>
-            </div>
-            </Reveal>
-            {/* Project Card 2 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.exampleProjects.projects.customerSupport.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.exampleProjects.projects.customerSupport.description")}
-              </p>
-            </div>
-            </Reveal>
-            {/* Project Card 3 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.exampleProjects.projects.dataMigration.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.exampleProjects.projects.dataMigration.description")}
-              </p>
-            </div>
-            </Reveal>
-          </div>
+          <ProjectShowcase dict={dict} />
         </div>
       </section>
 

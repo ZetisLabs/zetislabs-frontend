@@ -66,6 +66,75 @@
         "dataMigration": {
           "title": "Pipeline de migration de données",
           "description": "Système intelligent de transformation et de migration de données qui valide, nettoie et transfère les données entre systèmes de manière transparente."
+        },
+        "tabs": {
+          "itOps": {
+            "title": "IT Ops",
+            "description": "Intégrer les nouveaux employés"
+          },
+          "secOps": {
+            "title": "Sec Ops",
+            "description": "Enrichir les tickets de sécurité"
+          },
+          "devOps": {
+            "title": "Dev Ops",
+            "description": "Convertir le langage naturel en appels API"
+          },
+          "sales": {
+            "title": "Ventes",
+            "description": "Générer des insights clients"
+          },
+          "you": {
+            "title": "Vous",
+            "description": "Regardez cette vidéo pour entendre notre pitch"
+          }
+        },
+        "diagrams": {
+          "itOps": {
+            "formSubmission": "Soumission formulaire 'Créer Utilisateur'",
+            "aiAgent": "Agent IA",
+            "toolsAgent": "Agent Outils",
+            "chatModel": "Modèle Chat",
+            "memory": "Mémoire",
+            "tool": "Outil",
+            "isManager": "Est manager ?",
+            "addToChannel": "Ajouter au canal",
+            "updateProfile": "Mettre à jour le profil",
+            "inviteChannel": "inviter : canal",
+            "updateUser": "updateProfile : utilisateur",
+            "getAllUser": "getAll : utilisateur",
+            "createUser": "create : utilisateur"
+          },
+          "secOps": {
+            "trigger": "Nouvelle alerte de sécurité",
+            "aiAgent": "Agent de sécurité IA",
+            "analysis": "Analyse de sévérité",
+            "checkSeverity": "Sévérité élevée ?",
+            "pageOnCall": "Appeler l'astreinte",
+            "logTicket": "Créer un ticket",
+            "pagerDuty": "PagerDuty",
+            "jira": "Jira"
+          },
+          "devOps": {
+            "trigger": "Commande en langage naturel",
+            "aiAgent": "Agent DevOps",
+            "parse": "Analyser l'intention",
+            "execute": "Exécuter l'API",
+            "aws": "AWS CLI",
+            "github": "GitHub API"
+          },
+          "sales": {
+            "trigger": "Nouvel avis client",
+            "aiAgent": "Agent Ventes",
+            "sentiment": "Analyse de sentiment",
+            "crm": "Mettre à jour CRM",
+            "slack": "Notifier l'équipe",
+            "salesforce": "Salesforce"
+          },
+          "you": {
+            "title": "Découvrez ZetisLabs",
+            "subtitle": "Regardez comment nous pouvons transformer votre entreprise"
+          }
         }
       }
     },
