@@ -91,45 +91,20 @@
         },
         "diagrams": {
           "itOps": {
-            "formSubmission": "On 'Create User' form submission",
-            "aiAgent": "AI Agent",
-            "toolsAgent": "Tools Agent",
-            "chatModel": "Chat Model",
-            "memory": "Memory",
-            "tool": "Tool",
-            "isManager": "Is manager?",
-            "addToChannel": "Add to channel",
-            "updateProfile": "Update profile",
-            "inviteChannel": "invite: channel",
-            "updateUser": "updateProfile: user",
-            "getAllUser": "getAll: user",
-            "createUser": "create: user"
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "IT Ops Workflow Diagram"
           },
           "secOps": {
-            "trigger": "New Security Alert",
-            "aiAgent": "Security AI Agent",
-            "analysis": "Severity Analysis",
-            "checkSeverity": "High Severity?",
-            "pageOnCall": "Page On-Call",
-            "logTicket": "Log Ticket",
-            "pagerDuty": "PagerDuty",
-            "jira": "Jira"
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Sec Ops Workflow Diagram"
           },
           "devOps": {
-            "trigger": "Natural Language Command",
-            "aiAgent": "DevOps Agent",
-            "parse": "Parse Intent",
-            "execute": "Execute API",
-            "aws": "AWS CLI",
-            "github": "GitHub API"
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Dev Ops Workflow Diagram"
           },
           "sales": {
-            "trigger": "New Customer Review",
-            "aiAgent": "Sales Agent",
-            "sentiment": "Sentiment Analysis",
-            "crm": "Update CRM",
-            "slack": "Notify Team",
-            "salesforce": "Salesforce"
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Sales Workflow Diagram"
           },
           "you": {
             "title": "Discover ZetisLabs",
