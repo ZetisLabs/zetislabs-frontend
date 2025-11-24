@@ -222,7 +222,7 @@ export const Reveal = ({
   const direction = useScrollDirection();
   const state = useRevealState(ref, direction, debug);
 
-  const baseClasses = "transition-all duration-700 ease-out";
+  const baseClasses = "transition-all duration-700 ease-out h-full";
   const hiddenClasses = "opacity-0 translate-y-5";
   const visibleClasses = "opacity-100 translate-y-0";
 

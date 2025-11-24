@@ -34,20 +34,19 @@
       "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows. We build AI-powered automation solutions that transform how businesses operate.",
       "features": {
         "aiAgents": {
-          "title": "AI Agents",
-          "description": "Intelligent agents that understand context and execute complex workflows autonomously."
+          "title": "Agents",
+          "description": "We build programs that can understand the situation, make decisions, and take action to simplify your workflow.",
+          "shortDescription": "Programs that make decisions to streamline your operations."
         },
         "processAutomation": {
-          "title": "Process Automation",
-          "description": "Streamline repetitive tasks and workflows to save time and reduce human error."
+          "title": "Automation",
+          "description": "We develop complete systems that automate any repetitive task from start to finish.",
+          "shortDescription": "End-to-end systems that run your repetitive tasks automatically."
         },
         "intelligentWorkflows": {
-          "title": "Intelligent Workflows",
-          "description": "Build adaptive workflows that learn and improve over time with AI-powered insights."
-        },
-        "enterpriseIntegration": {
-          "title": "Enterprise Integration",
-          "description": "Seamlessly integrate with your existing tools and systems for unified automation."
+          "title": "Audit",
+          "description": "We analyze your work methods to find where and how you can save time using automation or agents.",
+          "shortDescription": "A clear analysis of your workflows to reveal where AI can genuinely save you time."
         }
       }
     },

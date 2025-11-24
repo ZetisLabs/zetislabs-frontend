@@ -35,19 +35,18 @@
       "features": {
         "aiAgents": {
           "title": "Agents",
-          "description": "Création d'outil pour automatiser des tâches complexes en utilisant l'IA."
+          "description": "Nous construisons des programmes capables de comprendre la situation, de prendre des décisions et d’agir pour simplifier votre workflow.",
+          "shortDescription": "Des programmes qui prennent des décisions pour fluidifier vos opérations."
         },
         "processAutomation": {
-          "title": "Automatisation des processus",
-          "description": "Rationalisez les tâches et flux de travail répétitifs pour gagner du temps et réduire les erreurs humaines."
+          "title": "Automatisation",
+          "description": "Nous développons des systèmes complets qui automatisent n’importe quelle tâche monotone, du début à la fin.",
+          "shortDescription": "Des systèmes complets qui exécutent vos tâches monotones automatiquement."
         },
         "intelligentWorkflows": {
-          "title": "",
-          "description": "Créez des flux de travail adaptatifs qui apprennent et s'améliorent au fil du temps grâce aux informations alimentées par l'IA."
-        },
-        "enterpriseIntegration": {
-          "title": "Intégration d'entreprise",
-          "description": "Intégrez-vous parfaitement à vos outils et systèmes existants pour une automatisation unifiée."
+          "title": "Audit",
+          "description": "Nous analysons vos méthodes de travail pour trouver où et comment gagner du temps grâce à des automatisations ou des agents.",
+          "shortDescription": "Une analyse de vos workflows pour révéler où l’IA peut réellement vous faire gagner du temps."
         }
       }
     },

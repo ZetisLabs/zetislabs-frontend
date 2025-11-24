@@ -92,55 +92,121 @@ export default async function Home({ params }: Props) {
             </Reveal>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="group/grid mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Feature Card 1 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-              {t("home.whatWeMake.features.aiAgents.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-              {t("home.whatWeMake.features.aiAgents.description")}
-              </p>
-            </div>
+            <Reveal className="h-full">
+              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
+                <div>
+                  <div className="flex items-center overflow-hidden">
+                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                      ⚡
+                    </span>
+                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
+                      {t("home.whatWeMake.features.aiAgents.title")}
+                    </h3>
+                  </div>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {t("home.whatWeMake.features.aiAgents.description")}
+                  </p>
+                </div>
+                <div className="mt-8 flex justify-end">
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-foreground transition-all duration-300"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </Reveal>
 
             {/* Feature Card 2 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-              {t("home.whatWeMake.features.processAutomation.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-              {t("home.whatWeMake.features.processAutomation.description")}
-              </p>
-            </div>
+            <Reveal className="h-full">
+              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
+                <div>
+                  <div className="flex items-center overflow-hidden">
+                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                      ⚡
+                    </span>
+                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
+                      {t("home.whatWeMake.features.processAutomation.title")}
+                    </h3>
+                  </div>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {t("home.whatWeMake.features.processAutomation.description")}
+                  </p>
+                </div>
+                <div className="mt-8 flex justify-end">
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-foreground transition-all duration-300"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </Reveal>
 
             {/* Feature Card 3 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-              {t("home.whatWeMake.features.intelligentWorkflows.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-              {t("home.whatWeMake.features.intelligentWorkflows.description")}
-              </p>
-            </div>
+            <Reveal className="h-full">
+              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
+                <div>
+                  <div className="flex items-center overflow-hidden">
+                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                      ⚡
+                    </span>
+                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
+                      {t("home.whatWeMake.features.intelligentWorkflows.title")}
+                    </h3>
+                  </div>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {t("home.whatWeMake.features.intelligentWorkflows.description")}
+                  </p>
+                </div>
+                <div className="mt-8 flex justify-end">
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-foreground transition-all duration-300"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </Reveal>
-
-            {/* Feature Card 4 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-              {t("home.whatWeMake.features.enterpriseIntegration.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-              {t("home.whatWeMake.features.enterpriseIntegration.description")}
-              </p>
-            </div>
-            </Reveal>
-            </div>
+          </div>
         </div>
       </section>
 
