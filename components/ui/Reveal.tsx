@@ -10,7 +10,7 @@ type RevealProps = {
 };
 
 type ScrollDirection = "up" | "down" | null;
-type RevealState = "visible" | "hidden";
+type RevealState = "visible" | "hidden-top" | "hidden-bottom";
 
 /**
  * useScrollDirection
@@ -92,17 +92,17 @@ const useScrollDirection = (): ScrollDirection => {
  * @param ref - React ref to the element to track
  * @param direction - Current scroll direction
  * @param debug - Optional debug logging
- * @returns Current reveal state: "visible" | "hidden"
+ * @returns Current reveal state: "visible" | "hidden-top" | "hidden-bottom"
  */
 const useRevealState = (
   ref: React.RefObject<HTMLElement | null>,
   direction: ScrollDirection,
   debug = false
 ): RevealState => {
-  const [state, setState] = useState<RevealState>("hidden");
+  const [state, setState] = useState<RevealState>("hidden-bottom");
   const lastChangeTimeRef = useRef<number>(0);
   const rafIdRef = useRef<number | null>(null);
-  const stateRef = useRef<RevealState>("hidden");
+  const stateRef = useRef<RevealState>("hidden-bottom");
   const directionRef = useRef<ScrollDirection>(direction);
   const HYSTERESIS_MS = 120; // Debounce threshold to prevent flickering
 
@@ -147,7 +147,12 @@ const useRevealState = (
       if (bottom > safeZoneTop && top < safeZoneBottom) {
         desiredState = "visible";
       } else {
-        desiredState = "hidden";
+        // Determine which way it's hidden
+        if (bottom <= safeZoneTop) {
+          desiredState = "hidden-top";
+        } else {
+          desiredState = "hidden-bottom";
+        }
       }
 
       // Apply hysteresis: only change state if enough time has passed
@@ -223,10 +228,19 @@ export const Reveal = ({
   const state = useRevealState(ref, direction, debug);
 
   const baseClasses = "transition-all duration-700 ease-out h-full";
-  const hiddenClasses = "opacity-0 translate-y-5";
-  const visibleClasses = "opacity-100 translate-y-0";
+  
+  // Determine classes based on state
+  let animationClasses = "";
+  if (state === "visible") {
+    animationClasses = "opacity-100 translate-y-0";
+  } else if (state === "hidden-top") {
+    // Fade UP when leaving top
+    animationClasses = "opacity-0 -translate-y-5";
+  } else {
+    // Fade DOWN when leaving bottom (default/initial)
+    animationClasses = "opacity-0 translate-y-5";
+  }
 
-  const animationClasses = state === "visible" ? visibleClasses : hiddenClasses;
   const delayStyle = delay > 0 ? { transitionDelay: `${delay}ms` } : undefined;
 
   return (
@@ -237,4 +251,5 @@ export const Reveal = ({
     </div>
   );
 };
+
 
