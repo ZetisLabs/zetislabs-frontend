@@ -2,6 +2,8 @@ import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
+import { FeatureCard } from "@/components/FeatureCard";
+import { ReasonCard } from "@/components/ReasonCard";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -95,116 +97,29 @@ export default async function Home({ params }: Props) {
           <div className="group/grid mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Feature Card 1 */}
             <Reveal className="h-full">
-              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
-                <div>
-                  <div className="flex items-center overflow-hidden">
-                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                      ⚡
-                    </span>
-                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
-                      {t("home.whatWeMake.features.aiAgents.title")}
-                    </h3>
-                  </div>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                    {t("home.whatWeMake.features.aiAgents.description")}
-                  </p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-foreground transition-all duration-300"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <FeatureCard
+                title={t("home.whatWeMake.features.aiAgents.title")}
+                shortDescription={t("home.whatWeMake.features.aiAgents.shortDescription")}
+                fullDescription={t("home.whatWeMake.features.aiAgents.description")}
+              />
             </Reveal>
 
             {/* Feature Card 2 */}
             <Reveal className="h-full">
-              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
-                <div>
-                  <div className="flex items-center overflow-hidden">
-                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                      ⚡
-                    </span>
-                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
-                      {t("home.whatWeMake.features.processAutomation.title")}
-                    </h3>
-                  </div>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                    {t("home.whatWeMake.features.processAutomation.description")}
-                  </p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-foreground transition-all duration-300"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <FeatureCard
+                title={t("home.whatWeMake.features.processAutomation.title")}
+                shortDescription={t("home.whatWeMake.features.processAutomation.shortDescription")}
+                fullDescription={t("home.whatWeMake.features.processAutomation.description")}
+              />
             </Reveal>
 
             {/* Feature Card 3 */}
             <Reveal className="h-full">
-              <div className="group relative flex h-full flex-col justify-between rounded-[2rem] border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
-                <div>
-                  <div className="flex items-center overflow-hidden">
-                    <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                      ⚡
-                    </span>
-                    <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover:translate-x-2">
-                      {t("home.whatWeMake.features.intelligentWorkflows.title")}
-                    </h3>
-                  </div>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                    {t("home.whatWeMake.features.intelligentWorkflows.description")}
-                  </p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/20">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-foreground transition-all duration-300"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <FeatureCard
+                title={t("home.whatWeMake.features.intelligentWorkflows.title")}
+                shortDescription={t("home.whatWeMake.features.intelligentWorkflows.shortDescription")}
+                fullDescription={t("home.whatWeMake.features.intelligentWorkflows.description")}
+              />
             </Reveal>
           </div>
         </div>
@@ -248,71 +163,30 @@ export default async function Home({ params }: Props) {
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Reason Card 1 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.expertTeam.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.expertTeam.description")}
-              </p>
-            </div>
+            <Reveal className="h-full">
+              <ReasonCard
+                index={0}
+                title={t("home.whyZetisLabs.reasons.expertise.title")}
+                description={t("home.whyZetisLabs.reasons.expertise.description")}
+              />
             </Reveal>
 
             {/* Reason Card 2 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.customSolutions.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.customSolutions.description")}
-              </p>
-            </div>
+            <Reveal className="h-full" delay={100}>
+              <ReasonCard
+                index={1}
+                title={t("home.whyZetisLabs.reasons.scalability.title")}
+                description={t("home.whyZetisLabs.reasons.scalability.description")}
+              />
             </Reveal>
+
             {/* Reason Card 3 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.provenResults.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.provenResults.description")}
-              </p>
-            </div>
-            </Reveal>
-            {/* Reason Card 4 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.ongoingSupport.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.ongoingSupport.description")}
-              </p>
-            </div>
-            </Reveal>
-            {/* Reason Card 5 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.scalableArchitecture.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.scalableArchitecture.description")}
-              </p>
-            </div>
-            </Reveal>
-            {/* Reason Card 6 */}
-            <Reveal>
-            <div className="rounded-lg border border-border/50 bg-card/40 p-6">
-              <h3 className="text-xl font-semibold">
-                {t("home.whyZetisLabs.reasons.securityFirst.title")}
-              </h3>
-              <p className="mt-2 text-sm text-foreground/70">
-                {t("home.whyZetisLabs.reasons.securityFirst.description")}
-              </p>
-            </div>
+            <Reveal className="h-full" delay={200}>
+              <ReasonCard
+                index={2}
+                title={t("home.whyZetisLabs.reasons.results.title")}
+                description={t("home.whyZetisLabs.reasons.results.description")}
+              />
             </Reveal>
           </div>
         </div>

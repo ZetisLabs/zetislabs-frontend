@@ -449,9 +449,19 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
 
-/* Halo B – smaller, delayed, adds organic realism */
-.apple-breathing-title-wrapper::after {
-  width: 700px;
-  height: 260px;
-  animation: appleBreathB 11s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+/* 3D Transform Utilities */
+@utility perspective-1000 {
+  perspective: 1000px;
+}
+
+@utility transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+}
+
+@utility rotate-y-180 {
+  transform: rotateY(180deg);
 }

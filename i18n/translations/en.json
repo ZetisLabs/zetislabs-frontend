@@ -112,29 +112,17 @@
       "title": "Why ZetisLabs",
       "description": "We combine cutting-edge AI technology with deep automation expertise to deliver solutions that work.",
       "reasons": {
-        "expertTeam": {
-          "title": "Expert Team",
-          "description": "Our team brings years of experience in AI, automation, and enterprise software development."
+        "expertise": {
+          "title": "Expertise & Customization",
+          "description": "We combine deep technical expertise with a bespoke approach. Every solution is tailored to your specific workflows, ensuring it fits your business perfectly."
         },
-        "customSolutions": {
-          "title": "Custom Solutions",
-          "description": "Every automation is tailored to your specific needs and workflows, not a one-size-fits-all approach."
+        "scalability": {
+          "title": "Scalable & Secure",
+          "description": "Built on enterprise-grade architecture that grows with you. Our solutions prioritize security and compliance while handling increasing complexity effortlessly."
         },
-        "provenResults": {
-          "title": "Proven Results",
-          "description": "Our clients see measurable improvements in efficiency, accuracy, and time savings from day one."
-        },
-        "ongoingSupport": {
-          "title": "Ongoing Support",
-          "description": "We provide continuous monitoring, optimization, and support to ensure your automations stay effective."
-        },
-        "scalableArchitecture": {
-          "title": "Scalable Architecture",
-          "description": "Built to grow with your business, handling increased volume and complexity as you expand."
-        },
-        "securityFirst": {
-          "title": "Security First",
-          "description": "Enterprise-grade security and compliance built into every solution from the ground up."
+        "results": {
+          "title": "Results & Partnership",
+          "description": "From day one, see measurable efficiency gains. We don't just build and leave; we partner with you for continuous optimization and long-term success."
         }
       }
     },

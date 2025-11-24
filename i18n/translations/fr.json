@@ -112,29 +112,17 @@
       "title": "Pourquoi ZetisLabs",
       "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
       "reasons": {
-        "expertTeam": {
-          "title": "Équipe d'experts",
-          "description": "Notre équipe apporte des années d'expérience en IA, automatisation et développement de logiciels d'entreprise."
+        "expertise": {
+          "title": "Expertise & Sur-mesure",
+          "description": "Nous allions une expertise technique pointue à une approche personnalisée. Chaque solution est taillée pour vos flux de travail spécifiques, s'adaptant parfaitement à votre activité."
         },
-        "customSolutions": {
-          "title": "Solutions personnalisées",
-          "description": "Chaque automatisation est adaptée à vos besoins et flux de travail spécifiques, pas une approche unique."
+        "scalability": {
+          "title": "Évolutivité & Sécurité",
+          "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
         },
-        "provenResults": {
-          "title": "Résultats prouvés",
-          "description": "Nos clients constatent des améliorations mesurables en termes d'efficacité, de précision et d'économies de temps dès le premier jour."
-        },
-        "ongoingSupport": {
-          "title": "Support continu",
-          "description": "Nous fournissons une surveillance, une optimisation et un support continus pour garantir que vos automatisations restent efficaces."
-        },
-        "scalableArchitecture": {
-          "title": "Architecture évolutive",
-          "description": "Conçu pour grandir avec votre entreprise, gérant l'augmentation du volume et de la complexité au fur et à mesure de votre expansion."
-        },
-        "securityFirst": {
-          "title": "Sécurité d'abord",
-          "description": "Sécurité et conformité de niveau entreprise intégrées dans chaque solution dès le départ."
+        "results": {
+          "title": "Résultats & Partenariat",
+          "description": "Dès le premier jour, constatez des gains d'efficacité mesurables. Nous ne nous contentons pas de livrer ; nous sommes partenaires de votre optimisation continue et de votre succès à long terme."
         }
       }
     },
