@@ -18,7 +18,7 @@ export default function Footer({ locale }: Props) {
 
   return (
     <footer className="border-t border-border/60">
-      <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-foreground/70 sm:flex-row">
+      <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-foreground/70 sm:flex-row">
         <p>{copyright}</p>
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-foreground transition-colors">

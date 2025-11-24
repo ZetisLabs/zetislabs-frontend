@@ -36,7 +36,7 @@ export default function Header({ locale }: Props) {
           </Link>
 
           {/* Navigation menu */}
-          <nav className="flex items-center gap-4 text-xs text-foreground">
+          <nav className="flex items-center gap-4 text-sm text-foreground">
             <Link
               href={`/${locale}`}
               className="nav-link nav-link-home group relative mx-1 rounded-full px-3 py-0.5 transition-colors hover:text-accent"
@@ -69,7 +69,7 @@ export default function Header({ locale }: Props) {
           </div>
 
           {/* Navigation shadow elements - aligned with nav buttons */}
-          <div className="flex items-center gap-4 text-xs h-[40px]">
+          <div className="flex items-center gap-4 text-sm h-[40px]">
             {/* Home button shadow */}
             <div className="nav-link-home-shadow px-3 mx-1 h-full text-transparent bg-tansparent shadow-xl shadow-accent/50 opacity-0 transition-opacity duration-700 ease-in-out pointer-events-none z-[-1]">
               {t("header.home")}
