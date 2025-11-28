@@ -58,54 +58,42 @@
     "title": "Exemples de projets",
     "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
     "projects": {
-      "ecommerce": {
-        "title": "Pré-remplissage automatisé d’avis de valeur",
-        "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
-      },
-      "customerSupport": {
-        "title": "Automatisation du support client",
-        "description": "Système de routage et de réponse de tickets alimenté par l'IA qui gère les demandes courantes, libérant le personnel de support pour les problèmes complexes."
-      },
-      "dataMigration": {
-        "title": "Pipeline de migration de données",
-        "description": "Système intelligent de transformation et de migration de données qui valide, nettoie et transfère les données entre systèmes de manière transparente."
-      },
       "tabs": {
-        "itOps": {
+        "project1": {
           "title": "Pré-remplissage automatisé d’avis de valeur",
           "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
         },
-        "secOps": {
+        "project2": {
           "title": "Sec Ops",
           "description": "Enrichir les tickets de sécurité"
         },
-        "devOps": {
+        "project3": {
           "title": "Dev Ops",
           "description": "Convertir le langage naturel en appels API"
         },
-        "sales": {
+        "project4": {
           "title": "Ventes",
           "description": "Générer des insights clients"
         },
-        "you": {
+        "project5": {
           "title": "Vous",
           "description": "Regardez cette vidéo pour entendre notre pitch"
         }
       },
       "diagrams": {
-        "itOps": {
+        "project1": {
           "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
           "alt": "Diagramme de flux IT Ops"
         },
-        "secOps": {
+        "project2": {
           "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
           "alt": "Diagramme de flux Sec Ops"
         },
-        "devOps": {
+        "project3": {
           "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
           "alt": "Diagramme de flux Dev Ops"
         },
-        "sales": {
+        "project4": {
           "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
           "alt": "Diagramme de flux Ventes"
         }
@@ -138,5 +126,4 @@
     "primaryAriaLabel": "Obtenir un audit gratuit",
     "secondaryAriaLabel": "Nous contacter"
   }
-}
 }

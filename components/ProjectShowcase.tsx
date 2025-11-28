@@ -8,13 +8,13 @@ type ProjectShowcaseProps = {
 };
 
 export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
-  const [activeTab, setActiveTab] = useState("itOps");
+  const [activeTab, setActiveTab] = useState("project1");
 
   const tabs = [
-    { id: "itOps", icon: "⚡" },
-    { id: "secOps", icon: "⚡" },
-    { id: "devOps", icon: "⚡" },
-    { id: "sales", icon: "⚡" },
+    { id: "project1", icon: "⚡" },
+    { id: "project2", icon: "⚡" },
+    { id: "project3", icon: "⚡" },
+    { id: "project4", icon: "⚡" },
   ];
 
   return (

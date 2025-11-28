@@ -58,41 +58,41 @@
       "description": "See how we've helped companies automate their workflows and save valuable time.",
       "projects": {
         "tabs": {
-          "itOps": {
+          "project1": {
             "title": "Automated Property Valuation Drafting",
             "description": "Analyze incoming valuation requests, extract key information, fetch local market data, and generate a first draft of the property valuation to speed up the agency’s workflow."
           },
-          "secOps": {
+          "project2": {
             "title": "Sec Ops",
             "description": "Enrich security Incident tickets"
           },
-          "devOps": {
+          "project3": {
             "title": "Dev Ops",
             "description": "Convert natural language into API calls"
           },
-          "sales": {
+          "project4": {
             "title": "Sales",
             "description": "Generate customer insights from reviews"
           },
-          "you": {
+          "project5": {
             "title": "You",
             "description": "Watch this video to hear our pitch"
           }
         },
         "diagrams": {
-          "itOps": {
+          "project1": {
             "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
             "alt": "IT Ops Workflow Diagram"
           },
-          "secOps": {
+          "project2": {
             "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
             "alt": "Sec Ops Workflow Diagram"
           },
-          "devOps": {
+          "project3": {
             "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
             "alt": "Dev Ops Workflow Diagram"
           },
-          "sales": {
+          "project4": {
             "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
             "alt": "Sales Workflow Diagram"
           }
