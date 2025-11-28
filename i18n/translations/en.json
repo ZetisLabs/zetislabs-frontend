@@ -54,22 +54,10 @@
       "title": "Example Projects",
       "description": "See how we've helped companies automate their workflows and save valuable time.",
       "projects": {
-        "ecommerce": {
-          "title": "Mail sorting to notion",
-          "description": "Sorting of incoming mail based on priority and destination, reducing the time spent sorting and improving accuracy. And place it in the notion database."
-        },
-        "customerSupport": {
-          "title": "Customer Support Automation",
-          "description": "AI-powered ticket routing and response system that handles common inquiries, freeing up support staff for complex issues."
-        },
-        "dataMigration": {
-          "title": "Data retriever via human language",
-          "description": "Retrieve data from a database with human language description."
-        },
         "tabs": {
           "itOps": {
-            "title": "IT Ops",
-            "description": "On-board new employees"
+            "title": "Automated Property Valuation Drafting",
+            "description": "Analyze incoming valuation requests, extract key information, fetch local market data, and generate a first draft of the property valuation to speed up the agency’s workflow."
           },
           "secOps": {
             "title": "Sec Ops",

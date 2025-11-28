@@ -55,8 +55,8 @@
       "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
       "projects": {
         "ecommerce": {
-          "title": "Traitement des commandes e-commerce",
-          "description": "Flux de travail automatisé de traitement des commandes qui traite les commandes, met à jour les stocks et envoie des notifications, réduisant le temps de traitement de 80%."
+          "title": "Pré-remplissage automatisé d’avis de valeur",
+          "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
         },
         "customerSupport": {
           "title": "Automatisation du support client",
@@ -68,8 +68,8 @@
         },
         "tabs": {
           "itOps": {
-            "title": "IT Ops",
-            "description": "Intégrer les nouveaux employés"
+            "title": "Pré-remplissage automatisé d’avis de valeur",
+            "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
           },
           "secOps": {
             "title": "Sec Ops",

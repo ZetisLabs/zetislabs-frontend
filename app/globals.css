@@ -444,8 +444,10 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 
 /* Halo A – large and slow */
 .apple-breathing-title-wrapper::before {
-  width: 950px;
-  height: 350px;
+  width: 90vw;
+  max-width: 950px;
+  height: 50vw;
+  max-height: 350px;
   animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
 

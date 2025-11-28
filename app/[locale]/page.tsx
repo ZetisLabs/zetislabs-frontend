@@ -21,7 +21,7 @@ export default async function Home({ params }: Props) {
 
   return (
     <>
-      <section className="relative isolate min-h-screen flex flex-col justify-center">
+      <section className="relative isolate min-h-[100dvh] flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
@@ -45,25 +45,27 @@ export default async function Home({ params }: Props) {
             </p>
 
             {/* CTAs */}
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-8 md:mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="#"
                 className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 shadow-sm shadow-accent/20 text-base font-medium text-background apple-breathing-wrapper animate-fade-in-slide-cta hover:scale-105 transition-transform duration-300"
               >
                 {t("home.hero.cta")}
                 <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
                   viewBox="0 0 24 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="shrink-0"
                   aria-hidden="true"
                 >
-                  <path
-                    d="M16.3153 16.6681C15.9247 17.0587 15.9247 17.6918 16.3153 18.0824C16.7058 18.4729 17.339 18.4729 17.7295 18.0824L22.3951 13.4168C23.1761 12.6357 23.1761 11.3694 22.3951 10.5883L17.7266 5.9199C17.3361 5.52938 16.703 5.52938 16.3124 5.91991C15.9219 6.31043 15.9219 6.9436 16.3124 7.33412L19.9785 11.0002L2 11.0002C1.44772 11.0002 1 11.4479 1 12.0002C1 12.5524 1.44772 13.0002 2 13.0002L19.9832 13.0002L16.3153 16.6681Z"
-                    fill="currentColor"
-                  />
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
                 </svg>
               </a>
               <a
@@ -79,7 +81,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* What We Make Section */}
-      <section className="py-32 flex flex-col justify-center">
+      <section className="py-16 md:py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -146,7 +148,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Why ZetisLabs Section */}
-      <section className="py-32 flex flex-col justify-center">
+      <section className="py-16 md:py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -161,7 +163,7 @@ export default async function Home({ params }: Props) {
             </Reveal>
           </div>
 
-          <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="group/grid mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Reason Card 1 */}
             <Reveal className="h-full">
               <ReasonCard
@@ -193,9 +195,9 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-32 flex flex-col justify-center">
+      <section className="py-16 md:py-32 flex flex-col justify-center">
         <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <div className="mx-auto mb-48 max-w-3xl text-center">
+          <div className="mx-auto mb-24 md:mb-48 max-w-3xl text-center">
             <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.cta.title")}
@@ -211,16 +213,32 @@ export default async function Home({ params }: Props) {
             <Reveal>
             <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-6 rounded-md bg-accent/70 px-6 py-0 backdrop-blur-lg border border-accent shadow-md text-sm font-medium text-white hover:bg-accent transition-colors"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 shadow-sm shadow-accent/20 text-base font-medium text-background hover:scale-105 transition-transform duration-300"
                 aria-label={t("home.cta.primaryAriaLabel")}
               >
                 {t("home.cta.primary")}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
               </a>
               </Reveal>
               <Reveal delay={250}>
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-6 rounded-md border border-border/70 bg-card/40 px-6 py-0 backdrop-blur-lg text-sm font-medium text-foreground hover:bg-card/60 transition-colors"
+                className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all hover:scale-105 duration-300"
                 aria-label={t("home.cta.secondaryAriaLabel")}
               >
                 {t("home.cta.secondary")}

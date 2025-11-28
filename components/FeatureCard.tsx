@@ -31,13 +31,13 @@ export const FeatureCard = ({
       >
         {/* Front Face */}
         <div className="col-start-1 row-start-1 h-full w-full backface-hidden">
-          <div className="group/card relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card/50 p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
+          <div className="group/card relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card/50 p-6 md:p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
             <div>
               <div className="flex items-center overflow-hidden">
                 <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover/card:translate-x-0 group-hover/card:opacity-100">
                   ⚡
                 </span>
-                <h3 className="text-3xl font-normal text-foreground transition-transform duration-300 group-hover/card:translate-x-2">
+                <h3 className="text-2xl md:text-3xl font-normal text-foreground transition-transform duration-300 group-hover/card:translate-x-2">
                   {title}
                 </h3>
               </div>
@@ -69,9 +69,9 @@ export const FeatureCard = ({
 
         {/* Back Face */}
         <div className="col-start-1 row-start-1 h-full w-full rotate-y-180 backface-hidden">
-          <div className="relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card p-8 shadow-xl">
+          <div className="relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card p-6 md:p-8 shadow-xl">
             <div>
-              <h3 className="text-2xl font-normal text-foreground">{title}</h3>
+              <h3 className="text-xl md:text-2xl font-normal text-foreground">{title}</h3>
               <div className="mt-4 h-px w-full bg-border/50" />
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 {fullDescription}

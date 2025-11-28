@@ -43,7 +43,7 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
 
       {/* Diagram Container */}
       <Reveal>
-        <div className="relative w-full h-[450px] bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 overflow-hidden shadow-sm">
+        <div className="relative w-full h-[300px] md:h-[450px] bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 overflow-hidden shadow-sm">
           {/* Grid Background */}
           <div 
             className="absolute inset-0 opacity-[0.03]"

@@ -8,9 +8,9 @@ type ReasonCardProps = {
 
 export const ReasonCard = ({ title, description, index }: ReasonCardProps) => {
   return (
-    <div className="group relative h-full overflow-hidden rounded-2xl border border-border/40 bg-card/40 p-8 backdrop-blur-sm transition-all duration-300 hover:border-accent/50 hover:bg-card/60 hover:shadow-lg hover:shadow-accent/5">
+    <div className="group relative h-full overflow-hidden rounded-2xl border border-border/40 bg-card/40 p-6 md:p-8 backdrop-blur-sm transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
       {/* Background Number */}
-      <div className="absolute -right-4 -top-4 text-9xl font-bold text-foreground/5 opacity-10 transition-all duration-500 group-hover:scale-110 group-hover:opacity-20">
+      <div className="absolute -right-4 -top-4 text-7xl md:text-9xl font-bold text-foreground/5 opacity-10 transition-all duration-500 group-hover:scale-110 group-hover:opacity-20">
         0{index + 1}
       </div>
 
