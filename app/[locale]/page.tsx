@@ -103,6 +103,7 @@ export default async function Home({ params }: Props) {
                 title={t("home.whatWeMake.features.aiAgents.title")}
                 shortDescription={t("home.whatWeMake.features.aiAgents.shortDescription")}
                 fullDescription={t("home.whatWeMake.features.aiAgents.description")}
+                cta={t("home.whatWeMake.features.aiAgents.cta")}
               />
             </Reveal>
 
@@ -112,6 +113,7 @@ export default async function Home({ params }: Props) {
                 title={t("home.whatWeMake.features.processAutomation.title")}
                 shortDescription={t("home.whatWeMake.features.processAutomation.shortDescription")}
                 fullDescription={t("home.whatWeMake.features.processAutomation.description")}
+                cta={t("home.whatWeMake.features.processAutomation.cta")}
               />
             </Reveal>
 
@@ -121,6 +123,7 @@ export default async function Home({ params }: Props) {
                 title={t("home.whatWeMake.features.intelligentWorkflows.title")}
                 shortDescription={t("home.whatWeMake.features.intelligentWorkflows.shortDescription")}
                 fullDescription={t("home.whatWeMake.features.intelligentWorkflows.description")}
+                cta={t("home.whatWeMake.features.intelligentWorkflows.cta")}
               />
             </Reveal>
           </div>

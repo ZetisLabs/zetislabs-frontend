@@ -36,103 +36,107 @@
         "aiAgents": {
           "title": "Agents",
           "description": "Nous construisons des programmes capables de comprendre la situation, de prendre des décisions et d’agir pour simplifier votre workflow.",
-          "shortDescription": "Des programmes qui prennent des décisions pour fluidifier vos opérations."
+          "shortDescription": "Des programmes qui prennent des décisions pour fluidifier vos opérations.",
+          "cta": "Créer un agent"
         },
         "processAutomation": {
           "title": "Automatisation",
           "description": "Nous développons des systèmes complets qui automatisent n’importe quelle tâche monotone, du début à la fin.",
-          "shortDescription": "Des systèmes complets qui exécutent vos tâches monotones automatiquement."
+          "shortDescription": "Des systèmes complets qui exécutent vos tâches monotones automatiquement.",
+          "cta": "Créer une automatisation"
         },
         "intelligentWorkflows": {
           "title": "Audit",
           "description": "Nous analysons vos méthodes de travail pour trouver où et comment gagner du temps grâce à des automatisations ou des agents.",
-          "shortDescription": "Une analyse de vos workflows pour révéler où l’IA peut réellement vous faire gagner du temps."
+          "shortDescription": "Une analyse de vos workflows pour révéler où l’IA peut réellement vous faire gagner du temps.",
+          "cta": "Obtenir un audit"
         }
       }
-    },
-    "exampleProjects": {
-      "title": "Exemples de projets",
-      "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
-      "projects": {
-        "ecommerce": {
+    }
+  },
+  "exampleProjects": {
+    "title": "Exemples de projets",
+    "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
+    "projects": {
+      "ecommerce": {
+        "title": "Pré-remplissage automatisé d’avis de valeur",
+        "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
+      },
+      "customerSupport": {
+        "title": "Automatisation du support client",
+        "description": "Système de routage et de réponse de tickets alimenté par l'IA qui gère les demandes courantes, libérant le personnel de support pour les problèmes complexes."
+      },
+      "dataMigration": {
+        "title": "Pipeline de migration de données",
+        "description": "Système intelligent de transformation et de migration de données qui valide, nettoie et transfère les données entre systèmes de manière transparente."
+      },
+      "tabs": {
+        "itOps": {
           "title": "Pré-remplissage automatisé d’avis de valeur",
           "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
         },
-        "customerSupport": {
-          "title": "Automatisation du support client",
-          "description": "Système de routage et de réponse de tickets alimenté par l'IA qui gère les demandes courantes, libérant le personnel de support pour les problèmes complexes."
+        "secOps": {
+          "title": "Sec Ops",
+          "description": "Enrichir les tickets de sécurité"
         },
-        "dataMigration": {
-          "title": "Pipeline de migration de données",
-          "description": "Système intelligent de transformation et de migration de données qui valide, nettoie et transfère les données entre systèmes de manière transparente."
+        "devOps": {
+          "title": "Dev Ops",
+          "description": "Convertir le langage naturel en appels API"
         },
-        "tabs": {
-          "itOps": {
-            "title": "Pré-remplissage automatisé d’avis de valeur",
-            "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
-          },
-          "secOps": {
-            "title": "Sec Ops",
-            "description": "Enrichir les tickets de sécurité"
-          },
-          "devOps": {
-            "title": "Dev Ops",
-            "description": "Convertir le langage naturel en appels API"
-          },
-          "sales": {
-            "title": "Ventes",
-            "description": "Générer des insights clients"
-          },
-          "you": {
-            "title": "Vous",
-            "description": "Regardez cette vidéo pour entendre notre pitch"
-          }
+        "sales": {
+          "title": "Ventes",
+          "description": "Générer des insights clients"
         },
-        "diagrams": {
-          "itOps": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux IT Ops"
-          },
-          "secOps": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Sec Ops"
-          },
-          "devOps": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Dev Ops"
-          },
-          "sales": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Ventes"
-          }
+        "you": {
+          "title": "Vous",
+          "description": "Regardez cette vidéo pour entendre notre pitch"
+        }
+      },
+      "diagrams": {
+        "itOps": {
+          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+          "alt": "Diagramme de flux IT Ops"
+        },
+        "secOps": {
+          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+          "alt": "Diagramme de flux Sec Ops"
+        },
+        "devOps": {
+          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+          "alt": "Diagramme de flux Dev Ops"
+        },
+        "sales": {
+          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+          "alt": "Diagramme de flux Ventes"
         }
       }
-    },
-    "whyZetisLabs": {
-      "title": "Pourquoi ZetisLabs",
-      "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
-      "reasons": {
-        "expertise": {
-          "title": "Expertise & Sur-mesure",
-          "description": "Nous allions une expertise technique pointue à une approche personnalisée. Chaque solution est taillée pour vos flux de travail spécifiques, s'adaptant parfaitement à votre activité."
-        },
-        "scalability": {
-          "title": "Évolutivité & Sécurité",
-          "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
-        },
-        "results": {
-          "title": "Résultats & Partenariat",
-          "description": "Dès le premier jour, constatez des gains d'efficacité mesurables. Nous ne nous contentons pas de livrer ; nous sommes partenaires de votre optimisation continue et de votre succès à long terme."
-        }
-      }
-    },
-    "cta": {
-      "title": "Vous voulez  ?",
-      "description": "Obtenez un audit gratuit de vos flux de travail et découvrez combien de temps vous pourriez économiser avec l'automatisation intelligente.",
-      "primary": "Obtenir un audit gratuit",
-      "secondary": "Nous contacter",
-      "primaryAriaLabel": "Obtenir un audit gratuit",
-      "secondaryAriaLabel": "Nous contacter"
     }
+  },
+  "whyZetisLabs": {
+    "title": "Pourquoi ZetisLabs",
+    "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
+    "reasons": {
+      "expertise": {
+        "title": "Expertise & Sur-mesure",
+        "description": "Nous allions une expertise technique pointue à une approche personnalisée. Chaque solution est taillée pour vos flux de travail spécifiques, s'adaptant parfaitement à votre activité."
+      },
+      "scalability": {
+        "title": "Évolutivité & Sécurité",
+        "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
+      },
+      "results": {
+        "title": "Résultats & Partenariat",
+        "description": "Dès le premier jour, constatez des gains d'efficacité mesurables. Nous ne nous contentons pas de livrer ; nous sommes partenaires de votre optimisation continue et de votre succès à long terme."
+      }
+    }
+  },
+  "cta": {
+    "title": "",
+    "description": "Obtenez un audit gratuit de vos flux de travail et découvrez combien de temps vous pourriez économiser avec l'automatisation intelligente.",
+    "primary": "Obtenir un audit gratuit",
+    "secondary": "Nous contacter",
+    "primaryAriaLabel": "Obtenir un audit gratuit",
+    "secondaryAriaLabel": "Nous contacter"
   }
+}
 }

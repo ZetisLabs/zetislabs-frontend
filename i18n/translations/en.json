@@ -36,17 +36,20 @@
         "aiAgents": {
           "title": "Agents",
           "description": "We build programs that can understand the situation, make decisions, and take action to simplify your workflow.",
-          "shortDescription": "Programs that make decisions to streamline your operations."
+          "shortDescription": "Programs that make decisions to streamline your operations.",
+          "cta": "Create an agent"
         },
         "processAutomation": {
           "title": "Automation",
           "description": "We develop complete systems that automate any repetitive task from start to finish.",
-          "shortDescription": "End-to-end systems that run your repetitive tasks automatically."
+          "shortDescription": "End-to-end systems that run your repetitive tasks automatically.",
+          "cta": "Create an automation"
         },
         "intelligentWorkflows": {
           "title": "Audit",
           "description": "We analyze your work methods to find where and how you can save time using automation or agents.",
-          "shortDescription": "A clear analysis of your workflows to reveal where AI can genuinely save you time."
+          "shortDescription": "A clear analysis of your workflows to reveal where AI can genuinely save you time.",
+          "cta": "Get an audit"
         }
       }
     },
