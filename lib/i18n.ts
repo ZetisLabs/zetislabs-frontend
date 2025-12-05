@@ -13,10 +13,7 @@ const translations = {
  * Get translation for a given key and locale
  * Supports nested keys using dot notation (e.g., "home.hero.title")
  */
-export const getTranslation = (
-  locale: Locale,
-  key: string
-): string => {
+export const getTranslation = (locale: Locale, key: string): string => {
   const keys = key.split(".");
   let value: any = translations[locale] || translations[defaultLocale];
 
@@ -42,4 +39,3 @@ export const getTranslation = (
 export const getTranslations = (locale: Locale) => {
   return translations[locale] || translations[defaultLocale];
 };
-

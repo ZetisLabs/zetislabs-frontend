@@ -20,110 +20,113 @@
     "hero": {
       "eyebrow": "Vos journées disparaissent dans des tâches répétitives.",
       "title": {
-        "default": "Retrouvez du temps pour ce qui ",
-        "thin": "compte. ",
+        "default": "Nous automatisons les tâches qui ",
+        "thin": "ralentissent votre équipe. ",
         "accent": ""
       },
-      "subtitle": "Nous créons des systèmes d’automatisation alimentés par l’IA, parfaitement adaptés à votre activité. Réduisez les tâches répétitives, accélérez vos opérations, et gagnez des heures chaque semaine.",
-      "cta": "Obtenir un audit gratuit",
+      "subtitle": "ZetisLabs construit des automatisations sur-mesure et pragmatiques pour les PME en croissance. Pas de refonte complexe (de tout votre système), juste des outils pratiques pour vous faire gagner plus de 20h par semaine.",
+      "cta": "Parler à un expert (15 min)",
       "ctaSecondary": "Voir des exemples",
       "ctaSecondaryAriaLabel": "Voir des exemples de projets"
+    },
+    "stack": {
+      "title": "Compatible avec vos outils actuels."
     },
     "whatWeMake": {
       "title": "Nos solutions d’automatisation",
       "description": "Nous construisons des systèmes d’automatisation sur mesure, capables de gérer les tâches répétitives, d’optimiser vos processus internes et de s’intégrer parfaitement à vos outils existants.",
       "features": {
         "aiAgents": {
-          "title": "Agents",
-          "description": "Nous construisons des programmes capables de comprendre la situation, de prendre des décisions et d’agir pour simplifier votre workflow.",
-          "shortDescription": "Des programmes qui prennent des décisions pour fluidifier vos opérations.",
+          "title": "Workflow Audit",
+          "subtitle": "The Blueprint.",
+          "description": "Nous analysons vos opérations pour identifier les goulots d'étranglement. Avant de coder, nous livrons un plan clair : ce qui doit être automatisé et ce qui doit rester humain.",
           "cta": "Créer un agent"
         },
         "processAutomation": {
-          "title": "Automatisation",
-          "description": "Nous développons des systèmes complets qui automatisent n’importe quelle tâche monotone, du début à la fin.",
-          "shortDescription": "Des systèmes complets qui exécutent vos tâches monotones automatiquement.",
+          "title": "System Integration",
+          "subtitle": "The Engine.",
+          "description": "L'automatisation pure, basée sur des règles. Nous connectons vos outils pour déplacer des données structurées instantanément. Idéal pour les tâches répétitives à zéro marge d'erreur.",
           "cta": "Créer une automatisation"
         },
         "intelligentWorkflows": {
-          "title": "Audit",
-          "description": "Nous analysons vos méthodes de travail pour trouver où et comment gagner du temps grâce à des automatisations ou des agents.",
-          "shortDescription": "Une analyse de vos workflows pour révéler où l’IA peut réellement vous faire gagner du temps.",
+          "title": "AI Agents",
+          "subtitle": "The Intelligence.",
+          "description": "Quand les règles ne suffisent plus. Nous déployons des outils boostés à l'IA capables de \"raisonner\" : lire des emails complexes, prendre des décisions ou interagir en langage naturel.",
           "cta": "Obtenir un audit"
         }
       }
-    }
-  },
-  "exampleProjects": {
-    "title": "Exemples de projets",
-    "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
-    "projects": {
-      "tabs": {
-        "project1": {
-          "title": "Pré-remplissage automatisé d’avis de valeur",
-          "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
+    },
+    "exampleProjects": {
+      "title": "Use cases",
+      "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
+      "projects": {
+        "tabs": {
+          "project1": {
+            "title": "Pré-remplissage automatisé d’avis de valeur",
+            "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
+          },
+          "project2": {
+            "title": "Sec Ops",
+            "description": "Enrichir les tickets de sécurité"
+          },
+          "project3": {
+            "title": "Dev Ops",
+            "description": "Convertir le langage naturel en appels API"
+          },
+          "project4": {
+            "title": "Ventes",
+            "description": "Générer des insights clients"
+          },
+          "project5": {
+            "title": "Vous",
+            "description": "Regardez cette vidéo pour entendre notre pitch"
+          }
         },
-        "project2": {
-          "title": "Sec Ops",
-          "description": "Enrichir les tickets de sécurité"
-        },
-        "project3": {
-          "title": "Dev Ops",
-          "description": "Convertir le langage naturel en appels API"
-        },
-        "project4": {
-          "title": "Ventes",
-          "description": "Générer des insights clients"
-        },
-        "project5": {
-          "title": "Vous",
-          "description": "Regardez cette vidéo pour entendre notre pitch"
-        }
-      },
-      "diagrams": {
-        "project1": {
-          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-          "alt": "Diagramme de flux IT Ops"
-        },
-        "project2": {
-          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-          "alt": "Diagramme de flux Sec Ops"
-        },
-        "project3": {
-          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-          "alt": "Diagramme de flux Dev Ops"
-        },
-        "project4": {
-          "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-          "alt": "Diagramme de flux Ventes"
+        "diagrams": {
+          "project1": {
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Diagramme de flux IT Ops"
+          },
+          "project2": {
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Diagramme de flux Sec Ops"
+          },
+          "project3": {
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Diagramme de flux Dev Ops"
+          },
+          "project4": {
+            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
+            "alt": "Diagramme de flux Ventes"
+          }
         }
       }
-    }
-  },
-  "whyZetisLabs": {
-    "title": "Pourquoi ZetisLabs",
-    "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
-    "reasons": {
-      "expertise": {
-        "title": "Expertise & Sur-mesure",
-        "description": "Nous allions une expertise technique pointue à une approche personnalisée. Chaque solution est taillée pour vos flux de travail spécifiques, s'adaptant parfaitement à votre activité."
-      },
-      "scalability": {
-        "title": "Évolutivité & Sécurité",
-        "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
-      },
-      "results": {
-        "title": "Résultats & Partenariat",
-        "description": "Dès le premier jour, constatez des gains d'efficacité mesurables. Nous ne nous contentons pas de livrer ; nous sommes partenaires de votre optimisation continue et de votre succès à long terme."
+    },
+    "whyZetisLabs": {
+      "title": "Pourquoi ZetisLabs",
+      "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
+      "reasons": {
+        "expertise": {
+          "title": "Pas de Sur-Ingénierie",
+          "description": "Si un simple script suffit, on n'installe pas une IA complexe. On protège votre budget."
+        },
+        "scalability": {
+          "title": "Évolutivité & Sécurité",
+          "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
+        },
+        "results": {
+          "title": "Approche Chirurgicale",
+          "description": "On ne casse pas tout. On s'insère dans votre workflow existant pour fluidifier, pas pour perturber."
+        }
       }
+    },
+    "cta": {
+      "title": "Vous ne savez pas par où commencer ?",
+      "description": "On prend 15 minutes pour identifier ensemble la tâche la plus chronophage de votre semaine. Sans engagement.",
+      "primary": "Réserver mon créneau conseil",
+      "secondary": "Nous contacter",
+      "primaryAriaLabel": "Réserver mon créneau conseil",
+      "secondaryAriaLabel": "Nous contacter"
     }
-  },
-  "cta": {
-    "title": "",
-    "description": "Obtenez un audit gratuit de vos flux de travail et découvrez combien de temps vous pourriez économiser avec l'automatisation intelligente.",
-    "primary": "Obtenir un audit gratuit",
-    "secondary": "Nous contacter",
-    "primaryAriaLabel": "Obtenir un audit gratuit",
-    "secondaryAriaLabel": "Nous contacter"
   }
 }

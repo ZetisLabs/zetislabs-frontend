@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ReasonCard } from "@/components/ReasonCard";
+import { StackSection } from "@/components/StackSection";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -21,34 +22,40 @@ export default async function Home({ params }: Props) {
 
   return (
     <>
-      <section className="relative isolate min-h-[100dvh] flex flex-col justify-center">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
+      <section className="relative isolate flex min-h-[100dvh] flex-col justify-center">
+        <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
             {/* Eyebrow */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/40 bg-transparent px-3 py-1 text-xs uppercase tracking-wider text-foreground/60 animate-fade-in-slide">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse-glow" />
+            <div className="mb-6 inline-flex animate-fade-in-slide items-center gap-2 rounded-full border border-border/40 bg-transparent px-3 py-1 text-xs tracking-wider text-foreground/60 uppercase">
+              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-accent" />
               {t("home.hero.eyebrow")}
             </div>
 
             {/* Headline */}
             {/* Headline */}
-            <h1 className="text-balance text-4xl leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl animate-fade-in-slide-title apple-breathing-title-wrapper">
-              <span className="font-semibold">{t("home.hero.title.default")}</span>
-              <span className="font-normal text-foreground/90">{t("home.hero.title.thin")}</span>
-              <span className="font-semibold glass-text">{t("home.hero.title.accent")}</span>
+            <h1 className="apple-breathing-title-wrapper animate-fade-in-slide-title text-4xl leading-[1.15] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+              <span className="font-semibold">
+                {t("home.hero.title.default")}
+              </span>
+              <span className="font-normal text-foreground/90">
+                {t("home.hero.title.thin")}
+              </span>
+              <span className="glass-text font-semibold">
+                {t("home.hero.title.accent")}
+              </span>
             </h1>
 
             {/* Subcopy */}
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg animate-fade-in-slide-subtle">
+            <p className="mx-auto mt-6 max-w-2xl animate-fade-in-slide-subtle text-pretty text-foreground/75 sm:text-lg">
               {t("home.hero.subtitle")}
             </p>
 
             {/* CTAs */}
-            <div className="mt-8 md:mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10">
               <a
                 href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 shadow-sm shadow-accent/20 text-base font-medium text-background apple-breathing-wrapper animate-fade-in-slide-cta hover:scale-105 transition-transform duration-300"
+                className="apple-breathing-wrapper inline-flex w-auto animate-fade-in-slide-cta items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-base font-medium text-background shadow-sm shadow-accent/20 transition-transform duration-300 hover:scale-105"
               >
                 {t("home.hero.cta")}
                 <svg
@@ -70,7 +77,7 @@ export default async function Home({ params }: Props) {
               </a>
               <a
                 href="#examples"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all animate-fade-in-slide-cta-2 hover:scale-105 duration-300"
+                className="inline-flex w-auto animate-fade-in-slide-cta-2 items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all duration-300 hover:scale-105"
                 aria-label={t("home.hero.ctaSecondaryAriaLabel")}
               >
                 {t("home.hero.ctaSecondary")}
@@ -80,19 +87,22 @@ export default async function Home({ params }: Props) {
         </div>
       </section>
 
+      {/* Stack Section */}
+      <StackSection title={t("home.stack.title")} />
+
       {/* What We Make Section */}
-      <section className="py-16 md:py-32 flex flex-col justify-center">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
+      <section className="flex flex-col justify-center py-16 md:py-32">
+        <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              {t("home.whatWeMake.title")}
-            </h2>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                {t("home.whatWeMake.title")}
+              </h2>
             </Reveal>
             <Reveal>
-            <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-              {t("home.whatWeMake.description")}
-            </p>
+              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
+                {t("home.whatWeMake.description")}
+              </p>
             </Reveal>
           </div>
 
@@ -101,8 +111,8 @@ export default async function Home({ params }: Props) {
             <Reveal className="h-full">
               <FeatureCard
                 title={t("home.whatWeMake.features.aiAgents.title")}
-                shortDescription={t("home.whatWeMake.features.aiAgents.shortDescription")}
-                fullDescription={t("home.whatWeMake.features.aiAgents.description")}
+                subtitle={t("home.whatWeMake.features.aiAgents.subtitle")}
+                description={t("home.whatWeMake.features.aiAgents.description")}
                 cta={t("home.whatWeMake.features.aiAgents.cta")}
               />
             </Reveal>
@@ -111,8 +121,12 @@ export default async function Home({ params }: Props) {
             <Reveal className="h-full">
               <FeatureCard
                 title={t("home.whatWeMake.features.processAutomation.title")}
-                shortDescription={t("home.whatWeMake.features.processAutomation.shortDescription")}
-                fullDescription={t("home.whatWeMake.features.processAutomation.description")}
+                subtitle={t(
+                  "home.whatWeMake.features.processAutomation.subtitle"
+                )}
+                description={t(
+                  "home.whatWeMake.features.processAutomation.description"
+                )}
                 cta={t("home.whatWeMake.features.processAutomation.cta")}
               />
             </Reveal>
@@ -121,8 +135,12 @@ export default async function Home({ params }: Props) {
             <Reveal className="h-full">
               <FeatureCard
                 title={t("home.whatWeMake.features.intelligentWorkflows.title")}
-                shortDescription={t("home.whatWeMake.features.intelligentWorkflows.shortDescription")}
-                fullDescription={t("home.whatWeMake.features.intelligentWorkflows.description")}
+                subtitle={t(
+                  "home.whatWeMake.features.intelligentWorkflows.subtitle"
+                )}
+                description={t(
+                  "home.whatWeMake.features.intelligentWorkflows.description"
+                )}
                 cta={t("home.whatWeMake.features.intelligentWorkflows.cta")}
               />
             </Reveal>
@@ -131,18 +149,21 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Example Projects Section */}
-      <section id="examples" className="py-16 flex flex-col justify-center min-h-screen">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <div className="mx-auto max-w-3xl text-center mb-8">
+      <section
+        id="examples"
+        className="flex min-h-screen flex-col justify-center py-16"
+      >
+        <div className="mx-auto w-full max-w-screen-xl px-4">
+          <div className="mx-auto mb-8 max-w-3xl text-center">
             <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              {t("home.exampleProjects.title")}
-            </h2>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                {t("home.exampleProjects.title")}
+              </h2>
             </Reveal>
             <Reveal>
-            <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-              {t("home.exampleProjects.description")}
-            </p>
+              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
+                {t("home.exampleProjects.description")}
+              </p>
             </Reveal>
           </div>
 
@@ -151,18 +172,18 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Why ZetisLabs Section */}
-      <section className="py-16 md:py-32 flex flex-col justify-center">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
+      <section className="flex flex-col justify-center py-16 md:py-32">
+        <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              {t("home.whyZetisLabs.title")}
-            </h2>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                {t("home.whyZetisLabs.title")}
+              </h2>
             </Reveal>
             <Reveal>
-            <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-              {t("home.whyZetisLabs.description")}
-            </p>
+              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
+                {t("home.whyZetisLabs.description")}
+              </p>
             </Reveal>
           </div>
 
@@ -172,7 +193,9 @@ export default async function Home({ params }: Props) {
               <ReasonCard
                 index={0}
                 title={t("home.whyZetisLabs.reasons.expertise.title")}
-                description={t("home.whyZetisLabs.reasons.expertise.description")}
+                description={t(
+                  "home.whyZetisLabs.reasons.expertise.description"
+                )}
               />
             </Reveal>
 
@@ -181,7 +204,9 @@ export default async function Home({ params }: Props) {
               <ReasonCard
                 index={1}
                 title={t("home.whyZetisLabs.reasons.scalability.title")}
-                description={t("home.whyZetisLabs.reasons.scalability.description")}
+                description={t(
+                  "home.whyZetisLabs.reasons.scalability.description"
+                )}
               />
             </Reveal>
 
@@ -198,54 +223,54 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-16 md:py-32 flex flex-col justify-center">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <div className="mx-auto mb-24 md:mb-48 max-w-3xl text-center">
+      <section className="flex flex-col justify-center py-16 md:py-32">
+        <div className="mx-auto w-full max-w-screen-xl px-4">
+          <div className="mx-auto mb-24 max-w-3xl text-center md:mb-48">
             <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              {t("home.cta.title")}
-            </h2>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                {t("home.cta.title")}
+              </h2>
             </Reveal>
             <Reveal>
-            <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-              {t("home.cta.description")}
-            </p>
+              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
+                {t("home.cta.description")}
+              </p>
             </Reveal>
             {/* CTAs */}
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Reveal>
-            <a
-                href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 shadow-sm shadow-accent/20 text-base font-medium text-background hover:scale-105 transition-transform duration-300"
-                aria-label={t("home.cta.primaryAriaLabel")}
-              >
-                {t("home.cta.primary")}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="shrink-0"
-                  aria-hidden="true"
+              <Reveal>
+                <a
+                  href="#"
+                  className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-base font-medium text-background shadow-sm shadow-accent/20 transition-transform duration-300 hover:scale-105"
+                  aria-label={t("home.cta.primaryAriaLabel")}
                 >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </a>
+                  {t("home.cta.primary")}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="shrink-0"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </a>
               </Reveal>
               <Reveal delay={250}>
-              <a
-                href="#"
-                className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all hover:scale-105 duration-300"
-                aria-label={t("home.cta.secondaryAriaLabel")}
-              >
-                {t("home.cta.secondary")}
-              </a>
+                <a
+                  href="#"
+                  className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all duration-300 hover:scale-105"
+                  aria-label={t("home.cta.secondaryAriaLabel")}
+                >
+                  {t("home.cta.secondary")}
+                </a>
               </Reveal>
             </div>
           </div>
@@ -254,4 +279,3 @@ export default async function Home({ params }: Props) {
     </>
   );
 }
-

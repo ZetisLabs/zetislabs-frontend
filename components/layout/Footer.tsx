@@ -14,20 +14,23 @@ type Props = {
 export default function Footer({ locale }: Props) {
   const t = (key: string) => getTranslation(locale, key);
   const currentYear = new Date().getFullYear();
-  const copyright = t("footer.copyright").replace("{year}", currentYear.toString());
+  const copyright = t("footer.copyright").replace(
+    "{year}",
+    currentYear.toString()
+  );
 
   return (
     <footer className="border-t border-border/60">
       <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-foreground/70 sm:flex-row">
         <p>{copyright}</p>
         <div className="flex items-center gap-4">
-          <a href="#" className="hover:text-foreground transition-colors">
+          <a href="#" className="transition-colors hover:text-foreground">
             {t("footer.privacy")}
           </a>
-          <a href="#" className="hover:text-foreground transition-colors">
+          <a href="#" className="transition-colors hover:text-foreground">
             {t("footer.terms")}
           </a>
-          <a href="#" className="hover:text-foreground transition-colors">
+          <a href="#" className="transition-colors hover:text-foreground">
             {t("footer.contact")}
           </a>
           <LanguageSwitcher currentLocale={locale} />
@@ -36,4 +39,3 @@ export default function Footer({ locale }: Props) {
     </footer>
   );
 }
-

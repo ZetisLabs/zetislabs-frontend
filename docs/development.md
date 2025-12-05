@@ -127,6 +127,7 @@ Custom glassmorphism utilities are available:
 The project uses **GeneralSans** font family, loaded via `next/font/local`.
 
 Available font weights:
+
 - `font-extralight` (200)
 - `font-light` (300)
 - `font-normal` (400)
@@ -135,6 +136,7 @@ Available font weights:
 - `font-bold` (700)
 
 Available styles:
+
 - Normal (default)
 - `italic` - Italic style
 
@@ -200,8 +202,8 @@ const t = (key: string) => getTranslation(locale, key);
 Use dot notation for nested keys:
 
 ```typescript
-t("home.hero.title")
-t("header.home")
+t("home.hero.title");
+t("header.home");
 ```
 
 ## Code Style
@@ -237,7 +239,7 @@ Use early returns for better readability:
 const processData = (data: Data | null) => {
   if (!data) return null;
   if (data.length === 0) return [];
-  
+
   // Process data
   return processedData;
 };
@@ -409,4 +411,3 @@ npm install
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [React Documentation](https://react.dev/)
-

@@ -86,7 +86,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       {/* Apply GeneralSans font variable to body */}
-      <body className={`${generalSans.variable} antialiased min-h-screen text-foreground bg-background`}>
+      <body
+        className={`${generalSans.variable} min-h-screen bg-background text-foreground antialiased`}
+      >
         {children}
       </body>
     </html>

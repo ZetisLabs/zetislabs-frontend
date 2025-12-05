@@ -12,6 +12,7 @@ npm run build
 ```
 
 This command:
+
 1. Compiles TypeScript to JavaScript
 2. Optimizes React components
 3. Generates static HTML pages where possible
@@ -21,6 +22,7 @@ This command:
 ### Build Output
 
 The build process creates:
+
 - **`.next/`** - Compiled application code
 - **`.next/static/`** - Static assets (CSS, JS, images)
 - **`.next/server/`** - Server-side code
@@ -61,6 +63,7 @@ Set environment variables in your hosting platform:
 ### Available Variables
 
 Currently, no environment variables are required. Add as needed for:
+
 - API endpoints
 - Analytics keys
 - Feature flags
@@ -107,11 +110,13 @@ Vercel is the recommended platform for Next.js applications:
 For other platforms (AWS, DigitalOcean, etc.):
 
 1. **Build the application**
+
    ```bash
    npm run build
    ```
 
 2. **Start production server**
+
    ```bash
    npm start
    ```
@@ -123,6 +128,7 @@ For other platforms (AWS, DigitalOcean, etc.):
 ### Locale Routing
 
 The middleware automatically handles:
+
 - Browser language detection
 - Locale-based routing (`/en`, `/fr`)
 - Fallback to default locale
@@ -130,6 +136,7 @@ The middleware automatically handles:
 ### Translation Files
 
 All translation files are included in the build:
+
 - `i18n/translations/en.json`
 - `i18n/translations/fr.json`
 
@@ -146,6 +153,7 @@ No additional configuration needed for i18n in production.
 ### Next.js Optimizations
 
 Next.js automatically optimizes:
+
 - **Image Optimization** - Images are optimized on-demand
 - **Code Splitting** - JavaScript is split by route
 - **Font Optimization** - Fonts are optimized and preloaded
@@ -166,6 +174,7 @@ npm run build
 ```
 
 Check the build output for bundle sizes. Optimize if needed:
+
 - Remove unused dependencies
 - Use dynamic imports for large components
 - Optimize images and assets
@@ -175,6 +184,7 @@ Check the build output for bundle sizes. Optimize if needed:
 ### Error Tracking
 
 Consider adding error tracking:
+
 - **Sentry** - Error monitoring
 - **LogRocket** - Session replay
 - **Vercel Analytics** - Built-in analytics
@@ -202,10 +212,10 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: "default-src 'self'; ...",
           },
         ],
@@ -218,6 +228,7 @@ const nextConfig = {
 ### HTTPS
 
 Ensure HTTPS is enabled:
+
 - Vercel/Netlify provide HTTPS by default
 - Use Let's Encrypt for custom domains
 
@@ -271,8 +282,8 @@ Ensure HTTPS is enabled:
 ## Support
 
 For deployment issues:
+
 1. Check platform-specific documentation
 2. Review Next.js deployment docs
 3. Check build logs for errors
 4. Verify environment variables
-

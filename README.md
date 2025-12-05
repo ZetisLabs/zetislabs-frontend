@@ -139,6 +139,7 @@ The project uses TypeScript path aliases:
 - `@/*` → Maps to project root
 
 Example:
+
 ```typescript
 import Header from "@/components/layout/Header";
 import { getTranslation } from "@/lib/i18n";

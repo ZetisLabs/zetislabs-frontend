@@ -19,4 +19,3 @@ export const localeNames: Record<Locale, string> = {
 export const isValidLocale = (locale: string): locale is Locale => {
   return locales.includes(locale as Locale);
 };
-

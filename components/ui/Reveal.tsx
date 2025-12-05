@@ -1,6 +1,12 @@
 "use client";
 
-import { type ReactNode, useRef, useState, useEffect, useCallback } from "react";
+import {
+  type ReactNode,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -14,14 +20,14 @@ type RevealState = "visible" | "hidden-top" | "hidden-bottom";
 
 /**
  * useScrollDirection
- * 
+ *
  * Tracks scroll direction using requestAnimationFrame throttling.
- * 
+ *
  * Why not IntersectionObserver?
  * - IntersectionObserver only fires when intersection ratios cross thresholds
  * - It doesn't provide continuous position updates needed for smooth bi-directional reveals
  * - We need pixel-accurate tracking at every scroll position, not just threshold crossings
- * 
+ *
  * @returns Current scroll direction: "up" | "down" | null
  */
 const useScrollDirection = (): ScrollDirection => {
@@ -67,28 +73,28 @@ const useScrollDirection = (): ScrollDirection => {
 
 /**
  * useRevealState
- * 
+ *
  * Continuously tracks element position using getBoundingClientRect() in a requestAnimationFrame loop.
- * 
+ *
  * Why continuous tracking?
  * - IntersectionObserver only fires on threshold crossings, missing intermediate positions
  * - getBoundingClientRect() provides pixel-accurate position at every frame
  * - Enables smooth reveals/unreveals at any scroll position, not just discrete thresholds
- * 
+ *
  * Threshold Logic:
  * - Scroll DOWN:
  *   - Reveal: element top <= viewport * 0.65 (35% from bottom)
  *   - Unreveal: element top <= viewport * 0.07 (93% from bottom)
- * 
+ *
  * - Scroll UP:
  *   - Reveal: element top >= viewport * 0.15 (15% from top)
  *   - Unreveal: element top >= viewport * 0.95 (95% from top)
- * 
+ *
  * Hysteresis:
  * - Uses 120ms debounce to prevent flickering when element oscillates near thresholds
  * - Only changes state if sufficient time has passed since last change
  * - Prevents rapid state toggling during slow scrolls near boundary conditions
- * 
+ *
  * @param ref - React ref to the element to track
  * @param direction - Current scroll direction
  * @param debug - Optional debug logging
@@ -156,7 +162,10 @@ const useRevealState = (
       }
 
       // Apply hysteresis: only change state if enough time has passed
-      if (desiredState !== currentState && timeSinceLastChange >= HYSTERESIS_MS) {
+      if (
+        desiredState !== currentState &&
+        timeSinceLastChange >= HYSTERESIS_MS
+      ) {
         if (debug) {
           console.debug("[Reveal] State change:", {
             from: currentState,
@@ -193,10 +202,10 @@ const useRevealState = (
 
 /**
  * Reveal
- * 
+ *
  * A production-ready bi-directional scroll reveal component that uses continuous
  * pixel-accurate tracking instead of IntersectionObserver thresholds.
- * 
+ *
  * Features:
  * - Reveals at 65% viewport when scrolling down (35% from bottom) or 15% from top when scrolling up
  * - Unreveals at 95% viewport (toward top or bottom)
@@ -205,7 +214,7 @@ const useRevealState = (
  * - Hysteresis (120ms debounce) prevents flickering near thresholds
  * - Optional delay prop for staggered animations
  * - Mobile-friendly (iOS Safari compatible)
- * 
+ *
  * Why not IntersectionObserver?
  * IntersectionObserver only fires when intersection ratios cross predefined thresholds.
  * For bi-directional reveals that need to work smoothly in both directions, we need
@@ -228,7 +237,7 @@ export const Reveal = ({
   const state = useRevealState(ref, direction, debug);
 
   const baseClasses = "transition-all duration-700 ease-out h-full";
-  
+
   // Determine classes based on state
   let animationClasses = "";
   if (state === "visible") {
@@ -251,5 +260,3 @@ export const Reveal = ({
     </div>
   );
 };
-
-

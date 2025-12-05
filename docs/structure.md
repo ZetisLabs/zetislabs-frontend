@@ -92,6 +92,7 @@ Static assets served at the root URL.
 ### `public/fonts/`
 
 Local font files for GeneralSans font family:
+
 - Multiple weights (200-700) and styles (normal, italic)
 - Formats: `.otf` (OpenType Font)
 
@@ -127,6 +128,7 @@ Translation JSON files organized by language:
 - **`fr.json`** - French translations
 
 Translation keys are organized hierarchically by page/component:
+
 ```json
 {
   "home": {
@@ -151,6 +153,7 @@ Utility functions and helpers.
 ### `.next/` Directory (git-ignored)
 
 Generated during build process:
+
 - Compiled JavaScript
 - Optimized assets
 - Static HTML pages
@@ -175,6 +178,7 @@ The project uses TypeScript path aliases configured in `tsconfig.json`:
 - Example: `@/components/layout/Header` → `components/layout/Header.tsx`
 
 This allows clean imports without relative path navigation:
+
 ```typescript
 import Header from "@/components/layout/Header";
 import { getTranslation } from "@/lib/i18n";
@@ -185,6 +189,7 @@ import { getTranslation } from "@/lib/i18n";
 ### Locale-Based Routing
 
 The `[locale]` dynamic segment in `app/[locale]/` creates URL-based language routing:
+
 - URLs include the locale: `/en`, `/fr`
 - Middleware detects browser language and redirects accordingly
 - All routes automatically include locale prefix
@@ -200,4 +205,3 @@ The `[locale]` dynamic segment in `app/[locale]/` creates URL-based language rou
 - Centralized translation files in `i18n/translations/`
 - Hierarchical key structure for organization
 - Type-safe translation access via `getTranslation()` utility
-

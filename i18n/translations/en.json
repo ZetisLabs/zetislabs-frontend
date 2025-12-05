@@ -20,35 +20,38 @@
     "hero": {
       "eyebrow": "Stop wasting time on repetitive tasks",
       "title": {
-        "default": "Empower your workflow. ",
-        "thin": "Effortlessly.",
+        "default": "Your team is drowning in repetitive tasks. ",
+        "thin": "We automate them.",
         "accent": ""
       },
-      "subtitle": "ZetisLabs builds custom automations that save you hours every week.",
+      "subtitle": "ZetisLabs builds custom, pragmatics automations for growing SMBs. No complex overhaul, just practical tools to save you 20+ hours a week.",
       "cta": "Start saving time",
       "ctaSecondary": "View examples",
       "ctaSecondaryAriaLabel": "View example projects"
+    },
+    "stack": {
+      "title": "WE INTEGRATE SEAMLESSLY WITH YOUR CURRENT STACK"
     },
     "whatWeMake": {
       "title": "What We Make",
       "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows. We build AI-powered automation solutions that transform how businesses operate.",
       "features": {
         "aiAgents": {
-          "title": "Agents",
-          "description": "We build programs that can understand the situation, make decisions, and take action to simplify your workflow.",
-          "shortDescription": "Programs that make decisions to streamline your operations.",
+          "title": "Workflow Audit",
+          "subtitle": "The Blueprint.",
+          "description": "We analyze your operations to spot bottlenecks. Before coding anything, we deliver a clear roadmap of what should be automated and what should remain human.",
           "cta": "Create an agent"
         },
         "processAutomation": {
-          "title": "Automation",
-          "description": "We develop complete systems that automate any repetitive task from start to finish.",
-          "shortDescription": "End-to-end systems that run your repetitive tasks automatically.",
+          "title": "System Integration",
+          "subtitle": "The Engine.",
+          "description": "Pure, rule-based automation. We connect your APIs and tools (CRM, ERP, Slack) to move structured data instantly. Perfect for repetitive tasks requiring zero error margin.",
           "cta": "Create an automation"
         },
         "intelligentWorkflows": {
-          "title": "Audit",
-          "description": "We analyze your work methods to find where and how you can save time using automation or agents.",
-          "shortDescription": "A clear analysis of your workflows to reveal where AI can genuinely save you time.",
+          "title": "AI Agents",
+          "subtitle": "The Intelligence.",
+          "description": "When rules aren't enough. We deploy AI-boosted tools capable of \"reasoning\": parsing unstructured emails, making decisions, or interacting with customers in natural language.",
           "cta": "Get an audit"
         }
       }
@@ -100,8 +103,8 @@
       }
     },
     "whyZetisLabs": {
-      "title": "Why ZetisLabs",
-      "description": "We combine cutting-edge AI technology with deep automation expertise to deliver solutions that work.",
+      "title": "Our philosophy",
+      "description": "We don't use AI just to be cool. We use it where it lowers costs. If a simple script works, we use a script. If you need LLMs, we implement them efficiently.",
       "reasons": {
         "expertise": {
           "title": "Expertise & Customization",
@@ -120,9 +123,9 @@
     "cta": {
       "title": "Ready to Automate?",
       "description": "Get a free audit of your workflows and discover how much time you could save with intelligent automation.",
-      "primary": "Get a free audit",
+      "primary": "Book a 15-min Workflow Analysis",
       "secondary": "Learn more",
-      "primaryAriaLabel": "Get a free audit",
+      "primaryAriaLabel": "Book a 15-min Workflow Analysis",
       "secondaryAriaLabel": "Learn more"
     }
   }

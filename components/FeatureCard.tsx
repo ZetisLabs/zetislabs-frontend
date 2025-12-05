@@ -4,37 +4,42 @@ import { useState } from "react";
 
 type FeatureCardProps = {
   title: string;
-  shortDescription: string;
-  fullDescription: string;
+  subtitle: string;
+  description: string;
   cta?: string;
 };
 
 export const FeatureCard = ({
   title,
-  shortDescription,
-  fullDescription,
+  subtitle,
+  description,
   cta,
 }: FeatureCardProps) => {
   return (
     <div className="group relative h-full cursor-pointer">
-      <div className="group/card relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card/50 p-6 md:p-8 transition-all duration-500 hover:!opacity-100 hover:scale-[1.02] hover:bg-card hover:shadow-lg group-hover/grid:opacity-40">
+      <div className="group/card relative flex h-full flex-col justify-between rounded-2xl border border-border/50 bg-card/50 p-6 transition-all duration-500 group-hover/grid:opacity-40 hover:scale-[1.02] hover:bg-card hover:!opacity-100 hover:shadow-lg md:p-8">
         <div>
           <div className="flex items-center overflow-hidden">
             <span className="mr-2 -translate-x-8 text-2xl opacity-0 transition-all duration-300 group-hover/card:translate-x-0 group-hover/card:opacity-100">
               ⚡
             </span>
-            <h3 className="text-2xl md:text-3xl font-normal text-foreground transition-transform duration-300 group-hover/card:translate-x-2">
-              {title}
-            </h3>
+            <div className="transition-transform duration-300 group-hover/card:translate-x-2">
+              <h3 className="text-2xl font-normal text-foreground md:text-3xl">
+                {title}
+              </h3>
+              <p className="text-muted-foreground mt-1 text-sm font-medium">
+                {subtitle}
+              </p>
+            </div>
           </div>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            {shortDescription}
+          <p className="text-muted-foreground mt-4 text-base leading-relaxed">
+            {description}
           </p>
         </div>
         <div className="mt-8 flex justify-end">
-          <div className="relative flex h-12 items-center rounded-full bg-accent/10 transition-all duration-300 group-hover/card:bg-accent group-hover/card:text-accent-foreground group-hover/card:pl-4 group-hover/card:pr-1">
+          <div className="relative flex h-12 items-center rounded-full bg-accent/10 transition-all duration-300 group-hover/card:bg-accent group-hover/card:pr-1 group-hover/card:pl-4 group-hover/card:text-accent-foreground">
             {cta && (
-              <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-medium opacity-0 transition-all duration-500 group-hover/card:max-w-xs group-hover/card:opacity-100">
+              <span className="max-w-0 overflow-hidden text-sm font-medium whitespace-nowrap opacity-0 transition-all duration-500 group-hover/card:max-w-xs group-hover/card:opacity-100">
                 {cta}
               </span>
             )}

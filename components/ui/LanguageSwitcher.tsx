@@ -47,7 +47,10 @@ export default function LanguageSwitcher({ currentLocale }: Props) {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -67,34 +70,39 @@ export default function LanguageSwitcher({ currentLocale }: Props) {
         type="button"
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
-        className="flex items-center gap-1.5 px-3 py-1 text-xs rounded-full transition-colors text-foreground/70 hover:text-foreground hover:bg-background/50"
+        className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs text-foreground/70 transition-colors hover:bg-background/50 hover:text-foreground"
         aria-label="Change language"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         <span>{currentLocale.toUpperCase()}</span>
         <svg
-          className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`h-3 w-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-full right-0 mb-2 w-32 rounded-md bg-background/95 backdrop-blur-md border border-border/50 shadow-lg py-1 z-50">
+        <div className="absolute right-0 bottom-full z-50 mb-2 w-32 rounded-md border border-border/50 bg-background/95 py-1 shadow-lg backdrop-blur-md">
           {locales.map((locale) => (
             <button
               key={locale}
               type="button"
               onClick={() => handleLanguageChange(locale)}
-              className={`w-full text-left px-3 py-1.5 text-xs transition-colors ${
+              className={`w-full px-3 py-1.5 text-left text-xs transition-colors ${
                 currentLocale === locale
-                  ? "bg-accent/20 text-accent font-medium"
-                  : "text-foreground/70 hover:text-accent hover:bg-background/50"
+                  ? "bg-accent/20 font-medium text-accent"
+                  : "text-foreground/70 hover:bg-background/50 hover:text-accent"
               }`}
               aria-label={`Switch to ${localeNames[locale]}`}
               aria-current={currentLocale === locale ? "page" : undefined}
@@ -107,4 +115,3 @@ export default function LanguageSwitcher({ currentLocale }: Props) {
     </div>
   );
 }
-

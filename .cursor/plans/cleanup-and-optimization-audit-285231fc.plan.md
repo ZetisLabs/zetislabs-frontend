@@ -1,4 +1,9 @@
-<!-- 285231fc-9e68-4914-b9c8-76a855e25c19 3fb9989b-910d-4014-a79f-8a2607f09d70 -->
+---
+name: Cleanup and Optimization Plan
+overview: ""
+todos: []
+---
+
 # Cleanup and Optimization Plan
 
 ## Analysis Summary

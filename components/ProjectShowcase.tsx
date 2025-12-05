@@ -18,18 +18,18 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
   ];
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-1">
+    <div className="mx-auto w-full max-w-6xl p-1">
       {/* Tabs Container */}
       <Reveal>
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-6 px-4">
+        <div className="mb-6 flex flex-wrap items-center justify-center gap-2 px-4">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-accent text-accent-foreground shadow-md scale-105"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
+                  ? "scale-105 bg-accent text-accent-foreground shadow-md"
+                  : "text-muted-foreground hover:bg-accent/10 hover:text-foreground"
               }`}
             >
               <span>{tab.icon}</span>
@@ -43,23 +43,26 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
 
       {/* Diagram Container */}
       <Reveal>
-        <div className="relative w-full h-[300px] md:h-[450px] bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 overflow-hidden shadow-sm">
+        <div className="relative h-[300px] w-full overflow-hidden rounded-2xl border border-border/50 bg-card/50 shadow-sm backdrop-blur-sm md:h-[450px]">
           {/* Grid Background */}
-          <div 
+          <div
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              backgroundImage: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-              backgroundSize: "24px 24px"
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+              backgroundSize: "24px 24px",
             }}
           />
 
           {/* Diagram Content - Centered */}
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-            <div className="relative w-full h-full flex items-center justify-center p-8">
-              <img 
-                src={dict.home.exampleProjects.projects.diagrams[activeTab].image} 
+            <div className="relative flex h-full w-full items-center justify-center p-8">
+              <img
+                src={
+                  dict.home.exampleProjects.projects.diagrams[activeTab].image
+                }
                 alt={dict.home.exampleProjects.projects.diagrams[activeTab].alt}
-                className="w-full h-full object-contain"
+                className="h-full w-full object-contain"
               />
             </div>
           </div>
@@ -68,5 +71,3 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
     </div>
   );
 }
-
-
