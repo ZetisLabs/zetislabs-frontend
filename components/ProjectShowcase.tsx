@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import { type Translations } from "@/lib/i18n";
 import { Reveal } from "./ui/Reveal";
 
 type ProjectShowcaseProps = {
-  dict: any; // Using any for now to avoid complex type definitions, but should be typed properly in a real app
+  dict: Translations;
 };
 
-export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
-  const [activeTab, setActiveTab] = useState("project1");
+type TabId = "project1" | "project2" | "project3" | "project4";
 
-  const tabs = [
+export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
+  const [activeTab, setActiveTab] = useState<TabId>("project1");
+
+  const tabs: { id: TabId; icon: string }[] = [
     { id: "project1", icon: "⚡" },
     { id: "project2", icon: "⚡" },
     { id: "project3", icon: "⚡" },
@@ -21,10 +25,18 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
     <div className="mx-auto w-full max-w-6xl p-1">
       {/* Tabs Container */}
       <Reveal>
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-2 px-4">
+        <div
+          role="tablist"
+          aria-label="Project examples"
+          className="mb-6 flex flex-wrap items-center justify-center gap-2 px-4"
+        >
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`panel-${tab.id}`}
+              id={`tab-${tab.id}`}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
                 activeTab === tab.id
@@ -32,7 +44,7 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
                   : "text-muted-foreground hover:bg-accent/10 hover:text-foreground"
               }`}
             >
-              <span>{tab.icon}</span>
+              <span aria-hidden="true">{tab.icon}</span>
               <span>
                 {dict.home.exampleProjects.projects.tabs[tab.id].title}
               </span>
@@ -43,7 +55,12 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
 
       {/* Diagram Container */}
       <Reveal>
-        <div className="relative h-[300px] w-full overflow-hidden rounded-2xl border border-border/50 bg-card/50 shadow-sm backdrop-blur-sm md:h-[450px]">
+        <div
+          role="tabpanel"
+          id={`panel-${activeTab}`}
+          aria-labelledby={`tab-${activeTab}`}
+          className="relative h-[300px] w-full overflow-hidden rounded-2xl border border-border/50 bg-card/50 shadow-sm backdrop-blur-sm md:h-[450px]"
+        >
           {/* Grid Background */}
           <div
             className="absolute inset-0 opacity-[0.03]"
@@ -52,17 +69,21 @@ export function ProjectShowcase({ dict }: ProjectShowcaseProps) {
                 "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
               backgroundSize: "24px 24px",
             }}
+            aria-hidden="true"
           />
 
           {/* Diagram Content - Centered */}
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
             <div className="relative flex h-full w-full items-center justify-center p-8">
-              <img
+              <Image
                 src={
                   dict.home.exampleProjects.projects.diagrams[activeTab].image
                 }
                 alt={dict.home.exampleProjects.projects.diagrams[activeTab].alt}
-                className="h-full w-full object-contain"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                priority={activeTab === "project1"}
               />
             </div>
           </div>

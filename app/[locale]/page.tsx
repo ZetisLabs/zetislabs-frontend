@@ -26,13 +26,11 @@ export default async function Home({ params }: Props) {
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             {/* Eyebrow */}
-            {/* Eyebrow */}
             <div className="mb-6 inline-flex animate-fade-in-slide items-center gap-2 rounded-full border border-border/40 bg-transparent px-3 py-1 text-xs tracking-wider text-foreground/60 uppercase">
               <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-accent" />
               {t("home.hero.eyebrow")}
             </div>
 
-            {/* Headline */}
             {/* Headline */}
             <h1 className="apple-breathing-title-wrapper animate-fade-in-slide-title text-4xl leading-[1.15] tracking-tight text-balance sm:text-5xl lg:text-6xl">
               <span className="font-semibold">

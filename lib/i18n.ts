@@ -2,12 +2,16 @@ import { defaultLocale, type Locale } from "@/i18n/config";
 import enTranslations from "@/i18n/translations/en.json";
 import frTranslations from "@/i18n/translations/fr.json";
 
-type TranslationKeys = keyof typeof enTranslations;
+// Type for the translations object structure
+export type Translations = typeof enTranslations;
 
-const translations = {
+// Type for nested translation values
+type NestedValue = string | { [key: string]: NestedValue };
+
+const translations: Record<Locale, Translations> = {
   en: enTranslations,
   fr: frTranslations,
-} as const;
+};
 
 /**
  * Get translation for a given key and locale
@@ -15,22 +19,36 @@ const translations = {
  */
 export const getTranslation = (locale: Locale, key: string): string => {
   const keys = key.split(".");
-  let value: any = translations[locale] || translations[defaultLocale];
+  let value: NestedValue = translations[locale] || translations[defaultLocale];
 
   for (const k of keys) {
-    if (value === undefined || value === null) {
+    if (value === undefined || value === null || typeof value === "string") {
       // Fallback to default locale if translation is missing
-      value = translations[defaultLocale];
+      let fallbackValue: NestedValue = translations[defaultLocale];
       for (const fallbackKey of keys) {
-        if (value === undefined || value === null) break;
-        value = value[fallbackKey];
+        if (
+          fallbackValue === undefined ||
+          fallbackValue === null ||
+          typeof fallbackValue === "string"
+        )
+          break;
+        fallbackValue = fallbackValue[fallbackKey];
       }
+      value = fallbackValue;
       break;
     }
     value = value[k];
   }
 
-  return typeof value === "string" ? value : key;
+  // Development warning for missing translations
+  if (typeof value !== "string") {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(`[i18n] Missing translation for key: "${key}" in locale: "${locale}"`);
+    }
+    return key;
+  }
+
+  return value;
 };
 
 /**

@@ -103,8 +103,6 @@ Local font files for GeneralSans font family:
   - `zetis-dark-logo-v2.svg`
   - `zetis-light-nbg-logo-v2.svg` (no background)
   - `zetis-dark-nbg-logo-v2.svg` (no background)
-  - `zetis-logo-v2.png`
-  - `logo-zetis-big-v1.png`
 - **SVG icons** - Icon files for various purposes
   - `Home SVG Icons.svg`
   - `Icônes Contact.svg`

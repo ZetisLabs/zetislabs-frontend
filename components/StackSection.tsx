@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
+import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 
 interface StackSectionProps {
@@ -201,16 +202,17 @@ export function StackSection({ title }: StackSectionProps) {
                     }}
                   >
                     {/* Glassmorphism overlay */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      aria-hidden="true"
+                    />
 
-                    <img
+                    <Image
                       src={logo.path}
                       alt={logo.name}
+                      width={Math.ceil(size * 0.6)}
+                      height={Math.ceil(size * 0.6)}
                       className="relative z-10 object-contain"
-                      style={{
-                        width: `${size * 0.6}px`,
-                        height: `${size * 0.6}px`,
-                      }}
                     />
                   </div>
                 </div>

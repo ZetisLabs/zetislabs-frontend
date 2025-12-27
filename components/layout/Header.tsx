@@ -75,11 +75,11 @@ export default function Header({ locale }: Props) {
           {/* Navigation shadow elements - aligned with nav buttons */}
           <div className="flex h-[40px] items-center gap-4 text-sm">
             {/* Home button shadow */}
-            <div className="nav-link-home-shadow bg-tansparent pointer-events-none z-[-1] mx-1 h-full px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out">
+            <div className="nav-link-home-shadow pointer-events-none z-[-1] mx-1 h-full bg-transparent px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out">
               {t("header.home")}
             </div>
             {/* Blog button shadow */}
-            <div className="nav-link-blog-shadow bg-tansparent pointer-events-none z-[-1] mx-1 h-full px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out">
+            <div className="nav-link-blog-shadow pointer-events-none z-[-1] mx-1 h-full bg-transparent px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out">
               {t("header.blog")}
             </div>
           </div>

@@ -74,26 +74,12 @@ const useScrollDirection = (): ScrollDirection => {
 /**
  * useRevealState
  *
- * Continuously tracks element position using getBoundingClientRect() in a requestAnimationFrame loop.
+ * Tracks element position using getBoundingClientRect() with scroll-driven RAF.
  *
- * Why continuous tracking?
- * - IntersectionObserver only fires on threshold crossings, missing intermediate positions
- * - getBoundingClientRect() provides pixel-accurate position at every frame
- * - Enables smooth reveals/unreveals at any scroll position, not just discrete thresholds
- *
- * Threshold Logic:
- * - Scroll DOWN:
- *   - Reveal: element top <= viewport * 0.65 (35% from bottom)
- *   - Unreveal: element top <= viewport * 0.07 (93% from bottom)
- *
- * - Scroll UP:
- *   - Reveal: element top >= viewport * 0.15 (15% from top)
- *   - Unreveal: element top >= viewport * 0.95 (95% from top)
- *
- * Hysteresis:
- * - Uses 120ms debounce to prevent flickering when element oscillates near thresholds
- * - Only changes state if sufficient time has passed since last change
- * - Prevents rapid state toggling during slow scrolls near boundary conditions
+ * Optimized for performance:
+ * - RAF loop only runs while scrolling (stops after 150ms idle)
+ * - Hysteresis prevents flickering near thresholds
+ * - Respects prefers-reduced-motion
  *
  * @param ref - React ref to the element to track
  * @param direction - Current scroll direction
@@ -110,7 +96,10 @@ const useRevealState = (
   const rafIdRef = useRef<number | null>(null);
   const stateRef = useRef<RevealState>("hidden-bottom");
   const directionRef = useRef<ScrollDirection>(direction);
-  const HYSTERESIS_MS = 120; // Debounce threshold to prevent flickering
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isScrollingRef = useRef(false);
+  const HYSTERESIS_MS = 120;
+  const SCROLL_IDLE_MS = 150;
 
   // Keep refs in sync with state/direction to avoid stale closures
   useEffect(() => {
@@ -126,8 +115,18 @@ const useRevealState = (
       return;
     }
 
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) {
+      setState("visible");
+      return;
+    }
+
     const checkPosition = () => {
-      if (!ref.current) {
+      if (!ref.current || !isScrollingRef.current) {
+        rafIdRef.current = null;
         return;
       }
 
@@ -138,30 +137,21 @@ const useRevealState = (
       const currentDirection = directionRef.current;
       const currentState = stateRef.current;
 
-      // Determine desired state based on scroll direction and position
       let desiredState: RevealState = currentState;
       const now = Date.now();
       const timeSinceLastChange = now - lastChangeTimeRef.current;
 
-      // Static "Safe Zone" Logic
-      // Visible when element is within the "safe zone" of the viewport.
-      // Safe zone: 10% from top to 85% from top (15% from bottom).
-      // This ensures it disappears just before the header and just before leaving the bottom.
       const safeZoneTop = viewportHeight * 0.16;
       const safeZoneBottom = viewportHeight * 0.85;
 
       if (bottom > safeZoneTop && top < safeZoneBottom) {
         desiredState = "visible";
+      } else if (bottom <= safeZoneTop) {
+        desiredState = "hidden-top";
       } else {
-        // Determine which way it's hidden
-        if (bottom <= safeZoneTop) {
-          desiredState = "hidden-top";
-        } else {
-          desiredState = "hidden-bottom";
-        }
+        desiredState = "hidden-bottom";
       }
 
-      // Apply hysteresis: only change state if enough time has passed
       if (
         desiredState !== currentState &&
         timeSinceLastChange >= HYSTERESIS_MS
@@ -173,26 +163,47 @@ const useRevealState = (
             direction: currentDirection,
             top,
             viewportHeight,
-            threshold25: viewportHeight * 0.07,
-            threshold35: viewportHeight * 0.35,
-            threshold65: viewportHeight * 0.65,
-            threshold95: viewportHeight * 0.95,
           });
         }
         setState(desiredState);
         lastChangeTimeRef.current = now;
       }
 
-      // Continue tracking
       rafIdRef.current = requestAnimationFrame(checkPosition);
     };
 
-    // Start tracking loop
+    const startTracking = () => {
+      if (!isScrollingRef.current) {
+        isScrollingRef.current = true;
+        if (rafIdRef.current === null) {
+          rafIdRef.current = requestAnimationFrame(checkPosition);
+        }
+      }
+
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, SCROLL_IDLE_MS);
+    };
+
+    // Initial check
+    isScrollingRef.current = true;
     rafIdRef.current = requestAnimationFrame(checkPosition);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isScrollingRef.current = false;
+    }, SCROLL_IDLE_MS);
+
+    window.addEventListener("scroll", startTracking, { passive: true });
 
     return () => {
+      window.removeEventListener("scroll", startTracking);
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
+      }
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
     };
   }, [ref, debug]);
