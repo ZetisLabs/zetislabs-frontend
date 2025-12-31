@@ -1,13 +1,14 @@
 import { getTranslation, getTranslations } from "@/lib/i18n";
-import { type Locale } from "@/i18n/config";
+import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ReasonCard } from "@/components/ReasonCard";
 import { StackSection } from "@/components/StackSection";
 
 type Props = {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 };
 
 /**
@@ -16,7 +17,10 @@ type Props = {
  * Uses translations for all text content.
  */
 export default async function Home({ params }: Props) {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  const locale: Locale = isValidLocale(localeParam)
+    ? localeParam
+    : defaultLocale;
   const t = (key: string) => getTranslation(locale, key);
   const dict = getTranslations(locale);
 
@@ -86,7 +90,17 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Stack Section */}
-      <StackSection title={t("home.stack.title")} />
+      <ErrorBoundary
+        fallback={
+          <section className="flex flex-col justify-center py-16 md:py-32">
+            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
+              <p className="text-foreground/70">Unable to load integrations.</p>
+            </div>
+          </section>
+        }
+      >
+        <StackSection title={t("home.stack.title")} />
+      </ErrorBoundary>
 
       {/* What We Make Section */}
       <section className="flex flex-col justify-center py-16 md:py-32">
@@ -165,7 +179,9 @@ export default async function Home({ params }: Props) {
             </Reveal>
           </div>
 
-          <ProjectShowcase dict={dict} />
+          <ErrorBoundary>
+            <ProjectShowcase dict={dict} />
+          </ErrorBoundary>
         </div>
       </section>
 

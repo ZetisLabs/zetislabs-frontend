@@ -98,6 +98,7 @@ const useRevealState = (
   const directionRef = useRef<ScrollDirection>(direction);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isScrollingRef = useRef(false);
+  const prefersReducedMotionRef = useRef(false);
   const HYSTERESIS_MS = 120;
   const SCROLL_IDLE_MS = 150;
 
@@ -115,11 +116,15 @@ const useRevealState = (
       return;
     }
 
-    // Check if user prefers reduced motion
+    // Check if user prefers reduced motion (only on client after hydration)
+    // This setState is intentional - we must check browser preferences after hydration
+    // to avoid SSR/client mismatch errors
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    prefersReducedMotionRef.current = prefersReducedMotion;
     if (prefersReducedMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("visible");
       return;
     }

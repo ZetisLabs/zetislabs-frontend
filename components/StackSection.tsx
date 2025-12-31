@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -41,8 +41,8 @@ const logoPositions = [
 type RevealState = "visible" | "hidden-top" | "hidden-bottom";
 
 /**
- * Custom hook to track reveal state using continuous position tracking
- * Similar to the Reveal component's useRevealState hook
+ * Custom hook to track reveal state using scroll-driven RAF
+ * Optimized to only run RAF while scrolling, stops after 150ms idle
  */
 const useLogoRevealState = (
   ref: React.RefObject<HTMLElement | null>
@@ -51,7 +51,11 @@ const useLogoRevealState = (
   const rafIdRef = useRef<number | null>(null);
   const stateRef = useRef<RevealState>("hidden-bottom");
   const lastChangeTimeRef = useRef<number>(0);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isScrollingRef = useRef(false);
+  const prefersReducedMotionRef = useRef(false);
   const HYSTERESIS_MS = 120;
+  const SCROLL_IDLE_MS = 150;
 
   useEffect(() => {
     stateRef.current = state;
@@ -62,8 +66,22 @@ const useLogoRevealState = (
       return;
     }
 
+    // Check if user prefers reduced motion (only on client after hydration)
+    // This setState is intentional - we must check browser preferences after hydration
+    // to avoid SSR/client mismatch errors
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    prefersReducedMotionRef.current = prefersReducedMotion;
+    if (prefersReducedMotion) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setState("visible");
+      return;
+    }
+
     const checkPosition = () => {
-      if (!ref.current) {
+      if (!ref.current || !isScrollingRef.current) {
+        rafIdRef.current = null;
         return;
       }
 
@@ -83,12 +101,10 @@ const useLogoRevealState = (
 
       if (bottom > safeZoneTop && top < safeZoneBottom) {
         desiredState = "visible";
+      } else if (bottom <= safeZoneTop) {
+        desiredState = "hidden-top";
       } else {
-        if (bottom <= safeZoneTop) {
-          desiredState = "hidden-top";
-        } else {
-          desiredState = "hidden-bottom";
-        }
+        desiredState = "hidden-bottom";
       }
 
       // Apply hysteresis
@@ -103,11 +119,38 @@ const useLogoRevealState = (
       rafIdRef.current = requestAnimationFrame(checkPosition);
     };
 
+    const startTracking = () => {
+      if (!isScrollingRef.current) {
+        isScrollingRef.current = true;
+        if (rafIdRef.current === null) {
+          rafIdRef.current = requestAnimationFrame(checkPosition);
+        }
+      }
+
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, SCROLL_IDLE_MS);
+    };
+
+    // Initial check
+    isScrollingRef.current = true;
     rafIdRef.current = requestAnimationFrame(checkPosition);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isScrollingRef.current = false;
+    }, SCROLL_IDLE_MS);
+
+    window.addEventListener("scroll", startTracking, { passive: true });
 
     return () => {
+      window.removeEventListener("scroll", startTracking);
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
+      }
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
     };
   }, [ref]);

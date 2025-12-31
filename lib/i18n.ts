@@ -43,7 +43,9 @@ export const getTranslation = (locale: Locale, key: string): string => {
   // Development warning for missing translations
   if (typeof value !== "string") {
     if (process.env.NODE_ENV === "development") {
-      console.warn(`[i18n] Missing translation for key: "${key}" in locale: "${locale}"`);
+      console.warn(
+        `[i18n] Missing translation for key: "${key}" in locale: "${locale}"`
+      );
     }
     return key;
   }
