@@ -3,15 +3,18 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LocaleScript from "@/components/ui/LocaleScript";
 import { getTranslation } from "@/lib/i18n";
-import { type Locale } from "@/i18n/config";
+import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  const locale: Locale = isValidLocale(localeParam)
+    ? localeParam
+    : defaultLocale;
   const t = (key: string) => getTranslation(locale, key);
 
   return {
@@ -21,7 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  const locale: Locale = isValidLocale(localeParam)
+    ? localeParam
+    : defaultLocale;
 
   return (
     <>
