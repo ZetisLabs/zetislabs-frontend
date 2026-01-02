@@ -2,10 +2,10 @@ import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { Reveal } from "@/components/ui/Reveal";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ReasonCard } from "@/components/ReasonCard";
 import { StackSection } from "@/components/StackSection";
+import { UseCasesSection } from "@/components/UseCasesSection";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -89,19 +89,6 @@ export default async function Home({ params }: Props) {
         </div>
       </section>
 
-      {/* Stack Section */}
-      <ErrorBoundary
-        fallback={
-          <section className="flex flex-col justify-center py-16 md:py-32">
-            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
-              <p className="text-foreground/70">Unable to load integrations.</p>
-            </div>
-          </section>
-        }
-      >
-        <StackSection title={t("home.stack.title")} />
-      </ErrorBoundary>
-
       {/* What We Make Section */}
       <section className="flex flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
@@ -160,30 +147,65 @@ export default async function Home({ params }: Props) {
         </div>
       </section>
 
-      {/* Example Projects Section */}
-      <section
-        id="examples"
-        className="flex min-h-screen flex-col justify-center py-16"
+      {/* Stack Section */}
+      <ErrorBoundary
+        fallback={
+          <section className="flex flex-col justify-center py-16 md:py-32">
+            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
+              <p className="text-foreground/70">Unable to load integrations.</p>
+            </div>
+          </section>
+        }
       >
-        <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto mb-8 max-w-3xl text-center">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {t("home.exampleProjects.title")}
-              </h2>
-            </Reveal>
-            <Reveal>
-              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-                {t("home.exampleProjects.description")}
-              </p>
-            </Reveal>
-          </div>
+        <StackSection title={t("home.stack.title")} />
+      </ErrorBoundary>
 
-          <ErrorBoundary>
-            <ProjectShowcase dict={dict} />
-          </ErrorBoundary>
-        </div>
-      </section>
+      {/* Use Cases Section - Apple-style sticky scroll */}
+      <ErrorBoundary
+        fallback={
+          <section className="flex flex-col justify-center py-16 md:py-32">
+            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
+              <p className="text-foreground/70">Unable to load use cases.</p>
+            </div>
+          </section>
+        }
+      >
+        <UseCasesSection
+          title={t("home.useCases.title")}
+          description={t("home.useCases.description")}
+          learnMoreLabel={t("home.useCases.learnMore")}
+          useCases={[
+            {
+              id: "mail-writer",
+              title: t("home.useCases.cases.mailWriter.title"),
+              subtitle: t("home.useCases.cases.mailWriter.subtitle"),
+              description: t("home.useCases.cases.mailWriter.description"),
+              features: (
+                dict.home.useCases.cases.mailWriter.features as string[]
+              ).map((f) => f),
+              media: {
+                type: "image" as const,
+                src: "/diagrams/diagram-placeholder.png",
+                alt: "Mail-Writer interface",
+              },
+            },
+            {
+              id: "docgen",
+              title: t("home.useCases.cases.docGen.title"),
+              subtitle: t("home.useCases.cases.docGen.subtitle"),
+              description: t("home.useCases.cases.docGen.description"),
+              features: (
+                dict.home.useCases.cases.docGen.features as string[]
+              ).map((f) => f),
+              media: {
+                type: "image" as const,
+                src: "/diagrams/diagram-placeholder.png",
+                alt: "DocGen dashboard",
+              },
+            },
+          ]}
+        />
+      </ErrorBoundary>
 
       {/* Why ZetisLabs Section */}
       <section className="flex flex-col justify-center py-16 md:py-32">

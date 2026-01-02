@@ -5,8 +5,8 @@ import frTranslations from "@/i18n/translations/fr.json";
 // Type for the translations object structure
 export type Translations = typeof enTranslations;
 
-// Type for nested translation values
-type NestedValue = string | { [key: string]: NestedValue };
+// Type for nested translation values (supports strings, arrays, and nested objects)
+type NestedValue = string | string[] | { [key: string]: NestedValue };
 
 const translations: Record<Locale, Translations> = {
   en: enTranslations,
@@ -22,14 +22,20 @@ export const getTranslation = (locale: Locale, key: string): string => {
   let value: NestedValue = translations[locale] || translations[defaultLocale];
 
   for (const k of keys) {
-    if (value === undefined || value === null || typeof value === "string") {
-      // Fallback to default locale if translation is missing
+    if (
+      value === undefined ||
+      value === null ||
+      typeof value === "string" ||
+      Array.isArray(value)
+    ) {
+      // Fallback to default locale if translation is missing or is an array
       let fallbackValue: NestedValue = translations[defaultLocale];
       for (const fallbackKey of keys) {
         if (
           fallbackValue === undefined ||
           fallbackValue === null ||
-          typeof fallbackValue === "string"
+          typeof fallbackValue === "string" ||
+          Array.isArray(fallbackValue)
         )
           break;
         fallbackValue = fallbackValue[fallbackKey];

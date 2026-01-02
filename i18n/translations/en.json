@@ -127,6 +127,35 @@
       "secondary": "Learn more",
       "primaryAriaLabel": "Book a 15-min Workflow Analysis",
       "secondaryAriaLabel": "Learn more"
+    },
+    "useCases": {
+      "title": "Our Tools",
+      "description": "Ready-to-use solutions to automate your most time-consuming tasks.",
+      "learnMore": "Learn more",
+      "cases": {
+        "mailWriter": {
+          "title": "Mail-Writer",
+          "subtitle": "Chrome Extension",
+          "description": "Write ultra-personalized emails in one click. Mail-Writer learns from your sent emails (anonymized) and uses your templates to generate responses that truly sound like you.",
+          "features": [
+            "Learns from your sent emails (anonymized data)",
+            "Smart templates to save time",
+            "Premium customer service with deep personalization",
+            "Privacy guaranteed: no data leaks"
+          ]
+        },
+        "docGen": {
+          "title": "DocGen",
+          "subtitle": "Document Generator",
+          "description": "No more copy-pasting and document hunting. Describe what you need, DocGen generates the complete technical document from your existing sources.",
+          "features": [
+            "Generation from a simple description",
+            "Creates 80% of your documents automatically",
+            "No more tedious searches and copy-pasting",
+            "Perfect for SMB technical documentation"
+          ]
+        }
+      }
     }
   }
 }

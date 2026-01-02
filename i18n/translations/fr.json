@@ -127,6 +127,35 @@
       "secondary": "Nous contacter",
       "primaryAriaLabel": "Réserver mon créneau conseil",
       "secondaryAriaLabel": "Nous contacter"
+    },
+    "useCases": {
+      "title": "Nos Outils",
+      "description": "Des solutions prêtes à l'emploi pour automatiser vos tâches les plus chronophages.",
+      "learnMore": "En savoir plus",
+      "cases": {
+        "mailWriter": {
+          "title": "Mail-Writer",
+          "subtitle": "Extension Chrome",
+          "description": "Écrivez des emails ultra-personnalisés en un clic. Mail-Writer apprend de vos emails envoyés (anonymisés) et utilise vos templates pour générer des réponses qui sonnent vraiment comme vous.",
+          "features": [
+            "Apprentissage sur vos emails envoyés (données anonymisées)",
+            "Templates intelligents pour gagner du temps",
+            "Service client premium avec personnalisation poussée",
+            "Confidentialité garantie : aucune fuite de données"
+          ]
+        },
+        "docGen": {
+          "title": "DocGen",
+          "subtitle": "Générateur de Documents",
+          "description": "Fini les copier-coller et les recherches de documents. Décrivez ce dont vous avez besoin, DocGen génère le document technique complet à partir de vos sources existantes.",
+          "features": [
+            "Génération à partir d'une simple description",
+            "Crée 80% de vos dossiers automatiquement",
+            "Fini les recherches et copier-coller fastidieux",
+            "Idéal pour dossiers techniques PME"
+          ]
+        }
+      }
     }
   }
 }
