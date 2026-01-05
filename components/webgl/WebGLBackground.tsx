@@ -32,8 +32,24 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const startTimeRef = useRef<number | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const { size } = useThree();
+
+  // Track scroll progress for sunset animation
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroHeight = window.innerHeight;
+      const progress = Math.min(window.scrollY / heroHeight, 1);
+      setScrollProgress(progress);
+    };
+
+    // Initial check
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Generate grid attributes
   const { count, attributes } = useInstancedGrid({
@@ -80,6 +96,7 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
             value: getAnimationModeValue(animationMode, false),
           },
           uProgress: { value: 0 },
+          uScrollProgress: { value: 0 },
           uBaseColor: { value: BASE_COLOR },
           uAccentColor: { value: ACCENT_COLOR },
         },
@@ -125,6 +142,7 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     // Update uniforms
     materialRef.current.uniforms.uTime.value = elapsed;
     materialRef.current.uniforms.uProgress.value = progress;
+    materialRef.current.uniforms.uScrollProgress.value = scrollProgress;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(

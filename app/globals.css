@@ -104,7 +104,6 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 
 /* Glow/shine pulse animation for dot */
 @keyframes pulse-glow {
-
   0%,
   100% {
     opacity: 1;
@@ -203,9 +202,11 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.12),
-      rgba(90, 130, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(90, 130, 255, 0.12),
+    rgba(90, 130, 255, 0) 70%
+  );
   filter: blur(60px);
 }
 
@@ -238,9 +239,11 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.14),
-      rgba(90, 130, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(90, 130, 255, 0.14),
+    rgba(90, 130, 255, 0) 70%
+  );
   filter: blur(60px);
 }
 

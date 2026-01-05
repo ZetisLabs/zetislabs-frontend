@@ -20,6 +20,7 @@ uniform float uTime;
 uniform vec2 uResolution;
 uniform float uAnimationMode;  // 0=none, 1=intro, 2=idle
 uniform float uProgress;       // Animation progress (0-1)
+uniform float uScrollProgress; // Scroll progress (0=top, 1=scrolled past hero)
 uniform vec3 uBaseColor;       // Base cell color (#f8f8f8)
 uniform vec3 uAccentColor;     // Accent color for animations (#3a7bd5)
 
@@ -38,20 +39,29 @@ const float TWO_PI = 6.28318530718;
 // ANIMATION FUNCTIONS
 // ============================================================================
 
-// Orbital sunrise effect: semi-circle horizon curving upward with glow
+// Orbital sunrise/sunset effect: semi-circle horizon curving upward with glow
+// Moves up with hero section content as user scrolls
 float calculateIntroEffect(vec2 pos, float progress, float time) {
   // Normalize position to -0.5 to 0.5 range (centered)
   vec2 normalizedPos = pos / uResolution;
 
+  // === SCROLL-DRIVEN MOVEMENT ===
+  // Arc moves up with the hero section (parallax with content)
+  float scrollOffset = uScrollProgress * 1.0; // Move up by 100% of viewport as user scrolls
+
+  // Fade out as arc moves off screen
+  float scrollFade = 1.0 - smoothstep(0.3, 0.7, uScrollProgress);
+  if (scrollFade < 0.01) return 0.0;
+
   // === CONSTRAIN TO HERO SECTION ===
-  // Fade out just above the eyebrow badge
-  float heroFade = smoothstep(-0.15, 0.0, normalizedPos.y);
+  // Fade out just above the eyebrow badge (moves with scroll)
+  float heroFade = smoothstep(-0.15 + scrollOffset, 0.0 + scrollOffset, normalizedPos.y);
   if (heroFade < 0.01) return 0.0;
 
   // === HORIZON ARC (semi-circle from left-middle to right-middle, curving UP) ===
   // Arc center is ABOVE the viewport, arc curves upward
-  // Curve starts between eyebrow and title
-  float arcCenterY = -0.52;
+  // Curve starts between eyebrow and title (moves up with scroll)
+  float arcCenterY = -0.52 + scrollOffset;
   float arcRadius = 0.75;
 
   // Calculate Y position of the arc at current X (upper part of circle)
@@ -97,8 +107,8 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   // Add subtle shimmer
   float shimmer = sin(time * 1.2 + vSeeds.x * TWO_PI + normalizedPos.x * 15.0) * 0.08 + 0.92;
 
-  // Combine effects: horizon glow + above glow, with hero section fade
-  float intensity = (horizonGlow * 1.2 + aboveGlow) * pixelAppear * noise * shimmer * heroFade;
+  // Combine effects: horizon glow + above glow, with hero section fade and scroll fade
+  float intensity = (horizonGlow * 1.2 + aboveGlow) * pixelAppear * noise * shimmer * heroFade * scrollFade;
 
   return clamp(intensity, 0.0, 1.0);
 }
