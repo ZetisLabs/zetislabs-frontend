@@ -78,32 +78,33 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 }
 
 @utility animate-fade-in-slide {
-  animation: fade-in-slide 0.35s ease-out forwards;
+  animation: fade-in-slide 0.5s ease-out 2s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-title {
-  animation: fade-in-slide 0.35s ease-out 0.25s forwards;
+  animation: fade-in-slide 0.5s ease-out 2.2s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-subtle {
-  animation: fade-in-slide 0.35s ease-out 0.32s forwards;
+  animation: fade-in-slide 0.5s ease-out 2.45s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-cta {
-  animation: fade-in-slide 0.35s ease-out 0.45s forwards;
+  animation: fade-in-slide 0.5s ease-out 2.75s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-cta-2 {
-  animation: fade-in-slide 0.35s ease-out 0.55s forwards;
+  animation: fade-in-slide 0.5s ease-out 2.9s forwards;
   opacity: 0;
 }
 
 /* Glow/shine pulse animation for dot */
 @keyframes pulse-glow {
+
   0%,
   100% {
     opacity: 1;
@@ -202,11 +203,9 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(
-    circle,
-    rgba(90, 130, 255, 0.12),
-    rgba(90, 130, 255, 0) 70%
-  );
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.12),
+      rgba(90, 130, 255, 0) 70%);
   filter: blur(60px);
 }
 
@@ -239,11 +238,9 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(
-    circle,
-    rgba(90, 130, 255, 0.14),
-    rgba(90, 130, 255, 0) 70%
-  );
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.14),
+      rgba(90, 130, 255, 0) 70%);
   filter: blur(60px);
 }
 
