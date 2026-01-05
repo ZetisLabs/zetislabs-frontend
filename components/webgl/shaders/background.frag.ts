@@ -3,7 +3,7 @@
  *
  * Unified shader handling:
  * - Base grid cells with gaps
- * - Intro animation (arc effect)
+ * - Intro animation (orbital sunrise effect)
  * - Idle breathing animation
  */
 
@@ -33,43 +33,74 @@ varying vec2 vGridPos;
 // Constants
 const float PI = 3.14159265359;
 const float TWO_PI = 6.28318530718;
-const float PHI = 1.6180339887; // Golden ratio
 
 // ============================================================================
 // ANIMATION FUNCTIONS
 // ============================================================================
 
-// Intro effect: luminous arc that draws progressively
+// Orbital sunrise effect: semi-circle horizon curving upward with glow
 float calculateIntroEffect(vec2 pos, float progress, float time) {
-  // Normalize position
+  // Normalize position to -0.5 to 0.5 range (centered)
   vec2 normalizedPos = pos / uResolution;
 
-  // Golden ratio arc - curves upward
-  float goldenCurvature = 0.4;
-  float arcY = 0.2 - pow(abs(normalizedPos.x), PHI) * goldenCurvature;
-  float distToArc = abs(normalizedPos.y - arcY);
+  // === CONSTRAIN TO HERO SECTION ===
+  // Fade out just above the eyebrow badge
+  float heroFade = smoothstep(-0.15, 0.0, normalizedPos.y);
+  if (heroFade < 0.01) return 0.0;
 
-  // Gaussian falloff from arc center
-  float arcMask = exp(-distToArc * distToArc * 15.0);
+  // === HORIZON ARC (semi-circle from left-middle to right-middle, curving UP) ===
+  // Arc center is ABOVE the viewport, arc curves upward
+  // Curve starts between eyebrow and title
+  float arcCenterY = -0.52;
+  float arcRadius = 0.75;
 
-  // Progressive reveal based on progress
-  float revealX = (normalizedPos.x + 0.5) * 2.0; // 0 to 2 range
-  float reveal = smoothstep(progress * 2.0 - 0.5, progress * 2.0, revealX);
+  // Calculate Y position of the arc at current X (upper part of circle)
+  float xClamped = clamp(normalizedPos.x, -0.5, 0.5);
+  float arcY = arcCenterY + sqrt(max(0.0, arcRadius * arcRadius - xClamped * xClamped));
 
-  // Wave animation along the arc
-  float wave = sin(time * 2.0 + normalizedPos.x * 10.0 + vSeeds.x * TWO_PI) * 0.3 + 0.7;
+  // Distance from the arc line
+  float distToArc = normalizedPos.y - arcY;
 
-  // Sun glow effect at center
-  float sunDist = length(normalizedPos - vec2(0.0, 0.3));
-  float sunGlow = exp(-sunDist * 3.0) * 0.5;
+  // === HORIZON LINE GLOW ===
+  float horizonDist = abs(distToArc);
+  float horizonGlow = exp(-horizonDist * horizonDist * 500.0);
 
-  // Combine effects
-  float intensity = (arcMask * wave + sunGlow) * reveal;
+  // Progressive horizon reveal (draws from center outward)
+  float horizonReveal = smoothstep(0.0, 0.5, progress);
+  float xReveal = 1.0 - smoothstep(0.0, progress * 1.5, abs(normalizedPos.x));
+  horizonGlow *= horizonReveal * xReveal;
 
-  // Add some noise variation
-  float noise = snoise(vGridPos * 5.0 + time * 0.2) * 0.1 + 0.9;
+  // === GLOW ABOVE THE ARC ===
+  float aboveGlow = 0.0;
+  if (distToArc > 0.0) {
+    // Glow intensity decreases with distance above arc
+    float maxDist = 0.25 * progress; // Glow expands with progress
+    float distFactor = 1.0 - clamp(distToArc / maxDist, 0.0, 1.0);
+    distFactor = distFactor * distFactor; // Quadratic falloff for softer edge
 
-  return clamp(intensity * noise, 0.0, 1.0);
+    // Stronger glow near center of arc, weaker at edges
+    float horizontalFalloff = exp(-normalizedPos.x * normalizedPos.x * 3.0);
+
+    aboveGlow = distFactor * horizontalFalloff * smoothstep(0.1, 0.6, progress) * 0.7;
+  }
+
+  // === PIXEL APPEARANCE ANIMATION ===
+  // Pixels appear progressively from the arc center outward
+  vec2 arcCenter = vec2(0.0, arcY);
+  float distFromCenter = length(normalizedPos - arcCenter);
+  float appearDelay = distFromCenter * 0.6;
+  float pixelAppear = smoothstep(appearDelay, appearDelay + 0.4, progress);
+
+  // Add noise for organic feel
+  float noise = snoise(vGridPos * 8.0 + time * 0.1) * 0.12 + 0.88;
+
+  // Add subtle shimmer
+  float shimmer = sin(time * 1.2 + vSeeds.x * TWO_PI + normalizedPos.x * 15.0) * 0.08 + 0.92;
+
+  // Combine effects: horizon glow + above glow, with hero section fade
+  float intensity = (horizonGlow * 1.2 + aboveGlow) * pixelAppear * noise * shimmer * heroFade;
+
+  return clamp(intensity, 0.0, 1.0);
 }
 
 // Idle breathing animation
@@ -111,14 +142,6 @@ void main() {
     // Apply breathing to alpha for subtle pulsation
     alpha *= breathing;
   }
-
-  // 4. Edge fade for cells at viewport boundaries
-  float edgeFadeX = smoothstep(0.0, 0.1, 0.5 - abs(normalizedPos.x));
-  float edgeFadeY = smoothstep(0.0, 0.1, 0.5 - abs(normalizedPos.y));
-  float edgeFade = edgeFadeX * edgeFadeY;
-
-  // Apply edge fade only to alpha, not color
-  alpha *= mix(0.3, 1.0, edgeFade);
 
   // Output final color
   gl_FragColor = vec4(cellColor, alpha);

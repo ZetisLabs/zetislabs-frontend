@@ -10,7 +10,7 @@ import { backgroundFragmentShader } from "./shaders/background.frag";
 
 // Animation constants
 const ANIMATION_DURATION = 3.5; // seconds for intro animation
-const CELL_SIZE = 8; // pixels
+const CELL_SIZE = 5; // pixels
 
 // Colors (normalized RGB)
 const BASE_COLOR = new THREE.Vector3(0.973, 0.973, 0.973); // #f8f8f8
