@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -162,6 +162,42 @@ export function StackSection({ title }: StackSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const revealState = useLogoRevealState(containerRef);
 
+  // Pre-compute static logo data (size, blur, opacity, angle, etc.)
+  const logoAnimationData = useMemo(() => {
+    const centerX = 50;
+    const centerY = 50;
+    const minSize = 20;
+    const maxSize = 55;
+    const distance = 150;
+
+    return stackLogos.map((logo, index) => {
+      const position = logoPositions[index];
+      const size = minSize + (maxSize - minSize) * position.depth;
+      const blur = (1 - position.depth) * 1.5;
+      const opacity = 0.5 + position.depth * 0.5;
+      const shadowIntensity = position.depth * 20;
+      const delay = index * 0.08;
+      const angle = Math.atan2(position.y - centerY, position.x - centerX);
+      const zIndex = Math.round(position.depth * 10);
+      const imageSize = Math.ceil(size * 0.6);
+      const boxShadow = `0 ${4 + shadowIntensity}px ${16 + shadowIntensity}px rgba(0, 0, 0, ${0.1 + position.depth * 0.15})`;
+
+      return {
+        logo,
+        position,
+        size,
+        blur,
+        opacity,
+        delay,
+        angle,
+        distance,
+        zIndex,
+        imageSize,
+        boxShadow,
+      };
+    });
+  }, []);
+
   return (
     <section className="flex flex-col justify-center overflow-hidden py-16 md:py-32">
       <div className="mx-auto w-full max-w-screen-xl px-4">
@@ -171,36 +207,20 @@ export function StackSection({ title }: StackSectionProps) {
             ref={containerRef}
             className="relative mx-auto h-[500px] w-full sm:h-[600px] lg:h-[700px]"
           >
-            {stackLogos.map((logo, index) => {
-              const position = logoPositions[index];
-
-              // Calculate size based on depth (closer = bigger)
-              // Range: 20px (min) to 55px (max)
-              const minSize = 20;
-              const maxSize = 55;
-              const size = minSize + (maxSize - minSize) * position.depth;
-
-              // Calculate blur based on depth (farther = more blur)
-              // Range: 0px to 1.5px
-              const blur = (1 - position.depth) * 1.5;
-
-              // Calculate opacity based on depth
-              const opacity = 0.5 + position.depth * 0.5;
-
-              // Calculate shadow intensity based on depth
-              const shadowIntensity = position.depth * 20;
-
-              // Animation delay for staggered effect
-              const delay = index * 0.08;
-
-              // Calculate the angle from logo position to center for black hole effect
-              const centerX = 50;
-              const centerY = 50;
-              const angle = Math.atan2(
-                position.y - centerY,
-                position.x - centerX
-              );
-              const distance = 150; // Distance logos start from (outside viewport)
+            {logoAnimationData.map((data) => {
+              const {
+                logo,
+                position,
+                size,
+                blur,
+                opacity,
+                delay,
+                angle,
+                distance,
+                zIndex,
+                imageSize,
+                boxShadow,
+              } = data;
 
               // Determine animation based on reveal state
               let animatedX = position.x;
@@ -232,7 +252,7 @@ export function StackSection({ title }: StackSectionProps) {
                     transform: `translate(-50%, -50%) scale(${animatedScale})`,
                     filter: `blur(${blur}px)`,
                     opacity: animatedOpacity,
-                    zIndex: Math.round(position.depth * 10),
+                    zIndex,
                     transitionDelay: `${delay}s`,
                   }}
                 >
@@ -241,7 +261,7 @@ export function StackSection({ title }: StackSectionProps) {
                     style={{
                       width: `${size}px`,
                       height: `${size}px`,
-                      boxShadow: `0 ${4 + shadowIntensity}px ${16 + shadowIntensity}px rgba(0, 0, 0, ${0.1 + position.depth * 0.15})`,
+                      boxShadow,
                     }}
                   >
                     {/* Glassmorphism overlay */}
@@ -253,8 +273,8 @@ export function StackSection({ title }: StackSectionProps) {
                     <Image
                       src={logo.path}
                       alt={logo.name}
-                      width={Math.ceil(size * 0.6)}
-                      height={Math.ceil(size * 0.6)}
+                      width={imageSize}
+                      height={imageSize}
                       className="relative z-10 object-contain"
                     />
                   </div>

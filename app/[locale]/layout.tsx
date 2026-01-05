@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LocaleScript from "@/components/ui/LocaleScript";
-import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
 import { EffectProvider } from "@/components/providers";
 import { getTranslation } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
@@ -35,8 +34,6 @@ export default async function LocaleLayout({ children, params }: Props) {
     <EffectProvider>
       {/* Set html lang attribute based on locale */}
       <LocaleScript />
-      {/* Cursor spotlight effect - torch glow following cursor */}
-      <CursorSpotlight />
       <div className="bg-grid flex min-h-screen flex-col">
         <Header locale={locale} />
         <main className="relative z-10 flex-1">{children}</main>

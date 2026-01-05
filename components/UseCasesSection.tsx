@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { useReducedMotion } from "@/hooks";
 
 // ============================================================================
 // TYPES
@@ -103,34 +104,6 @@ const useScrollProgress = (
   }, [containerRef, isMounted]);
 
   return { progress, isActive };
-};
-
-/**
- * useReducedMotion
- *
- * Detects user preference for reduced motion.
- * Returns true if user prefers reduced motion.
- * Initializes as false for SSR, updates on mount.
- */
-const useReducedMotion = (): boolean => {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    // Check on mount and subscribe to changes
-    // This is intentional - we need to check browser preferences after hydration
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setPrefersReducedMotion(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  return prefersReducedMotion;
 };
 
 /**

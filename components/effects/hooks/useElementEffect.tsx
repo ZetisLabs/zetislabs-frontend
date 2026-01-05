@@ -197,7 +197,53 @@ export function useElementEffect<T extends HTMLElement = HTMLDivElement>({
   useEffect(() => {
     if (!isActive) return;
 
-    updateRect();
+    let rafId: number;
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let animationHandler: (() => void) | null = null;
+
+    const captureRect = () => {
+      // Double RAF pour s'assurer que le layout est stable
+      rafId = requestAnimationFrame(() => {
+        rafId = requestAnimationFrame(() => {
+          updateRect();
+        });
+      });
+    };
+
+    // Vérifier si l'élément ou ses ancêtres ont des animations en cours
+    const element = ref.current;
+    if (element) {
+      // Chercher l'animation sur l'élément ou ses ancêtres
+      let animatedElement: HTMLElement | null = element;
+      let maxAnimationDuration = 0;
+
+      while (animatedElement && animatedElement !== document.body) {
+        const computedStyle = getComputedStyle(animatedElement);
+        const animationName = computedStyle.animationName;
+        const animationDuration =
+          parseFloat(computedStyle.animationDuration) * 1000;
+
+        if (
+          animationName &&
+          animationName !== "none" &&
+          animationDuration > 0
+        ) {
+          maxAnimationDuration = Math.max(
+            maxAnimationDuration,
+            animationDuration
+          );
+        }
+        animatedElement = animatedElement.parentElement;
+      }
+
+      if (maxAnimationDuration > 0) {
+        // Attendre la fin de toutes les animations avant de capturer
+        timeoutId = setTimeout(captureRect, maxAnimationDuration + 100);
+      } else {
+        // Pas d'animation, capturer immédiatement (avec RAF)
+        captureRect();
+      }
+    }
 
     if (trackOnScroll) {
       const handleUpdate = () => updateRect();
@@ -205,10 +251,23 @@ export function useElementEffect<T extends HTMLElement = HTMLDivElement>({
       window.addEventListener("resize", handleUpdate, { passive: true });
 
       return () => {
+        cancelAnimationFrame(rafId);
+        clearTimeout(timeoutId);
+        if (animationHandler && element) {
+          element.removeEventListener("animationend", animationHandler);
+        }
         window.removeEventListener("scroll", handleUpdate);
         window.removeEventListener("resize", handleUpdate);
       };
     }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
+      if (animationHandler && element) {
+        element.removeEventListener("animationend", animationHandler);
+      }
+    };
   }, [isActive, updateRect, trackOnScroll]);
 
   // Rendre le composant d'effet
