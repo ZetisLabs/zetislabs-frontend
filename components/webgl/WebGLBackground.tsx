@@ -5,6 +5,8 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { WebGLCanvas } from "./WebGLCanvas";
 import { useInstancedGrid } from "./hooks/useInstancedGrid";
+import { useScrollHijack } from "./hooks/useScrollHijack";
+import { useScrollHijackContext } from "@/components/providers";
 import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
@@ -33,22 +35,28 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const startTimeRef = useRef<number | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(0);
 
   const { size } = useThree();
 
-  // Track scroll progress for sunset animation
+  // Track scroll progress and viewport height
   useEffect(() => {
-    const handleScroll = () => {
-      const heroHeight = window.innerHeight;
-      const progress = Math.min(window.scrollY / heroHeight, 1);
+    const update = () => {
+      const vh = window.innerHeight;
+      setViewportHeight(vh);
+      const progress = Math.min(window.scrollY / vh, 1);
       setScrollProgress(progress);
     };
 
     // Initial check
-    handleScroll();
+    update();
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   // Generate grid attributes
@@ -97,6 +105,7 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           },
           uProgress: { value: 0 },
           uScrollProgress: { value: 0 },
+          uViewportHeight: { value: size.height },
           uBaseColor: { value: BASE_COLOR },
           uAccentColor: { value: ACCENT_COLOR },
         },
@@ -143,6 +152,7 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     materialRef.current.uniforms.uTime.value = elapsed;
     materialRef.current.uniforms.uProgress.value = progress;
     materialRef.current.uniforms.uScrollProgress.value = scrollProgress;
+    materialRef.current.uniforms.uViewportHeight.value = viewportHeight;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(
@@ -186,26 +196,44 @@ interface WebGLBackgroundProps {
 export function WebGLBackground({
   animationMode = "intro",
 }: WebGLBackgroundProps) {
-  const [dimensions, setDimensions] = useState({ cols: 0, rows: 0 });
+  const [dimensions, setDimensions] = useState({
+    cols: 0,
+    rows: 0,
+    height: 0,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Calculate grid dimensions based on viewport size
+  // Calculate grid dimensions based on full document height
   useEffect(() => {
     const updateDimensions = () => {
       const width = window.innerWidth;
-      const height = window.innerHeight;
+      // Use full document height instead of viewport height
+      const height = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight,
+        window.innerHeight
+      );
 
       // Add extra cells for margin (ensures coverage during animations)
       const cols = Math.ceil(width / CELL_SIZE) + 4;
       const rows = Math.ceil(height / CELL_SIZE) + 4;
 
-      setDimensions({ cols, rows });
+      setDimensions({ cols, rows, height });
     };
 
     updateDimensions();
+
+    // Update on resize
     window.addEventListener("resize", updateDimensions);
 
-    return () => window.removeEventListener("resize", updateDimensions);
+    // Use ResizeObserver to detect document height changes (content loading, etc.)
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    resizeObserver.observe(document.body);
+
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+      resizeObserver.disconnect();
+    };
   }, []);
 
   // Don't render until we have dimensions
@@ -213,8 +241,8 @@ export function WebGLBackground({
     return (
       <div
         ref={containerRef}
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{ backgroundColor: "#f8f8f8" }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-0"
+        style={{ backgroundColor: "#f8f8f8", height: "100vh" }}
         aria-hidden="true"
       />
     );
@@ -223,7 +251,8 @@ export function WebGLBackground({
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none fixed inset-0 z-0"
+      className="pointer-events-none absolute inset-x-0 top-0 z-0"
+      style={{ height: dimensions.height }}
       aria-hidden="true"
     >
       <WebGLCanvas

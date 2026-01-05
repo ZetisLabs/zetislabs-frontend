@@ -28,9 +28,14 @@ void main() {
   // Calculate world position (instance offset + vertex position)
   vec3 worldPos = vec3(aOffset + position.xy, 0.0);
 
+  // Convert world position to screen-space pixels (0 to resolution)
+  // Camera is centered: world coords go from -halfSize to +halfSize
+  // Screen coords go from 0 to resolution
+  vec2 screenPos = aOffset + uResolution * 0.5;
+
   // Pass data to fragment shader
   vUv = uv;
-  vPosition = aOffset;
+  vPosition = screenPos;
   vIndex = aIndex;
   vSeeds = aSeeds;
   vGridPos = aGridPos;

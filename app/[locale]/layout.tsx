@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LocaleScript from "@/components/ui/LocaleScript";
-import { EffectProvider } from "@/components/providers";
+import { EffectProvider, ScrollHijackProvider } from "@/components/providers";
 import { WebGLBackground } from "@/components/webgl/WebGLBackground";
 import { getTranslation } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
