@@ -1,0 +1,223 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
+import { WebGLCanvas } from "./WebGLCanvas";
+import { useInstancedGrid } from "./hooks/useInstancedGrid";
+import { backgroundVertexShader } from "./shaders/background.vert";
+import { backgroundFragmentShader } from "./shaders/background.frag";
+
+// Animation constants
+const ANIMATION_DURATION = 3.5; // seconds for intro animation
+const CELL_SIZE = 8; // pixels
+
+// Colors (normalized RGB)
+const BASE_COLOR = new THREE.Vector3(0.973, 0.973, 0.973); // #f8f8f8
+const ACCENT_COLOR = new THREE.Vector3(0.227, 0.482, 0.835); // #3a7bd5
+
+type AnimationMode = "none" | "intro" | "idle";
+
+interface BackgroundMeshProps {
+  cols: number;
+  rows: number;
+  animationMode: AnimationMode;
+}
+
+/**
+ * BackgroundMesh - The instanced mesh for the background grid
+ */
+function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const [introComplete, setIntroComplete] = useState(false);
+
+  const { size } = useThree();
+
+  // Generate grid attributes
+  const { count, attributes } = useInstancedGrid({
+    cols,
+    rows,
+    cellSize: CELL_SIZE,
+    centered: true,
+  });
+
+  // Create geometry with instanced attributes (memoized)
+  const geometry = useMemo(() => {
+    const geo = new THREE.PlaneGeometry(CELL_SIZE - 0.5, CELL_SIZE - 0.5);
+
+    // Attach instanced attributes
+    geo.setAttribute("aOffset", attributes.aOffset);
+    geo.setAttribute("aIndex", attributes.aIndex);
+    geo.setAttribute("aSeeds", attributes.aSeeds);
+    geo.setAttribute("aGridPos", attributes.aGridPos);
+
+    return geo;
+  }, [attributes]);
+
+  // Convert animation mode to numeric value for shader
+  const getAnimationModeValue = useCallback(
+    (mode: AnimationMode, isIntroComplete: boolean): number => {
+      if (mode === "none") return 0;
+      if (mode === "intro" && !isIntroComplete) return 1;
+      if (mode === "idle" || isIntroComplete) return 2;
+      return 0;
+    },
+    []
+  );
+
+  // Create shader material (memoized)
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: backgroundVertexShader,
+        fragmentShader: backgroundFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: { value: new THREE.Vector2(size.width, size.height) },
+          uAnimationMode: {
+            value: getAnimationModeValue(animationMode, false),
+          },
+          uProgress: { value: 0 },
+          uBaseColor: { value: BASE_COLOR },
+          uAccentColor: { value: ACCENT_COLOR },
+        },
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+        blending: THREE.NormalBlending,
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [] // Created once, uniforms updated via ref
+  );
+
+  // Update material ref
+  useEffect(() => {
+    materialRef.current = material;
+  }, [material]);
+
+  // Update resolution when size changes
+  useEffect(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uResolution.value.set(
+        size.width,
+        size.height
+      );
+    }
+  }, [size]);
+
+  // Animation loop
+  useFrame(({ clock }) => {
+    if (!materialRef.current) return;
+
+    const elapsed = clock.getElapsedTime();
+
+    // Initialize start time on first frame
+    if (startTimeRef.current === null) {
+      startTimeRef.current = elapsed;
+    }
+
+    // Calculate animation progress
+    const animationElapsed = elapsed - startTimeRef.current;
+    const progress = Math.min(animationElapsed / ANIMATION_DURATION, 1);
+
+    // Update uniforms
+    materialRef.current.uniforms.uTime.value = elapsed;
+    materialRef.current.uniforms.uProgress.value = progress;
+
+    // Update animation mode
+    materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(
+      animationMode,
+      introComplete
+    );
+
+    // Mark intro complete and transition to idle
+    if (progress >= 1 && !introComplete && animationMode === "intro") {
+      setIntroComplete(true);
+    }
+  });
+
+  return (
+    <instancedMesh
+      ref={meshRef}
+      args={[geometry, material, count]}
+      frustumCulled={false}
+    />
+  );
+}
+
+interface WebGLBackgroundProps {
+  /** Animation mode: 'none' (static), 'intro' (arc animation), 'idle' (breathing) */
+  animationMode?: AnimationMode;
+}
+
+/**
+ * WebGLBackground - Full-viewport WebGL background with unified grid and animations
+ *
+ * Features:
+ * - Single draw call for entire background
+ * - Intro animation (arc) that transitions to idle (breathing)
+ * - Responsive to viewport size
+ *
+ * @example
+ * ```tsx
+ * <WebGLBackground animationMode="intro" />
+ * ```
+ */
+export function WebGLBackground({
+  animationMode = "intro",
+}: WebGLBackgroundProps) {
+  const [dimensions, setDimensions] = useState({ cols: 0, rows: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Calculate grid dimensions based on viewport size
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      // Add extra cells for margin (ensures coverage during animations)
+      const cols = Math.ceil(width / CELL_SIZE) + 4;
+      const rows = Math.ceil(height / CELL_SIZE) + 4;
+
+      setDimensions({ cols, rows });
+    };
+
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  // Don't render until we have dimensions
+  if (dimensions.cols === 0 || dimensions.rows === 0) {
+    return (
+      <div
+        ref={containerRef}
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{ backgroundColor: "#f8f8f8" }}
+        aria-hidden="true"
+      />
+    );
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="pointer-events-none fixed inset-0 z-0"
+      aria-hidden="true"
+    >
+      <WebGLCanvas
+        className="h-full w-full"
+        pauseWhenHidden={false} // Background should always render
+      >
+        <BackgroundMesh
+          cols={dimensions.cols}
+          rows={dimensions.rows}
+          animationMode={animationMode}
+        />
+      </WebGLCanvas>
+    </div>
+  );
+}

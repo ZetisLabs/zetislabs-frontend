@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import LocaleScript from "@/components/ui/LocaleScript";
 import { EffectProvider } from "@/components/providers";
+import { WebGLBackground } from "@/components/webgl/WebGLBackground";
 import { getTranslation } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 
@@ -34,7 +35,8 @@ export default async function LocaleLayout({ children, params }: Props) {
     <EffectProvider>
       {/* Set html lang attribute based on locale */}
       <LocaleScript />
-      <div className="bg-grid flex min-h-screen flex-col">
+      <WebGLBackground animationMode="intro" />
+      <div className="flex min-h-screen flex-col">
         <Header locale={locale} />
         <main className="relative z-10 flex-1">{children}</main>
         <Footer locale={locale} />

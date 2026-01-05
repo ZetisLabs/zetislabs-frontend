@@ -22,7 +22,7 @@ export default function Header({ locale }: Props) {
   // Effets de glow pour les liens de navigation
   // Note: UNDER_GRID (z-3) est masqué par la grille (z-5)
   // Utiliser ABOVE_GRID (z-6) pour un effet visible
-  const homeEffect = useElementEffect<HTMLAnchorElement>({
+  const homeEffect = useElementEffect<HTMLDivElement>({
     layer: EFFECT_LAYERS.UNDER_GRID, // z-6 - visible au-dessus de la grille
     trigger: "hover",
     color: "accent",
@@ -30,7 +30,7 @@ export default function Header({ locale }: Props) {
     trackOnScroll: false,
   });
 
-  const blogEffect = useElementEffect<HTMLAnchorElement>({
+  const blogEffect = useElementEffect<HTMLDivElement>({
     layer: EFFECT_LAYERS.UNDER_GRID, // z-6 - visible au-dessus de la grille
     trigger: "hover",
     color: "accent",

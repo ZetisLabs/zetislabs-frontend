@@ -193,80 +193,67 @@ export function useElementEffect<T extends HTMLElement = HTMLDivElement>({
     [handleActiveChange]
   );
 
-  // Observer les changements de position
+  // Observer les changements de position - OPTIMIZED
   useEffect(() => {
     if (!isActive) return;
 
-    let rafId: number;
+    let rafId: number | null = null;
     let timeoutId: ReturnType<typeof setTimeout>;
-    let animationHandler: (() => void) | null = null;
+    let scrollRafPending = false;
 
     const captureRect = () => {
-      // Double RAF pour s'assurer que le layout est stable
+      // Single RAF is sufficient
       rafId = requestAnimationFrame(() => {
-        rafId = requestAnimationFrame(() => {
-          updateRect();
-        });
+        updateRect();
+        rafId = null;
       });
     };
 
-    // Vérifier si l'élément ou ses ancêtres ont des animations en cours
+    // Simple delay for animation settling (avoid expensive getComputedStyle walk)
+    // Most CSS animations are < 500ms
     const element = ref.current;
     if (element) {
-      // Chercher l'animation sur l'élément ou ses ancêtres
-      let animatedElement: HTMLElement | null = element;
-      let maxAnimationDuration = 0;
+      // Check only direct element for animation (simplified)
+      const computedStyle = getComputedStyle(element);
+      const animationDuration =
+        parseFloat(computedStyle.animationDuration) * 1000;
 
-      while (animatedElement && animatedElement !== document.body) {
-        const computedStyle = getComputedStyle(animatedElement);
-        const animationName = computedStyle.animationName;
-        const animationDuration =
-          parseFloat(computedStyle.animationDuration) * 1000;
-
-        if (
-          animationName &&
-          animationName !== "none" &&
-          animationDuration > 0
-        ) {
-          maxAnimationDuration = Math.max(
-            maxAnimationDuration,
-            animationDuration
-          );
-        }
-        animatedElement = animatedElement.parentElement;
-      }
-
-      if (maxAnimationDuration > 0) {
-        // Attendre la fin de toutes les animations avant de capturer
-        timeoutId = setTimeout(captureRect, maxAnimationDuration + 100);
+      if (animationDuration > 0) {
+        timeoutId = setTimeout(captureRect, animationDuration + 50);
       } else {
-        // Pas d'animation, capturer immédiatement (avec RAF)
         captureRect();
       }
     }
 
     if (trackOnScroll) {
-      const handleUpdate = () => updateRect();
-      window.addEventListener("scroll", handleUpdate, { passive: true });
-      window.addEventListener("resize", handleUpdate, { passive: true });
+      // RAF-throttled scroll handler - only one update per frame
+      const handleScrollThrottled = () => {
+        if (scrollRafPending) return;
+        scrollRafPending = true;
+        requestAnimationFrame(() => {
+          updateRect();
+          scrollRafPending = false;
+        });
+      };
+
+      window.addEventListener("scroll", handleScrollThrottled, {
+        passive: true,
+      });
+      window.addEventListener("resize", handleScrollThrottled, {
+        passive: true,
+      });
 
       return () => {
-        cancelAnimationFrame(rafId);
+        if (rafId) cancelAnimationFrame(rafId);
         clearTimeout(timeoutId);
-        if (animationHandler && element) {
-          element.removeEventListener("animationend", animationHandler);
-        }
-        window.removeEventListener("scroll", handleUpdate);
-        window.removeEventListener("resize", handleUpdate);
+        window.removeEventListener("scroll", handleScrollThrottled);
+        window.removeEventListener("resize", handleScrollThrottled);
       };
     }
 
     return () => {
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
       clearTimeout(timeoutId);
-      if (animationHandler && element) {
-        element.removeEventListener("animationend", animationHandler);
-      }
     };
   }, [isActive, updateRect, trackOnScroll]);
 

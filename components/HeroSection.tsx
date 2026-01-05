@@ -1,6 +1,5 @@
 "use client";
 
-import { GridAnimation } from "@/components/ui/GridAnimation";
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge";
 
 type HeroSectionProps = {
@@ -26,7 +25,6 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section className="relative isolate flex min-h-[100dvh] flex-col justify-center">
-      <GridAnimation />
       <div className="relative z-10 mx-auto w-full max-w-screen-xl px-4">
         <div className="mx-auto max-w-3xl pt-16 text-center md:pt-24">
           {/* Eyebrow - l'effet glow est géré automatiquement par le système d'effets */}
