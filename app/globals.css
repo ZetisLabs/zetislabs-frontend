@@ -28,6 +28,12 @@ body {
   height: 100%;
 }
 
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+
 body {
   color: var(--color-foreground);
   font-family: var(--font-general-sans);
@@ -102,8 +108,38 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 0;
 }
 
+/* Scroll-Driven Animations: "Out" effect (inverse of intro) */
+@keyframes fade-out-slide-inverse {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+
+@utility animate-scroll-out {
+  animation: fade-out-slide-inverse linear both;
+  animation-timeline: view();
+  animation-range: exit 0% exit 80%;
+}
+
+/* Scroll Snapping Utilities */
+@utility scroll-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100dvh;
+}
+
+
+
+
 /* Glow/shine pulse animation for dot */
 @keyframes pulse-glow {
+
   0%,
   100% {
     opacity: 1;
@@ -202,11 +238,9 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(
-    circle,
-    rgba(90, 130, 255, 0.12),
-    rgba(90, 130, 255, 0) 70%
-  );
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.12),
+      rgba(90, 130, 255, 0) 70%);
   filter: blur(60px);
 }
 
@@ -239,11 +273,9 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(
-    circle,
-    rgba(90, 130, 255, 0.14),
-    rgba(90, 130, 255, 0) 70%
-  );
+  background: radial-gradient(circle,
+      rgba(90, 130, 255, 0.14),
+      rgba(90, 130, 255, 0) 70%);
   filter: blur(60px);
 }
 

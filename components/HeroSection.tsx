@@ -24,8 +24,8 @@ export function HeroSection({
   ctaSecondaryAriaLabel,
 }: HeroSectionProps) {
   return (
-    <section className="relative isolate flex min-h-[100dvh] flex-col justify-center">
-      <div className="relative z-10 mx-auto w-full max-w-screen-xl px-4">
+    <section className="scroll-section relative isolate flex min-h-[100dvh] flex-col justify-center">
+      <div className="animate-scroll-out relative z-10 mx-auto w-full max-w-screen-xl px-4">
         <div className="mx-auto max-w-3xl pt-16 text-center md:pt-24">
           {/* Eyebrow - l'effet glow est géré automatiquement par le système d'effets */}
           <EyebrowBadge>

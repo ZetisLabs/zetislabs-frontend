@@ -39,7 +39,7 @@ export default async function Home({ params }: Props) {
       />
 
       {/* What We Make Section */}
-      <section className="scroll-snap-section flex min-h-[100dvh] flex-col justify-center py-16 md:py-32">
+      <section className="scroll-section flex min-h-[100dvh] flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -106,7 +106,9 @@ export default async function Home({ params }: Props) {
           </section>
         }
       >
-        <StackSection title={t("home.stack.title")} />
+        <div className="scroll-section">
+          <StackSection title={t("home.stack.title")} />
+        </div>
       </ErrorBoundary>
 
       {/* Use Cases Section - Apple-style sticky scroll */}
@@ -119,45 +121,47 @@ export default async function Home({ params }: Props) {
           </section>
         }
       >
-        <UseCasesSection
-          title={t("home.useCases.title")}
-          description={t("home.useCases.description")}
-          learnMoreLabel={t("home.useCases.learnMore")}
-          useCases={[
-            {
-              id: "mail-writer",
-              title: t("home.useCases.cases.mailWriter.title"),
-              subtitle: t("home.useCases.cases.mailWriter.subtitle"),
-              description: t("home.useCases.cases.mailWriter.description"),
-              features: (
-                dict.home.useCases.cases.mailWriter.features as string[]
-              ).map((f) => f),
-              media: {
-                type: "image" as const,
-                src: "/diagrams/diagram-placeholder.png",
-                alt: "Mail-Writer interface",
+        <div className="scroll-section">
+          <UseCasesSection
+            title={t("home.useCases.title")}
+            description={t("home.useCases.description")}
+            learnMoreLabel={t("home.useCases.learnMore")}
+            useCases={[
+              {
+                id: "mail-writer",
+                title: t("home.useCases.cases.mailWriter.title"),
+                subtitle: t("home.useCases.cases.mailWriter.subtitle"),
+                description: t("home.useCases.cases.mailWriter.description"),
+                features: (
+                  dict.home.useCases.cases.mailWriter.features as string[]
+                ).map((f) => f),
+                media: {
+                  type: "image" as const,
+                  src: "/diagrams/diagram-placeholder.png",
+                  alt: "Mail-Writer interface",
+                },
               },
-            },
-            {
-              id: "docgen",
-              title: t("home.useCases.cases.docGen.title"),
-              subtitle: t("home.useCases.cases.docGen.subtitle"),
-              description: t("home.useCases.cases.docGen.description"),
-              features: (
-                dict.home.useCases.cases.docGen.features as string[]
-              ).map((f) => f),
-              media: {
-                type: "image" as const,
-                src: "/diagrams/diagram-placeholder.png",
-                alt: "DocGen dashboard",
+              {
+                id: "docgen",
+                title: t("home.useCases.cases.docGen.title"),
+                subtitle: t("home.useCases.cases.docGen.subtitle"),
+                description: t("home.useCases.cases.docGen.description"),
+                features: (
+                  dict.home.useCases.cases.docGen.features as string[]
+                ).map((f) => f),
+                media: {
+                  type: "image" as const,
+                  src: "/diagrams/diagram-placeholder.png",
+                  alt: "DocGen dashboard",
+                },
               },
-            },
-          ]}
-        />
+            ]}
+          />
+        </div>
       </ErrorBoundary>
 
       {/* Why ZetisLabs Section */}
-      <section className="flex flex-col justify-center py-16 md:py-32">
+      <section className="scroll-section flex flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -208,7 +212,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="flex flex-col justify-center py-16 md:py-32">
+      <section className="scroll-section flex flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto mb-24 max-w-3xl text-center md:mb-48">
             <Reveal>

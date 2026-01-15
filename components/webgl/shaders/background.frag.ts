@@ -57,9 +57,10 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   heroPos.x = (pos.x / uResolution.x) - 0.5; // -0.5 to 0.5 horizontally
   heroPos.y = ((pos.y - heroBottom) / uViewportHeight) - 0.5; // -0.5 to 0.5 within hero
 
-  // Fade out as user scrolls past hero
-  float scrollFade = 1.0 - smoothstep(0.3, 0.7, uScrollProgress);
+  // Fade out as user scrolls past hero - fast exit
+  float scrollFade = 1.0 - smoothstep(0.05, 0.4, uScrollProgress);
   if (scrollFade < 0.01) return 0.0;
+
 
   // === CONSTRAIN TO LOWER PORTION OF HERO ===
   // Fade out just above the eyebrow badge
