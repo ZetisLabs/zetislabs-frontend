@@ -24,7 +24,7 @@ export function HeroSection({
   ctaSecondaryAriaLabel,
 }: HeroSectionProps) {
   return (
-    <section className="hero-runway relative isolate h-[102vh] w-full">
+    <section className="hero-runway relative isolate h-[120vh] w-full">
       <div className="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden">
         <div className="animate-scroll-out relative z-10 mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl pt-16 text-center md:pt-24">

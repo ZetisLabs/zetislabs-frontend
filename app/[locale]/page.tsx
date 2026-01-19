@@ -39,7 +39,7 @@ export default async function Home({ params }: Props) {
       />
 
       {/* What We Make Section */}
-      <section className="flex min-h-[100dvh] flex-col justify-center py-16 md:py-32">
+      <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
         <div className="animate-scroll-in mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>

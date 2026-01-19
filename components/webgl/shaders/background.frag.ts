@@ -58,9 +58,7 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   heroPos.x = (pos.x / uResolution.x) - 0.5;
   heroPos.y = (pos.y / uResolution.y) - 0.5;
 
-  // Fade out as user scrolls past hero - fast exit
-  float scrollFade = 1.0 - smoothstep(0.0, 0.02, uScrollProgress);
-  if (scrollFade < 0.01) return 0.0;
+  // Scroll fade will be calculated later to synchronize with text
 
 
   // === CONSTRAIN TO LOWER PORTION OF HERO ===
@@ -69,8 +67,8 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   if (heroFade < 0.01) return 0.0;
 
   // === HORIZON ARC (semi-circle from left-middle to right-middle, curving UP) ===
-  // Arc center is BELOW the hero section, arc curves upward
-  float arcCenterY = -0.52;
+  // Arc center reflects a 'sunset' by sinking slightly as user scrolls
+  float arcCenterY = -0.52 - (uScrollProgress * 0.15);
   float arcRadius = 0.75;
 
   // Calculate Y position of the arc at current X (upper part of circle)
@@ -115,6 +113,10 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
 
   // Add subtle shimmer
   float shimmer = sin(time * 1.2 + vSeeds.x * TWO_PI + heroPos.x * 15.0) * 0.08 + 0.92;
+
+  // Fade out as user scrolls past hero - synchronized with text (ends at approx 30% scroll)
+  float scrollFade = 1.0 - smoothstep(0.0, 0.30, uScrollProgress);
+  if (scrollFade < 0.01) return 0.0;
 
   // Combine effects: horizon glow + above glow, with hero section fade and scroll fade
   float intensity = (horizonGlow * 1.2 + aboveGlow) * pixelAppear * noise * shimmer * heroFade * scrollFade;

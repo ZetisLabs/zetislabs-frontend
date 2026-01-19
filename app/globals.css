@@ -136,13 +136,13 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 @utility animate-scroll-out {
   animation: fade-out-slide linear both;
   animation-timeline: --hero-runway;
-  animation-range: contain 0% contain 40%;
+  animation-range: contain 0% contain 80%;
 }
 
 @utility animate-scroll-in {
   animation: fade-in-scroll linear both;
   animation-timeline: view();
-  animation-range: entry 0% entry 30%;
+  animation-range: entry 0% entry 20%;
 }
 
 .hero-runway {
