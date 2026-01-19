@@ -53,12 +53,13 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   if (pos.y < heroBottom || pos.y > heroTop) return 0.0;
 
   // Normalize position within hero section (-0.5 to 0.5 range, centered)
+  // Since the background is now FIXED, pos.y is already screen-space and stationary.
   vec2 heroPos;
-  heroPos.x = (pos.x / uResolution.x) - 0.5; // -0.5 to 0.5 horizontally
-  heroPos.y = ((pos.y - heroBottom) / uViewportHeight) - 0.5; // -0.5 to 0.5 within hero
+  heroPos.x = (pos.x / uResolution.x) - 0.5;
+  heroPos.y = (pos.y / uResolution.y) - 0.5;
 
   // Fade out as user scrolls past hero - fast exit
-  float scrollFade = 1.0 - smoothstep(0.05, 0.4, uScrollProgress);
+  float scrollFade = 1.0 - smoothstep(0.0, 0.02, uScrollProgress);
   if (scrollFade < 0.01) return 0.0;
 
 

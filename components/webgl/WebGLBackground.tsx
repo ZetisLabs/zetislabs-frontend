@@ -207,12 +207,8 @@ export function WebGLBackground({
   useEffect(() => {
     const updateDimensions = () => {
       const width = window.innerWidth;
-      // Use full document height instead of viewport height
-      const height = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight,
-        window.innerHeight
-      );
+      // Use viewport height since it's now a fixed background
+      const height = window.innerHeight;
 
       // Add extra cells for margin (ensures coverage during animations)
       const cols = Math.ceil(width / CELL_SIZE) + 4;
@@ -251,8 +247,8 @@ export function WebGLBackground({
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-x-0 top-0 z-0"
-      style={{ height: dimensions.height }}
+      className="pointer-events-none fixed inset-0 z-0"
+      style={{ height: "100vh" }}
       aria-hidden="true"
     >
       <WebGLCanvas

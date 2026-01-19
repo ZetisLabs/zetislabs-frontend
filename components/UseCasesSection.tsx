@@ -219,27 +219,31 @@ const UseCaseSlide = ({
   const getTransform = () => {
     switch (direction) {
       case "entering":
-        // Coming from bottom
+        // Coming from bottom with scale up and blur out
         return {
           opacity: slideProgress,
-          transform: `translateY(${(1 - slideProgress) * 30}px)`,
+          transform: `translateY(${(1 - slideProgress) * 50}px) scale(${0.95 + slideProgress * 0.05})`,
+          filter: `blur(${(1 - slideProgress) * 10}px)`,
         };
       case "active":
         return {
           opacity: 1,
-          transform: "translateY(0)",
+          transform: "translateY(0) scale(1)",
+          filter: "blur(0px)",
         };
       case "exiting":
-        // Going to top
+        // Going to top with scale down and blur in
         return {
           opacity: 1 - slideProgress,
-          transform: `translateY(${-slideProgress * 30}px)`,
+          transform: `translateY(${-slideProgress * 50}px) scale(${1 - slideProgress * 0.05})`,
+          filter: `blur(${slideProgress * 10}px)`,
         };
       case "hidden":
       default:
         return {
           opacity: 0,
-          transform: "translateY(30px)",
+          transform: "translateY(50px) scale(0.95)",
+          filter: "blur(10px)",
         };
     }
   };
@@ -254,6 +258,7 @@ const UseCaseSlide = ({
       style={{
         opacity: style.opacity,
         transform: style.transform,
+        filter: style.filter,
         transition: transitionStyle,
       }}
       aria-hidden={!isVisible}
@@ -575,14 +580,14 @@ export function UseCasesSection({
     if (index > currentSlide + 1) return "hidden";
 
     if (index === currentSlide) {
-      // Current slide might be exiting if we're past 70% progress
-      if (progressInSlide > 0.7 && index < totalSlides - 1) {
+      // Current slide starts exiting past 50% progress
+      if (progressInSlide > 0.5 && index < totalSlides - 1) {
         return "exiting";
       }
       return "active";
     }
 
-    if (index === currentSlide + 1 && progressInSlide > 0.7) {
+    if (index === currentSlide + 1 && progressInSlide > 0.5) {
       return "entering";
     }
 
@@ -623,7 +628,7 @@ export function UseCasesSection({
   // For reduced motion: instant transitions instead of animated
   const transitionStyle = prefersReducedMotion
     ? "opacity 0s, transform 0s"
-    : "opacity 0.4s ease-out, transform 0.4s ease-out";
+    : "opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.4s ease-out";
 
   // Desktop: Sticky scroll experience
   // Height = viewport height + scroll runway (one viewport per slide transition)
@@ -677,11 +682,12 @@ export function UseCasesSection({
           const isVisible = direction !== "hidden";
 
           // Calculate individual slide progress for entering/exiting animations
+          // Transition starts at 50% of slide duration for a smoother, longer crossfade
           let individualProgress = 0;
           if (direction === "entering") {
-            individualProgress = (progressInSlide - 0.7) / 0.3;
+            individualProgress = (progressInSlide - 0.5) / 0.5;
           } else if (direction === "exiting") {
-            individualProgress = (progressInSlide - 0.7) / 0.3;
+            individualProgress = (progressInSlide - 0.5) / 0.5;
           }
 
           return (

@@ -29,7 +29,7 @@ body {
 }
 
 html {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
 }
 
@@ -109,22 +109,44 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 }
 
 /* Scroll-Driven Animations: "Out" effect (inverse of intro) */
-@keyframes fade-out-slide-inverse {
+@keyframes fade-out-slide {
   from {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 
   to {
     opacity: 0;
-    transform: translateY(2px);
+    transform: scale(0.96);
+  }
+}
+
+@keyframes fade-in-scroll {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @utility animate-scroll-out {
-  animation: fade-out-slide-inverse linear both;
+  animation: fade-out-slide linear both;
+  animation-timeline: --hero-runway;
+  animation-range: contain 0% contain 40%;
+}
+
+@utility animate-scroll-in {
+  animation: fade-in-scroll linear both;
   animation-timeline: view();
-  animation-range: exit 0% exit 80%;
+  animation-range: entry 0% entry 30%;
+}
+
+.hero-runway {
+  view-timeline: --hero-runway block;
 }
 
 /* Scroll Snapping Utilities */
