@@ -84,27 +84,27 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
 }
 
 @utility animate-fade-in-slide {
-  animation: fade-in-slide 0.5s ease-out 2s forwards;
+  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-title {
-  animation: fade-in-slide 0.5s ease-out 2.2s forwards;
+  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-subtle {
-  animation: fade-in-slide 0.5s ease-out 2.45s forwards;
+  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-cta {
-  animation: fade-in-slide 0.5s ease-out 2.75s forwards;
+  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards;
   opacity: 0;
 }
 
 @utility animate-fade-in-slide-cta-2 {
-  animation: fade-in-slide 0.5s ease-out 2.9s forwards;
+  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
   opacity: 0;
 }
 

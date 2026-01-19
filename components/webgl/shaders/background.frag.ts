@@ -85,7 +85,7 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   float horizonGlow = exp(-horizonDist * horizonDist * 500.0);
 
   // Progressive horizon reveal (draws from center outward)
-  float horizonReveal = smoothstep(0.0, 0.5, progress);
+  float horizonReveal = smoothstep(0.0, 0.35, progress);
   float xReveal = 1.0 - smoothstep(0.0, progress * 1.5, abs(heroPos.x));
   horizonGlow *= horizonReveal * xReveal;
 

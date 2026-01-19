@@ -11,7 +11,7 @@ import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
 // Animation constants
-const ANIMATION_DURATION = 3.5; // seconds for intro animation
+const ANIMATION_DURATION = 2.8; // seconds for intro animation
 const CELL_SIZE = 5; // pixels
 
 // Colors (normalized RGB)
