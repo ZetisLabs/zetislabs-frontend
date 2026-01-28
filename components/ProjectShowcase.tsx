@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { type Translations } from "@/lib/i18n";
-import { Reveal } from "./ui/Reveal";
+import { Reveal } from "@/lib/motion";
 
 type ProjectShowcaseProps = {
   dict: Translations;

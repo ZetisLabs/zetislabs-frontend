@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { useReducedMotion } from "@/hooks";
+import { useReducedMotion } from "@/lib/motion";
 
 // ============================================================================
 // TYPES

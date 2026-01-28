@@ -3,6 +3,7 @@
 /* Content scanning directives for optimal performance */
 @source "../app/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
+@source "../lib/**/*.{ts,tsx}";
 
 /* Theme configuration - colors and fonts */
 @theme {
@@ -32,7 +33,6 @@ html {
   scroll-snap-type: y proximity;
   scroll-behavior: smooth;
 }
-
 
 body {
   color: var(--color-foreground);
@@ -70,85 +70,6 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 1;
 }
 
-/* Fade-in slide animation */
-@keyframes fade-in-slide {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@utility animate-fade-in-slide {
-  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
-  opacity: 0;
-}
-
-@utility animate-fade-in-slide-title {
-  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
-  opacity: 0;
-}
-
-@utility animate-fade-in-slide-subtle {
-  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
-  opacity: 0;
-}
-
-@utility animate-fade-in-slide-cta {
-  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards;
-  opacity: 0;
-}
-
-@utility animate-fade-in-slide-cta-2 {
-  animation: fade-in-slide 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
-  opacity: 0;
-}
-
-/* Scroll-Driven Animations: "Out" effect (inverse of intro) */
-@keyframes fade-out-slide {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-}
-
-@keyframes fade-in-scroll {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@utility animate-scroll-out {
-  animation: fade-out-slide linear both;
-  animation-timeline: --hero-runway;
-  animation-range: contain 0% contain 80%;
-}
-
-@utility animate-scroll-in {
-  animation: fade-in-scroll linear both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 20%;
-}
-
-.hero-runway {
-  view-timeline: --hero-runway block;
-}
-
 /* Scroll Snapping Utilities */
 @utility scroll-section {
   scroll-snap-align: start;
@@ -156,156 +77,43 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   min-height: 100dvh;
 }
 
-
-
-
-/* Glow/shine pulse animation for dot */
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow:
-      0 0 3px rgba(58, 123, 213, 0.4),
-      0 0 6px rgba(58, 123, 213, 0.2);
-    filter: brightness(1);
-  }
-
-  50% {
-    opacity: 0.9;
-    transform: scale(1.08);
-    box-shadow:
-      0 0 6px rgba(58, 123, 213, 0.7),
-      0 0 12px rgba(58, 123, 213, 0.5),
-      0 0 18px rgba(58, 123, 213, 0.3);
-    filter: brightness(1.2);
-  }
-}
-
-@utility animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Header slide-down animation from top */
-@keyframes slide-down-from-top {
+/* Hero Section Entrance Animations */
+@keyframes hero-fade-in {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(8px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@utility animate-slide-down {
-  animation: slide-down-from-top 0.6s ease-out forwards;
+.hero-entrance {
+  animation: hero-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
 
-/* Biological breathing curve */
-@keyframes appleBreathA {
-  0% {
-    /* opacity: 0.018; */
-    opacity: 0.2;
-    transform: translate(-50%, -50%) scale(0.96);
+.hero-entrance-1 {
+  animation-delay: 1.2s;
+}
+
+.hero-entrance-2 {
+  animation-delay: 1.3s;
+}
+
+.hero-entrance-3 {
+  animation-delay: 1.4s;
+}
+
+.hero-entrance-4 {
+  animation-delay: 1.5s;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-entrance {
+    animation: none;
+    opacity: 1;
   }
-
-  40% {
-    /* opacity: 0.055; */
-    opacity: 0.55;
-    /* slow inhale */
-    transform: translate(-50%, -50%) scale(1.03);
-  }
-
-  100% {
-    /* opacity: 0.02; */
-    opacity: 0.2;
-    /* fast exhale */
-    transform: translate(-50%, -50%) scale(0.97);
-  }
-}
-
-@keyframes appleBreathB {
-  0% {
-    opacity: 0.01;
-    transform: translate(-50%, -50%) scale(0.94);
-  }
-
-  60% {
-    opacity: 0.04;
-    /* delayed inhale */
-    transform: translate(-50%, -50%) scale(1.02);
-  }
-
-  100% {
-    opacity: 0.012;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-}
-
-.apple-breathing-wrapper {
-  position: relative;
-  z-index: 6;
-}
-
-.apple-breathing-wrapper::before,
-.apple-breathing-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.12),
-      rgba(90, 130, 255, 0) 70%);
-  filter: blur(60px);
-}
-
-/* Halo A – large and slow */
-.apple-breathing-wrapper::before {
-  width: 420px;
-  height: 420px;
-  animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
-}
-
-/* Halo B – smaller, delayed, adds organic realism */
-.apple-breathing-wrapper::after {
-  width: 320px;
-  height: 320px;
-  animation: appleBreathB 11s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
-}
-
-.apple-breathing-title-wrapper {
-  position: relative;
-  z-index: 6;
-}
-
-.apple-breathing-title-wrapper::before,
-.apple-breathing-title-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.14),
-      rgba(90, 130, 255, 0) 70%);
-  filter: blur(60px);
-}
-
-/* Halo A – large and slow */
-.apple-breathing-title-wrapper::before {
-  width: 90vw;
-  max-width: 950px;
-  height: 50vw;
-  max-height: 350px;
-  animation: appleBreathA 9s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
