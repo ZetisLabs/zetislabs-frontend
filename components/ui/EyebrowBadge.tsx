@@ -53,7 +53,7 @@ export function EyebrowBadge({ children, className = "" }: EyebrowBadgeProps) {
       {...triggerProps}
       className={`group relative mb-6 inline-flex items-center justify-center ${className}`}
     >
-      <div className="relative z-10 inline-flex animate-fade-in-slide items-center gap-2 rounded-full border border-border/40 bg-background px-3 py-1 text-xs tracking-wider text-foreground/60 uppercase transition-all duration-300 group-hover:border-accent/60 group-hover:text-foreground/80">
+      <div className="animate-fade-in-slide relative z-10 inline-flex items-center gap-2 rounded-full border border-border/40 bg-background px-3 py-1 text-xs tracking-wider text-foreground/60 uppercase transition-all duration-300 group-hover:border-accent/60 group-hover:text-foreground/80">
         {children}
       </div>
     </div>

@@ -10,7 +10,7 @@ ZetisLabs is a marketing website showcasing AI-powered automation solutions for 
 - React 19.2.0
 - TypeScript 5
 - Tailwind CSS v4 with `@tailwindcss/postcss`
-- react-intersection-observer for scroll-based animations
+- **Framer Motion** for scroll-based and entrance animations
 
 ## Architecture
 
@@ -34,14 +34,46 @@ app/
 - `ReasonCard.tsx` - Numbered reason cards with gradient overlays
 - `StackSection.tsx` - Animated logo constellation with parallax depth effect
 - `ProjectShowcase.tsx` - Project examples with tabbed navigation
-- `ui/Reveal.tsx` - Scroll-based reveal animation wrapper using Intersection Observer
+- `HeroSection.tsx` - Hero with scroll-driven "sunset" fade effect
 
 **Design Patterns:**
 
 - Client components (`"use client"`) for interactive features
 - Server components for static content and data fetching
 - Composition pattern for reusable UI elements
-- Custom hooks for animation state management (`useLogoRevealState`, `useRevealState`)
+- `hasMounted` pattern to prevent hydration mismatches with Framer Motion
+
+### Motion Library (`lib/motion/`)
+
+A reusable, extractable Framer Motion animation library:
+
+```
+lib/motion/
+├── index.ts              # Main exports
+├── config.ts             # Easings, durations, transitions
+├── variants.ts           # Reusable animation variants
+└── components/
+    ├── Reveal.tsx        # Scroll-based reveal (bi-directional)
+    ├── FadeIn.tsx        # Simple fade-in on mount
+    ├── StaggerContainer.tsx  # Staggered children animations
+    ├── ScrollFade.tsx    # Scroll-progress-based fade
+    ├── HoverScale.tsx    # Hover interaction wrapper
+    ├── PulseGlow.tsx     # Infinite pulse animation
+    └── BreathingHalo.tsx # Apple-style breathing glow
+```
+
+**Usage:**
+
+```tsx
+import { Reveal, FadeIn, motion, useScroll, useTransform } from "@/lib/motion";
+```
+
+**Extracting for other projects:**
+
+```bash
+cp -r lib/motion/ ../new-project/lib/motion/
+npm install framer-motion  # in new project
+```
 
 ### Internationalization (i18n)
 
@@ -68,13 +100,21 @@ t("home.whatWeMake.features.aiAgents.title");
 
 ### 1. Hero Section
 
-- Minimalist design with glassmorphism effects
-- Animated eyebrow badge with pulse effect
-- Multi-weight typography for emphasis
-- Dual CTA buttons with custom icons
-- Responsive typography scaling
+Component: `HeroSection.tsx`
 
-### 2. Stack Integration Section (New)
+- **Fixed positioning** - Content stays centered while scrolling
+- **Scroll-driven "sunset" fade** - All elements fade and shrink together
+- **Breathing halo effect** - Apple-style pulsing blue glow behind title
+- **Staggered entrance animations** - CSS keyframes with delays
+- **Accessibility** - Respects `prefers-reduced-motion`
+
+Animation timing:
+
+- Halo: scale 1→0.85, opacity 1→0
+- Title: scale 1→0.88, opacity 1→0
+- All elements complete fade by ~35% scroll progress
+
+### 2. Stack Integration Section
 
 Component: `StackSection.tsx`
 
@@ -82,7 +122,7 @@ Features:
 
 - 11 technology logos positioned in 3D space with depth
 - Black hole animation effect (logos emerge from/retract to center)
-- Synchronized with scroll position using custom `useLogoRevealState` hook
+- Synchronized with scroll position using `useInView`
 - Parallax depth simulation (size, blur, opacity based on z-depth)
 - Staggered entrance animations
 - Hover effects with glassmorphism
@@ -127,22 +167,31 @@ Uses `ReasonCard` component featuring:
 
 ### Animation System
 
-**Custom Animations** (defined in `globals.css`):
+**Framer Motion Components** (in `lib/motion/`):
 
-- `fade-in-slide` - Opacity + translateY
-- `fade-in-slide-title` - Title-specific timing
-- `fade-in-slide-cta` - CTA-specific timing
-- `pulse-glow` - Accent color pulse for badges
-- `apple-breathing` - Subtle scaling effect
-- `reveal-*` - Directional reveal animations
+| Component          | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| `Reveal`           | Scroll-triggered reveal with bi-directional support |
+| `FadeIn`           | Mount-triggered fade with slide                     |
+| `StaggerContainer` | Parent for cascading child animations               |
+| `ScrollFade`       | Scroll-progress linked opacity/scale                |
+| `HoverScale`       | Simple hover scale wrapper                          |
+| `PulseGlow`        | Infinite pulsing dot with glow                      |
+| `BreathingHalo`    | Organic pulsing background halo                     |
 
-**Scroll-Based Reveals:**
-Uses `Reveal` component with Intersection Observer API:
+**Configuration** (`lib/motion/config.ts`):
 
-- Tracks element position continuously using `requestAnimationFrame`
-- Three states: `visible`, `hidden-top`, `hidden-bottom`
-- Hysteresis delay (120ms) to prevent flickering
-- Safe zones for viewport triggering (16% top, 85% bottom)
+```typescript
+easings.smooth; // [0.16, 1, 0.3, 1] - Apple-style
+easings.breathing; // [0.25, 0.1, 0.25, 1]
+durations.breathing; // { a: 9, b: 11 } seconds
+transitions.reveal; // { duration: 0.7, ease: easeOut }
+```
+
+**CSS Entrance Animations** (in `globals.css`):
+
+- `hero-entrance` - Staggered fade-in for hero elements
+- `hero-entrance-1` through `hero-entrance-4` - Delay variants
 
 ## Development Workflow
 
@@ -193,72 +242,105 @@ npm run lint:fix
 ├── .claude/                    # Claude Code configuration
 │   ├── agents/                 # Specialized agent definitions
 │   └── commands/               # Custom slash commands
-├── .cursor/                    # Cursor IDE plans
 ├── app/                        # Next.js App Router
 │   ├── [locale]/              # Locale-based routing
 │   └── globals.css            # Global styles & animations
 ├── components/                 # React components
 │   ├── ui/                    # Base UI components
-│   │   └── Reveal.tsx         # Scroll reveal wrapper
+│   │   └── EyebrowBadge.tsx   # Badge component
 │   ├── FeatureCard.tsx        # Feature display card
 │   ├── ReasonCard.tsx         # Numbered reason card
+│   ├── HeroSection.tsx        # Hero with scroll fade
 │   ├── StackSection.tsx       # Logo constellation
 │   └── ProjectShowcase.tsx    # Project examples
+├── lib/
+│   └── motion/                # Framer Motion library
+│       ├── index.ts           # Main exports
+│       ├── config.ts          # Animation config
+│       ├── variants.ts        # Reusable variants
+│       └── components/        # Motion components
 ├── i18n/                       # Internationalization
 │   ├── config.ts              # i18n configuration
 │   ├── translations/          # Translation files
 │   │   ├── en.json
 │   │   └── fr.json
 │   └── lib/                   # i18n utilities
-├── lib/                        # Utility functions
 ├── public/                     # Static assets
+│   ├── fonts/                 # Custom fonts
+│   │   ├── GeneralSans/       # Primary font
+│   │   └── IBMPlexSans/       # Secondary font
 │   ├── diagrams/              # Project diagrams/images
 │   └── stack-logo/            # Technology logos (SVG)
 └── package.json               # Dependencies & scripts
 ```
 
-## Recent Updates (Updated: 2025-12-05)
+## Recent Updates (Updated: 2026-01-28)
 
 ### Major Changes
 
-**New Components:**
+**Framer Motion Migration:**
 
-1. **StackSection** - Interactive logo constellation with 3D depth and scroll animations
-2. **FeatureCard** - Reusable feature card with enhanced hover states and expandable CTAs
-3. **ReasonCard** - Numbered card component for "Why Us" section
+- Migrated all animations from CSS/Intersection Observer to Framer Motion
+- Created reusable `lib/motion/` library for easy extraction to other projects
+- Deleted old `components/ui/Reveal.tsx` (replaced by `lib/motion/components/Reveal.tsx`)
 
-**Design Improvements:**
+**HeroSection Redesign:**
 
-- Refactored What We Make section to use `FeatureCard` component
-- Improved responsive spacing (`min-h-screen` → `min-h-[100dvh]`, `py-32` → `py-16 md:py-32`)
-- Added glassmorphism effects and gradient overlays
-- Enhanced CTA button with new arrow icon implementation
-- Improved mobile responsiveness across all sections
+- Changed from `sticky` to `fixed` positioning for true scroll-independent fade
+- Implemented "sunset" effect - content fades and shrinks in place
+- Added breathing halo effect behind title and CTA
+- Fixed hydration errors with `hasMounted` pattern
 
-**Translation Updates:**
+**Hydration Fix Pattern:**
 
-- Updated feature card content structure (added `subtitle` and `cta` fields)
-- More generic object naming in translation files
-- Added Stack section translation key
+All motion components now use this pattern to prevent SSR mismatches:
 
-**Animation Enhancements:**
+```tsx
+const [hasMounted, setHasMounted] = useState(false);
+useEffect(() => setHasMounted(true), []);
+const shouldAnimate = hasMounted && !prefersReducedMotion;
+```
 
-- Synchronized StackSection animations with Reveal component logic
-- Implemented custom `useLogoRevealState` hook for logo animations
-- Black hole effect for logo entrance/exit animations
-- Parallax depth simulation with size, blur, and opacity variations
+**Font Structure Update:**
 
-**Bug Fixes:**
+- Fonts moved to subdirectories: `fonts/GeneralSans/`, `fonts/IBMPlexSans/`
+- Updated font paths in `app/layout.tsx`
 
-- Fixed responsive layout issues
-- Updated reveal effect to match scroll movement more precisely
-- Improved animation timing and hysteresis
+**New Dependencies:**
+
+- Added `framer-motion` package
 
 ### Breaking Changes
 
-None. All changes are backward compatible.
+- `Reveal` component now imported from `@/lib/motion` instead of `@/components/ui/Reveal`
+- Old CSS animation utilities removed from `globals.css`
 
 ## Component Usage Examples
+
+### HeroSection (with scroll fade)
+
+```tsx
+<HeroSection
+  eyebrowText="Your tagline"
+  titleDefault="Main title "
+  titleThin="secondary text "
+  titleAccent="accent"
+  subtitle="Description paragraph"
+  ctaText="Primary CTA"
+  ctaSecondaryText="Secondary CTA"
+  ctaSecondaryAriaLabel="Accessible label"
+/>
+```
+
+### Reveal (from motion library)
+
+```tsx
+import { Reveal } from "@/lib/motion";
+
+<Reveal delay={0.2} direction="up" once>
+  <h2>Revealed content</h2>
+</Reveal>;
+```
 
 ### FeatureCard
 
@@ -277,20 +359,12 @@ None. All changes are backward compatible.
 <StackSection title={t("home.stack.title")} />
 ```
 
-### Reveal
-
-```tsx
-<Reveal>
-  <h2>Your content here</h2>
-</Reveal>
-```
-
 ## Performance Considerations
 
 - Server components for static content to reduce client bundle
-- CSS animations over JavaScript for better performance
-- `requestAnimationFrame` for smooth scroll tracking
-- Intersection Observer for efficient scroll detection
+- Framer Motion for hardware-accelerated animations
+- `useTransform` for scroll-linked animations (no re-renders)
+- `hasMounted` pattern prevents hydration warnings
 - SVG logos for crisp rendering at any size
 - Lazy loading implicit with Next.js App Router
 
@@ -299,8 +373,7 @@ None. All changes are backward compatible.
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - ES2020+ features required
 - CSS Grid and Flexbox
-- Intersection Observer API
-- requestAnimationFrame API
+- Framer Motion (requires JavaScript)
 
 ## Important Notes
 
@@ -308,17 +381,35 @@ None. All changes are backward compatible.
 
 1. Always use the translation helper `t()` for user-facing text
 2. Prefer server components unless interactivity is required
-3. Use the `Reveal` component wrapper for scroll-based animations
-4. Follow the existing pattern for new card components
+3. Use components from `@/lib/motion` for animations
+4. Follow the `hasMounted` pattern for client-side-only features
 5. Test responsive layouts on mobile devices (iOS Safari, Android Chrome)
-6. Maintain consistent animation timing (300-500ms transitions, 1000ms reveals)
+6. Maintain consistent animation timing (see `lib/motion/config.ts`)
 
 **Animation Guidelines:**
 
-- Use `group` and `group-hover` for coordinated animations
-- Apply `transition-all duration-*` for smooth state changes
-- Leverage Tailwind's built-in easing functions
-- Stagger animations using CSS `transition-delay`
+- Use `motion.div` with `style` prop for scroll-driven animations
+- Use `variants` for entrance/exit animations
+- Never conditionally return different JSX based on `useReducedMotion` (causes hydration errors)
+- Use `hasMounted` state to delay client-only rendering
+
+**Hydration Safety:**
+
+```tsx
+// BAD - causes hydration mismatch
+if (prefersReducedMotion) {
+  return <div>{children}</div>;
+}
+return <motion.div>{children}</motion.div>;
+
+// GOOD - same structure, conditional behavior
+const shouldAnimate = hasMounted && !prefersReducedMotion;
+return (
+  <motion.div animate={shouldAnimate ? { opacity: 1 } : undefined}>
+    {children}
+  </motion.div>
+);
+```
 
 **i18n Best Practices:**
 

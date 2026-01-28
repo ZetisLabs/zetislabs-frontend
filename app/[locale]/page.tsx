@@ -1,6 +1,6 @@
 import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal } from "@/lib/motion";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { FeatureCard } from "@/components/FeatureCard";
 import { ReasonCard } from "@/components/ReasonCard";
@@ -40,7 +40,7 @@ export default async function Home({ params }: Props) {
 
       {/* What We Make Section */}
       <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
-        <div className="mx-auto w-full max-w-screen-xl animate-scroll-in px-4">
+        <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">

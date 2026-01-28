@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import Image from "next/image";
-import { Reveal } from "@/components/ui/Reveal";
+import { motion, useInView, useReducedMotion, Reveal } from "@/lib/motion";
 
 interface StackSectionProps {
   title: string;
@@ -38,129 +38,13 @@ const logoPositions = [
   { x: 23, y: 85, depth: 1.0 }, // docs - far, bottom-center
 ];
 
-type RevealState = "visible" | "hidden-top" | "hidden-bottom";
-
-/**
- * Custom hook to track reveal state using scroll-driven RAF
- * Optimized to only run RAF while scrolling, stops after 150ms idle
- */
-const useLogoRevealState = (
-  ref: React.RefObject<HTMLElement | null>
-): RevealState => {
-  const [state, setState] = useState<RevealState>("hidden-bottom");
-  const rafIdRef = useRef<number | null>(null);
-  const stateRef = useRef<RevealState>("hidden-bottom");
-  const lastChangeTimeRef = useRef<number>(0);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isScrollingRef = useRef(false);
-  const prefersReducedMotionRef = useRef(false);
-  const HYSTERESIS_MS = 120;
-  const SCROLL_IDLE_MS = 150;
-
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
-
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    // Check if user prefers reduced motion (only on client after hydration)
-    // This setState is intentional - we must check browser preferences after hydration
-    // to avoid SSR/client mismatch errors
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    prefersReducedMotionRef.current = prefersReducedMotion;
-    if (prefersReducedMotion) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setState("visible");
-      return;
-    }
-
-    const checkPosition = () => {
-      if (!ref.current || !isScrollingRef.current) {
-        rafIdRef.current = null;
-        return;
-      }
-
-      const rect = ref.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const top = rect.top;
-      const bottom = rect.bottom;
-      const currentState = stateRef.current;
-
-      let desiredState: RevealState = currentState;
-      const now = Date.now();
-      const timeSinceLastChange = now - lastChangeTimeRef.current;
-
-      // Safe zone logic: visible when element is within viewport safe zone
-      const safeZoneTop = viewportHeight * 0.16;
-      const safeZoneBottom = viewportHeight * 0.85;
-
-      if (bottom > safeZoneTop && top < safeZoneBottom) {
-        desiredState = "visible";
-      } else if (bottom <= safeZoneTop) {
-        desiredState = "hidden-top";
-      } else {
-        desiredState = "hidden-bottom";
-      }
-
-      // Apply hysteresis
-      if (
-        desiredState !== currentState &&
-        timeSinceLastChange >= HYSTERESIS_MS
-      ) {
-        setState(desiredState);
-        lastChangeTimeRef.current = now;
-      }
-
-      rafIdRef.current = requestAnimationFrame(checkPosition);
-    };
-
-    const startTracking = () => {
-      if (!isScrollingRef.current) {
-        isScrollingRef.current = true;
-        if (rafIdRef.current === null) {
-          rafIdRef.current = requestAnimationFrame(checkPosition);
-        }
-      }
-
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrollingRef.current = false;
-      }, SCROLL_IDLE_MS);
-    };
-
-    // Initial check
-    isScrollingRef.current = true;
-    rafIdRef.current = requestAnimationFrame(checkPosition);
-    scrollTimeoutRef.current = setTimeout(() => {
-      isScrollingRef.current = false;
-    }, SCROLL_IDLE_MS);
-
-    window.addEventListener("scroll", startTracking, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", startTracking);
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [ref]);
-
-  return state;
-};
-
 export function StackSection({ title }: StackSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const revealState = useLogoRevealState(containerRef);
+  const isInView = useInView(containerRef, {
+    margin: "-16% 0px -15% 0px",
+    once: false,
+  });
+  const prefersReducedMotion = useReducedMotion();
 
   // Pre-compute static logo data (size, blur, opacity, angle, etc.)
   const logoAnimationData = useMemo(() => {
@@ -182,6 +66,10 @@ export function StackSection({ title }: StackSectionProps) {
       const imageSize = Math.ceil(size * 0.6);
       const boxShadow = `0 ${4 + shadowIntensity}px ${16 + shadowIntensity}px rgba(0, 0, 0, ${0.1 + position.depth * 0.15})`;
 
+      // Calculate hidden positions for "black hole" effect
+      const hiddenX = position.x + Math.cos(angle) * distance;
+      const hiddenY = position.y + Math.sin(angle) * distance;
+
       return {
         logo,
         position,
@@ -189,11 +77,11 @@ export function StackSection({ title }: StackSectionProps) {
         blur,
         opacity,
         delay,
-        angle,
-        distance,
         zIndex,
         imageSize,
         boxShadow,
+        hiddenX,
+        hiddenY,
       };
     });
   }, []);
@@ -215,58 +103,70 @@ export function StackSection({ title }: StackSectionProps) {
                 blur,
                 opacity,
                 delay,
-                angle,
-                distance,
                 zIndex,
                 imageSize,
                 boxShadow,
+                hiddenX,
+                hiddenY,
               } = data;
 
-              // Determine animation based on reveal state
-              let animatedX = position.x;
-              let animatedY = position.y;
-              let animatedScale = 1;
-              let animatedOpacity = opacity;
-
-              if (revealState === "hidden-bottom") {
-                // Initial state or scrolling out bottom: logos outside viewport (black hole effect)
-                animatedX = position.x + Math.cos(angle) * distance;
-                animatedY = position.y + Math.sin(angle) * distance;
-                animatedScale = 0.3;
-                animatedOpacity = 0;
-              } else if (revealState === "hidden-top") {
-                // Scrolling out top: reverse black hole (logos pulled away from center)
-                animatedX = position.x - Math.cos(angle) * distance;
-                animatedY = position.y - Math.sin(angle) * distance;
-                animatedScale = 0.3;
-                animatedOpacity = 0;
-              }
-
               return (
-                <div
+                <motion.div
                   key={logo.name}
-                  className="absolute transition-all duration-1000 ease-out"
+                  className="absolute"
                   style={{
-                    left: `${animatedX}%`,
-                    top: `${animatedY}%`,
-                    transform: `translate(-50%, -50%) scale(${animatedScale})`,
                     filter: `blur(${blur}px)`,
-                    opacity: animatedOpacity,
                     zIndex,
-                    transitionDelay: `${delay}s`,
+                  }}
+                  initial={{
+                    left: `${hiddenX}%`,
+                    top: `${hiddenY}%`,
+                    scale: 0.3,
+                    opacity: 0,
+                    x: "-50%",
+                    y: "-50%",
+                  }}
+                  animate={
+                    isInView
+                      ? {
+                          left: `${position.x}%`,
+                          top: `${position.y}%`,
+                          scale: 1,
+                          opacity: opacity,
+                          x: "-50%",
+                          y: "-50%",
+                        }
+                      : {
+                          left: `${hiddenX}%`,
+                          top: `${hiddenY}%`,
+                          scale: 0.3,
+                          opacity: 0,
+                          x: "-50%",
+                          y: "-50%",
+                        }
+                  }
+                  transition={{
+                    duration: 1,
+                    ease: [0, 0, 0.58, 1],
+                    delay: prefersReducedMotion ? 0 : delay,
                   }}
                 >
-                  <div
-                    className="group relative flex items-center justify-center rounded-2xl border border-border/40 bg-card shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
+                  <motion.div
+                    className="group relative flex items-center justify-center rounded-2xl border border-border/40 bg-card shadow-lg"
                     style={{
                       width: `${size}px`,
                       height: `${size}px`,
                       boxShadow,
                     }}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
                   >
                     {/* Glassmorphism overlay */}
-                    <div
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
                       aria-hidden="true"
                     />
 
@@ -277,8 +177,8 @@ export function StackSection({ title }: StackSectionProps) {
                       height={imageSize}
                       className="relative z-10 object-contain"
                     />
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               );
             })}
 
