@@ -43,7 +43,7 @@ export default function Header({ locale }: Props) {
       {/* Centered flex container holding logo and menu */}
       <div className="relative mx-auto flex w-full max-w-screen-xl flex-nowrap items-center justify-center px-4 lg:w-5xl">
         {/* Blur bubble container */}
-        <div className="flex w-auto animate-slide-down items-center justify-center gap-6 rounded-md border-[0.75px] border-border/50 bg-background/75 px-6 py-0 shadow-sm backdrop-blur-md">
+        <div className="animate-slide-down flex w-auto items-center justify-center gap-6 rounded-md border-[0.75px] border-border/50 bg-background/75 px-6 py-0 shadow-sm backdrop-blur-md">
           {/* Brand logo */}
           <Link
             href={`/${locale}`}
