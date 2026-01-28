@@ -19,16 +19,16 @@
  */
 
 // French variants
-import variantAFr from "./A.fr.json";
-import variantBFr from "./B.fr.json";
-import variantCFr from "./C.fr.json";
-import variantDFr from "./D.fr.json";
+import variantAFr from "./A/fr.json";
+import variantBFr from "./B/fr.json";
+import variantCFr from "./C/fr.json";
+import variantDFr from "./D/fr.json";
 
 // English variants
-import variantAEn from "./A.en.json";
-import variantBEn from "./B.en.json";
-import variantCEn from "./C.en.json";
-import variantDEn from "./D.en.json";
+import variantAEn from "./A/en.json";
+import variantBEn from "./B/en.json";
+import variantCEn from "./C/en.json";
+import variantDEn from "./D/en.json";
 
 export type LandingVariant = "A" | "B" | "C" | "D";
 export type LandingLocale = "en" | "fr";

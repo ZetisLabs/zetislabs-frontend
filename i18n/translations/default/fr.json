@@ -17,6 +17,12 @@
     "contact": "Contact"
   },
   "home": {
+    "sections": [
+      { "type": "whatWeMake", "id": "what-we-make" },
+      { "type": "stack", "id": "stack-integration" },
+      { "type": "useCases", "id": "use-cases" },
+      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+    ],
     "hero": {
       "eyebrow": "Vos journées disparaissent dans des tâches répétitives.",
       "title": {

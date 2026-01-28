@@ -1,12 +1,16 @@
 import { defaultLocale, type Locale } from "@/i18n/config";
-import enTranslations from "@/i18n/translations/en.json";
-import frTranslations from "@/i18n/translations/fr.json";
+import enTranslations from "@/i18n/translations/default/en.json";
+import frTranslations from "@/i18n/translations/default/fr.json";
 
 // Type for the translations object structure
 export type Translations = typeof enTranslations;
 
-// Type for nested translation values (supports strings, arrays, and nested objects)
-type NestedValue = string | string[] | { [key: string]: NestedValue };
+// Type for nested translation values (supports strings, arrays, objects, and arrays of objects)
+type NestedValue =
+  | string
+  | string[]
+  | { [key: string]: NestedValue }
+  | NestedValue[];
 
 const translations: Record<Locale, Translations> = {
   en: enTranslations,
