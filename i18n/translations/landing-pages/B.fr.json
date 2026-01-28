@@ -1,0 +1,130 @@
+{
+  "variant": "B",
+  "angle": "gain-temps",
+  "target": "Dirigeants PME, responsables opérations, non-techniques",
+  "hypothesis": "Les décideurs veulent des résultats chiffrés, pas de la technique",
+  "tone": [
+    "orienté résultats",
+    "chiffres et métriques",
+    "langage business",
+    "empathique"
+  ],
+  "metadata": {
+    "title": "ZetisLabs — Gagnez 20h par semaine grâce à l'automatisation",
+    "description": "Vos équipes perdent du temps sur des tâches répétitives ? On automatise vos process et vous fait gagner jusqu'à 20h par semaine. ROI garanti.",
+    "keywords": [
+      "automatisation PME",
+      "gagner du temps entreprise",
+      "automatiser tâches répétitives",
+      "productivité PME",
+      "ROI automatisation"
+    ]
+  },
+  "hero": {
+    "eyebrow": "ROI moyen : 1,8€ pour chaque euro investi",
+    "title": {
+      "default": "20 heures gagnées ",
+      "thin": "par semaine. ",
+      "accent": "Par employé."
+    },
+    "subtitle": "Vos équipes passent leur temps sur des tâches répétitives ? On les automatise. Vous récupérez du temps pour ce qui compte vraiment.",
+    "cta": "Calculer mon potentiel",
+    "ctaSecondary": "Voir des exemples",
+    "ctaSecondaryAriaLabel": "Voir des cas d'usage concrets",
+    "socialProof": "ROI moyen constaté : 1,8€ récupéré pour chaque euro investi (source: Bpifrance)"
+  },
+  "problem": {
+    "title": "Combien d'heures perdues cette semaine ?",
+    "items": [
+      "Copier-coller des données entre outils",
+      "Relancer les mêmes emails",
+      "Générer des rapports à la main",
+      "Vérifier des tableaux Excel",
+      "Répondre aux mêmes questions"
+    ],
+    "conclusion": "Ces tâches ne créent pas de valeur. Elles consomment du temps. Votre temps."
+  },
+  "solution": {
+    "title": "On automatise, vous respirez",
+    "description": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
+    "result": "Vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
+  },
+  "impact": {
+    "title": "L'impact concret de l'automatisation",
+    "headers": ["Métrique", "Avant", "Après"],
+    "rows": [
+      {
+        "metric": "Temps sur tâches répétitives",
+        "before": "15-25h/semaine",
+        "after": "2-5h/semaine"
+      },
+      {
+        "metric": "Erreurs de saisie",
+        "before": "Fréquentes",
+        "after": "Quasi nulles"
+      },
+      {
+        "metric": "Délai de réponse client",
+        "before": "24-48h",
+        "after": "< 2h"
+      },
+      {
+        "metric": "Rapports générés",
+        "before": "Manuel, 1x/semaine",
+        "after": "Auto, temps réel"
+      }
+    ],
+    "footnote": "Chiffres moyens constatés sur des projets similaires"
+  },
+  "useCases": {
+    "title": "Exemples concrets",
+    "items": [
+      {
+        "title": "Gestion commerciale",
+        "description": "Un CRM qui se met à jour automatiquement depuis vos emails, génère des relances, et produit un rapport hebdo.",
+        "gain": "8h/semaine"
+      },
+      {
+        "title": "Support client",
+        "description": "Un agent IA qui répond aux questions fréquentes, trie les demandes, et escalade les urgences.",
+        "gain": "12h/semaine"
+      },
+      {
+        "title": "Administratif",
+        "description": "Factures générées automatiquement, rappels de paiement, synchronisation comptable.",
+        "gain": "6h/semaine"
+      }
+    ]
+  },
+  "process": {
+    "title": "Comment ça marche",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Audit gratuit",
+        "description": "On identifie vos quick wins en 30 minutes"
+      },
+      {
+        "step": 2,
+        "title": "Proposition chiffrée",
+        "description": "ROI estimé avant de commencer"
+      },
+      {
+        "step": 3,
+        "title": "Développement",
+        "description": "Itérations rapides, démos régulières"
+      },
+      {
+        "step": 4,
+        "title": "Résultats",
+        "description": "Vous mesurez le temps gagné dès le premier mois"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Combien d'heures pourriez-vous récupérer ?",
+    "description": "Audit gratuit de 30 minutes. On analyse vos process et on vous dit exactement combien de temps vous pouvez gagner.",
+    "primary": "Réserver mon audit gratuit",
+    "primaryAriaLabel": "Réserver un audit gratuit sur Calendly"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "variant": "B",
+  "angle": "time-saving",
+  "target": "SMB executives, operations managers, non-technical",
+  "hypothesis": "Decision-makers want measurable results, not technical details",
+  "tone": [
+    "results-oriented",
+    "metrics-driven",
+    "business language",
+    "empathetic"
+  ],
+  "metadata": {
+    "title": "ZetisLabs — Save 20 hours per week with automation",
+    "description": "Your teams waste time on repetitive tasks? We automate your processes and save you up to 20 hours per week. Guaranteed ROI.",
+    "keywords": [
+      "SMB automation",
+      "save time business",
+      "automate repetitive tasks",
+      "SMB productivity",
+      "automation ROI"
+    ]
+  },
+  "hero": {
+    "eyebrow": "Average ROI: $1.80 for every dollar invested",
+    "title": {
+      "default": "20 hours saved ",
+      "thin": "per week. ",
+      "accent": "Per employee."
+    },
+    "subtitle": "Your teams spend their time on repetitive tasks? We automate them. You get time back for what really matters.",
+    "cta": "Calculate my potential",
+    "ctaSecondary": "View examples",
+    "ctaSecondaryAriaLabel": "View concrete use cases",
+    "socialProof": "Average observed ROI: $1.80 recovered for every dollar invested (source: Bpifrance)"
+  },
+  "problem": {
+    "title": "How many hours lost this week?",
+    "items": [
+      "Copy-pasting data between tools",
+      "Sending the same follow-up emails",
+      "Generating reports manually",
+      "Checking Excel spreadsheets",
+      "Answering the same questions"
+    ],
+    "conclusion": "These tasks don't create value. They consume time. Your time."
+  },
+  "solution": {
+    "title": "We automate, you breathe",
+    "description": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
+    "result": "Your teams focus on what matters. You see the difference in the results."
+  },
+  "impact": {
+    "title": "The concrete impact of automation",
+    "headers": ["Metric", "Before", "After"],
+    "rows": [
+      {
+        "metric": "Time on repetitive tasks",
+        "before": "15-25h/week",
+        "after": "2-5h/week"
+      },
+      {
+        "metric": "Data entry errors",
+        "before": "Frequent",
+        "after": "Near zero"
+      },
+      {
+        "metric": "Customer response time",
+        "before": "24-48h",
+        "after": "< 2h"
+      },
+      {
+        "metric": "Reports generated",
+        "before": "Manual, 1x/week",
+        "after": "Auto, real-time"
+      }
+    ],
+    "footnote": "Average figures observed on similar projects"
+  },
+  "useCases": {
+    "title": "Concrete examples",
+    "items": [
+      {
+        "title": "Sales management",
+        "description": "A CRM that updates automatically from your emails, generates follow-ups, and produces a weekly report.",
+        "gain": "8h/week"
+      },
+      {
+        "title": "Customer support",
+        "description": "An AI agent that answers frequent questions, sorts requests, and escalates urgencies.",
+        "gain": "12h/week"
+      },
+      {
+        "title": "Administrative",
+        "description": "Automatically generated invoices, payment reminders, accounting sync.",
+        "gain": "6h/week"
+      }
+    ]
+  },
+  "process": {
+    "title": "How it works",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Free audit",
+        "description": "We identify your quick wins in 30 minutes"
+      },
+      {
+        "step": 2,
+        "title": "Detailed proposal",
+        "description": "Estimated ROI before we start"
+      },
+      {
+        "step": 3,
+        "title": "Development",
+        "description": "Fast iterations, regular demos"
+      },
+      {
+        "step": 4,
+        "title": "Results",
+        "description": "You measure time saved from month one"
+      }
+    ]
+  },
+  "cta": {
+    "title": "How many hours could you recover?",
+    "description": "Free 30-minute audit. We analyze your processes and tell you exactly how much time you can save.",
+    "primary": "Book my free audit",
+    "primaryAriaLabel": "Book a free audit on Calendly"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "variant": "D",
+  "angle": "ai-agents",
+  "target": "AI-curious SMBs, early adopters, executives who don't want to miss the AI wave",
+  "hypothesis": "AI is the buzzword of the moment, some prospects are specifically looking for it",
+  "tone": [
+    "futuristic but accessible",
+    "demystifying",
+    "concrete examples",
+    "tech when relevant"
+  ],
+  "metadata": {
+    "title": "ZetisLabs — Custom AI Agents for SMBs | Intelligent Automation",
+    "description": "Personalized AI agents that understand your business. Writing, analysis, customer support — AI that works for you, not the other way around.",
+    "keywords": [
+      "AI agent SMB",
+      "enterprise AI automation",
+      "business chatbot",
+      "custom AI",
+      "intelligent agent SMB",
+      "AI solutions"
+    ]
+  },
+  "hero": {
+    "eyebrow": "OpenAI, Anthropic, open-source models",
+    "title": {
+      "default": "An AI employee ",
+      "thin": "that knows ",
+      "accent": "your business."
+    },
+    "subtitle": "We create intelligent agents trained on your data, your tone, your processes. They write, analyze, respond — as if they were part of the team.",
+    "cta": "Discover what AI can do for you",
+    "ctaSecondary": "See Mail-Writer in action",
+    "ctaSecondaryAriaLabel": "View the Mail-Writer project on GitHub",
+    "badge": "Integration with OpenAI, Anthropic, open-source models"
+  },
+  "context": {
+    "title": "AI is no longer reserved for big companies",
+    "paragraphs": [
+      "ChatGPT changed the game. But copy-pasting into an interface isn't automation.",
+      "The real power of AI is when it's integrated into your tools, trained on your data, and works without you having to ask."
+    ],
+    "conclusion": "That's exactly what we build."
+  },
+  "useCases": {
+    "title": "What our AI agents can do",
+    "items": [
+      {
+        "title": "Write your emails",
+        "description": "An agent that learns your writing style and generates follow-up emails, reminders, responses — that sound like you."
+      },
+      {
+        "title": "Process your documents",
+        "description": "Automatic classification, information extraction, summaries — the agent reads and organizes for you."
+      },
+      {
+        "title": "Answer your customers",
+        "description": "An assistant that knows your products, your FAQ, your tone — and responds 24/7 without human intervention."
+      },
+      {
+        "title": "Analyze your data",
+        "description": "Trends, alerts, automatic reports — the agent monitors and notifies you when it matters."
+      }
+    ]
+  },
+  "flagship": {
+    "title": "Mail-Writer — Our open-source AI agent",
+    "description": "Mail-Writer is an AI agent that writes emails by replicating your writing style.",
+    "steps": [
+      "The agent analyzes your existing emails",
+      "It learns your tone, your phrases, your signatures",
+      "It generates emails that sound like you"
+    ],
+    "result": "No need to rewrite the same emails. The agent does it for you.",
+    "cta": "View on GitHub",
+    "ctaUrl": "https://github.com/ZetisLabs/Mail-Writer"
+  },
+  "differentiation": {
+    "title": "Not a generic chatbot. An agent trained for you.",
+    "headers": ["Standard chatbot", "ZetisLabs Agent"],
+    "rows": [
+      {
+        "standard": "Responds with generic phrases",
+        "zetis": "Responds with your tone, your info"
+      },
+      {
+        "standard": "Doesn't know your business",
+        "zetis": "Trained on your data"
+      },
+      {
+        "standard": "Separate interface",
+        "zetis": "Integrated with your existing tools"
+      },
+      {
+        "standard": "\"I'm an AI, I can't...\"",
+        "zetis": "Gets the job done without excuses"
+      }
+    ]
+  },
+  "tech": {
+    "title": "Under the hood",
+    "items": [
+      {
+        "label": "LLMs",
+        "value": "OpenAI GPT-4, Anthropic Claude, or open-source models depending on your privacy needs"
+      },
+      {
+        "label": "Fine-tuning",
+        "value": "Agents trained on your specific data"
+      },
+      {
+        "label": "Integrations",
+        "value": "API, webhooks, direct connection to your tools"
+      },
+      {
+        "label": "Hosting",
+        "value": "On your servers or ours, your data stays under control"
+      }
+    ],
+    "footnote": "No black box. We explain how it works."
+  },
+  "process": {
+    "title": "How we create your AI agent",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Scoping",
+        "description": "We define what the agent should do (and shouldn't do)"
+      },
+      {
+        "step": 2,
+        "title": "Data",
+        "description": "We collect examples to train it (emails, docs, FAQ...)"
+      },
+      {
+        "step": 3,
+        "title": "Training",
+        "description": "We fine-tune the agent on your context"
+      },
+      {
+        "step": 4,
+        "title": "Integration",
+        "description": "We connect it to your tools"
+      },
+      {
+        "step": 5,
+        "title": "Iteration",
+        "description": "We adjust until it's perfect"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to have your own AI agent?",
+    "description": "We start by understanding your needs. Then, we show you what an AI agent could do for you — concretely.",
+    "primary": "Book a personalized demo",
+    "primaryAriaLabel": "Book a personalized demo on Calendly"
+  }
+}

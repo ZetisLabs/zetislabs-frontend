@@ -1,0 +1,136 @@
+{
+  "variant": "C",
+  "angle": "integration-friction",
+  "target": "PME échaudées par des outils complexes, équipes résistantes au changement",
+  "hypothesis": "La peur du changement et la résistance des équipes bloquent l'adoption",
+  "tone": ["empathique", "rassurant", "focus simplicité", "pas de jargon"],
+  "metadata": {
+    "title": "ZetisLabs — Automatisation qui s'adapte à vous, pas l'inverse",
+    "description": "Des automatisations sur-mesure qui s'intègrent naturellement dans votre façon de travailler. Zéro friction, zéro changement d'habitudes forcé.",
+    "keywords": [
+      "automatisation simple PME",
+      "intégration douce",
+      "automatisation sans formation",
+      "outil adapté entreprise",
+      "automatisation naturelle"
+    ]
+  },
+  "hero": {
+    "eyebrow": "Zéro friction, adoption garantie",
+    "title": {
+      "default": "L'automatisation qui ",
+      "thin": "s'adapte à vous. ",
+      "accent": "Pas l'inverse."
+    },
+    "subtitle": "On n'impose rien. On observe votre façon de travailler, et on crée des outils qui s'insèrent naturellement dans votre quotidien. Vos équipes ne voient même pas la différence — sauf le temps gagné.",
+    "cta": "Discutons de vos process",
+    "ctaSecondary": "Comment ça marche",
+    "ctaSecondaryAriaLabel": "Voir notre processus de travail"
+  },
+  "problem": {
+    "title": "Vous avez déjà essayé. Ça n'a pas marché.",
+    "story": "Un nouvel outil prometteur. Une formation de 3 jours. Des habitudes à changer. Des équipes qui résistent. Six mois plus tard, personne ne l'utilise.",
+    "insight": "Le problème n'était pas l'outil. C'était l'approche.",
+    "conclusion": "Forcer vos équipes à s'adapter à un logiciel, c'est créer de la friction. Et la friction tue l'adoption."
+  },
+  "solution": {
+    "title": "Notre approche : observer d'abord, construire ensuite",
+    "description": "On ne débarque pas avec une solution toute faite.",
+    "steps": [
+      {
+        "step": 1,
+        "description": "On observe comment vous travaillez vraiment. Pas comment vous devriez travailler. Comment vous travaillez."
+      },
+      {
+        "step": 2,
+        "description": "On identifie les tâches répétitives qui ralentissent, sans changer ce qui fonctionne."
+      },
+      {
+        "step": 3,
+        "description": "On construit une automatisation qui s'insère dans vos process existants. Vos équipes continuent comme avant — mais plus vite."
+      }
+    ]
+  },
+  "differentiation": {
+    "title": "Ce qu'on ne fait pas",
+    "headers": ["Les autres", "ZetisLabs"],
+    "rows": [
+      {
+        "others": "\"Adaptez-vous à notre outil\"",
+        "zetis": "\"On s'adapte à vous\""
+      },
+      {
+        "others": "Formation obligatoire",
+        "zetis": "Intégration transparente"
+      },
+      {
+        "others": "Changement de process",
+        "zetis": "Même process, automatisé"
+      },
+      {
+        "others": "\"C'est comme ça que ça marche\"",
+        "zetis": "\"Comment vous voulez que ça marche ?\""
+      }
+    ]
+  },
+  "promise": {
+    "title": "Zéro friction. Adoption garantie.",
+    "points": [
+      {
+        "title": "Pas de nouvelle interface à apprendre",
+        "description": "L'automatisation tourne en arrière-plan. Vos équipes utilisent les mêmes outils qu'avant."
+      },
+      {
+        "title": "Pas de changement d'habitudes",
+        "description": "On automatise ce qui existe. On ne réinvente pas votre façon de travailler."
+      },
+      {
+        "title": "Pas de résistance au changement",
+        "description": "Si personne ne voit le changement, personne ne résiste. Ils voient juste les résultats."
+      }
+    ]
+  },
+  "testimonial": {
+    "quote": "On avait peur que l'équipe rejette encore un nouvel outil. Au final, ils n'ont rien eu à apprendre. Le rapport qui prenait 2h se génère tout seul maintenant. Personne ne s'en plaint.",
+    "author": "[Nom]",
+    "role": "[Poste]",
+    "company": "[Entreprise]",
+    "placeholder": true
+  },
+  "process": {
+    "title": "Comment on travaille",
+    "steps": [
+      {
+        "step": 1,
+        "title": "On écoute",
+        "description": "Vous nous expliquez votre quotidien, vos irritants, ce qui marche et ce qui coince"
+      },
+      {
+        "step": 2,
+        "title": "On observe",
+        "description": "On regarde (vraiment) comment vos équipes travaillent"
+      },
+      {
+        "step": 3,
+        "title": "On propose",
+        "description": "Des automatisations qui s'intègrent, pas qui remplacent"
+      },
+      {
+        "step": 4,
+        "title": "On itère",
+        "description": "Ajustements jusqu'à ce que ce soit naturel"
+      },
+      {
+        "step": 5,
+        "title": "On disparaît",
+        "description": "L'outil tourne, vous n'y pensez plus"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Et si l'automatisation était simple ?",
+    "description": "Pas de formation. Pas de changement forcé. Juste du temps gagné. On commence par un échange de 15 minutes pour comprendre comment vous travaillez.",
+    "primary": "Réserver un échange",
+    "primaryAriaLabel": "Réserver un échange de 15 minutes sur Calendly"
+  }
+}

@@ -1,70 +1,83 @@
 import localFont from "next/font/local";
+import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 
 /**
- * GeneralSans font family - loaded from local files
+ * IBM Plex Sans - Google Font for body text
+ * Supports weights: 300 (Light), 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
+ */
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-ibm-plex-sans",
+  display: "swap",
+});
+
+/**
+ * GeneralSans font family - loaded from local files (used for headings)
  * Supports multiple weights: 200 (Extralight), 300 (Light), 400 (Regular),
  * 500 (Medium), 600 (Semibold), 700 (Bold)
  */
 const generalSans = localFont({
   src: [
     {
-      path: "../public/fonts/GeneralSans-Extralight.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Extralight.otf",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-ExtralightItalic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-ExtralightItalic.otf",
       weight: "200",
       style: "italic",
     },
     {
-      path: "../public/fonts/GeneralSans-Light.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Light.otf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-LightItalic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-LightItalic.otf",
       weight: "300",
       style: "italic",
     },
     {
-      path: "../public/fonts/GeneralSans-Regular.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Regular.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-Italic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Italic.otf",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../public/fonts/GeneralSans-Medium.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Medium.otf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-MediumItalic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-MediumItalic.otf",
       weight: "500",
       style: "italic",
     },
     {
-      path: "../public/fonts/GeneralSans-Semibold.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Semibold.otf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-SemiboldItalic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-SemiboldItalic.otf",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../public/fonts/GeneralSans-Bold.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-Bold.otf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/fonts/GeneralSans-BoldItalic.otf",
+      path: "../public/fonts/GeneralSans/GeneralSans-BoldItalic.otf",
       weight: "700",
       style: "italic",
     },
@@ -87,7 +100,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       {/* Apply GeneralSans font variable to body */}
       <body
-        className={`${generalSans.variable} min-h-screen bg-background text-foreground antialiased`}
+        className={`${generalSans.variable} ${ibmPlexSans.variable} min-h-screen bg-background text-foreground antialiased`}
       >
         {children}
       </body>

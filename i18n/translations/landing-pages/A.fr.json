@@ -1,0 +1,90 @@
+{
+  "variant": "A",
+  "angle": "anti-nocode",
+  "target": "PME tech-savvy, frustrés par Zapier/Make",
+  "hypothesis": "Les coûts récurrents et le vendor lock-in sont des pain points majeurs",
+  "tone": ["provocateur", "factuel", "chiffres concrets"],
+  "metadata": {
+    "title": "ZetisLabs — Automatisation sans Zapier ni Make | 100% Code Natif",
+    "description": "Marre des abonnements Zapier qui s'accumulent ? On crée des automatisations sur-mesure en code natif. Le code vous appartient, pas de vendor lock-in.",
+    "keywords": [
+      "alternative Zapier",
+      "automatisation sans Make",
+      "code natif PME",
+      "automatisation sans abonnement",
+      "remplacer Zapier"
+    ]
+  },
+  "hero": {
+    "eyebrow": "Libérez-vous des abonnements",
+    "title": {
+      "default": "Arrêtez de payer Zapier. ",
+      "thin": "Le code ",
+      "accent": "vous appartient."
+    },
+    "subtitle": "On développe des automatisations sur-mesure en code natif. Pas d'abonnement mensuel, pas de limites d'opérations, pas de dépendance. Votre outil, votre code.",
+    "cta": "Réserver un appel",
+    "ctaSecondary": "Calculer mes économies",
+    "ctaSecondaryAriaLabel": "Voir le comparatif des coûts"
+  },
+  "shock": {
+    "title": "Ce que Zapier vous coûte vraiment",
+    "content": "Un workflow moyen sur Zapier : 50-200€/mois. Sur 3 ans : 1 800 à 7 200€ — juste pour louer un outil.",
+    "warning": "Et si la plateforme ferme, change ses prix, ou supprime une intégration ? Vous recommencez à zéro.",
+    "solution": "Avec ZetisLabs : vous payez une fois, le code est à vous. Pour toujours."
+  },
+  "comparison": {
+    "title": "No-code vs Code natif : le vrai calcul",
+    "headers": ["", "Zapier / Make", "ZetisLabs"],
+    "rows": [
+      {
+        "label": "Coût année 1",
+        "nocode": "Dev + 600€ d'abonnement",
+        "zetis": "Dev uniquement"
+      },
+      {
+        "label": "Coût année 3",
+        "nocode": "Dev + 1 800€ d'abonnement",
+        "zetis": "Dev + maintenance optionnelle"
+      },
+      {
+        "label": "Propriété",
+        "nocode": "Vous louez",
+        "zetis": "Vous possédez"
+      },
+      {
+        "label": "Limites",
+        "nocode": "Opérations, intégrations",
+        "zetis": "Aucune"
+      },
+      {
+        "label": "Si la plateforme ferme",
+        "nocode": "Vous perdez tout",
+        "zetis": "Rien ne change"
+      }
+    ]
+  },
+  "services": {
+    "title": "On reconstruit mieux, sans abonnement",
+    "items": [
+      {
+        "title": "Migration Zapier/Make",
+        "description": "On reprend vos workflows et on les reconstruit en code"
+      },
+      {
+        "title": "Automatisations from scratch",
+        "description": "On développe exactement ce dont vous avez besoin"
+      },
+      {
+        "title": "Agents IA",
+        "description": "Des assistants intelligents sans dépendance à des plateformes"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Prêt à vous libérer des abonnements ?",
+    "description": "Audit gratuit : on analyse vos workflows actuels et on vous dit combien vous pourriez économiser.",
+    "primary": "Demander mon audit gratuit",
+    "primaryAriaLabel": "Demander un audit gratuit par email"
+  }
+}

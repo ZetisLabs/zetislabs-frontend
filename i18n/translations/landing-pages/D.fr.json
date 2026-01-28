@@ -1,0 +1,158 @@
+{
+  "variant": "D",
+  "angle": "agents-ia",
+  "target": "PME curieuses de l'IA, early adopters, dirigeants qui veulent ne pas rater le virage IA",
+  "hypothesis": "L'IA est le buzzword du moment, certains prospects cherchent spécifiquement ça",
+  "tone": [
+    "futuriste mais accessible",
+    "démystification",
+    "exemples concrets",
+    "tech quand pertinent"
+  ],
+  "metadata": {
+    "title": "ZetisLabs — Agents IA sur-mesure pour PME | Automatisation intelligente",
+    "description": "Des agents IA personnalisés qui comprennent votre métier. Rédaction, analyse, support client — l'IA qui travaille pour vous, pas l'inverse.",
+    "keywords": [
+      "agent IA PME",
+      "automatisation IA entreprise",
+      "chatbot entreprise",
+      "IA sur-mesure",
+      "agent intelligent PME",
+      "IA France"
+    ]
+  },
+  "hero": {
+    "eyebrow": "OpenAI, Anthropic, modèles open-source",
+    "title": {
+      "default": "Un employé IA ",
+      "thin": "qui connaît ",
+      "accent": "votre métier."
+    },
+    "subtitle": "On crée des agents intelligents entraînés sur vos données, votre ton, vos process. Ils rédigent, analysent, répondent — comme s'ils faisaient partie de l'équipe.",
+    "cta": "Découvrir ce que l'IA peut faire pour vous",
+    "ctaSecondary": "Voir Mail-Writer en action",
+    "ctaSecondaryAriaLabel": "Voir le projet Mail-Writer sur GitHub",
+    "badge": "Intégration OpenAI, Anthropic, modèles open-source"
+  },
+  "context": {
+    "title": "L'IA n'est plus réservée aux grandes entreprises",
+    "paragraphs": [
+      "ChatGPT a changé la donne. Mais copier-coller dans une interface, ce n'est pas de l'automatisation.",
+      "La vraie puissance de l'IA, c'est quand elle est intégrée à vos outils, entraînée sur vos données, et qu'elle travaille sans que vous ayez à la solliciter."
+    ],
+    "conclusion": "C'est exactement ce qu'on construit."
+  },
+  "useCases": {
+    "title": "Ce que nos agents IA peuvent faire",
+    "items": [
+      {
+        "title": "Rédiger vos emails",
+        "description": "Un agent qui apprend votre style d'écriture et génère des emails de suivi, relances, réponses — qui sonnent comme vous."
+      },
+      {
+        "title": "Traiter vos documents",
+        "description": "Classification automatique, extraction d'informations, résumés — l'agent lit et organise à votre place."
+      },
+      {
+        "title": "Répondre à vos clients",
+        "description": "Un assistant qui connaît vos produits, vos FAQ, votre ton — et répond 24/7 sans intervention humaine."
+      },
+      {
+        "title": "Analyser vos données",
+        "description": "Tendances, alertes, rapports automatiques — l'agent surveille et vous prévient quand c'est important."
+      }
+    ]
+  },
+  "flagship": {
+    "title": "Mail-Writer — Notre agent IA open-source",
+    "description": "Mail-Writer est un agent IA qui rédige des emails en reproduisant votre style d'écriture.",
+    "steps": [
+      "L'agent analyse vos emails existants",
+      "Il apprend votre ton, vos formulations, vos signatures",
+      "Il génère des emails qui sonnent comme vous"
+    ],
+    "result": "Plus besoin de réécrire les mêmes emails. L'agent le fait pour vous.",
+    "cta": "Voir sur GitHub",
+    "ctaUrl": "https://github.com/ZetisLabs/Mail-Writer"
+  },
+  "differentiation": {
+    "title": "Pas un chatbot générique. Un agent entraîné pour vous.",
+    "headers": ["Chatbot standard", "Agent ZetisLabs"],
+    "rows": [
+      {
+        "standard": "Répond avec des phrases génériques",
+        "zetis": "Répond avec votre ton, vos infos"
+      },
+      {
+        "standard": "Ne connaît pas votre métier",
+        "zetis": "Entraîné sur vos données"
+      },
+      {
+        "standard": "Interface séparée",
+        "zetis": "Intégré à vos outils existants"
+      },
+      {
+        "standard": "\"Je suis une IA, je ne peux pas...\"",
+        "zetis": "Fait le travail sans excuses"
+      }
+    ]
+  },
+  "tech": {
+    "title": "Sous le capot",
+    "items": [
+      {
+        "label": "LLMs",
+        "value": "OpenAI GPT-4, Anthropic Claude, ou modèles open-source selon vos besoins de confidentialité"
+      },
+      {
+        "label": "Fine-tuning",
+        "value": "Agents entraînés sur vos données spécifiques"
+      },
+      {
+        "label": "Intégrations",
+        "value": "API, webhooks, connexion directe à vos outils"
+      },
+      {
+        "label": "Hébergement",
+        "value": "Chez vous ou chez nous, vos données restent sous contrôle"
+      }
+    ],
+    "footnote": "Pas de boîte noire. On vous explique comment ça marche."
+  },
+  "process": {
+    "title": "Comment on crée votre agent IA",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Cadrage",
+        "description": "On définit ce que l'agent doit faire (et ne pas faire)"
+      },
+      {
+        "step": 2,
+        "title": "Données",
+        "description": "On collecte les exemples pour l'entraîner (emails, docs, FAQ...)"
+      },
+      {
+        "step": 3,
+        "title": "Entraînement",
+        "description": "On fine-tune l'agent sur votre contexte"
+      },
+      {
+        "step": 4,
+        "title": "Intégration",
+        "description": "On le connecte à vos outils"
+      },
+      {
+        "step": 5,
+        "title": "Itération",
+        "description": "On ajuste jusqu'à ce qu'il soit parfait"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Prêt à avoir votre propre agent IA ?",
+    "description": "On commence par comprendre vos besoins. Ensuite, on vous montre ce qu'un agent IA pourrait faire pour vous — concrètement.",
+    "primary": "Réserver une démo personnalisée",
+    "primaryAriaLabel": "Réserver une démo personnalisée sur Calendly"
+  }
+}

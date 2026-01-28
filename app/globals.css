@@ -19,7 +19,8 @@
   --color-underline: #3a7bd5;
 
   /* Font family */
-  --font-sans: var(--font-general-sans);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-heading: var(--font-general-sans);
 }
 
 /* Base document styles */
@@ -33,11 +34,20 @@ html {
   scroll-behavior: smooth;
 }
 
-
 body {
   color: var(--color-foreground);
-  font-family: var(--font-general-sans);
+  font-family: var(--font-ibm-plex-sans);
   text-rendering: optimizeLegibility;
+}
+
+/* Headings use GeneralSans */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-general-sans);
 }
 
 /* Typography defaults */
@@ -156,12 +166,8 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   min-height: 100dvh;
 }
 
-
-
-
 /* Glow/shine pulse animation for dot */
 @keyframes pulse-glow {
-
   0%,
   100% {
     opacity: 1;
@@ -260,9 +266,11 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.12),
-      rgba(90, 130, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(90, 130, 255, 0.12),
+    rgba(90, 130, 255, 0) 70%
+  );
   filter: blur(60px);
 }
 
@@ -295,9 +303,11 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle,
-      rgba(90, 130, 255, 0.14),
-      rgba(90, 130, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(90, 130, 255, 0.14),
+    rgba(90, 130, 255, 0) 70%
+  );
   filter: blur(60px);
 }
 

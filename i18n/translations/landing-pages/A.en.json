@@ -1,0 +1,90 @@
+{
+  "variant": "A",
+  "angle": "anti-nocode",
+  "target": "Tech-savvy SMBs, frustrated with Zapier/Make",
+  "hypothesis": "Recurring costs and vendor lock-in are major pain points",
+  "tone": ["provocative", "factual", "concrete numbers"],
+  "metadata": {
+    "title": "ZetisLabs — Automation without Zapier or Make | 100% Native Code",
+    "description": "Tired of accumulating Zapier subscriptions? We build custom automations in native code. The code is yours, no vendor lock-in.",
+    "keywords": [
+      "Zapier alternative",
+      "automation without Make",
+      "native code SMB",
+      "subscription-free automation",
+      "replace Zapier"
+    ]
+  },
+  "hero": {
+    "eyebrow": "Break free from subscriptions",
+    "title": {
+      "default": "Stop paying Zapier. ",
+      "thin": "The code ",
+      "accent": "is yours."
+    },
+    "subtitle": "We build custom automations in native code. No monthly subscription, no operation limits, no dependency. Your tool, your code.",
+    "cta": "Book a call",
+    "ctaSecondary": "Calculate my savings",
+    "ctaSecondaryAriaLabel": "View cost comparison"
+  },
+  "shock": {
+    "title": "What Zapier really costs you",
+    "content": "An average Zapier workflow: $50-200/month. Over 3 years: $1,800 to $7,200 — just to rent a tool.",
+    "warning": "And if the platform shuts down, changes prices, or removes an integration? You start from scratch.",
+    "solution": "With ZetisLabs: you pay once, the code is yours. Forever."
+  },
+  "comparison": {
+    "title": "No-code vs Native code: the real math",
+    "headers": ["", "Zapier / Make", "ZetisLabs"],
+    "rows": [
+      {
+        "label": "Year 1 cost",
+        "nocode": "Dev + $600 subscription",
+        "zetis": "Dev only"
+      },
+      {
+        "label": "Year 3 cost",
+        "nocode": "Dev + $1,800 subscription",
+        "zetis": "Dev + optional maintenance"
+      },
+      {
+        "label": "Ownership",
+        "nocode": "You rent",
+        "zetis": "You own"
+      },
+      {
+        "label": "Limits",
+        "nocode": "Operations, integrations",
+        "zetis": "None"
+      },
+      {
+        "label": "If platform shuts down",
+        "nocode": "You lose everything",
+        "zetis": "Nothing changes"
+      }
+    ]
+  },
+  "services": {
+    "title": "We rebuild better, without subscriptions",
+    "items": [
+      {
+        "title": "Zapier/Make Migration",
+        "description": "We take your workflows and rebuild them in code"
+      },
+      {
+        "title": "Automations from scratch",
+        "description": "We develop exactly what you need"
+      },
+      {
+        "title": "AI Agents",
+        "description": "Intelligent assistants with no platform dependency"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to break free from subscriptions?",
+    "description": "Free audit: we analyze your current workflows and tell you how much you could save.",
+    "primary": "Request my free audit",
+    "primaryAriaLabel": "Request a free audit by email"
+  }
+}

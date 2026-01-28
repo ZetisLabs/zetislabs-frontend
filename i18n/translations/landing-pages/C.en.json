@@ -1,0 +1,136 @@
+{
+  "variant": "C",
+  "angle": "frictionless-integration",
+  "target": "SMBs burned by complex tools, change-resistant teams",
+  "hypothesis": "Fear of change and team resistance block adoption",
+  "tone": ["empathetic", "reassuring", "simplicity-focused", "jargon-free"],
+  "metadata": {
+    "title": "ZetisLabs — Automation that adapts to you, not the other way around",
+    "description": "Custom automations that naturally integrate into your way of working. Zero friction, zero forced habit changes.",
+    "keywords": [
+      "simple SMB automation",
+      "smooth integration",
+      "no-training automation",
+      "adapted business tool",
+      "natural automation"
+    ]
+  },
+  "hero": {
+    "eyebrow": "Zero friction, guaranteed adoption",
+    "title": {
+      "default": "Automation that ",
+      "thin": "adapts to you. ",
+      "accent": "Not the other way around."
+    },
+    "subtitle": "We don't impose anything. We observe how you work, and we create tools that naturally fit into your daily routine. Your teams don't even notice the difference — except for the time saved.",
+    "cta": "Let's discuss your processes",
+    "ctaSecondary": "How it works",
+    "ctaSecondaryAriaLabel": "See our work process"
+  },
+  "problem": {
+    "title": "You've tried before. It didn't work.",
+    "story": "A promising new tool. A 3-day training. Habits to change. Teams that resist. Six months later, nobody uses it.",
+    "insight": "The problem wasn't the tool. It was the approach.",
+    "conclusion": "Forcing your teams to adapt to software creates friction. And friction kills adoption."
+  },
+  "solution": {
+    "title": "Our approach: observe first, build second",
+    "description": "We don't show up with a ready-made solution.",
+    "steps": [
+      {
+        "step": 1,
+        "description": "We observe how you actually work. Not how you should work. How you work."
+      },
+      {
+        "step": 2,
+        "description": "We identify repetitive tasks that slow you down, without changing what works."
+      },
+      {
+        "step": 3,
+        "description": "We build automation that fits into your existing processes. Your teams continue as before — just faster."
+      }
+    ]
+  },
+  "differentiation": {
+    "title": "What we don't do",
+    "headers": ["Others", "ZetisLabs"],
+    "rows": [
+      {
+        "others": "\"Adapt to our tool\"",
+        "zetis": "\"We adapt to you\""
+      },
+      {
+        "others": "Mandatory training",
+        "zetis": "Seamless integration"
+      },
+      {
+        "others": "Process change",
+        "zetis": "Same process, automated"
+      },
+      {
+        "others": "\"That's how it works\"",
+        "zetis": "\"How do you want it to work?\""
+      }
+    ]
+  },
+  "promise": {
+    "title": "Zero friction. Guaranteed adoption.",
+    "points": [
+      {
+        "title": "No new interface to learn",
+        "description": "The automation runs in the background. Your teams use the same tools as before."
+      },
+      {
+        "title": "No habit changes",
+        "description": "We automate what exists. We don't reinvent how you work."
+      },
+      {
+        "title": "No change resistance",
+        "description": "If nobody sees the change, nobody resists. They just see the results."
+      }
+    ]
+  },
+  "testimonial": {
+    "quote": "We were afraid the team would reject yet another new tool. In the end, they had nothing to learn. The report that took 2 hours now generates itself. Nobody's complaining.",
+    "author": "[Name]",
+    "role": "[Position]",
+    "company": "[Company]",
+    "placeholder": true
+  },
+  "process": {
+    "title": "How we work",
+    "steps": [
+      {
+        "step": 1,
+        "title": "We listen",
+        "description": "You tell us about your daily routine, your pain points, what works and what doesn't"
+      },
+      {
+        "step": 2,
+        "title": "We observe",
+        "description": "We watch (really) how your teams work"
+      },
+      {
+        "step": 3,
+        "title": "We propose",
+        "description": "Automations that integrate, not replace"
+      },
+      {
+        "step": 4,
+        "title": "We iterate",
+        "description": "Adjustments until it feels natural"
+      },
+      {
+        "step": 5,
+        "title": "We disappear",
+        "description": "The tool runs, you don't think about it anymore"
+      }
+    ]
+  },
+  "cta": {
+    "title": "What if automation was simple?",
+    "description": "No training. No forced change. Just time saved. We start with a 15-minute chat to understand how you work.",
+    "primary": "Book a chat",
+    "primaryAriaLabel": "Book a 15-minute chat on Calendly"
+  }
+}

@@ -40,7 +40,7 @@ export default async function Home({ params }: Props) {
 
       {/* What We Make Section */}
       <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
-        <div className="animate-scroll-in mx-auto w-full max-w-screen-xl px-4">
+        <div className="mx-auto w-full max-w-screen-xl animate-scroll-in px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -161,7 +161,7 @@ export default async function Home({ params }: Props) {
       </ErrorBoundary>
 
       {/* Why ZetisLabs Section */}
-      <section className="scroll-section flex flex-col justify-center py-16 md:py-32">
+      <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal>
@@ -212,7 +212,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {/* Call to Action Section */}
-      <section className="scroll-section flex flex-col justify-center py-16 md:py-32">
+      <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto mb-24 max-w-3xl text-center md:mb-48">
             <Reveal>
