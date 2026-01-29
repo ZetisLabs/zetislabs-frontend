@@ -17,6 +17,12 @@
     "contact": "Contact"
   },
   "home": {
+    "sections": [
+      { "type": "whatWeMake", "id": "what-we-make" },
+      { "type": "stack", "id": "stack-integration" },
+      { "type": "useCases", "id": "use-cases" },
+      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+    ],
     "hero": {
       "eyebrow": "Stop wasting time on repetitive tasks",
       "title": {

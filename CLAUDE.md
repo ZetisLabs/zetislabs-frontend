@@ -111,26 +111,81 @@ lib/motion/
 import { Reveal, FadeIn, motion, useScroll, useTransform } from "@/lib/motion";
 ```
 
-**Extracting for other projects:**
+### Section Library (`lib/sections/`)
 
-```bash
-cp -r lib/motion/ ../new-project/lib/motion/
-npm install framer-motion  # in new project
+A dynamic section composition system that allows landing pages to be configured via i18n files:
+
+```
+lib/sections/
+├── index.ts              # Main exports
+├── types.ts              # SectionConfig, SectionType, SectionProps
+├── registry.ts           # Section name -> component mapping
+├── SectionRenderer.tsx   # Dynamic section renderer
+└── components/
+    ├── WhatWeMakeSection.tsx    # Feature cards grid
+    ├── WhyZetisLabsSection.tsx  # Reason cards grid
+    ├── StackSectionWrapper.tsx  # Logo constellation wrapper
+    └── UseCasesSectionWrapper.tsx # Use cases wrapper
+```
+
+**Available Section Types:**
+
+| Type           | Description                          |
+| -------------- | ------------------------------------ |
+| `whatWeMake`   | Grid of 3 FeatureCards (services)    |
+| `stack`        | Logo constellation with integrations |
+| `useCases`     | Sticky scroll with use case slides   |
+| `whyZetisLabs` | Grid of 3 ReasonCards (philosophy)   |
+
+**Usage:**
+
+```tsx
+import { SectionRenderer, type SectionConfig } from "@/lib/sections";
+
+const sections: SectionConfig[] = [
+  { type: "whatWeMake", id: "what-we-make" },
+  { type: "stack", id: "stack-integration" },
+];
+
+<SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />;
 ```
 
 ### Internationalization (i18n)
 
-Translation files located in `i18n/translations/`:
+Translation files organized in `i18n/translations/`:
 
-- `en.json` - English translations
-- `fr.json` - French translations
+```
+i18n/translations/
+├── README.md              # Documentation for adding landings
+├── default/               # Main site translations
+│   ├── en.json
+│   └── fr.json
+└── landing-pages/         # A/B test variants
+    ├── A/
+    │   ├── en.json
+    │   └── fr.json
+    ├── B/
+    │   ├── en.json
+    │   └── fr.json
+    └── index.ts           # Exports and helpers
+```
 
-Structure includes:
+**Dynamic Section Configuration in i18n:**
 
-- `metadata` - SEO metadata (title, description)
-- `header` - Navigation elements
-- `footer` - Footer content
-- `home` - Homepage sections (hero, stack, whatWeMake, exampleProjects, whyUs)
+```json
+{
+  "home": {
+    "sections": [
+      { "type": "whatWeMake", "id": "what-we-make" },
+      { "type": "stack", "id": "stack-integration" },
+      { "type": "useCases", "id": "use-cases" },
+      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+    ],
+    "hero": { ... },
+    "whatWeMake": { ... }
+  }
+}
+```
 
 **Translation Keys:**
 
@@ -295,25 +350,28 @@ npm run lint:fix
 │   ├── UseCasesSection.tsx    # Use cases showcase
 │   └── ProjectShowcase.tsx    # Project examples
 ├── lib/
-│   ├── ui/                    # UI Component Library
+│   ├── motion/                # Framer Motion library
 │   │   ├── index.ts           # Main exports
-│   │   └── components/
-│   │       ├── CTAButton.tsx      # CTA buttons (primary/secondary)
-│   │       ├── FeatureCard.tsx    # Feature cards
-│   │       ├── ReasonCard.tsx     # Reason cards
-│   │       ├── EyebrowBadge.tsx   # Section badges
-│   │       └── ErrorBoundary.tsx  # Error boundary
-│   └── motion/                # Framer Motion library
-│       ├── index.ts           # Main exports
-│       ├── config.ts          # Animation config
-│       ├── variants.ts        # Reusable variants
-│       └── components/        # Motion components
+│   │   ├── config.ts          # Animation config
+│   │   ├── variants.ts        # Reusable variants
+│   │   └── components/        # Motion components
+│   ├── sections/              # Dynamic section library
+│   │   ├── index.ts           # Main exports
+│   │   ├── types.ts           # Type definitions
+│   │   ├── registry.ts        # Section registry
+│   │   ├── SectionRenderer.tsx
+│   │   └── components/        # Section components
+│   └── i18n.ts                # Translation utilities
 ├── i18n/                       # Internationalization
 │   ├── config.ts              # i18n configuration
-│   ├── translations/          # Translation files
-│   │   ├── en.json
-│   │   └── fr.json
-│   └── lib/                   # i18n utilities
+│   └── translations/          # Translation files
+│       ├── README.md          # Documentation
+│       ├── default/           # Main translations
+│       │   ├── en.json
+│       │   └── fr.json
+│       └── landing-pages/     # A/B test variants
+│           ├── A/, B/, C/, D/
+│           └── index.ts
 ├── public/                     # Static assets
 │   ├── fonts/                 # Custom fonts
 │   │   ├── GeneralSans/       # Primary font
@@ -325,8 +383,23 @@ npm run lint:fix
 
 ## Recent Updates (Updated: 2026-01-28)
 
-### Major Changes
+### Dynamic Section Library
 
+- Created `lib/sections/` for dynamic section composition
+- Sections are now configured via `sections` array in i18n translation files
+- Hero and CTA sections remain static (always first and last)
+- Added `SectionRenderer` component for dynamic rendering
+- Extracted inline sections from `page.tsx` into dedicated components
+
+### i18n Reorganization
+
+- Reorganized translation folder structure:
+  - `default/` folder for main site translations
+  - Each landing page variant (A, B, C, D) has its own folder
+- Added comprehensive `README.md` in `i18n/translations/` explaining how to add new landing pages
+- Updated import paths in `lib/i18n.ts` and `landing-pages/index.ts`
+
+### Framer Motion Migration
 **UI Component Library (`lib/ui/`):**
 
 - Created new `lib/ui/` library for reusable UI components
@@ -355,33 +428,16 @@ npm run lint:fix
 - Created reusable `lib/motion/` library for easy extraction to other projects
 - Deleted old `components/ui/Reveal.tsx` (replaced by `lib/motion/components/Reveal.tsx`)
 
-**HeroSection Redesign:**
+### HeroSection Redesign
 
 - Changed from `sticky` to `fixed` positioning for true scroll-independent fade
 - Implemented "sunset" effect - content fades and shrinks in place
 - Added breathing halo effect behind title and CTA
 - Fixed hydration errors with `hasMounted` pattern
 
-**Hydration Fix Pattern:**
+## Component Usage Examples
 
-All motion components now use this pattern to prevent SSR mismatches:
-
-```tsx
-const [hasMounted, setHasMounted] = useState(false);
-useEffect(() => setHasMounted(true), []);
-const shouldAnimate = hasMounted && !prefersReducedMotion;
-```
-
-**Font Structure Update:**
-
-- Fonts moved to subdirectories: `fonts/GeneralSans/`, `fonts/IBMPlexSans/`
-- Updated font paths in `app/layout.tsx`
-
-**New Dependencies:**
-
-- Added `framer-motion` package
-
-### Breaking Changes
+### Dynamic Sections (via i18n)
 
 - UI components now imported from `@/lib/ui` instead of `@/components/`
   - `FeatureCard`, `ReasonCard`, `CTAButton` → `@/lib/ui`
@@ -389,7 +445,16 @@ const shouldAnimate = hasMounted && !prefersReducedMotion;
 - `Reveal` component now imported from `@/lib/motion` instead of `@/components/ui/Reveal`
 - Old CSS animation utilities removed from `globals.css`
 
-## Component Usage Examples
+```json
+{
+  "home": {
+    "sections": [
+      { "type": "whatWeMake", "id": "services" },
+      { "type": "stack", "id": "integrations" }
+    ]
+  }
+}
+```
 
 ### UI Components (`@/lib/ui`)
 
@@ -672,8 +737,8 @@ import { Reveal } from "@/lib/motion";
 
 1. Always use the translation helper `t()` for user-facing text
 2. Prefer server components unless interactivity is required
-3. Use components from `@/lib/ui` for buttons, cards, and badges
-4. Use components from `@/lib/motion` for animations
+3. Use components from `@/lib/motion` for animations
+4. Use `@/lib/sections` for dynamic section composition
 5. Follow the `hasMounted` pattern for client-side-only features
 6. Test responsive layouts on mobile devices (iOS Safari, Android Chrome)
 7. Maintain consistent animation timing (see `lib/motion/config.ts`)
@@ -709,6 +774,7 @@ return (
 - Avoid hardcoded strings in components
 - Test both English and French translations
 - Update both translation files simultaneously
+- Use the `sections` array to control page composition
 
 ## Future Enhancements
 
@@ -720,4 +786,4 @@ Consider adding:
 - Additional language support
 - Analytics integration
 - Performance monitoring
-- A/B testing framework
+- A/B testing framework integration with section library

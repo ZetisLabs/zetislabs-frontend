@@ -1,10 +1,8 @@
 import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { Reveal } from "@/lib/motion";
-import { CTAButton, FeatureCard, ReasonCard, ErrorBoundary } from "@/lib/ui";
-import { StackSection } from "@/components/StackSection";
-import { UseCasesSection } from "@/components/UseCasesSection";
 import { HeroSection } from "@/components/HeroSection";
+import { SectionRenderer, type SectionConfig } from "@/lib/sections";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -12,8 +10,10 @@ type Props = {
 
 /**
  * Home Page
- * Implements a minimalist hero section inspired by the referenced design.
- * Uses translations for all text content.
+ *
+ * Uses a dynamic section composition system:
+ * - Hero and CTA sections are static (always present)
+ * - Other sections are dynamically rendered based on i18n configuration
  */
 export default async function Home({ params }: Props) {
   const { locale: localeParam } = await params;
@@ -23,8 +23,12 @@ export default async function Home({ params }: Props) {
   const t = (key: string) => getTranslation(locale, key);
   const dict = getTranslations(locale);
 
+  // Get sections configuration from i18n
+  const sections = (dict.home.sections || []) as SectionConfig[];
+
   return (
     <>
+      {/* Static: Hero Section */}
       <HeroSection
         eyebrowText={t("home.hero.eyebrow")}
         titleDefault={t("home.hero.title.default")}
@@ -36,180 +40,10 @@ export default async function Home({ params }: Props) {
         ctaSecondaryAriaLabel={t("home.hero.ctaSecondaryAriaLabel")}
       />
 
-      {/* What We Make Section */}
-      <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
-        <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {t("home.whatWeMake.title")}
-              </h2>
-            </Reveal>
-            <Reveal>
-              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-                {t("home.whatWeMake.description")}
-              </p>
-            </Reveal>
-          </div>
+      {/* Dynamic: Sections from i18n configuration */}
+      <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
 
-          <div className="group/grid mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Feature Card 1 */}
-            <Reveal className="h-full">
-              <FeatureCard
-                title={t("home.whatWeMake.features.aiAgents.title")}
-                subtitle={t("home.whatWeMake.features.aiAgents.subtitle")}
-                description={t("home.whatWeMake.features.aiAgents.description")}
-                cta={t("home.whatWeMake.features.aiAgents.cta")}
-              />
-            </Reveal>
-
-            {/* Feature Card 2 */}
-            <Reveal className="h-full">
-              <FeatureCard
-                title={t("home.whatWeMake.features.processAutomation.title")}
-                subtitle={t(
-                  "home.whatWeMake.features.processAutomation.subtitle"
-                )}
-                description={t(
-                  "home.whatWeMake.features.processAutomation.description"
-                )}
-                cta={t("home.whatWeMake.features.processAutomation.cta")}
-              />
-            </Reveal>
-
-            {/* Feature Card 3 */}
-            <Reveal className="h-full">
-              <FeatureCard
-                title={t("home.whatWeMake.features.intelligentWorkflows.title")}
-                subtitle={t(
-                  "home.whatWeMake.features.intelligentWorkflows.subtitle"
-                )}
-                description={t(
-                  "home.whatWeMake.features.intelligentWorkflows.description"
-                )}
-                cta={t("home.whatWeMake.features.intelligentWorkflows.cta")}
-              />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Stack Section */}
-      <ErrorBoundary
-        fallback={
-          <section className="flex flex-col justify-center py-16 md:py-32">
-            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
-              <p className="text-foreground/70">Unable to load integrations.</p>
-            </div>
-          </section>
-        }
-      >
-        <div className="scroll-section">
-          <StackSection title={t("home.stack.title")} />
-        </div>
-      </ErrorBoundary>
-
-      {/* Use Cases Section - Apple-style sticky scroll */}
-      <ErrorBoundary
-        fallback={
-          <section className="flex flex-col justify-center py-16 md:py-32">
-            <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
-              <p className="text-foreground/70">Unable to load use cases.</p>
-            </div>
-          </section>
-        }
-      >
-        <div className="scroll-section">
-          <UseCasesSection
-            title={t("home.useCases.title")}
-            description={t("home.useCases.description")}
-            learnMoreLabel={t("home.useCases.learnMore")}
-            useCases={[
-              {
-                id: "mail-writer",
-                title: t("home.useCases.cases.mailWriter.title"),
-                subtitle: t("home.useCases.cases.mailWriter.subtitle"),
-                description: t("home.useCases.cases.mailWriter.description"),
-                features: (
-                  dict.home.useCases.cases.mailWriter.features as string[]
-                ).map((f) => f),
-                media: {
-                  type: "image" as const,
-                  src: "/diagrams/diagram-placeholder.png",
-                  alt: "Mail-Writer interface",
-                },
-              },
-              {
-                id: "docgen",
-                title: t("home.useCases.cases.docGen.title"),
-                subtitle: t("home.useCases.cases.docGen.subtitle"),
-                description: t("home.useCases.cases.docGen.description"),
-                features: (
-                  dict.home.useCases.cases.docGen.features as string[]
-                ).map((f) => f),
-                media: {
-                  type: "image" as const,
-                  src: "/diagrams/diagram-placeholder.png",
-                  alt: "DocGen dashboard",
-                },
-              },
-            ]}
-          />
-        </div>
-      </ErrorBoundary>
-
-      {/* Why ZetisLabs Section */}
-      <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
-        <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {t("home.whyZetisLabs.title")}
-              </h2>
-            </Reveal>
-            <Reveal>
-              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-                {t("home.whyZetisLabs.description")}
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="group/grid mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Reason Card 1 */}
-            <Reveal className="h-full">
-              <ReasonCard
-                index={0}
-                title={t("home.whyZetisLabs.reasons.expertise.title")}
-                description={t(
-                  "home.whyZetisLabs.reasons.expertise.description"
-                )}
-              />
-            </Reveal>
-
-            {/* Reason Card 2 */}
-            <Reveal className="h-full" delay={100}>
-              <ReasonCard
-                index={1}
-                title={t("home.whyZetisLabs.reasons.scalability.title")}
-                description={t(
-                  "home.whyZetisLabs.reasons.scalability.description"
-                )}
-              />
-            </Reveal>
-
-            {/* Reason Card 3 */}
-            <Reveal className="h-full" delay={200}>
-              <ReasonCard
-                index={2}
-                title={t("home.whyZetisLabs.reasons.results.title")}
-                description={t("home.whyZetisLabs.reasons.results.description")}
-              />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action Section */}
+      {/* Static: Call to Action Section */}
       <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto mb-24 max-w-3xl text-center md:mb-48">
