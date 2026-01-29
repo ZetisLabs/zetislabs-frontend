@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "ZetisLabs — Automation powered by AI agents",
-    "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows."
+    "title": "ZetisLabs — Save 20 hours per week with automation",
+    "description": "Your teams waste time on repetitive tasks? We automate your processes and help you save up to 20 hours per week. Guaranteed ROI."
   },
   "header": {
     "home": "Home",
@@ -23,145 +23,108 @@
       { "type": "useCases", "id": "use-cases" },
       { "type": "whyZetisLabs", "id": "why-zetislabs" }
     ],
-    "hero": {
-      "eyebrow": "Stop wasting time on repetitive tasks",
+    "Hero": {
+      "eyebrow": "Custom automation for SMBs",
       "title": {
-        "default": "Your team is drowning in repetitive tasks. ",
-        "thin": "We automate them.",
-        "accent": ""
+        "default": "",
+        "thin": "20 hours saved per week. ",
+        "accent": "Per employee."
       },
-      "subtitle": "ZetisLabs builds custom, pragmatics automations for growing SMBs. No complex overhaul, just practical tools to save you 20+ hours a week.",
-      "cta": "Start saving time",
-      "ctaSecondary": "View examples",
-      "ctaSecondaryAriaLabel": "View example projects"
+      "subtitle": "Your teams waste time on repetitive tasks? We automate them so you can focus on what truly moves your business forward.",
+      "cta": "Estimate my time savings",
+      "ctaSecondary": "See real examples",
+      "ctaSecondaryAriaLabel": ""
     },
     "stack": {
-      "title": "WE INTEGRATE SEAMLESSLY WITH YOUR CURRENT STACK"
+      "title": "Compatible with your current tools."
     },
-    "whatWeMake": {
-      "title": "What We Make",
-      "description": "ZetisLabs helps companies automate processes using intelligent agent-driven workflows. We build AI-powered automation solutions that transform how businesses operate.",
-      "features": {
-        "aiAgents": {
-          "title": "Workflow Audit",
-          "subtitle": "The Blueprint.",
-          "description": "We analyze your operations to spot bottlenecks. Before coding anything, we deliver a clear roadmap of what should be automated and what should remain human.",
-          "cta": "Create an agent"
+    "Problem": {
+      "title": "How many hours lost this week?",
+      "description": "Copy-pasting data between tools\nSending the same follow-up emails\nGenerating reports manually\nChecking Excel spreadsheets\nAnswering the same questions\n\nThese tasks don't create value. They consume time. Your time."
+    },
+    "Solution": {
+      "title": "We automate, you breathe",
+      "body": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
+      "accent": "Result: your teams focus on what matters. You see the difference in your results."
+    },
+    "UseCases": {
+      "title": "Real examples",
+      "infoCard": {
+        "first": {
+          "title": "Sales management",
+          "description": "A CRM that updates automatically from your emails, generates follow-ups, and produces a weekly report.",
+          "footer": "Saved: 8h/week"
         },
-        "processAutomation": {
-          "title": "System Integration",
-          "subtitle": "The Engine.",
-          "description": "Pure, rule-based automation. We connect your APIs and tools (CRM, ERP, Slack) to move structured data instantly. Perfect for repetitive tasks requiring zero error margin.",
-          "cta": "Create an automation"
+        "second": {
+          "title": "Customer support",
+          "description": "An AI agent that answers frequently asked questions, sorts requests, and escalates urgent issues.",
+          "footer": "Saved: 12h/week"
         },
-        "intelligentWorkflows": {
-          "title": "AI Agents",
-          "subtitle": "The Intelligence.",
-          "description": "When rules aren't enough. We deploy AI-boosted tools capable of \"reasoning\": parsing unstructured emails, making decisions, or interacting with customers in natural language.",
-          "cta": "Get an audit"
+        "third": {
+          "title": "Administrative",
+          "description": "Invoices generated automatically, payment reminders, accounting synchronization.",
+          "footer": "Saved: 6h/week"
         }
       }
     },
-    "exampleProjects": {
-      "title": "Example Projects",
-      "description": "See how we've helped companies automate their workflows and save valuable time.",
-      "projects": {
-        "tabs": {
-          "project1": {
-            "title": "Automated Property Valuation Drafting",
-            "description": "Analyze incoming valuation requests, extract key information, fetch local market data, and generate a first draft of the property valuation to speed up the agency’s workflow."
-          },
-          "project2": {
-            "title": "Sec Ops",
-            "description": "Enrich security Incident tickets"
-          },
-          "project3": {
-            "title": "Dev Ops",
-            "description": "Convert natural language into API calls"
-          },
-          "project4": {
-            "title": "Sales",
-            "description": "Generate customer insights from reviews"
-          },
-          "project5": {
-            "title": "You",
-            "description": "Watch this video to hear our pitch"
-          }
+    "Trust": {
+      "title": "They trust us",
+      "logos": {
+        "first": "Neede",
+        "second": "Controle-G",
+        "third": "Atelier Stéphane Fernandez"
+      }
+    },
+    "Process": {
+      "title": "How it works",
+      "route": {
+        "1": {
+          "title": "Free audit",
+          "description": "We identify your quick wins"
         },
-        "diagrams": {
-          "project1": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "IT Ops Workflow Diagram"
-          },
-          "project2": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Sec Ops Workflow Diagram"
-          },
-          "project3": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Dev Ops Workflow Diagram"
-          },
-          "project4": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Sales Workflow Diagram"
-          }
+        "2": {
+          "title": "Detailed proposal",
+          "description": "Estimated ROI before we start"
+        },
+        "3": {
+          "title": "Development",
+          "description": "Fast iterations, regular demos"
+        },
+        "4": {
+          "title": "Results",
+          "description": "You measure the time saved from the first month"
         }
       }
     },
-    "whyZetisLabs": {
-      "title": "Our philosophy",
-      "description": "We don't use AI just to be cool. We use it where it lowers costs. If a simple script works, we use a script. If you need LLMs, we implement them efficiently.",
-      "reasons": {
-        "expertise": {
-          "title": "Expertise & Customization",
-          "description": "We combine deep technical expertise with a bespoke approach. Every solution is tailored to your specific workflows, ensuring it fits your business perfectly."
+    "qa": {
+      "title": "Frequently asked questions",
+      "questions": {
+        "1": {
+          "question": "How much does it cost?",
+          "response": "Every project is different. We always start with a free 30-minute audit to estimate the scope and give you a clear quote, with no surprises."
         },
-        "scalability": {
-          "title": "Scalable & Secure",
-          "description": "Built on enterprise-grade architecture that grows with you. Our solutions prioritize security and compliance while handling increasing complexity effortlessly."
+        "2": {
+          "question": "How long until I see results?",
+          "response": "The first automations are typically in place within 2 to 4 weeks. You'll measure the time saved from the first month."
         },
-        "results": {
-          "title": "Results & Partnership",
-          "description": "From day one, see measurable efficiency gains. We don't just build and leave; we partner with you for continuous optimization and long-term success."
+        "3": {
+          "question": "Does it work with my current tools?",
+          "response": "Yes. We adapt to your existing stack — CRM, ERP, business tools, Google Workspace, etc. No need to change everything."
+        },
+        "4": {
+          "question": "What if it doesn't work for me?",
+          "response": "The audit is free and comes with no commitment. You then decide whether to move forward or not, in full transparency."
+        },
+        "5": {
+          "question": "What's the difference from no-code tools like Zapier?",
+          "response": "We develop native code, not visual workflows. Result: more flexibility, fewer limitations, and solutions that stand the test of time."
         }
       }
     },
     "cta": {
-      "title": "Ready to Automate?",
-      "description": "Get a free audit of your workflows and discover how much time you could save with intelligent automation.",
-      "primary": "Book a 15-min Workflow Analysis",
-      "secondary": "Learn more",
-      "primaryAriaLabel": "Book a 15-min Workflow Analysis",
-      "secondaryAriaLabel": "Learn more"
-    },
-    "useCases": {
-      "title": "Our Tools",
-      "description": "Ready-to-use solutions to automate your most time-consuming tasks.",
-      "learnMore": "Learn more",
-      "cases": {
-        "mailWriter": {
-          "title": "Mail-Writer",
-          "subtitle": "Chrome Extension",
-          "description": "Write ultra-personalized emails in one click. Mail-Writer learns from your sent emails (anonymized) and uses your templates to generate responses that truly sound like you.",
-          "features": [
-            "Learns from your sent emails (anonymized data)",
-            "Smart templates to save time",
-            "Premium customer service with deep personalization",
-            "Privacy guaranteed: no data leaks"
-          ]
-        },
-        "docGen": {
-          "title": "DocGen",
-          "subtitle": "Document Generator",
-          "description": "No more copy-pasting and document hunting. Describe what you need, DocGen generates the complete technical document from your existing sources.",
-          "features": [
-            "Generation from a simple description",
-            "Creates 80% of your documents automatically",
-            "No more tedious searches and copy-pasting",
-            "Perfect for SMB technical documentation"
-          ]
-        }
-      }
+      "title": "How many hours could you get back?",
+      "description": "Free audit. We analyze your processes and tell you where you can save time.",
+      "primary": "Book my free audit"
     }
   }
 }
