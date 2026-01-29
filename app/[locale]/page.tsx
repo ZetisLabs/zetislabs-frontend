@@ -1,9 +1,7 @@
 import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { Reveal } from "@/lib/motion";
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { FeatureCard } from "@/components/FeatureCard";
-import { ReasonCard } from "@/components/ReasonCard";
+import { CTAButton, FeatureCard, ReasonCard, ErrorBoundary } from "@/lib/ui";
 import { StackSection } from "@/components/StackSection";
 import { UseCasesSection } from "@/components/UseCasesSection";
 import { HeroSection } from "@/components/HeroSection";
@@ -226,40 +224,24 @@ export default async function Home({ params }: Props) {
               </p>
             </Reveal>
             {/* CTAs */}
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Reveal>
-                <a
+                <CTAButton
                   href="#"
-                  className="inline-flex w-auto items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-base font-medium text-background shadow-sm shadow-accent/20 transition-transform duration-300 hover:scale-105"
-                  aria-label={t("home.cta.primaryAriaLabel")}
+                  variant="primary"
+                  ariaLabel={t("home.cta.primaryAriaLabel")}
                 >
                   {t("home.cta.primary")}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </a>
+                </CTAButton>
               </Reveal>
               <Reveal delay={250}>
-                <a
+                <CTAButton
                   href="#"
-                  className="inline-flex w-auto items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-base font-medium text-foreground/80 transition-all duration-300 hover:scale-105"
-                  aria-label={t("home.cta.secondaryAriaLabel")}
+                  variant="secondary"
+                  ariaLabel={t("home.cta.secondaryAriaLabel")}
                 >
                   {t("home.cta.secondary")}
-                </a>
+                </CTAButton>
               </Reveal>
             </div>
           </div>

@@ -32,7 +32,7 @@ const overlayVariants = {
   hover: { opacity: 1 },
 };
 
-export const ReasonCard = ({ title, description, index }: ReasonCardProps) => {
+export function ReasonCard({ title, description, index }: ReasonCardProps) {
   return (
     <motion.div
       className="group relative h-full overflow-hidden rounded-2xl border border-border/40 bg-card/40 p-6 backdrop-blur-sm group-hover/grid:opacity-40 hover:!opacity-100 md:p-8"
@@ -82,4 +82,4 @@ export const ReasonCard = ({ title, description, index }: ReasonCardProps) => {
       />
     </motion.div>
   );
-};
+}
