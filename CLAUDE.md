@@ -28,13 +28,20 @@ app/
 
 ### Component Architecture
 
-**Reusable Components:**
+**UI Library Components (`lib/ui/`):**
 
-- `FeatureCard.tsx` - Interactive feature cards with hover effects and animated CTAs
-- `ReasonCard.tsx` - Numbered reason cards with gradient overlays
-- `StackSection.tsx` - Animated logo constellation with parallax depth effect
-- `ProjectShowcase.tsx` - Project examples with tabbed navigation
+- `CTAButton` - Primary/secondary CTA buttons with glass effects and animations
+- `FeatureCard` - Interactive feature cards with hover effects and animated CTAs
+- `ReasonCard` - Numbered reason cards with gradient overlays
+- `EyebrowBadge` - Section label badges with glow effect
+- `ErrorBoundary` - React error boundary with fallback UI
+
+**Section Components (`components/`):**
+
 - `HeroSection.tsx` - Hero with scroll-driven "sunset" fade effect
+- `StackSection.tsx` - Animated logo constellation with parallax depth effect
+- `UseCasesSection.tsx` - Use cases with sticky scroll
+- `ProjectShowcase.tsx` - Project examples with tabbed navigation
 
 **Design Patterns:**
 
@@ -42,6 +49,42 @@ app/
 - Server components for static content and data fetching
 - Composition pattern for reusable UI elements
 - `hasMounted` pattern to prevent hydration mismatches with Framer Motion
+- Centralized UI library for easy extraction and reuse
+
+### UI Component Library (`lib/ui/`)
+
+A reusable, extractable UI component library featuring premium design with depth effects, glass-morphism, and light animations.
+
+```
+lib/ui/
+├── index.ts              # Main exports
+└── components/
+    ├── CTAButton.tsx     # Primary/secondary call-to-action buttons
+    ├── FeatureCard.tsx   # Feature showcase cards
+    ├── ReasonCard.tsx    # Numbered reason cards
+    ├── EyebrowBadge.tsx  # Section label badges
+    └── ErrorBoundary.tsx # React error boundary
+```
+
+**Usage:**
+
+```tsx
+import {
+  CTAButton,
+  FeatureCard,
+  ReasonCard,
+  EyebrowBadge,
+  ErrorBoundary,
+} from "@/lib/ui";
+```
+
+**Extracting for other projects:**
+
+```bash
+cp -r lib/ui/ ../new-project/lib/ui/
+cp -r lib/motion/ ../new-project/lib/motion/  # Required dependency
+npm install framer-motion  # in new project
+```
 
 ### Motion Library (`lib/motion/`)
 
@@ -300,13 +343,11 @@ npm run lint:fix
 ├── app/                        # Next.js App Router
 │   ├── [locale]/              # Locale-based routing
 │   └── globals.css            # Global styles & animations
-├── components/                 # React components
-│   ├── ui/                    # Base UI components
-│   │   └── EyebrowBadge.tsx   # Badge component
-│   ├── FeatureCard.tsx        # Feature display card
-│   ├── ReasonCard.tsx         # Numbered reason card
+├── components/                 # Page-specific components
+│   ├── layout/                # Header, Footer
 │   ├── HeroSection.tsx        # Hero with scroll fade
 │   ├── StackSection.tsx       # Logo constellation
+│   ├── UseCasesSection.tsx    # Use cases showcase
 │   └── ProjectShowcase.tsx    # Project examples
 ├── lib/
 │   ├── motion/                # Framer Motion library
@@ -359,6 +400,29 @@ npm run lint:fix
 - Updated import paths in `lib/i18n.ts` and `landing-pages/index.ts`
 
 ### Framer Motion Migration
+**UI Component Library (`lib/ui/`):**
+
+- Created new `lib/ui/` library for reusable UI components
+- Moved `CTAButton`, `FeatureCard`, `ReasonCard`, `EyebrowBadge`, `ErrorBoundary` to `lib/ui/`
+- Single import point: `import { CTAButton, FeatureCard } from "@/lib/ui"`
+- Library is extractable to other projects alongside `lib/motion/`
+
+**CTA Button Redesign:**
+
+- Redesigned buttons from pill-shaped to rectangular (`rounded-xl`)
+- Added premium depth effects with layered shadows and inner highlights
+- Primary CTA features:
+  - Blue glow shadow: `shadow-[0_8px_30px_rgb(58,123,213,0.3)]`
+  - Animated light sweep effect (infinite loop)
+  - Geometric corner accent (L-shaped border)
+  - Glass sheen on hover
+- Secondary CTA features:
+  - Glass effect with `backdrop-blur-md`
+  - Layered inner border for depth
+  - Radial blue glow on hover
+  - Chevron icon with animation
+
+**Framer Motion Migration:**
 
 - Migrated all animations from CSS/Intersection Observer to Framer Motion
 - Created reusable `lib/motion/` library for easy extraction to other projects
@@ -375,7 +439,11 @@ npm run lint:fix
 
 ### Dynamic Sections (via i18n)
 
-Configure sections in your translation file:
+- UI components now imported from `@/lib/ui` instead of `@/components/`
+  - `FeatureCard`, `ReasonCard`, `CTAButton` → `@/lib/ui`
+  - `EyebrowBadge`, `ErrorBoundary` → `@/lib/ui` (was `@/components/ui/`)
+- `Reveal` component now imported from `@/lib/motion` instead of `@/components/ui/Reveal`
+- Old CSS animation utilities removed from `globals.css`
 
 ```json
 {
@@ -388,22 +456,256 @@ Configure sections in your translation file:
 }
 ```
 
-### HeroSection (with scroll fade)
+### UI Components (`@/lib/ui`)
+
+#### CTAButton
+
+Premium call-to-action button with glass effects, light animations, and depth.
+
+**Props:**
+
+| Prop        | Type                       | Default     | Description                         |
+| ----------- | -------------------------- | ----------- | ----------------------------------- |
+| `href`      | `string`                   | required    | Link destination URL                |
+| `children`  | `React.ReactNode`          | required    | Button text/content                 |
+| `variant`   | `"primary" \| "secondary"` | `"primary"` | Visual style variant                |
+| `ariaLabel` | `string`                   | `undefined` | Accessible label for screen readers |
+| `showArrow` | `boolean`                  | `true`      | Show arrow icon (primary only)      |
+
+**Variants:**
+
+- **Primary**: Blue background with glow shadow, animated light sweep, geometric corner accent
+- **Secondary**: Glass effect with backdrop blur, radial hover glow, chevron icon
+
+**Examples:**
+
+```tsx
+import { CTAButton } from "@/lib/ui";
+
+// Primary CTA (default)
+<CTAButton href="/contact" ariaLabel="Contact us">
+  Get Started
+</CTAButton>
+
+// Secondary CTA
+<CTAButton href="#examples" variant="secondary">
+  See Examples
+</CTAButton>
+
+// Primary without arrow
+<CTAButton href="/pricing" showArrow={false}>
+  View Pricing
+</CTAButton>
+```
+
+**Design Features (Primary):**
+
+- Rectangular shape with `rounded-xl`
+- Shadow with blue glow: `shadow-[0_8px_30px_rgb(58,123,213,0.3)]`
+- Inner white highlight for 3D depth
+- Animated light sweep (infinite, 3s duration)
+- Geometric corner accent (L-shaped border, top-left)
+- Spring animation on hover (scale 1.02, lift -2px)
+
+**Design Features (Secondary):**
+
+- Glass effect with `backdrop-blur-md`
+- Layered inner border for depth
+- Radial blue glow on hover
+- Light sweep on hover (CSS transition)
+- Chevron icon with translation animation
+
+---
+
+#### FeatureCard
+
+Interactive feature showcase card with coordinated hover animations.
+
+**Props:**
+
+| Prop          | Type     | Default     | Description                |
+| ------------- | -------- | ----------- | -------------------------- |
+| `title`       | `string` | required    | Card title                 |
+| `subtitle`    | `string` | required    | Subtitle/tagline           |
+| `description` | `string` | required    | Feature description        |
+| `cta`         | `string` | `undefined` | CTA button text (optional) |
+
+**Example:**
+
+```tsx
+import { FeatureCard } from "@/lib/ui";
+
+<FeatureCard
+  title="AI Agents"
+  subtitle="The Intelligence."
+  description="Custom AI agents that handle complex tasks autonomously."
+  cta="Create an agent"
+/>;
+```
+
+**Hover Animations:**
+
+- Card scales to 1.02
+- Lightning bolt emoji slides in from left
+- Title shifts right by 8px
+- CTA button expands with text reveal
+- Arrow rotates 180°
+- Gradient overlay fades in
+
+---
+
+#### ReasonCard
+
+Numbered reason card with animated underline and background index.
+
+**Props:**
+
+| Prop          | Type     | Default  | Description                                      |
+| ------------- | -------- | -------- | ------------------------------------------------ |
+| `title`       | `string` | required | Card title                                       |
+| `description` | `string` | required | Reason description                               |
+| `index`       | `number` | required | Index number (0-based, displays as 01, 02, etc.) |
+
+**Example:**
+
+```tsx
+import { ReasonCard } from "@/lib/ui";
+
+<ReasonCard
+  index={0}
+  title="Deep Expertise"
+  description="Years of experience in automation and AI integration."
+/>;
+```
+
+**Hover Animations:**
+
+- Card scales to 1.02 with shadow
+- Background number scales up and becomes more visible
+- Title color changes to accent blue
+- Underline expands from 3rem to 100%
+- Gradient overlay fades in
+
+---
+
+#### EyebrowBadge
+
+Small badge component for section labels with glow effect.
+
+**Props:**
+
+| Prop        | Type              | Default  | Description            |
+| ----------- | ----------------- | -------- | ---------------------- |
+| `children`  | `React.ReactNode` | required | Badge content          |
+| `className` | `string`          | `""`     | Additional CSS classes |
+
+**Example:**
+
+```tsx
+import { EyebrowBadge } from "@/lib/ui";
+import { PulseGlow } from "@/lib/motion";
+
+<EyebrowBadge>
+  <PulseGlow className="rounded-full bg-accent" />
+  Now Available
+</EyebrowBadge>;
+```
+
+**Features:**
+
+- Uppercase text with letter-spacing
+- Rounded pill shape with subtle border
+- Hover glow effect (uses effect layer system)
+- Border color transition on hover
+
+---
+
+#### ErrorBoundary
+
+React error boundary component with fallback UI.
+
+**Props:**
+
+| Prop       | Type              | Default     | Description                 |
+| ---------- | ----------------- | ----------- | --------------------------- |
+| `children` | `React.ReactNode` | required    | Content to wrap             |
+| `fallback` | `React.ReactNode` | `undefined` | Custom fallback UI on error |
+
+**Example:**
+
+```tsx
+import { ErrorBoundary } from "@/lib/ui";
+
+// With default fallback
+<ErrorBoundary>
+  <RiskyComponent />
+</ErrorBoundary>
+
+// With custom fallback
+<ErrorBoundary
+  fallback={
+    <div className="text-center p-8">
+      <p>Unable to load this section.</p>
+    </div>
+  }
+>
+  <RiskyComponent />
+</ErrorBoundary>
+```
+
+---
+
+### Section Components
+
+#### HeroSection
+
+Hero section with scroll-driven "sunset" fade effect.
+
+**Props:**
+
+| Prop                    | Type     | Default  | Description               |
+| ----------------------- | -------- | -------- | ------------------------- |
+| `eyebrowText`           | `string` | required | Badge text above title    |
+| `titleDefault`          | `string` | required | Main title (bold)         |
+| `titleThin`             | `string` | required | Title part (light weight) |
+| `titleAccent`           | `string` | required | Title part (glass effect) |
+| `subtitle`              | `string` | required | Description paragraph     |
+| `ctaText`               | `string` | required | Primary CTA text          |
+| `ctaSecondaryText`      | `string` | required | Secondary CTA text        |
+| `ctaSecondaryAriaLabel` | `string` | required | Secondary CTA aria-label  |
+
+**Example:**
 
 ```tsx
 <HeroSection
-  eyebrowText="Your tagline"
-  titleDefault="Main title "
-  titleThin="secondary text "
-  titleAccent="accent"
-  subtitle="Description paragraph"
-  ctaText="Primary CTA"
-  ctaSecondaryText="Secondary CTA"
-  ctaSecondaryAriaLabel="Accessible label"
+  eyebrowText="AI-Powered Automation"
+  titleDefault="Streamline your "
+  titleThin="business with "
+  titleAccent="intelligent automation"
+  subtitle="We help SMBs automate complex workflows."
+  ctaText="Get Started"
+  ctaSecondaryText="See Examples"
+  ctaSecondaryAriaLabel="View example projects"
 />
 ```
 
-### Reveal (from motion library)
+---
+
+#### StackSection
+
+Animated logo constellation with parallax depth.
+
+```tsx
+<StackSection title="Integrates with your stack" />
+```
+
+---
+
+### Motion Components (`@/lib/motion`)
+
+#### Reveal
+
+Scroll-triggered reveal animation.
 
 ```tsx
 import { Reveal } from "@/lib/motion";
@@ -412,34 +714,6 @@ import { Reveal } from "@/lib/motion";
   <h2>Revealed content</h2>
 </Reveal>;
 ```
-
-### FeatureCard
-
-```tsx
-<FeatureCard
-  title="Workflow Audit"
-  subtitle="The Blueprint."
-  description="We analyze your operations..."
-  cta="Create an agent"
-/>
-```
-
-## Adding New Landing Pages
-
-See `i18n/translations/README.md` for complete documentation. Quick steps:
-
-1. Create folder: `mkdir -p i18n/translations/landing-pages/E`
-2. Add `en.json` and `fr.json` with required structure
-3. Configure `sections` array for desired section order
-4. Register variant in `landing-pages/index.ts`
-
-## Adding New Sections
-
-1. Create component in `lib/sections/components/`
-2. Export from `lib/sections/components/index.ts`
-3. Add type to `SectionType` in `lib/sections/types.ts`
-4. Register in `lib/sections/registry.ts`
-5. Use in i18n: `{ "type": "newSection", "id": "unique-id" }`
 
 ## Performance Considerations
 

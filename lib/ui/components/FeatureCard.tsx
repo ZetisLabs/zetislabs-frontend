@@ -53,12 +53,12 @@ const overlayVariants = {
   hover: { opacity: 1 },
 };
 
-export const FeatureCard = ({
+export function FeatureCard({
   title,
   subtitle,
   description,
   cta,
-}: FeatureCardProps) => {
+}: FeatureCardProps) {
   return (
     <div className="group relative h-full cursor-pointer">
       <motion.div
@@ -137,4 +137,4 @@ export const FeatureCard = ({
       </motion.div>
     </div>
   );
-};
+}
