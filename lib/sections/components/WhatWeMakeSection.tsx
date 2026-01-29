@@ -1,6 +1,7 @@
-import { Reveal } from "@/lib/motion";
+import { Reveal, CardReveal } from "@/lib/motion";
 import type { SectionProps } from "../types";
-import { FeatureCard } from "@/lib/ui";
+import { ServiceCard } from "@/lib/ui";
+import { Map, Cog, Bot } from "lucide-react";
 
 const featureKeys = [
   "aiAgents",
@@ -8,11 +9,17 @@ const featureKeys = [
   "intelligentWorkflows",
 ] as const;
 
+const featureIcons: Record<(typeof featureKeys)[number], React.ReactNode> = {
+  aiAgents: <Map className="h-5 w-5" />,
+  processAutomation: <Cog className="h-5 w-5" />,
+  intelligentWorkflows: <Bot className="h-5 w-5" />,
+};
+
 /**
  * What We Make Section
  *
- * Displays feature cards showcasing the company's offerings.
- * Extracted from page.tsx for the dynamic section library.
+ * Displays service cards showcasing the company's offerings.
+ * Uses ServiceCard component with clean notification style.
  */
 export function WhatWeMakeSection({ t }: SectionProps) {
   return (
@@ -31,18 +38,17 @@ export function WhatWeMakeSection({ t }: SectionProps) {
           </Reveal>
         </div>
 
-        <div className="group/grid mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featureKeys.map((featureKey) => (
-            <Reveal key={featureKey} className="h-full">
-              <FeatureCard
-                title={t(`home.whatWeMake.features.${featureKey}.title`)}
-                subtitle={t(`home.whatWeMake.features.${featureKey}.subtitle`)}
-                description={t(
-                  `home.whatWeMake.features.${featureKey}.description`
-                )}
-                cta={t(`home.whatWeMake.features.${featureKey}.cta`)}
+        <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featureKeys.map((featureKey, index) => (
+            <CardReveal key={featureKey} index={index} variant="lift">
+              <ServiceCard
+                icon={featureIcons[featureKey]}
+                serviceName={t(`home.whatWeMake.features.${featureKey}.title`)}
+                label={t(`home.whatWeMake.features.${featureKey}.subtitle`)}
+                title={t(`home.whatWeMake.features.${featureKey}.description`)}
+                date={t(`home.whatWeMake.features.${featureKey}.cta`)}
               />
-            </Reveal>
+            </CardReveal>
           ))}
         </div>
       </div>

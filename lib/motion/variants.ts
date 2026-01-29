@@ -224,3 +224,111 @@ export const smoothEntrance = (delay = 0): Variants => ({
     },
   },
 });
+
+// ============================================
+// CARD ANIMATIONS
+// ============================================
+
+/**
+ * Card with depth effect on hover (lift + shadow)
+ */
+export const cardDepth: Variants = {
+  rest: {
+    scale: 1,
+    y: 0,
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+  },
+  hover: {
+    scale: 1.02,
+    y: -8,
+    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.12)",
+    transition: {
+      duration: 0.4,
+      ease: easings.easeOut,
+    },
+  },
+};
+
+/**
+ * Card with subtle glow effect on hover
+ */
+export const cardGlow: Variants = {
+  rest: {
+    scale: 1,
+    boxShadow: "0 0 0 rgba(58, 123, 213, 0)",
+  },
+  hover: {
+    scale: 1.01,
+    boxShadow: "0 0 30px rgba(58, 123, 213, 0.15)",
+    transition: {
+      duration: 0.3,
+      ease: easings.easeOut,
+    },
+  },
+};
+
+/**
+ * Card border glow effect
+ */
+export const cardBorderGlow: Variants = {
+  rest: {
+    borderColor: "rgba(226, 226, 226, 0.5)",
+  },
+  hover: {
+    borderColor: "rgba(58, 123, 213, 0.3)",
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
+
+/**
+ * Inner content shift on hover (parallax-like)
+ * @param distance - Shift distance in pixels
+ */
+export const cardContentShift = (distance = 4): Variants => ({
+  rest: { y: 0 },
+  hover: {
+    y: -distance,
+    transition: {
+      duration: 0.4,
+      ease: easings.easeOut,
+    },
+  },
+});
+
+/**
+ * Grid background animation on card hover
+ */
+export const cardGridReveal: Variants = {
+  rest: {
+    opacity: 0.2,
+    scale: 1,
+  },
+  hover: {
+    opacity: 0.4,
+    scale: 1.05,
+    transition: {
+      duration: 0.5,
+      ease: easings.easeOut,
+    },
+  },
+};
+
+/**
+ * Shimmer/shine effect for premium cards
+ */
+export const cardShimmer: Variants = {
+  rest: {
+    x: "-100%",
+    opacity: 0,
+  },
+  hover: {
+    x: "100%",
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: easings.easeInOut,
+    },
+  },
+};

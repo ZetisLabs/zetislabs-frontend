@@ -33,6 +33,10 @@ app/
 - `CTAButton` - Primary/secondary CTA buttons with glass effects and animations
 - `FeatureCard` - Interactive feature cards with hover effects and animated CTAs
 - `ReasonCard` - Numbered reason cards with gradient overlays
+- `ServiceCard` - Notification-style cards for platform integrations (Slack, Notion, Trello)
+- `HighlightCard` - Compact cards with badge, title, icon for key messages
+- `InfoCard` - Flexible cards with icon, title, content, and footer
+- `LargeHighlightCard` - Wide format cards for carousels with decoration
 - `EyebrowBadge` - Section label badges with glow effect
 - `ErrorBoundary` - React error boundary with fallback UI
 
@@ -62,6 +66,10 @@ lib/ui/
     ├── CTAButton.tsx     # Primary/secondary call-to-action buttons
     ├── FeatureCard.tsx   # Feature showcase cards
     ├── ReasonCard.tsx    # Numbered reason cards
+    ├── ServiceCard.tsx   # Notification-style platform cards
+    ├── HighlightCard.tsx # Compact highlight cards with badge
+    ├── InfoCard.tsx      # Flexible info cards
+    ├── LargeHighlightCard.tsx # Wide carousel cards
     ├── EyebrowBadge.tsx  # Section label badges
     └── ErrorBoundary.tsx # React error boundary
 ```
@@ -73,6 +81,10 @@ import {
   CTAButton,
   FeatureCard,
   ReasonCard,
+  ServiceCard,
+  HighlightCard,
+  InfoCard,
+  LargeHighlightCard,
   EyebrowBadge,
   ErrorBoundary,
 } from "@/lib/ui";
@@ -102,7 +114,10 @@ lib/motion/
     ├── ScrollFade.tsx    # Scroll-progress-based fade
     ├── HoverScale.tsx    # Hover interaction wrapper
     ├── PulseGlow.tsx     # Infinite pulse animation
-    └── BreathingHalo.tsx # Apple-style breathing glow
+    ├── BreathingHalo.tsx # Apple-style breathing glow
+    ├── GridBackground.tsx    # Animated grid background
+    ├── CardReveal.tsx    # Card entrance animation
+    └── CardCarousel.tsx  # Horizontal scroll carousel
 ```
 
 **Usage:**
@@ -400,6 +415,7 @@ npm run lint:fix
 - Updated import paths in `lib/i18n.ts` and `landing-pages/index.ts`
 
 ### Framer Motion Migration
+
 **UI Component Library (`lib/ui/`):**
 
 - Created new `lib/ui/` library for reusable UI components
@@ -620,6 +636,212 @@ import { PulseGlow } from "@/lib/motion";
 
 ---
 
+#### ServiceCard
+
+Notification-style card for platform integrations (Slack, Notion, Trello, etc.).
+
+**Props:**
+
+| Prop          | Type              | Default     | Description                               |
+| ------------- | ----------------- | ----------- | ----------------------------------------- |
+| `icon`        | `React.ReactNode` | required    | Platform icon (e.g., Slack, Notion)       |
+| `serviceName` | `string`          | required    | Name of the service (displayed as badge)  |
+| `label`       | `string`          | required    | Category label (e.g., "Incoming Webhook") |
+| `title`       | `string`          | required    | Card title/description                    |
+| `date`        | `string`          | `undefined` | Date string (e.g., "Oct 24, 2024")        |
+| `assignee`    | `string`          | `undefined` | Assignee name with avatar initial         |
+| `className`   | `string`          | `undefined` | Additional CSS classes                    |
+
+**Example:**
+
+```tsx
+import { ServiceCard } from "@/lib/ui";
+import { Slack } from "lucide-react";
+
+<ServiceCard
+  icon={<Slack className="h-5 w-5 text-[#4A154B]" />}
+  serviceName="Slack"
+  label="Incoming Webhook"
+  title="Update production deployment status to #ops-channel"
+  date="Oct 24, 2024"
+  assignee="Sarah K."
+/>;
+```
+
+**Design Features:**
+
+- Clean white card with subtle border
+- Service badge with uppercase styling
+- Separator line between content and metadata
+- Avatar initial circle for assignee
+- Hover lift animation with shadow
+
+---
+
+#### HighlightCard
+
+Compact card with badge, title, and optional icon for key messages.
+
+**Props:**
+
+| Prop          | Type                                                                  | Default     | Description               |
+| ------------- | --------------------------------------------------------------------- | ----------- | ------------------------- |
+| `badge`       | `{ text: string; color?: "orange" \| "blue" \| "green" \| "purple" }` | `undefined` | Optional colored badge    |
+| `title`       | `string \| React.ReactNode`                                           | required    | Card title                |
+| `description` | `string`                                                              | `undefined` | Optional description text |
+| `icon`        | `React.ReactNode`                                                     | `undefined` | Optional icon element     |
+| `className`   | `string`                                                              | `undefined` | Additional CSS classes    |
+| `onClick`     | `() => void`                                                          | `undefined` | Optional click handler    |
+
+**Example:**
+
+```tsx
+import { HighlightCard } from "@/lib/ui";
+import { Sparkles } from "lucide-react";
+
+<HighlightCard
+  badge={{ text: "New Feature", color: "orange" }}
+  title="AI-Powered Insights"
+  description="Get intelligent recommendations based on your data."
+  icon={<Sparkles className="h-6 w-6 text-orange-500" />}
+/>;
+```
+
+**Badge Colors:**
+
+- `orange`: Orange background with orange text
+- `blue`: Blue background with blue text
+- `green`: Green background with green text
+- `purple`: Purple background with purple text
+
+---
+
+#### InfoCard
+
+Flexible card for displaying information with icon, title, content, and footer.
+
+**Props:**
+
+| Prop        | Type                        | Default     | Description                  |
+| ----------- | --------------------------- | ----------- | ---------------------------- |
+| `icon`      | `React.ReactNode`           | `undefined` | Optional icon element        |
+| `title`     | `string`                    | required    | Card title                   |
+| `content`   | `string \| React.ReactNode` | required    | Main content                 |
+| `footer`    | `string \| React.ReactNode` | `undefined` | Optional footer text/element |
+| `className` | `string`                    | `undefined` | Additional CSS classes       |
+| `onClick`   | `() => void`                | `undefined` | Optional click handler       |
+
+**Example:**
+
+```tsx
+import { InfoCard } from "@/lib/ui";
+import { Zap, Shield, Rocket } from "lucide-react";
+
+// Basic usage
+<InfoCard
+  icon={<Zap className="h-5 w-5" />}
+  title="Lightning Fast"
+  content="Our platform is optimized for speed, ensuring your workflows run without delay."
+  footer="Performance optimized"
+/>
+
+// Grid of InfoCards
+<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+  <InfoCard
+    icon={<Zap className="h-5 w-5" />}
+    title="Lightning Fast"
+    content="Optimized for speed and performance."
+    footer="Performance optimized"
+  />
+  <InfoCard
+    icon={<Shield className="h-5 w-5" />}
+    title="Enterprise Security"
+    content="Bank-level encryption keeps your data safe."
+    footer="SOC 2 Certified"
+  />
+  <InfoCard
+    icon={<Rocket className="h-5 w-5" />}
+    title="Scale Effortlessly"
+    content="Infrastructure that grows with your business."
+    footer="99.9% Uptime SLA"
+  />
+</div>
+```
+
+**Design Features:**
+
+- Icon displayed in accent-colored circle
+- Separator line above footer
+- Muted footer text styling
+- Hover lift animation
+
+---
+
+#### LargeHighlightCard
+
+Wide format card designed for carousels, with horizontal layout and decoration area.
+
+**Props:**
+
+| Prop          | Type                                                                  | Default     | Description                        |
+| ------------- | --------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `badge`       | `{ text: string; color?: "orange" \| "blue" \| "green" \| "purple" }` | `undefined` | Optional colored badge             |
+| `title`       | `string`                                                              | required    | Card title (bold heading)          |
+| `description` | `string`                                                              | required    | Description text                   |
+| `decoration`  | `React.ReactNode`                                                     | `undefined` | Visual element (icon, image, etc.) |
+| `className`   | `string`                                                              | `undefined` | Additional CSS classes             |
+
+**Example:**
+
+```tsx
+import { LargeHighlightCard } from "@/lib/ui";
+import { CardCarousel } from "@/lib/motion";
+import { Sparkles, Target, Heart } from "lucide-react";
+
+<CardCarousel showArrows={true} showDots={true}>
+  <LargeHighlightCard
+    badge={{ text: "Core Value", color: "orange" }}
+    title="Innovation at Every Step"
+    description="We push boundaries and embrace cutting-edge technologies to deliver solutions that set you apart."
+    decoration={
+      <div className="flex h-32 w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg md:h-40 md:w-40">
+        <Sparkles className="h-16 w-16 text-white" />
+      </div>
+    }
+  />
+  <LargeHighlightCard
+    badge={{ text: "Our Promise", color: "blue" }}
+    title="Quality You Can Trust"
+    description="Every line of code, every design decision is made with excellence and reliability in mind."
+    decoration={
+      <div className="flex h-32 w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg md:h-40 md:w-40">
+        <Target className="h-16 w-16 text-white" />
+      </div>
+    }
+  />
+  <LargeHighlightCard
+    badge={{ text: "Philosophy", color: "purple" }}
+    title="Built with Care"
+    description="We treat every project like it's our own. Your success is our success."
+    decoration={
+      <div className="flex h-32 w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-purple-400 to-purple-600 shadow-lg md:h-40 md:w-40">
+        <Heart className="h-16 w-16 text-white" />
+      </div>
+    }
+  />
+</CardCarousel>;
+```
+
+**Design Features:**
+
+- Fixed responsive height: `320px` (mobile), `280px` (md), `300px` (lg)
+- Horizontal layout with text left, decoration right
+- Subtle background glow behind decoration
+- Hover lift animation with enhanced shadow
+- Designed to work with CardCarousel component
+
+---
+
 #### ErrorBoundary
 
 React error boundary component with fallback UI.
@@ -715,6 +937,60 @@ import { Reveal } from "@/lib/motion";
 </Reveal>;
 ```
 
+---
+
+#### CardCarousel
+
+Horizontal scroll carousel with snap points, navigation arrows, and pagination dots.
+
+**Props:**
+
+| Prop               | Type              | Default     | Description                           |
+| ------------------ | ----------------- | ----------- | ------------------------------------- |
+| `children`         | `React.ReactNode` | required    | Card elements to display              |
+| `showDots`         | `boolean`         | `true`      | Show pagination dots                  |
+| `showArrows`       | `boolean`         | `true`      | Show navigation arrows (desktop only) |
+| `autoPlay`         | `boolean`         | `false`     | Enable auto-play                      |
+| `autoPlayInterval` | `number`          | `5000`      | Auto-play interval in ms              |
+| `className`        | `string`          | `undefined` | Additional CSS classes                |
+
+**Example:**
+
+```tsx
+import { CardCarousel } from "@/lib/motion";
+import { LargeHighlightCard } from "@/lib/ui";
+
+<CardCarousel showArrows={true} showDots={true}>
+  <LargeHighlightCard
+    badge={{ text: "Feature 1", color: "orange" }}
+    title="First Card"
+    description="Description for the first card."
+    decoration={<YourDecoration />}
+  />
+  <LargeHighlightCard
+    badge={{ text: "Feature 2", color: "blue" }}
+    title="Second Card"
+    description="Description for the second card."
+    decoration={<YourDecoration />}
+  />
+  <LargeHighlightCard
+    badge={{ text: "Feature 3", color: "purple" }}
+    title="Third Card"
+    description="Description for the third card."
+    decoration={<YourDecoration />}
+  />
+</CardCarousel>;
+```
+
+**Features:**
+
+- CSS scroll-snap for smooth snapping
+- Fixed card widths: `calc(100vw - 3rem)` (mobile), `700px` (md), `900px` (lg)
+- Edge fade gradients when scrollable
+- Navigation arrows (hidden on mobile)
+- Active pagination dot indicator (elongated style)
+- Optional auto-play with configurable interval
+
 ## Performance Considerations
 
 - Server components for static content to reduce client bundle
@@ -787,3 +1063,83 @@ Consider adding:
 - Analytics integration
 - Performance monitoring
 - A/B testing framework integration with section library
+
+# MCP Gemini Design - MANDATORY FOR FRONTEND
+
+## ABSOLUTE RULE - NEVER IGNORE
+
+**You MUST NEVER write frontend/UI code yourself.**
+
+Gemini is your frontend developer. You are NOT allowed to create visual components, pages, or interfaces without going through Gemini. This is NON-NEGOTIABLE.
+
+### When to use Gemini? ALWAYS for:
+
+- Creating a page (dashboard, landing, settings, etc.)
+- Creating a visual component (card, modal, sidebar, form, button, etc.)
+- Modifying the design of an existing element
+- Anything related to styling/layout
+
+### Exceptions (you can do it yourself):
+
+- Modifying text/copy
+- Adding JS logic without changing the UI
+- Non-visual bug fixes
+- Data wiring (useQuery, useMutation, etc.)
+
+## MANDATORY Workflow
+
+### 1. New project without existing design
+
+```
+STEP 1: generate_vibes → show options to the user
+STEP 2: User chooses their vibe
+STEP 3: create_frontend with the chosen vibe AND generateDesignSystem: true
+STEP 4: Gemini returns code + designSystem in the response
+STEP 5: Save the code to the target file AND save designSystem to design-system.md at project root
+```
+
+### 2. Subsequent pages/components (after first page)
+
+```
+Use create_frontend / modify_frontend / snippet_frontend with projectRoot parameter.
+The design-system.md is automatically loaded and Gemini will use the exact same styles.
+```
+
+### 3. Existing project with its own design
+
+```
+ALWAYS pass CSS/theme files in the `context` parameter
+```
+
+### 4. After Gemini's response
+
+```
+Gemini returns code → YOU write it to disk with Write/Edit
+```
+
+## Design System Feature
+
+When creating the FIRST page of a new project, set `generateDesignSystem: true` in create_frontend. Gemini will return both the code AND a complete design system with all colors, typography, spacing, buttons, inputs, cards, etc.
+
+Save this design system to `design-system.md` at the project root. For all subsequent calls (create_frontend, modify_frontend, snippet_frontend), pass `projectRoot` and the design system will be automatically loaded. This ensures all pages have consistent styling.
+
+## Checklist before coding frontend
+
+- [ ] Am I creating/modifying something visual?
+- [ ] If YES → STOP → Use Gemini
+- [ ] If NO (pure logic) → You can continue
+
+## WHAT IS FORBIDDEN
+
+- Writing a React component with styling without Gemini
+- Creating a page without Gemini
+- "Reusing existing styles" as an excuse to not use Gemini
+- Doing frontend "quickly" yourself
+
+## WHAT IS EXPECTED
+
+- Call Gemini BEFORE writing any frontend code
+- Ask the user for their vibe choice if new project
+- Use generateDesignSystem: true for the FIRST page, then save design-system.md
+- Pass projectRoot for all subsequent frontend calls
+- Let Gemini design, you implement

@@ -41,6 +41,10 @@ export {
   HoverScale,
   PulseGlow,
   BreathingHalo,
+  GridBackground,
+  CardReveal,
+  FloatingCardsShowcase,
+  CardCarousel,
 } from "./components";
 
 // Re-export commonly used Framer Motion utilities

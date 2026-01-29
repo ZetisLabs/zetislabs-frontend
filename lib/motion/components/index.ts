@@ -11,3 +11,7 @@ export { ScrollFade } from "./ScrollFade";
 export { HoverScale } from "./HoverScale";
 export { PulseGlow } from "./PulseGlow";
 export { BreathingHalo } from "./BreathingHalo";
+export { GridBackground } from "./GridBackground";
+export { CardReveal } from "./CardReveal";
+export { FloatingCardsShowcase } from "./FloatingCardsShowcase";
+export { CardCarousel } from "./CardCarousel";
