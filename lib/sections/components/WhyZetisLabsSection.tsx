@@ -1,6 +1,6 @@
 import { Reveal } from "@/lib/motion";
-import { ReasonCard } from "@/components/ReasonCard";
 import type { SectionProps } from "../types";
+import { ReasonCard } from "@/lib/ui";
 
 const reasonKeys = ["expertise", "scalability", "results"] as const;
 

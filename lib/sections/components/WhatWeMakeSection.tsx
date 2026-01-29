@@ -1,6 +1,6 @@
 import { Reveal } from "@/lib/motion";
-import { FeatureCard } from "@/components/FeatureCard";
 import type { SectionProps } from "../types";
+import { FeatureCard } from "@/lib/ui";
 
 const featureKeys = [
   "aiAgents",

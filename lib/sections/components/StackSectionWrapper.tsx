@@ -1,4 +1,4 @@
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { ErrorBoundary } from "@/lib/ui";
 import { StackSection } from "@/components/StackSection";
 import type { SectionProps } from "../types";
 

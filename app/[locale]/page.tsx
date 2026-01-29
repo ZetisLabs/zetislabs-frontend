@@ -3,6 +3,7 @@ import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { Reveal } from "@/lib/motion";
 import { HeroSection } from "@/components/HeroSection";
 import { SectionRenderer, type SectionConfig } from "@/lib/sections";
+import { CTAButton } from "@/lib/ui";
 
 type Props = {
   params: Promise<{ locale: string }>;

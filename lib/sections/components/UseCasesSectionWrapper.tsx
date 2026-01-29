@@ -1,6 +1,6 @@
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { UseCasesSection } from "@/components/UseCasesSection";
 import type { SectionProps } from "../types";
+import { ErrorBoundary } from "@/lib/ui";
 
 /**
  * Use Cases Section Wrapper
