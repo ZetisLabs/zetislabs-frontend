@@ -16,10 +16,10 @@ import { EyebrowBadge } from "@/lib/ui";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | required | Badge text |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default  | Description            |
+| ----------- | ----------- | -------- | ---------------------- |
+| `children`  | `ReactNode` | required | Badge text             |
+| `className` | `string`    | -        | Additional CSS classes |
 
 ## Features
 
@@ -34,9 +34,7 @@ import { EyebrowBadge } from "@/lib/ui";
 ```tsx
 <section>
   <EyebrowBadge>What We Make</EyebrowBadge>
-  <h2 className="text-4xl font-semibold mt-4">
-    Intelligent Solutions
-  </h2>
+  <h2 className="mt-4 text-4xl font-semibold">Intelligent Solutions</h2>
 </section>
 ```
 
@@ -47,7 +45,7 @@ import { PulseGlow } from "@/lib/motion";
 
 <PulseGlow>
   <EyebrowBadge>AI-Powered</EyebrowBadge>
-</PulseGlow>
+</PulseGlow>;
 ```
 
 ### With Reveal Animation
@@ -103,9 +101,7 @@ The standard pattern for section headers:
       <EyebrowBadge>{t("home.section.eyebrow")}</EyebrowBadge>
     </Reveal>
     <Reveal delay={0.1}>
-      <h2 className="text-4xl font-semibold mt-4">
-        {t("home.section.title")}
-      </h2>
+      <h2 className="mt-4 text-4xl font-semibold">{t("home.section.title")}</h2>
     </Reveal>
     {/* Section content */}
   </div>

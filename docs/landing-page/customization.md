@@ -22,18 +22,14 @@ Colors are defined in `app/globals.css`:
 
 ```tsx
 <div className="bg-background text-foreground">
-  <button className="bg-accent text-white">
-    Primary Action
-  </button>
+  <button className="bg-accent text-white">Primary Action</button>
 </div>
 ```
 
 ### Glassmorphism Effects
 
 ```tsx
-<div className="glass glass-card--inline">
-  Glass effect card
-</div>
+<div className="glass glass-card--inline">Glass effect card</div>
 ```
 
 ## Fonts
@@ -60,15 +56,15 @@ Edit `lib/motion/config.ts`:
 ```typescript
 // Durations
 export const durations = {
-  fast: 0.3,      // Quick interactions
-  medium: 0.5,    // Standard transitions
-  slow: 0.7,      // Emphasis
-  reveal: 0.7,    // Scroll-based reveals
+  fast: 0.3, // Quick interactions
+  medium: 0.5, // Standard transitions
+  slow: 0.7, // Emphasis
+  reveal: 0.7, // Scroll-based reveals
 };
 
 // Easing curves
 export const easings = {
-  smooth: [0.16, 1, 0.3, 1],      // Apple-style
+  smooth: [0.16, 1, 0.3, 1], // Apple-style
   easeOut: [0, 0, 0.58, 1],
   breathing: [0.25, 0.1, 0.25, 1], // Organic feel
 };
@@ -96,8 +92,8 @@ export const glowColors = {
 ```typescript
 export const viewportMargins = {
   default: "-16% 0px -15% 0px", // Standard reveal
-  early: "-10% 0px -10% 0px",   // Trigger earlier
-  late: "-25% 0px -25% 0px",    // Trigger later
+  early: "-10% 0px -10% 0px", // Trigger earlier
+  late: "-25% 0px -25% 0px", // Trigger later
 };
 ```
 
@@ -129,6 +125,7 @@ export const viewportMargins = {
 ```
 
 Hover effects:
+
 - Scale up (1.02)
 - CTA container slides up
 - Emoji/icon slides in
@@ -137,13 +134,14 @@ Hover effects:
 
 ```tsx
 <ReasonCard
-  index={0}  // Determines background number (01, 02, etc.)
+  index={0} // Determines background number (01, 02, etc.)
   title="Deep Expertise"
   description="Years of experience..."
 />
 ```
 
 Hover effects:
+
 - Background number fades and moves
 - Underline expands
 - Text color shifts
@@ -198,13 +196,12 @@ Use Tailwind responsive prefixes:
 
 ```tsx
 <div className="px-4 md:px-8 lg:px-12">
-  <h1 className="text-2xl md:text-4xl lg:text-6xl">
-    Responsive Heading
-  </h1>
+  <h1 className="text-2xl md:text-4xl lg:text-6xl">Responsive Heading</h1>
 </div>
 ```
 
 Breakpoints:
+
 - `sm`: 640px
 - `md`: 768px
 - `lg`: 1024px

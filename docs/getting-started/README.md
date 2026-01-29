@@ -26,12 +26,12 @@ Open [http://localhost:3000](http://localhost:3000) - you'll be redirected to `/
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Auto-fix lint issues |
+| Command            | Description              |
+| ------------------ | ------------------------ |
+| `npm run dev`      | Start development server |
+| `npm run build`    | Production build         |
+| `npm run lint`     | Run ESLint               |
+| `npm run lint:fix` | Auto-fix lint issues     |
 
 ## Project Structure
 

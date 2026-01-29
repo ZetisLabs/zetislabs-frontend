@@ -4,16 +4,16 @@ Welcome to the ZetisLabs front-end documentation. This guide covers everything y
 
 ## Quick Links
 
-| Section | Description |
-|---------|-------------|
-| [Getting Started](./getting-started/README.md) | Installation and quick start |
-| [Landing Page](./landing-page/README.md) | Maintain and update content |
-| [UI Library](./libraries/ui/README.md) | Reusable UI components |
-| [Motion Library](./libraries/motion/README.md) | Animation system |
-| [Sections Library](./libraries/sections/README.md) | Dynamic section composition |
-| [Internationalization](./i18n.md) | Multi-language support |
-| [Development](./development.md) | Coding guidelines |
-| [Deployment](./deployment.md) | Deploy to production |
+| Section                                            | Description                  |
+| -------------------------------------------------- | ---------------------------- |
+| [Getting Started](./getting-started/README.md)     | Installation and quick start |
+| [Landing Page](./landing-page/README.md)           | Maintain and update content  |
+| [UI Library](./libraries/ui/README.md)             | Reusable UI components       |
+| [Motion Library](./libraries/motion/README.md)     | Animation system             |
+| [Sections Library](./libraries/sections/README.md) | Dynamic section composition  |
+| [Internationalization](./i18n.md)                  | Multi-language support       |
+| [Development](./development.md)                    | Coding guidelines            |
+| [Deployment](./deployment.md)                      | Deploy to production         |
 
 ## Tech Stack
 
@@ -49,7 +49,9 @@ All animated components use the `hasMounted` pattern to prevent hydration mismat
 
 ```tsx
 const [hasMounted, setHasMounted] = useState(false);
-useEffect(() => { setHasMounted(true); }, []);
+useEffect(() => {
+  setHasMounted(true);
+}, []);
 const shouldAnimate = hasMounted && !prefersReducedMotion;
 ```
 
@@ -63,13 +65,13 @@ import { SectionRenderer } from "@/lib/sections";
 
 ## Common Tasks
 
-| Task | Guide |
-|------|-------|
-| Update hero text | [Landing Page > Content](./landing-page/content.md) |
-| Add a new section | [Landing Page > Sections](./landing-page/sections.md) |
-| Create a button | [UI Library > CTAButton](./libraries/ui/cta-button.md) |
-| Add animations | [Motion Library](./libraries/motion/README.md) |
-| Add translations | [i18n Guide](./i18n.md) |
+| Task              | Guide                                                  |
+| ----------------- | ------------------------------------------------------ |
+| Update hero text  | [Landing Page > Content](./landing-page/content.md)    |
+| Add a new section | [Landing Page > Sections](./landing-page/sections.md)  |
+| Create a button   | [UI Library > CTAButton](./libraries/ui/cta-button.md) |
+| Add animations    | [Motion Library](./libraries/motion/README.md)         |
+| Add translations  | [i18n Guide](./i18n.md)                                |
 
 ## Support
 

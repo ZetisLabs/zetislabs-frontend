@@ -14,17 +14,37 @@ i18n/translations/default/
 
 ```json
 {
-  "metadata": { /* Page title, description */ },
-  "header": { /* Navigation labels */ },
-  "footer": { /* Footer text, links */ },
+  "metadata": {
+    /* Page title, description */
+  },
+  "header": {
+    /* Navigation labels */
+  },
+  "footer": {
+    /* Footer text, links */
+  },
   "home": {
-    "sections": [ /* Section order config */ ],
-    "hero": { /* Hero section content */ },
-    "whatWeMake": { /* Feature cards */ },
-    "stack": { /* Stack section */ },
-    "useCases": { /* Use cases content */ },
-    "whyZetisLabs": { /* Reasons content */ },
-    "cta": { /* Final CTA */ }
+    "sections": [
+      /* Section order config */
+    ],
+    "hero": {
+      /* Hero section content */
+    },
+    "whatWeMake": {
+      /* Feature cards */
+    },
+    "stack": {
+      /* Stack section */
+    },
+    "useCases": {
+      /* Use cases content */
+    },
+    "whyZetisLabs": {
+      /* Reasons content */
+    },
+    "cta": {
+      /* Final CTA */
+    }
   }
 }
 ```
@@ -137,6 +157,7 @@ i18n/translations/default/
 ### Add a New Feature Card
 
 1. Add to `en.json`:
+
 ```json
 {
   "home": {
@@ -161,6 +182,7 @@ i18n/translations/default/
 ### Add a New Reason
 
 1. Add to both translation files:
+
 ```json
 {
   "home": {

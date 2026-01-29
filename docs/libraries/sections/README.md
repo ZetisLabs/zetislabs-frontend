@@ -5,6 +5,7 @@ A dynamic section composition system that renders page sections based on configu
 ## Overview
 
 The sections library allows you to:
+
 - Define section order in translation files
 - Add/remove sections without touching page code
 - Reorder sections by editing JSON
@@ -61,12 +62,7 @@ export default async function Page({ params }) {
   const sections = getTranslations(locale).home.sections;
 
   return (
-    <SectionRenderer
-      sections={sections}
-      locale={locale}
-      t={t}
-      dict={dict}
-    />
+    <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
   );
 }
 ```
@@ -76,18 +72,27 @@ export default async function Page({ params }) {
 ```typescript
 // lib/sections/index.ts
 export { SectionRenderer } from "./SectionRenderer";
-export { sectionRegistry, getSectionComponent, isValidSectionType } from "./registry";
-export type { SectionType, SectionConfig, SectionProps, SectionComponent } from "./types";
+export {
+  sectionRegistry,
+  getSectionComponent,
+  isValidSectionType,
+} from "./registry";
+export type {
+  SectionType,
+  SectionConfig,
+  SectionProps,
+  SectionComponent,
+} from "./types";
 ```
 
 ## Available Section Types
 
-| Type | Component | Description |
-|------|-----------|-------------|
-| `whatWeMake` | WhatWeMakeSection | Feature cards grid |
-| `stack` | StackSection | Logo constellation |
-| `useCases` | UseCasesSection | Sticky scroll slides |
-| `whyZetisLabs` | WhyZetisLabsSection | Reason cards |
+| Type           | Component           | Description          |
+| -------------- | ------------------- | -------------------- |
+| `whatWeMake`   | WhatWeMakeSection   | Feature cards grid   |
+| `stack`        | StackSection        | Logo constellation   |
+| `useCases`     | UseCasesSection     | Sticky scroll slides |
+| `whyZetisLabs` | WhyZetisLabsSection | Reason cards         |
 
 ## Configuration Options
 
@@ -123,9 +128,9 @@ lib/sections/
 
 ```typescript
 interface SectionConfig {
-  type: SectionType;      // Maps to component in registry
-  id: string;             // Unique React key
-  enabled?: boolean;      // Default: true
+  type: SectionType; // Maps to component in registry
+  id: string; // Unique React key
+  enabled?: boolean; // Default: true
 }
 ```
 
@@ -135,9 +140,9 @@ All sections receive:
 
 ```typescript
 interface SectionProps {
-  locale: Locale;                    // Current language
-  t: (key: string) => string;        // Translation helper
-  dict: Translations;                // Full translation object
+  locale: Locale; // Current language
+  t: (key: string) => string; // Translation helper
+  dict: Translations; // Full translation object
 }
 ```
 

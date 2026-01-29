@@ -26,12 +26,12 @@ The ZetisLabs landing page is built with a modular, content-driven architecture.
 
 ## Section Types
 
-| Type | Component | Description |
-|------|-----------|-------------|
-| `whatWeMake` | WhatWeMakeSection | Feature cards grid (3 columns) |
-| `stack` | StackSection | Logo constellation with parallax |
-| `useCases` | UseCasesSection | Sticky scroll with project carousel |
-| `whyZetisLabs` | WhyZetisLabsSection | Numbered reason cards |
+| Type           | Component           | Description                         |
+| -------------- | ------------------- | ----------------------------------- |
+| `whatWeMake`   | WhatWeMakeSection   | Feature cards grid (3 columns)      |
+| `stack`        | StackSection        | Logo constellation with parallax    |
+| `useCases`     | UseCasesSection     | Sticky scroll with project carousel |
+| `whyZetisLabs` | WhyZetisLabsSection | Numbered reason cards               |
 
 ## How Sections Work
 
@@ -54,25 +54,20 @@ The `SectionRenderer` component reads this config and renders each section:
 
 ```tsx
 // app/[locale]/page.tsx
-<SectionRenderer
-  sections={sections}
-  locale={locale}
-  t={t}
-  dict={dict}
-/>
+<SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
 ```
 
 ## File Locations
 
-| Content | Location |
-|---------|----------|
-| Hero Section | `components/HeroSection.tsx` |
-| Feature Cards | `components/WhatWeMakeSection.tsx` |
-| Stack Logos | `components/StackSection.tsx` |
-| Use Cases | `components/UseCasesSection.tsx` |
-| Why Section | `components/WhyZetisLabsSection.tsx` |
-| Header | `components/layout/Header.tsx` |
-| Footer | `components/layout/Footer.tsx` |
+| Content       | Location                             |
+| ------------- | ------------------------------------ |
+| Hero Section  | `components/HeroSection.tsx`         |
+| Feature Cards | `components/WhatWeMakeSection.tsx`   |
+| Stack Logos   | `components/StackSection.tsx`        |
+| Use Cases     | `components/UseCasesSection.tsx`     |
+| Why Section   | `components/WhyZetisLabsSection.tsx` |
+| Header        | `components/layout/Header.tsx`       |
+| Footer        | `components/layout/Footer.tsx`       |
 
 ## Key Files
 

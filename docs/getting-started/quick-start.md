@@ -101,6 +101,7 @@ See [Creating Sections](../libraries/sections/creating-sections.md) for details.
 ## 6. Add a New Language
 
 1. Update `i18n/config.ts`:
+
    ```typescript
    export const locales = ["en", "fr", "es"] as const;
    ```

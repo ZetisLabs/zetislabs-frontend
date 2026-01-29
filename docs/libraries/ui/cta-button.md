@@ -21,6 +21,7 @@ The primary variant features a blue glow effect and animated light sweep. Use fo
 ```
 
 **Features:**
+
 - Blue accent glow
 - Animated light sweep on hover
 - Geometric accent element
@@ -37,6 +38,7 @@ The secondary variant has a glass effect with chevron icon. Use for secondary ac
 ```
 
 **Features:**
+
 - Glass/transparent background
 - Chevron arrow icon
 - Subtle hover lift
@@ -44,13 +46,13 @@ The secondary variant has a glass effect with chevron icon. Use for secondary ac
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `href` | `string` | required | Link destination |
-| `variant` | `"primary"` \| `"secondary"` | `"primary"` | Button style |
-| `children` | `ReactNode` | required | Button text |
-| `showArrow` | `boolean` | `true` | Show arrow (primary) or chevron (secondary) |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type                         | Default     | Description                                 |
+| ----------- | ---------------------------- | ----------- | ------------------------------------------- |
+| `href`      | `string`                     | required    | Link destination                            |
+| `variant`   | `"primary"` \| `"secondary"` | `"primary"` | Button style                                |
+| `children`  | `ReactNode`                  | required    | Button text                                 |
+| `showArrow` | `boolean`                    | `true`      | Show arrow (primary) or chevron (secondary) |
+| `className` | `string`                     | -           | Additional CSS classes                      |
 
 ## Examples
 

@@ -21,13 +21,13 @@ import { FeatureCard } from "@/lib/ui";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | required | Card title |
-| `subtitle` | `string` | required | Emphasized subtitle |
-| `description` | `string` | required | Card description |
-| `cta` | `string` | required | Call-to-action text |
-| `className` | `string` | - | Additional CSS classes |
+| Prop          | Type     | Default  | Description            |
+| ------------- | -------- | -------- | ---------------------- |
+| `title`       | `string` | required | Card title             |
+| `subtitle`    | `string` | required | Emphasized subtitle    |
+| `description` | `string` | required | Card description       |
+| `cta`         | `string` | required | Call-to-action text    |
+| `className`   | `string` | -        | Additional CSS classes |
 
 ## Features
 
@@ -61,7 +61,7 @@ import { FeatureCard } from "@/lib/ui";
 ### Feature Grid
 
 ```tsx
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
   <FeatureCard
     title="AI Agents"
     subtitle="The Intelligence."
@@ -95,7 +95,7 @@ import { Reveal } from "@/lib/motion";
     description="Custom AI agents..."
     cta="Learn more"
   />
-</Reveal>
+</Reveal>;
 ```
 
 ## Styling
