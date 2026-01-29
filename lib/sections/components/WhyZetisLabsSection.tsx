@@ -1,14 +1,20 @@
-import { Reveal } from "@/lib/motion";
+import { Reveal, CardReveal } from "@/lib/motion";
 import type { SectionProps } from "../types";
-import { ReasonCard } from "@/lib/ui";
+import { TestimonialCard } from "@/lib/ui";
 
 const reasonKeys = ["expertise", "scalability", "results"] as const;
+
+const badgeLabels: Record<(typeof reasonKeys)[number], string> = {
+  expertise: "Expertise",
+  scalability: "Scalability",
+  results: "Results",
+};
 
 /**
  * Why ZetisLabs Section
  *
- * Displays reason cards explaining the company's philosophy.
- * Extracted from page.tsx for the dynamic section library.
+ * Displays testimonial-style cards explaining the company's philosophy.
+ * Uses TestimonialCard component with badge and headline.
  */
 export function WhyZetisLabsSection({ t }: SectionProps) {
   return (
@@ -27,17 +33,20 @@ export function WhyZetisLabsSection({ t }: SectionProps) {
           </Reveal>
         </div>
 
-        <div className="group/grid mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {reasonKeys.map((reasonKey, index) => (
-            <Reveal key={reasonKey} className="h-full" delay={index * 100}>
-              <ReasonCard
-                index={index}
-                title={t(`home.whyZetisLabs.reasons.${reasonKey}.title`)}
-                description={t(
-                  `home.whyZetisLabs.reasons.${reasonKey}.description`
-                )}
+            <CardReveal key={reasonKey} index={index} variant="lift">
+              <TestimonialCard
+                badge={badgeLabels[reasonKey]}
+                badgeColor={index === 1 ? "blue" : "orange"}
+                headline={{
+                  highlight: t(`home.whyZetisLabs.reasons.${reasonKey}.title`),
+                  regular: t(
+                    `home.whyZetisLabs.reasons.${reasonKey}.description`
+                  ),
+                }}
               />
-            </Reveal>
+            </CardReveal>
           ))}
         </div>
       </div>

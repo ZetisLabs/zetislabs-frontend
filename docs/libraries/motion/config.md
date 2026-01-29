@@ -38,10 +38,7 @@ export const easings = {
 ### Usage
 
 ```tsx
-<motion.div
-  animate={{ opacity: 1 }}
-  transition={{ ease: easings.smooth }}
->
+<motion.div animate={{ opacity: 1 }} transition={{ ease: easings.smooth }}>
   Smooth animation
 </motion.div>
 ```
@@ -100,10 +97,7 @@ export const durations = {
 ### Usage
 
 ```tsx
-<motion.div
-  animate={{ opacity: 1 }}
-  transition={{ duration: durations.fast }}
->
+<motion.div animate={{ opacity: 1 }} transition={{ duration: durations.fast }}>
   Quick fade
 </motion.div>
 ```
@@ -193,7 +187,7 @@ export const viewportMargins = {
   whileInView="visible"
   viewport={{
     once: true,
-    margin: viewportMargins.early
+    margin: viewportMargins.early,
   }}
 >
   Reveals earlier
@@ -222,7 +216,7 @@ export const glowColors = {
 ```tsx
 <motion.div
   style={{
-    boxShadow: `0 0 30px ${glowColors.accent}`
+    boxShadow: `0 0 30px ${glowColors.accent}`,
   }}
 >
   Glowing element
@@ -248,20 +242,20 @@ import {
   whileInView={{
     opacity: 1,
     y: 0,
-    boxShadow: `0 0 40px ${glowColors.accent}`
+    boxShadow: `0 0 40px ${glowColors.accent}`,
   }}
   viewport={{
     once: true,
-    margin: viewportMargins.default
+    margin: viewportMargins.default,
   }}
   transition={transitions.reveal}
   whileHover={{
     scale: 1.02,
-    transition: { duration: durations.fast, ease: easings.easeOut }
+    transition: { duration: durations.fast, ease: easings.easeOut },
   }}
 >
   Fully configured animation
-</motion.div>
+</motion.div>;
 ```
 
 ## Customizing

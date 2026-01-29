@@ -4,10 +4,10 @@ ZetisLabs front-end includes three extractable libraries designed for reuse acro
 
 ## Libraries Overview
 
-| Library | Purpose | Import |
-|---------|---------|--------|
-| [UI Library](./ui/README.md) | Premium UI components | `@/lib/ui` |
-| [Motion Library](./motion/README.md) | Animation system | `@/lib/motion` |
+| Library                                  | Purpose                     | Import           |
+| ---------------------------------------- | --------------------------- | ---------------- |
+| [UI Library](./ui/README.md)             | Premium UI components       | `@/lib/ui`       |
+| [Motion Library](./motion/README.md)     | Animation system            | `@/lib/motion`   |
 | [Sections Library](./sections/README.md) | Dynamic section composition | `@/lib/sections` |
 
 ## Quick Start
@@ -43,15 +43,18 @@ import { SectionRenderer, type SectionConfig } from "@/lib/sections";
 ### Dependencies
 
 **UI Library:**
+
 - React 18+
 - Tailwind CSS v4
 - Framer Motion (optional, for animations)
 
 **Motion Library:**
+
 - React 18+
 - Framer Motion 12+
 
 **Sections Library:**
+
 - React 18+
 - Next.js (for server components)
 
@@ -63,7 +66,9 @@ All components use the `hasMounted` pattern:
 
 ```tsx
 const [hasMounted, setHasMounted] = useState(false);
-useEffect(() => { setHasMounted(true); }, []);
+useEffect(() => {
+  setHasMounted(true);
+}, []);
 ```
 
 ### 2. Accessibility First

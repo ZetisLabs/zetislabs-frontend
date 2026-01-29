@@ -37,24 +37,24 @@ import { Reveal, FadeIn, motion, easings, transitions } from "@/lib/motion";
 
 ## Documentation
 
-| Guide | Description |
-|-------|-------------|
+| Guide                         | Description                       |
+| ----------------------------- | --------------------------------- |
 | [Components](./components.md) | Ready-to-use animation components |
-| [Variants](./variants.md) | Animation variant functions |
-| [Configuration](./config.md) | Timing, easing, and color presets |
+| [Variants](./variants.md)     | Animation variant functions       |
+| [Configuration](./config.md)  | Timing, easing, and color presets |
 
 ## Components
 
-| Component | Purpose |
-|-----------|---------|
-| `Reveal` | Scroll-based reveal animation |
-| `FadeIn` | Simple fade-in on mount |
+| Component          | Purpose                         |
+| ------------------ | ------------------------------- |
+| `Reveal`           | Scroll-based reveal animation   |
+| `FadeIn`           | Simple fade-in on mount         |
 | `StaggerContainer` | Orchestrates staggered children |
-| `StaggerItem` | Child for StaggerContainer |
-| `ScrollFade` | Scroll-driven opacity |
-| `HoverScale` | Scale on hover |
-| `PulseGlow` | Pulsing glow effect |
-| `BreathingHalo` | Smooth breathing animation |
+| `StaggerItem`      | Child for StaggerContainer      |
+| `ScrollFade`       | Scroll-driven opacity           |
+| `HoverScale`       | Scale on hover                  |
+| `PulseGlow`        | Pulsing glow effect             |
+| `BreathingHalo`    | Smooth breathing animation      |
 
 ## Exports
 
@@ -69,14 +69,38 @@ export { PulseGlow } from "./components/PulseGlow";
 export { BreathingHalo } from "./components/BreathingHalo";
 
 // Configuration
-export { easings, springs, durations, transitions, viewportMargins, glowColors } from "./config";
+export {
+  easings,
+  springs,
+  durations,
+  transitions,
+  viewportMargins,
+  glowColors,
+} from "./config";
 
 // Variants
-export { fadeInUp, fadeInDown, scaleIn, staggerContainer, staggerItem, /* ... */ } from "./variants";
+export {
+  fadeInUp,
+  fadeInDown,
+  scaleIn,
+  staggerContainer,
+  staggerItem /* ... */,
+} from "./variants";
 
 // Re-exports from framer-motion
-export { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
-export { useReducedMotion, useAnimation, useMotionValue, useSpring } from "framer-motion";
+export {
+  motion,
+  AnimatePresence,
+  useInView,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+export {
+  useReducedMotion,
+  useAnimation,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 export type { Variants, MotionProps } from "framer-motion";
 ```
 
@@ -88,7 +112,9 @@ All components implement the `hasMounted` pattern to prevent React hydration mis
 
 ```tsx
 const [hasMounted, setHasMounted] = useState(false);
-useEffect(() => { setHasMounted(true); }, []);
+useEffect(() => {
+  setHasMounted(true);
+}, []);
 const shouldAnimate = hasMounted && !prefersReducedMotion;
 ```
 

@@ -28,13 +28,9 @@ Fade in while sliding up.
 ```tsx
 const variants = fadeInUp(0.2); // 0.2s delay
 
-<motion.div
-  initial="hidden"
-  animate="visible"
-  variants={variants}
->
+<motion.div initial="hidden" animate="visible" variants={variants}>
   Content
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `fadeInUp(delay?: number)`
@@ -48,7 +44,7 @@ const variants = fadeInDown(0.1);
 
 <motion.div variants={variants} initial="hidden" animate="visible">
   Content
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `fadeInDown(delay?: number)`
@@ -62,7 +58,7 @@ const variants = scaleIn(0.3);
 
 <motion.div variants={variants} initial="hidden" animate="visible">
   Content
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `scaleIn(delay?: number)`
@@ -77,7 +73,7 @@ const rightVariants = slideInRight(50);
 
 <motion.div variants={leftVariants} initial="hidden" animate="visible">
   From left
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `slideInLeft(distance?: number)`, `slideInRight(distance?: number)`
@@ -91,7 +87,7 @@ const variants = smoothEntrance(0.2);
 
 <motion.div variants={variants} initial="hidden" animate="visible">
   Premium feel
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `smoothEntrance(delay?: number)`
@@ -111,7 +107,7 @@ const container = staggerContainer(0.1, 0.3); // 0.1s stagger, 0.3s initial dela
   <motion.div variants={staggerItem}>Item 1</motion.div>
   <motion.div variants={staggerItem}>Item 2</motion.div>
   <motion.div variants={staggerItem}>Item 3</motion.div>
-</motion.div>
+</motion.div>;
 ```
 
 **Signature:** `staggerContainer(staggerChildren?: number, delayChildren?: number)`
@@ -121,9 +117,7 @@ const container = staggerContainer(0.1, 0.3); // 0.1s stagger, 0.3s initial dela
 Child variant for stagger containers.
 
 ```tsx
-<motion.div variants={staggerItem}>
-  Animated child
-</motion.div>
+<motion.div variants={staggerItem}>Animated child</motion.div>
 ```
 
 ---
@@ -135,11 +129,7 @@ Child variant for stagger containers.
 Scale up on hover.
 
 ```tsx
-<motion.button
-  variants={hoverScale(1.05)}
-  whileHover="hover"
-  initial="initial"
->
+<motion.button variants={hoverScale(1.05)} whileHover="hover" initial="initial">
   Hover me
 </motion.button>
 ```
@@ -167,11 +157,7 @@ Lift up with shadow on hover.
 Combined scale and lift.
 
 ```tsx
-<motion.div
-  variants={hoverScaleLift}
-  whileHover="hover"
-  initial="initial"
->
+<motion.div variants={hoverScaleLift} whileHover="hover" initial="initial">
   Scale and lift
 </motion.div>
 ```
@@ -203,13 +189,9 @@ Different animations based on scroll direction.
 ```tsx
 const variants = revealBidirectional;
 
-<motion.div
-  variants={variants}
-  initial="hidden"
-  whileInView="visible"
->
+<motion.div variants={variants} initial="hidden" whileInView="visible">
   Reveals differently based on scroll direction
-</motion.div>
+</motion.div>;
 ```
 
 ### fadeOverlay
@@ -237,7 +219,7 @@ const underline = expandWidth(0, 1); // 0% to 100%
   initial="initial"
   whileHover="animate"
   className="h-0.5 bg-accent"
-/>
+/>;
 ```
 
 **Signature:** `expandWidth(from?: number, to?: number)`
@@ -249,13 +231,9 @@ Slide from left with fade (for icons, emojis).
 ```tsx
 const iconReveal = slideReveal(20); // 20px distance
 
-<motion.span
-  variants={iconReveal}
-  initial="hidden"
-  animate="visible"
->
+<motion.span variants={iconReveal} initial="hidden" animate="visible">
   🚀
-</motion.span>
+</motion.span>;
 ```
 
 **Signature:** `slideReveal(distance?: number)` (default: 10)
@@ -268,12 +246,22 @@ All variants follow this structure:
 
 ```typescript
 const variant = {
-  hidden: { /* initial state */ },
-  visible: { /* animated state */ },
+  hidden: {
+    /* initial state */
+  },
+  visible: {
+    /* animated state */
+  },
   // or
-  initial: { /* initial state */ },
-  hover: { /* hover state */ },
-  animate: { /* animated state */ },
+  initial: {
+    /* initial state */
+  },
+  hover: {
+    /* hover state */
+  },
+  animate: {
+    /* animated state */
+  },
 };
 ```
 
@@ -303,7 +291,7 @@ const customVariant = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.5 }
-  }
+    transition: { duration: 0.5 },
+  },
 };
 ```

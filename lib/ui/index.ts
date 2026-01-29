@@ -7,7 +7,16 @@
  * ## Usage
  *
  * ```tsx
- * import { CTAButton, FeatureCard, ReasonCard, EyebrowBadge, ErrorBoundary } from "@/lib/ui";
+ * import {
+ *   CTAButton,
+ *   FeatureCard,
+ *   ReasonCard,
+ *   MetricCard,
+ *   TestimonialCard,
+ *   ServiceCard,
+ *   EyebrowBadge,
+ *   ErrorBoundary
+ * } from "@/lib/ui";
  * ```
  *
  * ## Extracting for other projects
@@ -26,6 +35,9 @@
  * ### Cards
  * - `FeatureCard` - Feature showcase cards with hover animations
  * - `ReasonCard` - Numbered reason cards with animated underlines
+ * - `MetricCard` - KPI/statistics cards with depth effects and grid background
+ * - `TestimonialCard` - Client testimonial cards with avatar and quote styling
+ * - `ServiceCard` - Service/pricing cards with feature lists and CTAs
  *
  * ### Badges
  * - `EyebrowBadge` - Small badge with glow effect for section labels
@@ -40,6 +52,12 @@ export { CTAButton } from "./components/CTAButton";
 // Cards
 export { FeatureCard } from "./components/FeatureCard";
 export { ReasonCard } from "./components/ReasonCard";
+export { MetricCard } from "./components/MetricCard";
+export { TestimonialCard } from "./components/TestimonialCard";
+export { ServiceCard } from "./components/ServiceCard";
+export { HighlightCard } from "./components/HighlightCard";
+export { InfoCard } from "./components/InfoCard";
+export { LargeHighlightCard } from "./components/LargeHighlightCard";
 
 // Badges
 export { EyebrowBadge } from "./components/EyebrowBadge";

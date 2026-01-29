@@ -20,18 +20,19 @@ import { ReasonCard } from "@/lib/ui";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `index` | `number` | required | Card number (0-based, displays as 01, 02, etc.) |
-| `title` | `string` | required | Card title |
-| `description` | `string` | required | Card description |
-| `className` | `string` | - | Additional CSS classes |
+| Prop          | Type     | Default  | Description                                     |
+| ------------- | -------- | -------- | ----------------------------------------------- |
+| `index`       | `number` | required | Card number (0-based, displays as 01, 02, etc.) |
+| `title`       | `string` | required | Card title                                      |
+| `description` | `string` | required | Card description                                |
+| `className`   | `string` | -        | Additional CSS classes                          |
 
 ## Features
 
 ### Background Number
 
 Large semi-transparent number in the background:
+
 - Index 0 → "01"
 - Index 1 → "02"
 - etc.
@@ -63,7 +64,7 @@ Large semi-transparent number in the background:
 ### Reasons Grid
 
 ```tsx
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
   <ReasonCard
     index={0}
     title="Deep Expertise"
@@ -97,7 +98,7 @@ import { StaggerContainer, StaggerItem } from "@/lib/motion";
       />
     </StaggerItem>
   ))}
-</StaggerContainer>
+</StaggerContainer>;
 ```
 
 ## Styling

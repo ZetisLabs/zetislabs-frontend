@@ -5,6 +5,7 @@ This guide walks through adding a new section type to the sections library.
 ## Overview
 
 Adding a new section requires four steps:
+
 1. Create the section component
 2. Add the type definition
 3. Register the component
@@ -25,28 +26,24 @@ export function TestimonialsSection({ locale, t, dict }: SectionProps) {
   const testimonials = dict.home.testimonials.items;
 
   return (
-    <section className="py-24 bg-background">
+    <section className="bg-background py-24">
       <div className="container mx-auto px-6">
         {/* Eyebrow + Title */}
         <Reveal>
-          <EyebrowBadge>
-            {t("home.testimonials.eyebrow")}
-          </EyebrowBadge>
+          <EyebrowBadge>{t("home.testimonials.eyebrow")}</EyebrowBadge>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="text-4xl font-semibold mt-4 mb-12">
+          <h2 className="mt-4 mb-12 text-4xl font-semibold">
             {t("home.testimonials.title")}
           </h2>
         </Reveal>
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {Object.entries(testimonials).map(([key, testimonial], index) => (
             <Reveal key={key} delay={0.2 + index * 0.1}>
-              <div className="p-6 rounded-xl bg-card border border-border">
-                <p className="text-foreground/80 mb-4">
-                  "{testimonial.quote}"
-                </p>
+              <div className="rounded-xl border border-border bg-card p-6">
+                <p className="mb-4 text-foreground/80">"{testimonial.quote}"</p>
                 <div className="flex items-center gap-3">
                   <div>
                     <p className="font-medium">{testimonial.name}</p>
@@ -217,7 +214,7 @@ testimonials: TestimonialsSectionWrapper,
 ### Grid Section
 
 ```tsx
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
   {items.map((item, i) => (
     <Reveal key={item.id} delay={0.2 + i * 0.1}>
       <Card {...item} />
@@ -231,11 +228,9 @@ testimonials: TestimonialsSectionWrapper,
 ```tsx
 const { scrollYProgress } = useScroll({ target: ref });
 
-<section ref={ref} className="h-[300vh] relative">
-  <div className="sticky top-0 h-screen">
-    {/* Scroll-driven content */}
-  </div>
-</section>
+<section ref={ref} className="relative h-[300vh]">
+  <div className="sticky top-0 h-screen">{/* Scroll-driven content */}</div>
+</section>;
 ```
 
 ## Testing

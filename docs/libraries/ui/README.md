@@ -12,13 +12,13 @@ The library is located at `lib/ui/`. To use in another project:
 
 ## Components
 
-| Component | Description | Documentation |
-|-----------|-------------|---------------|
-| [CTAButton](./cta-button.md) | Call-to-action buttons | Primary/secondary variants |
-| [FeatureCard](./feature-card.md) | Feature showcase cards | Hover animations, emoji reveal |
-| [ReasonCard](./reason-card.md) | Numbered benefit cards | Background number animation |
-| [EyebrowBadge](./eyebrow-badge.md) | Section label badges | Glow effect ready |
-| ErrorBoundary | Error boundary | Development-friendly fallback |
+| Component                          | Description            | Documentation                  |
+| ---------------------------------- | ---------------------- | ------------------------------ |
+| [CTAButton](./cta-button.md)       | Call-to-action buttons | Primary/secondary variants     |
+| [FeatureCard](./feature-card.md)   | Feature showcase cards | Hover animations, emoji reveal |
+| [ReasonCard](./reason-card.md)     | Numbered benefit cards | Background number animation    |
+| [EyebrowBadge](./eyebrow-badge.md) | Section label badges   | Glow effect ready              |
+| ErrorBoundary                      | Error boundary         | Development-friendly fallback  |
 
 ## Quick Usage
 
@@ -86,11 +86,7 @@ Components use CSS custom properties:
 Components accept standard HTML props (`className`, etc.) for customization:
 
 ```tsx
-<CTAButton
-  href="/contact"
-  variant="primary"
-  className="w-full"
->
+<CTAButton href="/contact" variant="primary" className="w-full">
   Full Width Button
 </CTAButton>
 ```

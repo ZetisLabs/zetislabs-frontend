@@ -41,4 +41,5 @@ export {
   WhyZetisLabsSection,
   StackSectionWrapper,
   UseCasesSectionWrapper,
+  CardShowcaseSection,
 } from "./components";

@@ -40,7 +40,7 @@ The `SectionRenderer` reads the config and renders components:
 
 ```tsx
 <SectionRenderer
-  sections={sections}  // From translation config
+  sections={sections} // From translation config
   locale={locale}
   t={t}
   dict={dict}
@@ -49,12 +49,12 @@ The `SectionRenderer` reads the config and renders components:
 
 ## Available Section Types
 
-| Type | Component | Description |
-|------|-----------|-------------|
-| `whatWeMake` | WhatWeMakeSection | 3-column feature cards grid |
-| `stack` | StackSection | Logo constellation with depth parallax |
-| `useCases` | UseCasesSection | Sticky scroll with project carousel |
-| `whyZetisLabs` | WhyZetisLabsSection | Numbered reason cards |
+| Type           | Component           | Description                            |
+| -------------- | ------------------- | -------------------------------------- |
+| `whatWeMake`   | WhatWeMakeSection   | 3-column feature cards grid            |
+| `stack`        | StackSection        | Logo constellation with depth parallax |
+| `useCases`     | UseCasesSection     | Sticky scroll with project carousel    |
+| `whyZetisLabs` | WhyZetisLabsSection | Numbered reason cards                  |
 
 ## Reordering Sections
 
@@ -109,7 +109,7 @@ export function NewSection({ locale, t }: Props) {
       <div className="container mx-auto px-6">
         <Reveal>
           <EyebrowBadge>{t("home.newSection.eyebrow")}</EyebrowBadge>
-          <h2 className="text-4xl font-semibold mt-4">
+          <h2 className="mt-4 text-4xl font-semibold">
             {t("home.newSection.title")}
           </h2>
         </Reveal>
@@ -141,7 +141,7 @@ export type SectionType =
   | "stack"
   | "useCases"
   | "whyZetisLabs"
-  | "newSection";  // Add new type
+  | "newSection"; // Add new type
 ```
 
 ### Step 4: Add Content
@@ -186,9 +186,9 @@ All sections receive these props:
 
 ```typescript
 interface SectionProps {
-  locale: Locale;                    // Current language
-  t: (key: string) => string;        // Translation helper
-  dict: Translations;                // Full translation object
+  locale: Locale; // Current language
+  t: (key: string) => string; // Translation helper
+  dict: Translations; // Full translation object
 }
 ```
 
