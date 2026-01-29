@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ZetisLabs Front-End Documentation</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="ZetisLabs front-end documentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
+  <style>
+    :root {
+      --theme-color: #3a7bd5;
+      --text-color-base: #e0e0e0;
+      --text-color-secondary: #a0a0a0;
+      --text-color-tertiary: #707070;
+      --background-color: #0d1117;
+      --background-color-secondary: #161b22;
+      --border-color: #30363d;
+      --code-background: #1e2430;
+    }
+
+    body {
+      background-color: var(--background-color);
+    }
+
+    .sidebar {
+      background-color: var(--background-color-secondary);
+      border-right: 1px solid var(--border-color);
+    }
+
+    .sidebar-nav a {
+      color: var(--text-color-base);
+    }
+
+    .sidebar-nav a:hover {
+      color: var(--theme-color);
+    }
+
+    .markdown-section {
+      max-width: 900px;
+    }
+
+    .markdown-section h1,
+    .markdown-section h2,
+    .markdown-section h3 {
+      color: var(--text-color-base);
+    }
+
+    .markdown-section table {
+      display: table;
+      width: 100%;
+    }
+
+    .markdown-section table th {
+      background-color: var(--background-color-secondary);
+    }
+
+    .markdown-section table td,
+    .markdown-section table th {
+      border: 1px solid var(--border-color);
+      padding: 10px 15px;
+    }
+
+    .markdown-section code {
+      background-color: var(--code-background);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+
+    .markdown-section pre {
+      background-color: var(--code-background) !important;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .app-nav {
+      background-color: var(--background-color);
+    }
+
+    .search input {
+      background-color: var(--background-color-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-color-base);
+    }
+
+    .search .matching-post {
+      background-color: var(--background-color-secondary);
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Loading...</div>
+  <script>
+    window.$docsify = {
+      name: 'ZetisLabs Docs',
+      repo: '',
+      loadSidebar: 'SUMMARY.md',
+      subMaxLevel: 3,
+      auto2top: true,
+      search: {
+        placeholder: 'Search',
+        noData: 'No Results',
+        depth: 3
+      },
+      copyCode: {
+        buttonText: 'Copy',
+        successText: 'Copied'
+      },
+      pagination: {
+        previousText: 'Previous',
+        nextText: 'Next',
+        crossChapter: true
+      },
+      tabs: {
+        persist: true,
+        sync: true
+      }
+    }
+  </script>
+  <!-- Docsify -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <!-- Syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+</body>
+</html>

@@ -106,6 +106,23 @@ See [docs/i18n.md](./docs/i18n.md) for detailed i18n guide.
 
 Comprehensive documentation is available in the `docs/` directory:
 
+### Getting Started
+- **[Introduction](./docs/README.md)** - Documentation home
+- **[Installation](./docs/getting-started/README.md)** - Setup and installation
+- **[Quick Start](./docs/getting-started/quick-start.md)** - Common tasks
+
+### Landing Page
+- **[Overview](./docs/landing-page/README.md)** - Page structure and sections
+- **[Content Management](./docs/landing-page/content.md)** - Update text and images
+- **[Sections System](./docs/landing-page/sections.md)** - Add/modify sections
+- **[Customization](./docs/landing-page/customization.md)** - Styling and theming
+
+### Reusable Libraries
+- **[UI Library](./docs/libraries/ui/README.md)** - CTAButton, FeatureCard, ReasonCard
+- **[Motion Library](./docs/libraries/motion/README.md)** - Animations and transitions
+- **[Sections Library](./docs/libraries/sections/README.md)** - Dynamic section composition
+
+### Reference
 - **[Structure](./docs/structure.md)** - Project structure and file organization
 - **[i18n](./docs/i18n.md)** - Internationalization guide
 - **[Development](./docs/development.md)** - Development workflow and guidelines
