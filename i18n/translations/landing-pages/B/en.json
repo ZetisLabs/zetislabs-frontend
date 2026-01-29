@@ -49,33 +49,6 @@
     "description": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
     "result": "Your teams focus on what matters. You see the difference in the results."
   },
-  "impact": {
-    "title": "The concrete impact of automation",
-    "headers": ["Metric", "Before", "After"],
-    "rows": [
-      {
-        "metric": "Time on repetitive tasks",
-        "before": "15-25h/week",
-        "after": "2-5h/week"
-      },
-      {
-        "metric": "Data entry errors",
-        "before": "Frequent",
-        "after": "Near zero"
-      },
-      {
-        "metric": "Customer response time",
-        "before": "24-48h",
-        "after": "< 2h"
-      },
-      {
-        "metric": "Reports generated",
-        "before": "Manual, 1x/week",
-        "after": "Auto, real-time"
-      }
-    ],
-    "footnote": "Average figures observed on similar projects"
-  },
   "useCases": {
     "title": "Concrete examples",
     "items": [

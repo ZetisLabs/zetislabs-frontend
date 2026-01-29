@@ -49,33 +49,6 @@
     "description": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
     "result": "Vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
   },
-  "impact": {
-    "title": "L'impact concret de l'automatisation",
-    "headers": ["Métrique", "Avant", "Après"],
-    "rows": [
-      {
-        "metric": "Temps sur tâches répétitives",
-        "before": "15-25h/semaine",
-        "after": "2-5h/semaine"
-      },
-      {
-        "metric": "Erreurs de saisie",
-        "before": "Fréquentes",
-        "after": "Quasi nulles"
-      },
-      {
-        "metric": "Délai de réponse client",
-        "before": "24-48h",
-        "after": "< 2h"
-      },
-      {
-        "metric": "Rapports générés",
-        "before": "Manuel, 1x/semaine",
-        "after": "Auto, temps réel"
-      }
-    ],
-    "footnote": "Chiffres moyens constatés sur des projets similaires"
-  },
   "useCases": {
     "title": "Exemples concrets",
     "items": [
