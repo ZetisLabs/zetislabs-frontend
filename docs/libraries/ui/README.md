@@ -17,7 +17,7 @@ The library is located at `lib/ui/`. To use in another project:
 | [CTAButton](./cta-button.md)       | Call-to-action buttons | Primary/secondary variants     |
 | [FeatureCard](./feature-card.md)   | Feature showcase cards | Hover animations, emoji reveal |
 | [ReasonCard](./reason-card.md)     | Numbered benefit cards | Background number animation    |
-| [EyebrowBadge](./eyebrow-badge.md) | Section label badges   | Glow effect ready              |
+| [EyebrowBadge](./eyebrow-badge.md) | Section label badges   | Swiss typographic style        |
 | ErrorBoundary                      | Error boundary         | Development-friendly fallback  |
 
 ## Quick Usage

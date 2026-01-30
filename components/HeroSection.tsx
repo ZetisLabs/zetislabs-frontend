@@ -6,7 +6,6 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
-  PulseGlow,
   easings,
   durations,
 } from "@/lib/motion";
@@ -96,10 +95,7 @@ export function HeroSection({
               className="hero-entrance hero-entrance-1"
               style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
             >
-              <EyebrowBadge>
-                <PulseGlow className="rounded-full bg-accent" />
-                {eyebrowText}
-              </EyebrowBadge>
+              <EyebrowBadge>{eyebrowText}</EyebrowBadge>
             </motion.div>
 
             {/* Title with scroll fade */}
