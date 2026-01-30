@@ -29,6 +29,13 @@ interface BackgroundMeshProps {
 /**
  * BackgroundMesh - The instanced mesh for the background grid
  */
+// Process section tracking state
+interface ProcessSectionState {
+  top: number;
+  height: number;
+  visible: boolean;
+}
+
 function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -36,16 +43,33 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const [introComplete, setIntroComplete] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
+  const [processSection, setProcessSection] = useState<ProcessSectionState>({
+    top: 0,
+    height: 0,
+    visible: false,
+  });
 
   const { size } = useThree();
 
-  // Track scroll progress and viewport height
+  // Track scroll progress, viewport height, and process section position
   useEffect(() => {
     const update = () => {
       const vh = window.innerHeight;
       setViewportHeight(vh);
       const progress = Math.min(window.scrollY / vh, 1);
       setScrollProgress(progress);
+
+      // Find and track Process section
+      const processEl = document.querySelector('[data-section="process"]');
+      if (processEl) {
+        const rect = processEl.getBoundingClientRect();
+        const isVisible = rect.top < vh && rect.bottom > 0;
+        setProcessSection({
+          top: rect.top,
+          height: rect.height,
+          visible: isVisible,
+        });
+      }
     };
 
     // Initial check
@@ -108,6 +132,10 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           uViewportHeight: { value: size.height },
           uBaseColor: { value: BASE_COLOR },
           uAccentColor: { value: ACCENT_COLOR },
+          // Process section pixel art uniforms
+          uProcessSectionTop: { value: 0 },
+          uProcessSectionHeight: { value: 0 },
+          uProcessVisible: { value: 0 },
         },
         transparent: true,
         depthWrite: false,
@@ -153,6 +181,14 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     materialRef.current.uniforms.uProgress.value = progress;
     materialRef.current.uniforms.uScrollProgress.value = scrollProgress;
     materialRef.current.uniforms.uViewportHeight.value = viewportHeight;
+
+    // Update process section uniforms
+    materialRef.current.uniforms.uProcessSectionTop.value = processSection.top;
+    materialRef.current.uniforms.uProcessSectionHeight.value =
+      processSection.height;
+    materialRef.current.uniforms.uProcessVisible.value = processSection.visible
+      ? 1.0
+      : 0.0;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(

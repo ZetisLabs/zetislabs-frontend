@@ -12,26 +12,15 @@ import {
 } from "@/lib/motion";
 import { EyebrowBadge } from "@/lib/ui";
 
-type HeroSectionProps = {
-  eyebrowText: string;
-  titleDefault: string;
-  titleThin: string;
-  titleAccent: string;
-  subtitle: string;
-  ctaText: string;
-  ctaSecondaryText: string;
-  ctaSecondaryAriaLabel: string;
-};
+import type { HeroContent } from "@/lib/sections/types";
+
+type HeroSectionProps = HeroContent;
 
 export function HeroSection({
-  eyebrowText,
-  titleDefault,
-  titleThin,
-  titleAccent,
+  eyebrow,
+  title,
   subtitle,
-  ctaText,
-  ctaSecondaryText,
-  ctaSecondaryAriaLabel,
+  cta,
 }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -98,7 +87,7 @@ export function HeroSection({
             >
               <EyebrowBadge>
                 <PulseGlow className="rounded-full bg-accent" />
-                {eyebrowText}
+                {eyebrow}
               </EyebrowBadge>
             </motion.div>
 
@@ -160,12 +149,12 @@ export function HeroSection({
                   </>
                 )}
                 <h1 className="text-4xl leading-[1.15] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                  <span className="font-semibold">{titleDefault}</span>
+                  <span className="font-semibold">{title.default}</span>
                   <span className="font-normal text-foreground/90">
-                    {titleThin}
+                    {title.thin}
                   </span>
                   <span className="glass-text font-semibold">
-                    {titleAccent}
+                    {title.accent}
                   </span>
                 </h1>
               </div>
@@ -211,7 +200,7 @@ export function HeroSection({
                   />
                 )}
                 <motion.a
-                  href="#"
+                  href={cta.primary.href}
                   className="group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)]"
                   whileHover={{
                     scale: 1.02,
@@ -219,6 +208,7 @@ export function HeroSection({
                   }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  aria-label={cta.primary.ariaLabel}
                 >
                   {/* Glass Sheen Effect */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -236,7 +226,7 @@ export function HeroSection({
                     }}
                   />
 
-                  <span className="relative z-10">{ctaText}</span>
+                  <span className="relative z-10">{cta.primary.label}</span>
 
                   <motion.div
                     className="relative z-10"
@@ -266,12 +256,12 @@ export function HeroSection({
                 </motion.a>
               </div>
               <motion.a
-                href="#examples"
+                href={cta.secondary.href}
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                aria-label={ctaSecondaryAriaLabel}
+                aria-label={cta.secondary.ariaLabel}
               >
                 {/* Layered Glass Depth (Inner Border) */}
                 <div className="pointer-events-none absolute inset-[1px] rounded-[11px] border border-white/80 opacity-60" />
@@ -283,7 +273,7 @@ export function HeroSection({
                 <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[100%]" />
 
                 <span className="relative z-10 flex items-center gap-2">
-                  {ctaSecondaryText}
+                  {cta.secondary.label}
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"

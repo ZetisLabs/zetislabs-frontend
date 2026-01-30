@@ -31,14 +31,25 @@ export default async function Home({ params }: Props) {
     <>
       {/* Static: Hero Section */}
       <HeroSection
-        eyebrowText={t("home.hero.eyebrow")}
-        titleDefault={t("home.hero.title.default")}
-        titleThin={t("home.hero.title.thin")}
-        titleAccent={t("home.hero.title.accent")}
+        eyebrow={t("home.hero.eyebrow")}
+        title={{
+          default: t("home.hero.title.default"),
+          thin: t("home.hero.title.thin"),
+          accent: t("home.hero.title.accent"),
+        }}
         subtitle={t("home.hero.subtitle")}
-        ctaText={t("home.hero.cta")}
-        ctaSecondaryText={t("home.hero.ctaSecondary")}
-        ctaSecondaryAriaLabel={t("home.hero.ctaSecondaryAriaLabel")}
+        cta={{
+          primary: {
+            label: t("home.hero.cta.primary.label"),
+            href: t("home.hero.cta.primary.href"),
+            ariaLabel: t("home.hero.cta.primary.ariaLabel"),
+          },
+          secondary: {
+            label: t("home.hero.cta.secondary.label"),
+            href: t("home.hero.cta.secondary.href"),
+            ariaLabel: t("home.hero.cta.secondary.ariaLabel"),
+          },
+        }}
       />
 
       {/* Dynamic: Sections from i18n configuration */}
@@ -62,20 +73,20 @@ export default async function Home({ params }: Props) {
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Reveal>
                 <CTAButton
-                  href="#"
+                  href={t("home.cta.primary.href")}
                   variant="primary"
-                  ariaLabel={t("home.cta.primaryAriaLabel")}
+                  ariaLabel={t("home.cta.primary.ariaLabel")}
                 >
-                  {t("home.cta.primary")}
+                  {t("home.cta.primary.label")}
                 </CTAButton>
               </Reveal>
               <Reveal delay={250}>
                 <CTAButton
-                  href="#"
+                  href={t("home.cta.secondary.href")}
                   variant="secondary"
-                  ariaLabel={t("home.cta.secondaryAriaLabel")}
+                  ariaLabel={t("home.cta.secondary.ariaLabel")}
                 >
-                  {t("home.cta.secondary")}
+                  {t("home.cta.secondary.label")}
                 </CTAButton>
               </Reveal>
             </div>

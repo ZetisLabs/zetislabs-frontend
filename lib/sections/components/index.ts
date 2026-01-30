@@ -9,3 +9,5 @@ export { WhyZetisLabsSection } from "./WhyZetisLabsSection";
 export { StackSectionWrapper } from "./StackSectionWrapper";
 export { UseCasesSectionWrapper } from "./UseCasesSectionWrapper";
 export { CardShowcaseSection } from "./CardShowcaseSection";
+export { ProcessSection } from "./ProcessSectionWrapper";
+export { ProcessSectionClient } from "./ProcessSection";

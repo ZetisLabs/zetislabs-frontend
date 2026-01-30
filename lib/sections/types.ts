@@ -8,11 +8,119 @@
 import type { Locale } from "@/i18n/config";
 import type { Translations } from "@/lib/i18n";
 
+// =============================================================================
+// STATIC SECTION CONTENT TYPES
+// =============================================================================
+
+/**
+ * Hero Section Content
+ *
+ * Required structure for hero section in translation files.
+ * Path: home.hero
+ *
+ * @example
+ * ```json
+ * {
+ *   "home": {
+ *     "hero": {
+ *       "eyebrow": "Custom automation for SMBs",
+ *       "title": {
+ *         "default": "",
+ *         "thin": "20 hours saved per week. ",
+ *         "accent": "Per employee."
+ *       },
+ *       "subtitle": "Your teams waste time...",
+ *       "cta": {
+ *         "primary": { "label": "Get started", "href": "/contact" },
+ *         "secondary": { "label": "See examples", "href": "#examples" }
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ */
+export interface HeroContent {
+  /** Badge text displayed above the title */
+  eyebrow: string;
+  /** Title with multiple text style parts */
+  title: {
+    /** Default/bold part of the title */
+    default: string;
+    /** Thin/light weight part of the title */
+    thin: string;
+    /** Accent/highlighted part of the title */
+    accent: string;
+  };
+  /** Subtitle/description text below the title */
+  subtitle: string;
+  /** Call-to-action buttons */
+  cta: {
+    /** Primary CTA button (required) */
+    primary: CTAButtonContent;
+    /** Secondary CTA button (required) */
+    secondary: CTAButtonContent;
+  };
+}
+
+/**
+ * CTA Button Content
+ *
+ * Structure for a call-to-action button.
+ */
+export interface CTAButtonContent {
+  /** Button label text */
+  label: string;
+  /** Link destination */
+  href: string;
+  /** Optional aria-label for accessibility */
+  ariaLabel?: string;
+}
+
+/**
+ * CTA Section Content
+ *
+ * Required structure for the final CTA section in translation files.
+ * Path: home.cta
+ *
+ * @example
+ * ```json
+ * {
+ *   "home": {
+ *     "cta": {
+ *       "title": "How many hours could you get back?",
+ *       "description": "Free audit. We analyze your processes...",
+ *       "primary": { "label": "Book my free audit", "href": "/contact" },
+ *       "secondary": { "label": "Learn more", "href": "/about" }
+ *     }
+ *   }
+ * }
+ * ```
+ */
+export interface CTASectionContent {
+  /** Section title */
+  title: string;
+  /** Section description */
+  description: string;
+  /** Primary CTA button (required) */
+  primary: CTAButtonContent;
+  /** Secondary CTA button (optional) */
+  secondary?: CTAButtonContent;
+}
+
+// =============================================================================
+// DYNAMIC SECTION TYPES
+// =============================================================================
+
 /**
  * Available section types
  * Each type corresponds to a registered section component
  */
-export type SectionType = "whatWeMake" | "stack" | "useCases" | "whyZetisLabs";
+export type SectionType =
+  | "whatWeMake"
+  | "stack"
+  | "useCases"
+  | "whyZetisLabs"
+  | "process";
 
 /**
  * Section configuration from i18n

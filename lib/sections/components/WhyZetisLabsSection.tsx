@@ -16,7 +16,21 @@ const badgeLabels: Record<(typeof reasonKeys)[number], string> = {
  * Displays testimonial-style cards explaining the company's philosophy.
  * Uses TestimonialCard component with badge and headline.
  */
-export function WhyZetisLabsSection({ t }: SectionProps) {
+export function WhyZetisLabsSection({ t, dict }: SectionProps) {
+  // Defensive check: return null if required data is missing
+  const whyZetisLabsData = dict.home?.whyZetisLabs as
+    | { reasons?: Record<string, unknown> }
+    | undefined;
+
+  if (!whyZetisLabsData?.reasons) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[WhyZetisLabsSection] Missing translation data: home.whyZetisLabs.reasons"
+      );
+    }
+    return null;
+  }
+
   return (
     <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
       <div className="mx-auto w-full max-w-screen-xl px-4">

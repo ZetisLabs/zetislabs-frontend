@@ -9,15 +9,32 @@ import { ErrorBoundary } from "@/lib/ui";
  * Builds use case data from translations and includes ErrorBoundary.
  */
 export function UseCasesSectionWrapper({ t, dict }: SectionProps) {
+  // Defensive check: return null if required data is missing
+  const useCasesData = dict.home?.useCases as
+    | {
+        cases?: {
+          mailWriter?: { features?: string[] };
+          docGen?: { features?: string[] };
+        };
+      }
+    | undefined;
+
+  if (!useCasesData?.cases) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[UseCasesSectionWrapper] Missing translation data: home.useCases.cases"
+      );
+    }
+    return null;
+  }
+
   const useCases = [
     {
       id: "mail-writer",
       title: t("home.useCases.cases.mailWriter.title"),
       subtitle: t("home.useCases.cases.mailWriter.subtitle"),
       description: t("home.useCases.cases.mailWriter.description"),
-      features: (dict.home.useCases.cases.mailWriter.features as string[]).map(
-        (f) => f
-      ),
+      features: (useCasesData.cases.mailWriter?.features ?? []).map((f) => f),
       media: {
         type: "image" as const,
         src: "/diagrams/diagram-placeholder.png",
@@ -29,9 +46,7 @@ export function UseCasesSectionWrapper({ t, dict }: SectionProps) {
       title: t("home.useCases.cases.docGen.title"),
       subtitle: t("home.useCases.cases.docGen.subtitle"),
       description: t("home.useCases.cases.docGen.description"),
-      features: (dict.home.useCases.cases.docGen.features as string[]).map(
-        (f) => f
-      ),
+      features: (useCasesData.cases.docGen?.features ?? []).map((f) => f),
       media: {
         type: "image" as const,
         src: "/diagrams/diagram-placeholder.png",

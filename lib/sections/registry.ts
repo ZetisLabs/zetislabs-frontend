@@ -11,6 +11,7 @@ import {
   WhyZetisLabsSection,
   StackSectionWrapper,
   UseCasesSectionWrapper,
+  ProcessSection,
 } from "./components";
 
 /**
@@ -21,6 +22,7 @@ export const sectionRegistry: Record<SectionType, SectionComponent> = {
   stack: StackSectionWrapper,
   useCases: UseCasesSectionWrapper,
   whyZetisLabs: WhyZetisLabsSection,
+  process: ProcessSection,
 } as const;
 
 /**

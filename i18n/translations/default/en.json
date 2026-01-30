@@ -18,12 +18,10 @@
   },
   "home": {
     "sections": [
-      { "type": "whatWeMake", "id": "what-we-make" },
       { "type": "stack", "id": "stack-integration" },
-      { "type": "useCases", "id": "use-cases" },
-      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+      { "type": "process", "id": "process" }
     ],
-    "Hero": {
+    "hero": {
       "eyebrow": "Custom automation for SMBs",
       "title": {
         "default": "",
@@ -31,9 +29,18 @@
         "accent": "Per employee."
       },
       "subtitle": "Your teams waste time on repetitive tasks? We automate them so you can focus on what truly moves your business forward.",
-      "cta": "Estimate my time savings",
-      "ctaSecondary": "See real examples",
-      "ctaSecondaryAriaLabel": ""
+      "cta": {
+        "primary": {
+          "label": "Estimate my time savings",
+          "href": "#contact",
+          "ariaLabel": "Estimate my time savings"
+        },
+        "secondary": {
+          "label": "See real examples",
+          "href": "#use-cases",
+          "ariaLabel": "See real examples"
+        }
+      }
     },
     "stack": {
       "title": "Compatible with your current tools."
@@ -76,7 +83,9 @@
       }
     },
     "Process": {
+      "label": "Process",
       "title": "How it works",
+      "subtitle": "Simple steps to transform your workflow",
       "route": {
         "1": {
           "title": "Free audit",
@@ -124,7 +133,16 @@
     "cta": {
       "title": "How many hours could you get back?",
       "description": "Free audit. We analyze your processes and tell you where you can save time.",
-      "primary": "Book my free audit"
+      "primary": {
+        "label": "Book my free audit",
+        "href": "#contact",
+        "ariaLabel": "Book my free audit"
+      },
+      "secondary": {
+        "label": "Learn more",
+        "href": "#what-we-make",
+        "ariaLabel": "Learn more about our services"
+      }
     }
   }
 }

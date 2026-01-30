@@ -5,6 +5,7 @@
  * - Base grid cells with gaps
  * - Intro animation (orbital sunrise effect)
  * - Idle breathing animation
+ * - Pixel art for Process section
  */
 
 import { noiseGLSL } from "./includes/noise";
@@ -25,6 +26,11 @@ uniform float uViewportHeight; // Viewport height in pixels (hero section height
 uniform vec3 uBaseColor;       // Base cell color (#f8f8f8)
 uniform vec3 uAccentColor;     // Accent color for animations (#3a7bd5)
 
+// Process section pixel art uniforms
+uniform float uProcessSectionTop;    // Top of process section (screen Y)
+uniform float uProcessSectionHeight; // Height of process section
+uniform float uProcessVisible;       // 1.0 when process section is visible
+
 // Varyings from vertex shader
 varying vec2 vUv;
 varying vec2 vPosition;
@@ -35,6 +41,254 @@ varying vec2 vGridPos;
 // Constants
 const float PI = 3.14159265359;
 const float TWO_PI = 6.28318530718;
+
+// ============================================================================
+// PIXEL ART FUNCTIONS
+// ============================================================================
+
+// Check if a pixel is part of a magnifying glass icon (12x12 grid)
+float pixelArtMagnifier(vec2 localPos) {
+  int x = int(localPos.x);
+  int y = int(localPos.y);
+
+  // Circle part (radius ~4, center at 5,6)
+  if (y == 10 && x >= 4 && x <= 7) return 1.0;
+  if (y == 9 && (x == 3 || x == 8)) return 1.0;
+  if (y == 8 && (x == 2 || x == 9)) return 1.0;
+  if (y == 7 && (x == 2 || x == 9)) return 1.0;
+  if (y == 6 && (x == 2 || x == 9)) return 1.0;
+  if (y == 5 && (x == 3 || x == 8)) return 1.0;
+  if (y == 4 && x >= 4 && x <= 7) return 1.0;
+
+  // Handle
+  if (y == 3 && x == 8) return 1.0;
+  if (y == 2 && x == 9) return 1.0;
+  if (y == 1 && x == 10) return 1.0;
+
+  return 0.0;
+}
+
+// Check if a pixel is part of a document icon (12x12 grid)
+float pixelArtDocument(vec2 localPos) {
+  int x = int(localPos.x);
+  int y = int(localPos.y);
+
+  // Document outline
+  if (x == 2 && y >= 1 && y <= 10) return 1.0;
+  if (x == 9 && y >= 1 && y <= 8) return 1.0;
+  if (y == 10 && x >= 2 && x <= 7) return 1.0;
+  if (y == 1 && x >= 2 && x <= 9) return 1.0;
+
+  // Folded corner
+  if (y == 10 && x == 7) return 1.0;
+  if (y == 9 && x == 8) return 1.0;
+  if (y == 8 && x == 9) return 1.0;
+  if (x == 7 && y == 9) return 1.0;
+  if (x == 8 && y == 9) return 1.0;
+
+  // Text lines
+  if (y == 7 && x >= 4 && x <= 7) return 0.6;
+  if (y == 5 && x >= 4 && x <= 7) return 0.6;
+  if (y == 3 && x >= 4 && x <= 6) return 0.6;
+
+  return 0.0;
+}
+
+// Check if a pixel is part of terminal icon (12x12 grid)
+// Represents development/coding phase
+float pixelArtCode(vec2 localPos) {
+  int x = int(localPos.x);
+  int y = int(localPos.y);
+
+  // Terminal window frame
+  // Top edge
+  if (y == 10 && x >= 1 && x <= 10) return 1.0;
+  // Bottom edge
+  if (y == 2 && x >= 1 && x <= 10) return 1.0;
+  // Left edge
+  if (x == 1 && y >= 2 && y <= 10) return 1.0;
+  // Right edge
+  if (x == 10 && y >= 2 && y <= 10) return 1.0;
+
+  // Title bar (slightly darker)
+  if (y == 9 && x >= 2 && x <= 9) return 0.5;
+
+  // Prompt symbol > inside terminal
+  if (x == 3 && y == 6) return 0.8;
+  if (x == 4 && y == 5) return 0.8;
+  if (x == 3 && y == 4) return 0.8;
+
+  // Cursor line _
+  if (y == 5 && x >= 6 && x <= 8) return 0.6;
+
+  return 0.0;
+}
+
+// Check if a pixel is part of a rocket icon (12x12 grid)
+float pixelArtRocket(vec2 localPos) {
+  int x = int(localPos.x);
+  int y = int(localPos.y);
+
+  // Rocket tip
+  if (x == 5 && y == 11) return 1.0;
+  if (x == 6 && y == 11) return 1.0;
+  if (x >= 4 && x <= 7 && y == 10) return 1.0;
+
+  // Rocket body
+  if (x >= 4 && x <= 7 && y >= 5 && y <= 9) return 1.0;
+
+  // Fins
+  if (x == 3 && y >= 4 && y <= 6) return 1.0;
+  if (x == 2 && y == 4) return 1.0;
+  if (x == 8 && y >= 4 && y <= 6) return 1.0;
+  if (x == 9 && y == 4) return 1.0;
+
+  // Flame
+  if (x == 5 && y == 3) return 0.8;
+  if (x == 6 && y == 3) return 0.8;
+  if (x == 5 && y == 2) return 0.6;
+  if (x == 6 && y == 2) return 0.6;
+  if (x == 5 && y == 1) return 0.4;
+  if (x == 6 && y == 1) return 0.4;
+
+  // Window
+  if (x >= 5 && x <= 6 && y >= 7 && y <= 8) return 0.5;
+
+  return 0.0;
+}
+
+// Calculate pixel art effect for the Process section
+// Returns vec2: x = intensity, y = depth factor for transparency variation
+vec2 calculateProcessPixelArtWithDepth(vec2 pos) {
+  if (uProcessVisible < 0.5) return vec2(0.0);
+
+  // Convert from WebGL coords (Y up from bottom) to screen coords
+  float screenY = uResolution.y - pos.y;
+
+  // Section bounds in screen coordinates
+  float sectionTopScreen = uProcessSectionTop;
+  float sectionBottomScreen = uProcessSectionTop + uProcessSectionHeight;
+
+  // Check if we're in the process section area
+  if (screenY < sectionTopScreen || screenY > sectionBottomScreen) return vec2(0.0);
+
+  // Progress within section (0 at top, 1 at bottom)
+  float sectionProgress = (screenY - sectionTopScreen) / uProcessSectionHeight;
+
+  float intensity = 0.0;
+  float depth = 0.5;
+
+  // === MOBILE: Vertical timeline line using grid ===
+  if (uResolution.x < 640.0) {
+    // Timeline is at left: 24px from edge (matching CSS left-5 = 20px + half of 40px circle)
+    float timelineX = 44.0; // Approximate center of timeline circles
+    float lineWidth = 8.0;  // Width of the grid line
+
+    // Only show in the cards area (after header)
+    if (sectionProgress > 0.35 && sectionProgress < 0.95) {
+      if (abs(pos.x - timelineX) < lineWidth) {
+        // Create dotted pattern
+        float dotSpacing = 15.0;
+        float dotSize = 6.0;
+        float yPattern = mod(screenY - sectionTopScreen, dotSpacing);
+        if (yPattern < dotSize) {
+          intensity = 0.6;
+          depth = 0.4;
+        }
+      }
+    }
+
+    // Fade
+    float fadeIn = smoothstep(0.35, 0.40, sectionProgress);
+    float fadeOut = 1.0 - smoothstep(0.90, 0.95, sectionProgress);
+    return vec2(intensity * fadeIn * fadeOut, depth);
+  }
+
+  // === TABLET: Hide pixel art ===
+  if (uResolution.x < 1024.0) {
+    return vec2(0.0);
+  }
+
+  // === DESKTOP: Full pixel art ===
+  // Grid cell size for pixel art
+  float pixelSize = 5.0;
+  float iconSize = 12.0 * pixelSize;
+
+  // Position 4 icons across the section (matching the 4 process cards)
+  float maxWidth = min(uResolution.x * 0.9, 1152.0); // max-w-6xl = 1152px
+  float offsetX = (uResolution.x - maxWidth) / 2.0;
+  float cardWidth = maxWidth / 4.0;
+
+  // Icons positioned between title and cards (around 42% of section height)
+  float iconYProgress = 0.42;
+  float iconScreenY = sectionTopScreen + uProcessSectionHeight * iconYProgress;
+  float iconWebGLY = uResolution.y - iconScreenY;
+
+  // Reset for desktop (already declared above)
+  intensity = 0.0;
+  depth = 0.5; // Default depth
+
+  // Helper function for depth based on position within icon
+  // Creates a gradient effect: brighter at top-left, darker at bottom-right
+
+  // Icon 1: Magnifying glass (Audit)
+  vec2 icon1Center = vec2(offsetX + cardWidth * 0.5, iconWebGLY);
+  vec2 localPos1 = (pos - icon1Center + vec2(iconSize * 0.5)) / pixelSize;
+  if (localPos1.x >= 0.0 && localPos1.x < 12.0 && localPos1.y >= 0.0 && localPos1.y < 12.0) {
+    float iconVal = pixelArtMagnifier(localPos1);
+    if (iconVal > 0.0) {
+      // Depth based on position: top-left brighter, bottom-right darker
+      float depthGradient = 1.0 - (localPos1.x + (12.0 - localPos1.y)) / 24.0;
+      depth = 0.4 + depthGradient * 0.5;
+      intensity = iconVal;
+    }
+  }
+
+  // Icon 2: Document (Proposal)
+  vec2 icon2Center = vec2(offsetX + cardWidth * 1.5, iconWebGLY);
+  vec2 localPos2 = (pos - icon2Center + vec2(iconSize * 0.5)) / pixelSize;
+  if (localPos2.x >= 0.0 && localPos2.x < 12.0 && localPos2.y >= 0.0 && localPos2.y < 12.0) {
+    float iconVal = pixelArtDocument(localPos2);
+    if (iconVal > 0.0) {
+      float depthGradient = 1.0 - (localPos2.x + (12.0 - localPos2.y)) / 24.0;
+      depth = 0.4 + depthGradient * 0.5;
+      intensity = max(intensity, iconVal);
+    }
+  }
+
+  // Icon 3: Code brackets (Development)
+  vec2 icon3Center = vec2(offsetX + cardWidth * 2.5, iconWebGLY);
+  vec2 localPos3 = (pos - icon3Center + vec2(iconSize * 0.5)) / pixelSize;
+  if (localPos3.x >= 0.0 && localPos3.x < 12.0 && localPos3.y >= 0.0 && localPos3.y < 12.0) {
+    float iconVal = pixelArtCode(localPos3);
+    if (iconVal > 0.0) {
+      float depthGradient = 1.0 - (localPos3.x + (12.0 - localPos3.y)) / 24.0;
+      depth = 0.4 + depthGradient * 0.5;
+      intensity = max(intensity, iconVal);
+    }
+  }
+
+  // Icon 4: Rocket (Results)
+  vec2 icon4Center = vec2(offsetX + cardWidth * 3.5, iconWebGLY);
+  vec2 localPos4 = (pos - icon4Center + vec2(iconSize * 0.5)) / pixelSize;
+  if (localPos4.x >= 0.0 && localPos4.x < 12.0 && localPos4.y >= 0.0 && localPos4.y < 12.0) {
+    float iconVal = pixelArtRocket(localPos4);
+    if (iconVal > 0.0) {
+      float depthGradient = 1.0 - (localPos4.x + (12.0 - localPos4.y)) / 24.0;
+      depth = 0.4 + depthGradient * 0.5;
+      intensity = max(intensity, iconVal);
+    }
+  }
+
+  // No connecting lines - clean Swiss style
+
+  // Fade based on section visibility - icons at 42% position
+  float fadeIn = smoothstep(0.30, 0.38, sectionProgress);
+  float fadeOut = 1.0 - smoothstep(0.50, 0.60, sectionProgress);
+  float visibility = fadeIn * fadeOut;
+
+  return vec2(intensity * visibility, depth);
+}
 
 // ============================================================================
 // ANIMATION FUNCTIONS
@@ -162,6 +416,22 @@ void main() {
 
     // Apply breathing to alpha for subtle pulsation
     alpha *= breathing;
+  }
+
+  // 4. Process section pixel art with depth
+  vec2 pixelArtData = calculateProcessPixelArtWithDepth(vPosition);
+  float pixelArtIntensity = pixelArtData.x;
+  float pixelArtDepth = pixelArtData.y;
+
+  if (pixelArtIntensity > 0.0) {
+    // Use depth to create transparency variation in the blue
+    // Higher depth = more saturated/opaque blue, lower depth = lighter/more transparent
+    vec3 depthColor = mix(uBaseColor, uAccentColor, pixelArtDepth);
+    cellColor = mix(cellColor, depthColor, pixelArtIntensity * 0.9);
+
+    // Alpha also varies with depth for more 3D feel
+    float depthAlpha = 0.6 + pixelArtDepth * 0.4;
+    alpha = mix(alpha, depthAlpha, pixelArtIntensity * 0.7);
   }
 
   // Output final color

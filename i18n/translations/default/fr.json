@@ -18,12 +18,10 @@
   },
   "home": {
     "sections": [
-      { "type": "whatWeMake", "id": "what-we-make" },
       { "type": "stack", "id": "stack-integration" },
-      { "type": "useCases", "id": "use-cases" },
-      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+      { "type": "process", "id": "process" }
     ],
-    "Hero": {
+    "hero": {
       "eyebrow": "Automatisation sur-mesure pour PME",
       "title": {
         "default": "",
@@ -31,12 +29,18 @@
         "accent": "Par employé."
       },
       "subtitle": "Vos équipes perdent du temps sur des tâches répétitives ? On les automatise pour que vous puissiez vous concentrer sur ce qui fait vraiment avancer votre business.",
-      "cta": "Estimer mon gain de temps",
-      "ctaSecondary": "Voir des exemples concrets",
-      "ctaSecondaryAriaLabel": ""
-    },
-    "stack": {
-      "title": "Compatible avec vos outils actuels."
+      "cta": {
+        "primary": {
+          "label": "Estimer mon gain de temps",
+          "href": "#contact",
+          "ariaLabel": "Estimer mon gain de temps"
+        },
+        "secondary": {
+          "label": "Voir des exemples concrets",
+          "href": "#use-cases",
+          "ariaLabel": "Voir des exemples concrets"
+        }
+      }
     },
     "Problem": {
       "title": "Combien d'heures perdues cette semaine ?",
@@ -76,7 +80,9 @@
       }
     },
     "Process": {
+      "label": "Processus",
       "title": "Comment ça marche",
+      "subtitle": "Des étapes simples pour transformer votre workflow",
       "route": {
         "1": {
           "title": "Audit gratuit",
@@ -123,8 +129,17 @@
     },
     "cta": {
       "title": "Combien d'heures pourriez-vous récupérer ?",
-      "description": "Audit gratuit. On analyse vos process et on vous dit ou esque vous pouvez gagner du temps.",
-      "primary": "Réserver mon audit gratuit"
+      "description": "Audit gratuit. On analyse vos process et on vous dit où vous pouvez gagner du temps.",
+      "primary": {
+        "label": "Réserver mon audit gratuit",
+        "href": "#contact",
+        "ariaLabel": "Réserver mon audit gratuit"
+      },
+      "secondary": {
+        "label": "En savoir plus",
+        "href": "#what-we-make",
+        "ariaLabel": "En savoir plus sur nos services"
+      }
     }
   }
 }
