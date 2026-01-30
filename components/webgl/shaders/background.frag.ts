@@ -31,6 +31,14 @@ uniform float uProcessSectionTop;    // Top of process section (screen Y)
 uniform float uProcessSectionHeight; // Height of process section
 uniform float uProcessVisible;       // 1.0 when process section is visible
 
+// Hover-triggered icon animation uniforms
+uniform float uHoveredIcon;          // Currently hovered icon index (0-3)
+uniform float uPreviousIcon;         // Previous icon for crossfade
+uniform float uIconChangeTime;       // Time when icon changed (seconds)
+// Pixel art position uniforms (screen coordinates)
+uniform float uPixelArtCenterX;      // Center X of pixel art zone (screen space)
+uniform float uPixelArtCenterY;      // Center Y of pixel art zone (screen space)
+
 // Varyings from vertex shader
 varying vec2 vUv;
 varying vec2 vPosition;
@@ -48,8 +56,8 @@ const float TWO_PI = 6.28318530718;
 
 // Check if a pixel is part of a magnifying glass icon (12x12 grid)
 float pixelArtMagnifier(vec2 localPos) {
-  int x = int(localPos.x);
-  int y = int(localPos.y);
+  int x = int(floor(localPos.x));
+  int y = int(floor(localPos.y));
 
   // Circle part (radius ~4, center at 5,6)
   if (y == 10 && x >= 4 && x <= 7) return 1.0;
@@ -70,8 +78,8 @@ float pixelArtMagnifier(vec2 localPos) {
 
 // Check if a pixel is part of a document icon (12x12 grid)
 float pixelArtDocument(vec2 localPos) {
-  int x = int(localPos.x);
-  int y = int(localPos.y);
+  int x = int(floor(localPos.x));
+  int y = int(floor(localPos.y));
 
   // Document outline
   if (x == 2 && y >= 1 && y <= 10) return 1.0;
@@ -97,8 +105,8 @@ float pixelArtDocument(vec2 localPos) {
 // Check if a pixel is part of terminal icon (12x12 grid)
 // Represents development/coding phase
 float pixelArtCode(vec2 localPos) {
-  int x = int(localPos.x);
-  int y = int(localPos.y);
+  int x = int(floor(localPos.x));
+  int y = int(floor(localPos.y));
 
   // Terminal window frame
   // Top edge
@@ -126,8 +134,8 @@ float pixelArtCode(vec2 localPos) {
 
 // Check if a pixel is part of a rocket icon (12x12 grid)
 float pixelArtRocket(vec2 localPos) {
-  int x = int(localPos.x);
-  int y = int(localPos.y);
+  int x = int(floor(localPos.x));
+  int y = int(floor(localPos.y));
 
   // Rocket tip
   if (x == 5 && y == 11) return 1.0;
@@ -209,83 +217,145 @@ vec2 calculateProcessPixelArtWithDepth(vec2 pos) {
     return vec2(0.0);
   }
 
-  // === DESKTOP: Full pixel art ===
-  // Grid cell size for pixel art
-  float pixelSize = 5.0;
-  float iconSize = 12.0 * pixelSize;
+  // === DESKTOP: Single animated icon with retro 80s terminal effect ===
+  // Triggered by hover on process cards
+  float pixelSize = 10.0;
+  float iconSize = 12.0 * pixelSize; // 120px per icon
 
-  // Position 4 icons across the section (matching the 4 process cards)
-  float maxWidth = min(uResolution.x * 0.9, 1152.0); // max-w-6xl = 1152px
-  float offsetX = (uResolution.x - maxWidth) / 2.0;
-  float cardWidth = maxWidth / 4.0;
+  // Use the actual pixel art zone position passed from React
+  // Convert from screen coordinates (Y down) to WebGL coordinates (Y up)
+  float pixelArtCenterX = uPixelArtCenterX;
+  float iconWebGLY = uResolution.y - uPixelArtCenterY;
 
-  // Icons positioned between title and cards (around 42% of section height)
-  float iconYProgress = 0.42;
-  float iconScreenY = sectionTopScreen + uProcessSectionHeight * iconYProgress;
-  float iconWebGLY = uResolution.y - iconScreenY;
-
-  // Reset for desktop (already declared above)
+  // Reset for desktop
   intensity = 0.0;
-  depth = 0.5; // Default depth
+  depth = 0.5;
 
-  // Helper function for depth based on position within icon
-  // Creates a gradient effect: brighter at top-left, darker at bottom-right
+  // === HOVER-TRIGGERED ANIMATION WITH CROSSFADE ===
+  // Icon changes when user hovers over process cards
+  int currentIcon = int(uHoveredIcon);
+  int prevIcon = int(uPreviousIcon);
 
-  // Icon 1: Magnifying glass (Audit)
-  vec2 icon1Center = vec2(offsetX + cardWidth * 0.5, iconWebGLY);
-  vec2 localPos1 = (pos - icon1Center + vec2(iconSize * 0.5)) / pixelSize;
-  if (localPos1.x >= 0.0 && localPos1.x < 12.0 && localPos1.y >= 0.0 && localPos1.y < 12.0) {
-    float iconVal = pixelArtMagnifier(localPos1);
-    if (iconVal > 0.0) {
-      // Depth based on position: top-left brighter, bottom-right darker
-      float depthGradient = 1.0 - (localPos1.x + (12.0 - localPos1.y)) / 24.0;
+  // Time since icon changed
+  float timeSinceChange = uTime - uIconChangeTime;
+
+  // Animation durations
+  float fadeOutDuration = 0.25; // Quick fade out
+  float fadeInDuration = 0.5;   // Slower fade in with retro effect
+  float totalDuration = fadeOutDuration + fadeInDuration;
+
+  // Calculate crossfade progress
+  float fadeOutProgress = clamp(timeSinceChange / fadeOutDuration, 0.0, 1.0);
+  float fadeInProgress = clamp((timeSinceChange - fadeOutDuration * 0.5) / fadeInDuration, 0.0, 1.0);
+
+  // Single icon center position
+  vec2 iconCenter = vec2(pixelArtCenterX, iconWebGLY);
+  vec2 localPos = (pos - iconCenter + vec2(iconSize * 0.5)) / pixelSize;
+
+  // Check if within icon bounds
+  if (localPos.x >= 0.0 && localPos.x < 12.0 && localPos.y >= 0.0 && localPos.y < 12.0) {
+    float pixelX = floor(localPos.x);
+    float pixelY = floor(localPos.y);
+
+    // Get icon values for both previous and current icons
+    float prevIconVal = 0.0;
+    float currIconVal = 0.0;
+
+    // Previous icon
+    if (prevIcon == 0) {
+      prevIconVal = pixelArtMagnifier(localPos);
+    } else if (prevIcon == 1) {
+      prevIconVal = pixelArtDocument(localPos);
+    } else if (prevIcon == 2) {
+      prevIconVal = pixelArtCode(localPos);
+    } else {
+      prevIconVal = pixelArtRocket(localPos);
+    }
+
+    // Current icon
+    if (currentIcon == 0) {
+      currIconVal = pixelArtMagnifier(localPos);
+    } else if (currentIcon == 1) {
+      currIconVal = pixelArtDocument(localPos);
+    } else if (currentIcon == 2) {
+      currIconVal = pixelArtCode(localPos);
+    } else {
+      currIconVal = pixelArtRocket(localPos);
+    }
+
+    // === FADE OUT PREVIOUS ICON ===
+    float prevIntensity = 0.0;
+    if (prevIconVal > 0.0 && fadeOutProgress < 1.0) {
+      // Simple fade out with slight dissolve effect
+      float fadeOutAlpha = 1.0 - fadeOutProgress;
+      // Add noise-based dissolve
+      float dissolveNoise = fract(sin(pixelX * 12.9898 + pixelY * 78.233) * 43758.5453);
+      float dissolveThreshold = fadeOutProgress * 1.2;
+      float dissolve = step(dissolveThreshold, dissolveNoise + 0.2);
+      prevIntensity = prevIconVal * fadeOutAlpha * dissolve;
+    }
+
+    // === FADE IN CURRENT ICON with 80s RETRO EFFECT ===
+    float currIntensity = 0.0;
+    if (currIconVal > 0.0 && fadeInProgress > 0.0) {
+      // Pixel index for generation order (top-left to bottom-right, row by row)
+      float pixelIndex = (11.0 - pixelY) * 12.0 + pixelX;
+      float totalPixels = 144.0; // 12x12
+
+      // Progressive reveal threshold
+      float pixelThreshold = fadeInProgress * totalPixels * 1.2;
+
+      // Pixel visibility with sharp edge (80s style)
+      float pixelVisible = smoothstep(pixelIndex - 3.0, pixelIndex, pixelThreshold);
+
+      // === CRT SCANLINE EFFECT ===
+      float scanline = 0.92 + 0.08 * sin((11.0 - pixelY) * PI * 2.0 + uTime * 4.0);
+
+      // === PHOSPHOR GLOW ===
+      float glowTime = pixelThreshold - pixelIndex;
+      float phosphorGlow = 1.0 + 0.4 * exp(-glowTime * 0.3) * step(0.0, glowTime);
+
+      // === FLICKER during generation ===
+      float flicker = 1.0;
+      if (fadeInProgress < 1.0) {
+        float noise = fract(sin(uTime * 30.0 + pixelIndex * 0.1) * 43758.5453);
+        flicker = 0.85 + 0.15 * noise;
+      }
+
+      // === INTERLACE EFFECT ===
+      float interlace = 0.95 + 0.05 * mod(pixelY + floor(uTime * 30.0), 2.0);
+
+      currIntensity = currIconVal * pixelVisible * scanline * phosphorGlow * flicker * interlace;
+    }
+
+    // Combine previous and current icon intensities
+    float combinedIntensity = max(prevIntensity, currIntensity);
+
+    if (combinedIntensity > 0.0) {
+      float depthGradient = 1.0 - (localPos.x + (12.0 - localPos.y)) / 24.0;
       depth = 0.4 + depthGradient * 0.5;
-      intensity = iconVal;
+      intensity = combinedIntensity;
     }
   }
 
-  // Icon 2: Document (Proposal)
-  vec2 icon2Center = vec2(offsetX + cardWidth * 1.5, iconWebGLY);
-  vec2 localPos2 = (pos - icon2Center + vec2(iconSize * 0.5)) / pixelSize;
-  if (localPos2.x >= 0.0 && localPos2.x < 12.0 && localPos2.y >= 0.0 && localPos2.y < 12.0) {
-    float iconVal = pixelArtDocument(localPos2);
-    if (iconVal > 0.0) {
-      float depthGradient = 1.0 - (localPos2.x + (12.0 - localPos2.y)) / 24.0;
-      depth = 0.4 + depthGradient * 0.5;
-      intensity = max(intensity, iconVal);
-    }
-  }
+  // Smooth visibility based on header position in viewport
+  float pixelArtScreenY = sectionTopScreen + uProcessSectionHeight * 0.20;
 
-  // Icon 3: Code brackets (Development)
-  vec2 icon3Center = vec2(offsetX + cardWidth * 2.5, iconWebGLY);
-  vec2 localPos3 = (pos - icon3Center + vec2(iconSize * 0.5)) / pixelSize;
-  if (localPos3.x >= 0.0 && localPos3.x < 12.0 && localPos3.y >= 0.0 && localPos3.y < 12.0) {
-    float iconVal = pixelArtCode(localPos3);
-    if (iconVal > 0.0) {
-      float depthGradient = 1.0 - (localPos3.x + (12.0 - localPos3.y)) / 24.0;
-      depth = 0.4 + depthGradient * 0.5;
-      intensity = max(intensity, iconVal);
-    }
-  }
+  // Calculate how "centered" the pixel art is in the viewport
+  // Best visibility when pixel art is in the middle-upper portion of screen
+  float viewportHeight = uResolution.y;
+  float optimalTop = viewportHeight * 0.15;    // Start fading in when 15% from top
+  float optimalBottom = viewportHeight * 0.65; // Start fading out when 65% from top
 
-  // Icon 4: Rocket (Results)
-  vec2 icon4Center = vec2(offsetX + cardWidth * 3.5, iconWebGLY);
-  vec2 localPos4 = (pos - icon4Center + vec2(iconSize * 0.5)) / pixelSize;
-  if (localPos4.x >= 0.0 && localPos4.x < 12.0 && localPos4.y >= 0.0 && localPos4.y < 12.0) {
-    float iconVal = pixelArtRocket(localPos4);
-    if (iconVal > 0.0) {
-      float depthGradient = 1.0 - (localPos4.x + (12.0 - localPos4.y)) / 24.0;
-      depth = 0.4 + depthGradient * 0.5;
-      intensity = max(intensity, iconVal);
-    }
-  }
+  // Fade in as pixel art enters from bottom, fade out as it exits to top
+  float sectionFadeIn = 1.0 - smoothstep(optimalBottom, viewportHeight * 0.9, pixelArtScreenY);
+  float sectionFadeOut = smoothstep(-viewportHeight * 0.2, optimalTop, pixelArtScreenY);
 
-  // No connecting lines - clean Swiss style
+  // Combine fades with smooth easing
+  float visibility = sectionFadeIn * sectionFadeOut;
 
-  // Fade based on section visibility - icons at 42% position
-  float fadeIn = smoothstep(0.30, 0.38, sectionProgress);
-  float fadeOut = 1.0 - smoothstep(0.50, 0.60, sectionProgress);
-  float visibility = fadeIn * fadeOut;
+  // Apply smootherstep for more natural easing
+  visibility = visibility * visibility * (3.0 - 2.0 * visibility);
 
   return vec2(intensity * visibility, depth);
 }

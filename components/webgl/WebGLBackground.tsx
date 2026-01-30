@@ -48,6 +48,11 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     height: 0,
     visible: false,
   });
+  const [hoveredIcon, setHoveredIcon] = useState(0); // 0-3 for icons
+  const [previousIcon, setPreviousIcon] = useState(0); // Previous icon for crossfade
+  const [iconChangeTime, setIconChangeTime] = useState(0); // Time when icon changed
+  const lastHoveredIconRef = useRef(0);
+  const [pixelArtPosition, setPixelArtPosition] = useState({ x: 0, y: 0 }); // Center position of pixel art zone
 
   const { size } = useThree();
 
@@ -82,6 +87,66 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
       window.removeEventListener("resize", update);
     };
   }, []);
+
+  // Track hover on process section cards
+  useEffect(() => {
+    const handleMouseEnter = (index: number) => {
+      if (lastHoveredIconRef.current !== index) {
+        setPreviousIcon(lastHoveredIconRef.current); // Store previous icon for crossfade
+        lastHoveredIconRef.current = index;
+        setHoveredIcon(index);
+        setIconChangeTime(performance.now() / 1000); // Convert to seconds
+      }
+    };
+
+    // Find all process cards and add hover listeners
+    const processSectionEl = document.querySelector('[data-section="process"]');
+    if (!processSectionEl) return;
+
+    // Track position of the pixel art zone (the empty div in the header)
+    const pixelArtZone = processSectionEl.querySelector('[aria-hidden="true"]');
+    let updatePixelArtPosition: (() => void) | null = null;
+
+    if (pixelArtZone) {
+      updatePixelArtPosition = () => {
+        const rect = pixelArtZone.getBoundingClientRect();
+        // Get center position of the pixel art zone
+        setPixelArtPosition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        });
+      };
+      updatePixelArtPosition();
+      window.addEventListener("scroll", updatePixelArtPosition, {
+        passive: true,
+      });
+      window.addEventListener("resize", updatePixelArtPosition);
+    }
+
+    // Select cards in the grid (desktop uses grid-cols-4)
+    const cards = processSectionEl.querySelectorAll(".group");
+
+    const listeners: Array<{ el: Element; enter: () => void }> = [];
+
+    cards.forEach((card, index) => {
+      if (index < 4) {
+        // Only first 4 cards
+        const enter = () => handleMouseEnter(index);
+        card.addEventListener("mouseenter", enter);
+        listeners.push({ el: card, enter });
+      }
+    });
+
+    return () => {
+      listeners.forEach(({ el, enter }) => {
+        el.removeEventListener("mouseenter", enter);
+      });
+      if (updatePixelArtPosition) {
+        window.removeEventListener("scroll", updatePixelArtPosition);
+        window.removeEventListener("resize", updatePixelArtPosition);
+      }
+    };
+  }, [processSection.visible]); // Re-run when section becomes visible
 
   // Generate grid attributes
   const { count, attributes } = useInstancedGrid({
@@ -136,6 +201,13 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           uProcessSectionTop: { value: 0 },
           uProcessSectionHeight: { value: 0 },
           uProcessVisible: { value: 0 },
+          // Hover-triggered icon animation
+          uHoveredIcon: { value: 0 },
+          uPreviousIcon: { value: 0 },
+          uIconChangeTime: { value: 0 },
+          // Pixel art position (screen coordinates)
+          uPixelArtCenterX: { value: 0 },
+          uPixelArtCenterY: { value: 0 },
         },
         transparent: true,
         depthWrite: false,
@@ -189,6 +261,14 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     materialRef.current.uniforms.uProcessVisible.value = processSection.visible
       ? 1.0
       : 0.0;
+
+    // Update hover-triggered icon uniforms
+    materialRef.current.uniforms.uHoveredIcon.value = hoveredIcon;
+    materialRef.current.uniforms.uPreviousIcon.value = previousIcon;
+    materialRef.current.uniforms.uIconChangeTime.value = iconChangeTime;
+    // Update pixel art position uniforms
+    materialRef.current.uniforms.uPixelArtCenterX.value = pixelArtPosition.x;
+    materialRef.current.uniforms.uPixelArtCenterY.value = pixelArtPosition.y;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(
