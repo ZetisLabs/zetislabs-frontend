@@ -11,9 +11,11 @@
     "logoAriaLabel": "Accueil ZetisLabs"
   },
   "footer": {
-    "copyright": "© {year} ZetisLabs. Tous droits réservés.",
+    "copyright": "© {year} ZetisLabs",
+    "legal": "Mentions légales",
     "privacy": "Confidentialité",
-    "terms": "Conditions",
+    "terms": "CGU",
+    "cookies": "Cookies",
     "contact": "Contact"
   },
   "home": {
