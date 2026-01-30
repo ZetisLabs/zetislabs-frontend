@@ -105,10 +105,13 @@ export function HeroSection({
   const containerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative isolate h-[115vh] w-full">
+    <section
+      ref={sectionRef}
+      className="relative isolate h-[115vh] w-full overflow-hidden"
+    >
       {/* Fixed container - stays absolutely fixed in viewport center */}
       <motion.div
-        className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center"
+        className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden"
         style={{
           opacity: containerOpacity,
           pointerEvents: useTransform(containerOpacity, (v) =>
@@ -133,12 +136,10 @@ export function HeroSection({
               <div className="relative mx-auto">
                 {showAnimatedHalos && (
                   <>
-                    {/* Primary halo */}
+                    {/* Primary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[200px] w-[280px] rounded-full sm:h-[280px] sm:w-[500px] lg:h-[350px] lg:w-[950px]"
                       style={{
-                        width: 950,
-                        height: 350,
                         x: "-50%",
                         y: "-50%",
                         background:
@@ -156,12 +157,10 @@ export function HeroSection({
                         ease: easings.breathing,
                       }}
                     />
-                    {/* Secondary halo */}
+                    {/* Secondary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[150px] w-[220px] rounded-full sm:h-[200px] sm:w-[400px] lg:h-[266px] lg:w-[720px]"
                       style={{
-                        width: 720,
-                        height: 266,
                         x: "-50%",
                         y: "-50%",
                         background:

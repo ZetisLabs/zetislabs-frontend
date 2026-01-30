@@ -1,26 +1,16 @@
 "use client";
 
-import { motion } from "@/lib/motion";
+import { useEffect } from "react";
+import { motion, useMotionValue, useTransform, animate } from "@/lib/motion";
 
-// Rotating border glow styles
-const glowKeyframes = `
-@keyframes rotate-glow {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
+// Animation keyframes (only for arrows now)
+const arrowKeyframes = `
 @keyframes arrow-pulse {
   0%, 100% {
     opacity: 0.4;
-    transform: translateX(0);
   }
   50% {
     opacity: 1;
-    transform: translateX(4px);
   }
 }
 
@@ -174,41 +164,62 @@ export function ProblemSolutionClient({
   stat,
   trust,
 }: ProblemSolutionClientProps) {
+  // Rotating border animation with Framer Motion
+  const angle = useMotionValue(0);
+  const background = useTransform(
+    angle,
+    (a) => `conic-gradient(from ${a}deg, #3a7bd5, #3a7bd520 50%, #3a7bd5)`
+  );
+
+  useEffect(() => {
+    const controls = animate(angle, 360, {
+      duration: 4,
+      repeat: Infinity,
+      ease: "linear",
+    });
+    return () => controls.stop();
+  }, [angle]);
+
   return (
     <section
       data-section="problem-solution"
-      className="relative scroll-section overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20"
+      className="relative scroll-section w-full max-w-full overflow-hidden pt-16 pb-8 sm:pt-24 sm:pb-12 lg:pt-32 lg:pb-16"
     >
-      <div className="relative mx-auto w-full max-w-6xl px-6 lg:px-8">
+      <div className="relative mx-auto box-border w-full max-w-6xl overflow-hidden px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-4"
+          className="flex flex-col gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4"
         >
           {/* Problem Card */}
           <motion.div
             variants={cardVariants}
-            className="relative rounded-2xl border border-border/40 bg-card p-6 sm:p-8"
+            className="relative rounded-xl border border-border/40 bg-card p-4 sm:rounded-2xl sm:p-6 lg:p-8"
           >
             {/* Title */}
-            <h2 className="mb-6 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            <h2 className="mb-4 text-lg font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
               {titleProblem}
             </h2>
 
             {/* Problem List */}
-            <motion.ul variants={containerVariants} className="mb-6 space-y-3">
+            <motion.ul
+              variants={containerVariants}
+              className="mb-4 space-y-2 sm:mb-6 sm:space-y-3"
+            >
               {problemItems.map((item, idx) => (
                 <motion.li
                   key={idx}
                   variants={listItemVariants}
-                  className="flex items-start gap-3 text-foreground/70"
+                  className="flex items-start gap-2 text-foreground/70 sm:gap-3"
                 >
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-foreground/5 text-foreground/40">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-foreground/5 text-foreground/40 sm:h-6 sm:w-6 sm:rounded-lg">
                     {problemIcons[idx % problemIcons.length]}
                   </span>
-                  <span className="text-sm sm:text-base">{item}</span>
+                  <span className="text-xs leading-relaxed sm:text-sm lg:text-base">
+                    {item}
+                  </span>
                 </motion.li>
               ))}
             </motion.ul>
@@ -217,7 +228,7 @@ export function ProblemSolutionClient({
             {conclusion && (
               <motion.p
                 variants={listItemVariants}
-                className="border-t border-border/30 pt-4 text-sm text-foreground/60 italic"
+                className="border-t border-border/30 pt-3 text-xs text-foreground/60 italic sm:pt-4 sm:text-sm"
               >
                 {conclusion}
               </motion.p>
@@ -258,11 +269,11 @@ export function ProblemSolutionClient({
           {/* Mobile Arrow (vertical) */}
           <motion.div
             variants={cardVariants}
-            className="flex items-center justify-center py-2 lg:hidden"
+            className="flex items-center justify-center py-1 lg:hidden"
           >
-            <div className="relative flex h-12 w-12 flex-col items-center justify-center">
+            <div className="relative flex h-8 w-8 flex-col items-center justify-center">
               {/* Arrow line */}
-              <div className="absolute h-8 w-[2px] overflow-hidden bg-gradient-to-b from-border/40 via-accent/50 to-accent">
+              <div className="absolute h-5 w-[2px] overflow-hidden bg-gradient-to-b from-border/40 via-accent/50 to-accent">
                 {/* Animated flow effect */}
                 <div
                   className="absolute inset-0 h-full w-full"
@@ -277,73 +288,66 @@ export function ProblemSolutionClient({
               <div
                 className="absolute bottom-0"
                 style={{
-                  borderLeft: "6px solid transparent",
-                  borderRight: "6px solid transparent",
-                  borderTop: "8px solid #3a7bd5",
+                  borderLeft: "5px solid transparent",
+                  borderRight: "5px solid transparent",
+                  borderTop: "6px solid #3a7bd5",
                   animation: "arrow-pulse 2s ease-in-out infinite",
                 }}
               />
             </div>
           </motion.div>
 
-          {/* Solution Card with rotating border glow */}
+          {/* Solution Card with rotating glow border */}
           <motion.div variants={cardVariants} className="relative h-full">
-            {/* Inject keyframes */}
-            <style>{glowKeyframes}</style>
+            {/* Inject keyframes for arrows */}
+            <style>{arrowKeyframes}</style>
 
-            {/* Glow container - sits behind the card */}
-            <div className="pointer-events-none absolute -inset-[2px] overflow-hidden rounded-2xl">
-              {/* Rotating gradient */}
-              <div
-                className="absolute inset-[-200%] opacity-50"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, transparent 0deg, transparent 60deg, #3a7bd5 120deg, #60a5fa 180deg, #3a7bd5 240deg, transparent 300deg, transparent 360deg)",
-                  animation: "rotate-glow 8s linear infinite",
-                }}
-              />
-            </div>
+            {/* Rotating gradient border wrapper - animated with Framer Motion */}
+            <motion.div
+              className="relative h-full rounded-xl p-[2px] sm:rounded-2xl"
+              style={{ background }}
+            >
+              {/* Inner card content */}
+              <div className="relative h-full rounded-[10px] bg-card p-4 sm:rounded-[14px] sm:p-6 lg:p-8">
+                {/* Title with accent underline */}
+                <h2 className="relative mb-4 text-lg font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
+                  {titleSolution}
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-12 bg-accent/60 sm:w-16" />
+                </h2>
 
-            {/* Card content - same structure as Problem card */}
-            <div className="relative h-full rounded-2xl border border-transparent bg-card p-6 sm:p-8">
-              {/* Title with accent underline */}
-              <h2 className="relative mb-6 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                {titleSolution}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-16 bg-accent/60" />
-              </h2>
+                {/* Body */}
+                <p className="relative mb-4 text-xs leading-relaxed text-foreground/75 sm:mb-6 sm:text-sm lg:text-base">
+                  {body}
+                </p>
 
-              {/* Body */}
-              <p className="relative mb-6 text-sm leading-relaxed text-foreground/75 sm:text-base">
-                {body}
-              </p>
+                {/* Accent Result Box */}
+                {accent && (
+                  <motion.div
+                    variants={listItemVariants}
+                    className="relative rounded-lg border border-accent/20 bg-accent/5 p-3 sm:rounded-xl sm:p-4"
+                  >
+                    <p className="text-xs font-medium text-foreground/90 sm:text-sm lg:text-base">
+                      {accent}
+                    </p>
+                  </motion.div>
+                )}
 
-              {/* Accent Result Box */}
-              {accent && (
-                <motion.div
-                  variants={listItemVariants}
-                  className="relative rounded-xl border border-accent/20 bg-accent/5 p-4"
-                >
-                  <p className="text-sm font-medium text-foreground/90 sm:text-base">
-                    {accent}
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Key Stat - centered below */}
-              {stat && (
-                <motion.div
-                  variants={listItemVariants}
-                  className="mt-6 flex flex-col items-center text-center"
-                >
-                  <span className="text-3xl font-semibold tracking-tight text-accent sm:text-4xl">
-                    {stat.value}
-                  </span>
-                  <span className="text-xs text-foreground/50 sm:text-sm">
-                    {stat.label}
-                  </span>
-                </motion.div>
-              )}
-            </div>
+                {/* Key Stat - centered below */}
+                {stat && (
+                  <motion.div
+                    variants={listItemVariants}
+                    className="mt-4 flex flex-col items-center text-center sm:mt-6"
+                  >
+                    <span className="text-2xl font-semibold tracking-tight text-accent sm:text-3xl lg:text-4xl">
+                      {stat.value}
+                    </span>
+                    <span className="text-[10px] text-foreground/50 sm:text-xs lg:text-sm">
+                      {stat.label}
+                    </span>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
@@ -354,17 +358,17 @@ export function ProblemSolutionClient({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="mt-16 flex flex-col items-center sm:mt-20"
+            className="mt-8 flex flex-col items-center sm:mt-12 lg:mt-16"
           >
             <motion.p
               variants={listItemVariants}
-              className="mb-6 text-sm text-foreground/40"
+              className="mb-4 text-xs text-foreground/40 sm:mb-6 sm:text-sm"
             >
               {trust.title}
             </motion.p>
             <motion.div
               variants={containerVariants}
-              className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-14"
+              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 lg:gap-12"
             >
               {trust.logos.map((logo, idx) => {
                 // Map logo names to file paths (if available)
@@ -383,13 +387,13 @@ export function ProblemSolutionClient({
                       <img
                         src={logoFile}
                         alt={logo}
-                        className="h-6 w-auto opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-8"
+                        className="h-5 w-auto opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-6 lg:h-8"
                         style={{
                           filter: "brightness(0) saturate(100%)",
                         }}
                       />
                     ) : (
-                      <span className="text-base font-medium tracking-tight text-[#1a1a1a]/40 transition-colors duration-300 hover:text-[#1a1a1a]/70 sm:text-lg">
+                      <span className="text-sm font-medium tracking-tight text-[#1a1a1a]/40 transition-colors duration-300 hover:text-[#1a1a1a]/70 sm:text-base lg:text-lg">
                         {logo}
                       </span>
                     )}
