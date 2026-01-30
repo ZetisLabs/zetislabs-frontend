@@ -55,11 +55,12 @@ const float TWO_PI = 6.28318530718;
 // ============================================================================
 
 // Check if a pixel is part of a magnifying glass icon (12x12 grid)
+// Enhanced with fill, highlights and shadows
 float pixelArtMagnifier(vec2 localPos) {
   int x = int(floor(localPos.x));
   int y = int(floor(localPos.y));
 
-  // Circle part (radius ~4, center at 5,6)
+  // === OUTER RING (full intensity) ===
   if (y == 10 && x >= 4 && x <= 7) return 1.0;
   if (y == 9 && (x == 3 || x == 8)) return 1.0;
   if (y == 8 && (x == 2 || x == 9)) return 1.0;
@@ -68,99 +69,166 @@ float pixelArtMagnifier(vec2 localPos) {
   if (y == 5 && (x == 3 || x == 8)) return 1.0;
   if (y == 4 && x >= 4 && x <= 7) return 1.0;
 
-  // Handle
+  // === GLASS FILL (gradient from top-left to bottom-right) ===
+  // Inner glass area with subtle gradient
+  if (y == 9 && x >= 4 && x <= 7) return 0.35;
+  if (y == 8 && x >= 3 && x <= 8) return 0.30;
+  if (y == 7 && x >= 3 && x <= 8) return 0.25;
+  if (y == 6 && x >= 3 && x <= 8) return 0.22;
+  if (y == 5 && x >= 4 && x <= 7) return 0.20;
+
+  // === GLASS REFLECTION (highlight) ===
+  if (y == 8 && x == 4) return 0.55;
+  if (y == 7 && x == 4) return 0.50;
+  if (y == 9 && x == 5) return 0.45;
+
+  // === HANDLE (with thickness) ===
   if (y == 3 && x == 8) return 1.0;
   if (y == 2 && x == 9) return 1.0;
   if (y == 1 && x == 10) return 1.0;
+  // Handle shadow
+  if (y == 2 && x == 10) return 0.6;
+  if (y == 1 && x == 9) return 0.5;
 
   return 0.0;
 }
 
 // Check if a pixel is part of a document icon (12x12 grid)
+// Enhanced with paper fill, shadow and more text lines
 float pixelArtDocument(vec2 localPos) {
   int x = int(floor(localPos.x));
   int y = int(floor(localPos.y));
 
-  // Document outline
+  // === DOCUMENT OUTLINE ===
   if (x == 2 && y >= 1 && y <= 10) return 1.0;
   if (x == 9 && y >= 1 && y <= 8) return 1.0;
-  if (y == 10 && x >= 2 && x <= 7) return 1.0;
+  if (y == 10 && x >= 2 && x <= 6) return 1.0;
   if (y == 1 && x >= 2 && x <= 9) return 1.0;
 
-  // Folded corner
+  // === FOLDED CORNER ===
   if (y == 10 && x == 7) return 1.0;
-  if (y == 9 && x == 8) return 1.0;
+  if (y == 9 && (x == 7 || x == 8)) return 1.0;
   if (y == 8 && x == 9) return 1.0;
-  if (x == 7 && y == 9) return 1.0;
-  if (x == 8 && y == 9) return 1.0;
+  // Corner fold inner line
+  if (y == 9 && x == 8) return 0.7;
 
-  // Text lines
-  if (y == 7 && x >= 4 && x <= 7) return 0.6;
-  if (y == 5 && x >= 4 && x <= 7) return 0.6;
-  if (y == 3 && x >= 4 && x <= 6) return 0.6;
+  // === PAPER FILL (subtle gradient) ===
+  if (x >= 3 && x <= 8 && y >= 2 && y <= 9) {
+    // Skip the folded corner area
+    if (y >= 9 && x >= 7) return 0.0;
+    // Gradient: lighter at top-left
+    float gradient = 0.18 + (float(y) - 2.0) * 0.01 - (float(x) - 3.0) * 0.008;
+    return gradient;
+  }
+
+  // === TEXT LINES (multiple lines for realism) ===
+  if (y == 8 && x >= 4 && x <= 6) return 0.55;
+  if (y == 7 && x >= 4 && x <= 7) return 0.60;
+  if (y == 6 && x >= 4 && x <= 5) return 0.55;
+  if (y == 5 && x >= 4 && x <= 7) return 0.60;
+  if (y == 4 && x >= 4 && x <= 6) return 0.55;
+  if (y == 3 && x >= 4 && x <= 7) return 0.60;
+
+  // === SHADOW on right edge ===
+  if (x == 10 && y >= 1 && y <= 7) return 0.3;
 
   return 0.0;
 }
 
 // Check if a pixel is part of terminal icon (12x12 grid)
-// Represents development/coding phase
+// Simple >_ prompt symbol only
 float pixelArtCode(vec2 localPos) {
   int x = int(floor(localPos.x));
   int y = int(floor(localPos.y));
 
-  // Terminal window frame
-  // Top edge
-  if (y == 10 && x >= 1 && x <= 10) return 1.0;
-  // Bottom edge
-  if (y == 2 && x >= 1 && x <= 10) return 1.0;
-  // Left edge
-  if (x == 1 && y >= 2 && y <= 10) return 1.0;
-  // Right edge
-  if (x == 10 && y >= 2 && y <= 10) return 1.0;
+  // === ">" CHARACTER (large chevron) ===
+  // Top diagonal of >
+  if (y == 10 && x == 0) return 1.0;
+  if (y == 10 && x == 1) return 0.6;
+  if (y == 9 && x == 1) return 1.0;
+  if (y == 9 && x == 2) return 0.6;
+  if (y == 8 && x == 2) return 1.0;
+  if (y == 8 && x == 3) return 0.6;
+  if (y == 7 && x == 3) return 1.0;
+  if (y == 7 && x == 4) return 0.6;
+  // Middle point
+  if (y == 6 && x == 4) return 1.0;
+  if (y == 6 && x == 5) return 0.6;
+  // Bottom diagonal of >
+  if (y == 5 && x == 4) return 0.6;
+  if (y == 5 && x == 3) return 1.0;
+  if (y == 4 && x == 3) return 0.6;
+  if (y == 4 && x == 2) return 1.0;
+  if (y == 3 && x == 2) return 0.6;
+  if (y == 3 && x == 1) return 1.0;
+  if (y == 2 && x == 1) return 0.6;
+  if (y == 2 && x == 0) return 1.0;
 
-  // Title bar (slightly darker)
-  if (y == 9 && x >= 2 && x <= 9) return 0.5;
-
-  // Prompt symbol > inside terminal
-  if (x == 3 && y == 6) return 0.8;
-  if (x == 4 && y == 5) return 0.8;
-  if (x == 3 && y == 4) return 0.8;
-
-  // Cursor line _
-  if (y == 5 && x >= 6 && x <= 8) return 0.6;
+  // === "_" UNDERSCORE (cursor, thick) ===
+  if (y == 2 && x >= 7 && x <= 11) return 1.0;
+  if (y == 3 && x >= 7 && x <= 11) return 0.7;
 
   return 0.0;
 }
 
 // Check if a pixel is part of a rocket icon (12x12 grid)
+// Enhanced with body shading, detailed flames and window reflection
 float pixelArtRocket(vec2 localPos) {
   int x = int(floor(localPos.x));
   int y = int(floor(localPos.y));
 
-  // Rocket tip
+  // === ROCKET TIP (nose cone) ===
   if (x == 5 && y == 11) return 1.0;
   if (x == 6 && y == 11) return 1.0;
   if (x >= 4 && x <= 7 && y == 10) return 1.0;
 
-  // Rocket body
-  if (x >= 4 && x <= 7 && y >= 5 && y <= 9) return 1.0;
+  // === ROCKET BODY OUTLINE ===
+  if ((x == 4 || x == 7) && y >= 5 && y <= 9) return 1.0;
+  if (y == 9 && x >= 4 && x <= 7) return 1.0;
 
-  // Fins
+  // === BODY FILL (metallic gradient) ===
+  if (x == 5 && y >= 5 && y <= 9) return 0.75;
+  if (x == 6 && y >= 5 && y <= 9) return 0.65;
+
+  // === BODY DETAILS (stripes) ===
+  if (y == 6 && (x == 5 || x == 6)) return 0.85;
+
+  // === FINS (with shading) ===
   if (x == 3 && y >= 4 && y <= 6) return 1.0;
   if (x == 2 && y == 4) return 1.0;
+  if (x == 2 && y == 5) return 0.6;  // Fin shadow
   if (x == 8 && y >= 4 && y <= 6) return 1.0;
   if (x == 9 && y == 4) return 1.0;
+  if (x == 9 && y == 5) return 0.6;  // Fin shadow
 
-  // Flame
-  if (x == 5 && y == 3) return 0.8;
-  if (x == 6 && y == 3) return 0.8;
-  if (x == 5 && y == 2) return 0.6;
-  if (x == 6 && y == 2) return 0.6;
-  if (x == 5 && y == 1) return 0.4;
-  if (x == 6 && y == 1) return 0.4;
+  // === WINDOW (porthole with reflection) ===
+  if (x == 5 && y == 8) return 0.55;
+  if (x == 6 && y == 8) return 0.45;
+  if (x == 5 && y == 7) return 0.50;
+  if (x == 6 && y == 7) return 0.40;
+  // Window highlight
+  if (x == 5 && y == 8) return 0.65;
 
-  // Window
-  if (x >= 5 && x <= 6 && y >= 7 && y <= 8) return 0.5;
+  // === EXHAUST/NOZZLE ===
+  if (y == 4 && (x == 5 || x == 6)) return 0.9;
+
+  // === FLAME (animated feel with gradient) ===
+  // Core flame (brightest)
+  if (x == 5 && y == 3) return 0.95;
+  if (x == 6 && y == 3) return 0.90;
+  // Middle flame
+  if (x == 5 && y == 2) return 0.75;
+  if (x == 6 && y == 2) return 0.70;
+  if (x == 4 && y == 2) return 0.50;
+  if (x == 7 && y == 2) return 0.45;
+  // Outer flame (fading)
+  if (x == 5 && y == 1) return 0.55;
+  if (x == 6 && y == 1) return 0.50;
+  if (x == 4 && y == 1) return 0.35;
+  if (x == 7 && y == 1) return 0.30;
+  // Flame tips
+  if (x == 5 && y == 0) return 0.25;
+  if (x == 6 && y == 0) return 0.20;
 
   return 0.0;
 }
