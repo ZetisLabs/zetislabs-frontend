@@ -6,7 +6,10 @@ import * as THREE from "three";
 import { WebGLCanvas } from "./WebGLCanvas";
 import { useInstancedGrid } from "./hooks/useInstancedGrid";
 import { useScrollHijack } from "./hooks/useScrollHijack";
-import { useScrollHijackContext } from "@/components/providers";
+import {
+  useScrollHijackContext,
+  useWebGLAnimationMode,
+} from "@/components/providers";
 import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
@@ -18,7 +21,7 @@ const CELL_SIZE = 5; // pixels
 const BASE_COLOR = new THREE.Vector3(0.973, 0.973, 0.973); // #f8f8f8
 const ACCENT_COLOR = new THREE.Vector3(0.227, 0.482, 0.835); // #3a7bd5
 
-type AnimationMode = "none" | "intro" | "idle";
+type AnimationMode = "none" | "intro" | "idle" | "blog";
 
 interface BackgroundMeshProps {
   cols: number;
@@ -85,7 +88,8 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     (mode: AnimationMode, isIntroComplete: boolean): number => {
       if (mode === "none") return 0;
       if (mode === "intro" && !isIntroComplete) return 1;
-      if (mode === "idle" || isIntroComplete) return 2;
+      if (mode === "idle" || (mode === "intro" && isIntroComplete)) return 2;
+      if (mode === "blog") return 3;
       return 0;
     },
     []
@@ -194,8 +198,16 @@ interface WebGLBackgroundProps {
  * ```
  */
 export function WebGLBackground({
-  animationMode = "intro",
+  animationMode: propAnimationMode = "intro",
 }: WebGLBackgroundProps) {
+  // Get animation mode from context (allows child layouts to override)
+  const { animationMode: contextAnimationMode } = useWebGLAnimationMode();
+
+  // Use context value if it differs from default "intro" (meaning a child set it)
+  // Otherwise use the prop value
+  const animationMode =
+    contextAnimationMode !== "intro" ? contextAnimationMode : propAnimationMode;
+
   const [dimensions, setDimensions] = useState({
     cols: 0,
     rows: 0,
