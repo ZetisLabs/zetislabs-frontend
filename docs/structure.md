@@ -34,10 +34,11 @@ This document explains the complete structure of the ZetisLabs front-end project
 ```
 front-end/
 ├── app/                    # Next.js App Router directory
+├── articles/               # Markdown blog articles (en/, fr/)
 ├── components/             # React components
 ├── public/                 # Static assets
 ├── i18n/                   # Internationalization files
-├── lib/                    # Utility functions
+├── lib/                    # Utility functions and libraries
 ├── docs/                   # Documentation
 ├── node_modules/           # Dependencies (git-ignored)
 └── .next/                  # Build output (git-ignored)
@@ -62,10 +63,19 @@ The `app/` directory uses Next.js App Router conventions where folders define ro
 
 - `/en` → English homepage (`app/[locale]/page.tsx` with locale="en")
 - `/fr` → French homepage (`app/[locale]/page.tsx` with locale="fr")
-- `/en/blog` → English blog (future route)
-- `/fr/blog` → French blog (future route)
+- `/en/blog` → English blog listing (`app/[locale]/blog/page.tsx`)
+- `/fr/blog` → French blog listing (`app/[locale]/blog/page.tsx`)
 
 The `[locale]` folder name creates a dynamic route segment that captures the locale from the URL.
+
+### Blog Route
+
+- **`app/[locale]/blog/`** - Blog section
+  - **`page.tsx`** - Server component that loads articles from markdown files
+  - **`layout.tsx`** - Client component that sets WebGL animation mode to "blog"
+  - **`components/`** - Blog-specific components
+    - `BlogClient.tsx` - Main client component with interactivity
+    - `ArticleContent.tsx` - Markdown renderer with IBMPlexSans typography
 
 ## `components/` Directory
 
@@ -138,13 +148,42 @@ Translation keys are organized hierarchically by page/component:
 }
 ```
 
+## `articles/` Directory
+
+Markdown blog articles organized by locale.
+
+```
+articles/
+  en/                                    # English articles
+    the-future-of-autonomous-engineering.md
+    scaling-distributed-systems.md
+  fr/                                    # French articles
+    le-futur-de-lingenierie-autonome.md
+    mise-a-echelle-systemes-distribues.md
+```
+
+Each article is a Markdown file with YAML frontmatter containing metadata (title, excerpt, category, author, date, image, etc.). See [Blog Articles Guide](blog/articles.md) for details.
+
 ## `lib/` Directory
 
-Utility functions and helpers.
+Utility functions, helpers, and reusable libraries.
 
-- **`i18n.ts`** - Translation utility functions
-  - `getTranslation(locale, key)` - Get translated string
-  - `getTranslations(locale)` - Get all translations for a locale
+### `lib/i18n.ts`
+
+Translation utility functions:
+
+- `getTranslation(locale, key)` - Get translated string
+- `getTranslations(locale)` - Get all translations for a locale
+
+### `lib/articles/`
+
+Blog article loading utilities:
+
+- **`index.ts`** - Article loading functions
+  - `getAllArticles(locale)` - Get all articles for a locale (sorted by date)
+  - `getArticleBySlug(slug, locale)` - Get single article by filename
+  - `getArticleSlugs(locale)` - Get all article slugs for static generation
+- **`types.ts`** - TypeScript types for Article and ArticleFrontmatter
 
 ## Build Output
 
