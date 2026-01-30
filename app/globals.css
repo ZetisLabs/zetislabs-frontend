@@ -81,6 +81,16 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 1;
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Scroll Snapping Utilities */
 @utility scroll-section {
   scroll-snap-align: start;

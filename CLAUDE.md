@@ -18,9 +18,12 @@ npm run lint:fix # Auto-fix lint issues
 | Path                 | Purpose                                                                   |
 | -------------------- | ------------------------------------------------------------------------- |
 | `app/[locale]/`      | Internationalized pages (App Router)                                      |
+| `app/[locale]/blog/` | Blog listing page and components                                          |
+| `articles/`          | Markdown articles organized by locale (en/, fr/)                          |
 | `components/`        | Page-specific sections (HeroSection, StackSection, etc.)                  |
 | `lib/ui/`            | Reusable UI components (CTAButton, FeatureCard, ReasonCard, EyebrowBadge) |
 | `lib/motion/`        | Framer Motion animation library (Reveal, FadeIn, ScrollFade, etc.)        |
+| `lib/articles/`      | Article loading utilities (getAllArticles, getArticleBySlug)              |
 | `lib/sections/`      | Dynamic section composition system                                        |
 | `i18n/translations/` | Translation files (default/, landing-pages/A,B,C,D/)                      |
 
@@ -35,6 +38,9 @@ import { Reveal, FadeIn, motion, useScroll, useTransform } from "@/lib/motion";
 
 // Sections
 import { SectionRenderer, type SectionConfig } from "@/lib/sections";
+
+// Articles (blog)
+import { getAllArticles, getArticleBySlug, type Article } from "@/lib/articles";
 ```
 
 ## Patterns & Rules
@@ -122,10 +128,121 @@ Variants: `primary` (blue glow, light sweep) | `secondary` (glass effect, chevro
 </Reveal>
 ```
 
+## Blog System
+
+### Architecture
+
+The blog uses a markdown-based article system with server-side rendering:
+
+```
+/articles
+  /en                    # English articles
+    /my-article.md
+  /fr                    # French articles
+    /mon-article.md
+
+/app/[locale]/blog
+  /page.tsx              # Server component - loads articles
+  /layout.tsx            # Sets WebGL animation mode to "blog"
+  /components
+    /BlogClient.tsx      # Client component - interactivity
+    /ArticleContent.tsx  # Markdown renderer with IBMPlexSans
+
+/lib/articles
+  /index.ts              # getAllArticles(), getArticleBySlug()
+  /types.ts              # Article, ArticleFrontmatter types
+```
+
+### Article Frontmatter Format
+
+```markdown
+---
+title: "Article Title"
+excerpt: "Short description for listing page..."
+category: "AI & Automation"
+author:
+  name: "Author Name"
+  avatar: "AN"
+date: "2024-10-24"
+readTime: "12 min"
+image: "https://images.unsplash.com/..."
+featured: true
+---
+
+Article content in Markdown...
+```
+
+### Available Categories
+
+- `AI & Automation`
+- `Product Updates`
+- `Case Studies`
+- `Engineering`
+
+### Adding a New Article
+
+1. Create a `.md` file in `/articles/{locale}/`
+2. Add frontmatter with required fields (title, excerpt, category, author, date, readTime, image)
+3. Write content in Markdown (supports GFM: tables, code blocks, etc.)
+4. Commit and push - article appears automatically
+
+### Article Utilities
+
+```tsx
+// Get all articles for a locale (sorted by date, newest first)
+const articles = getAllArticles("fr");
+
+// Get single article by slug
+const article = getArticleBySlug("my-article", "en");
+
+// Article type
+interface Article {
+  slug: string; // Filename without .md
+  content: string; // Raw markdown content
+  title: string;
+  excerpt: string;
+  category: string;
+  author: { name: string; avatar: string };
+  date: string;
+  readTime: string;
+  image: string;
+  featured?: boolean;
+}
+```
+
+### Blog Typography
+
+Article content uses **IBMPlexSans** for all text including headings (not GeneralSans). This is handled by the `ArticleContent` component which wraps content in `font-sans`.
+
+### WebGL Animation Modes
+
+The WebGL background supports different animation modes per route:
+
+| Mode    | Value | Description                             |
+| ------- | ----- | --------------------------------------- |
+| `none`  | 0     | No animation                            |
+| `intro` | 1     | Arc sunrise effect (home page)          |
+| `idle`  | 2     | Subtle breathing animation              |
+| `blog`  | 3     | Modular sweep - Swiss typographic style |
+
+To override animation mode in a layout:
+
+```tsx
+import { WebGLAnimationModeOverride } from "@/components/providers";
+
+export default function MyLayout({ children }) {
+  return (
+    <WebGLAnimationModeOverride mode="blog">
+      {children}
+    </WebGLAnimationModeOverride>
+  );
+}
+```
+
 ## Design System
 
-- **Primary font**: GeneralSans
-- **Secondary font**: IBMPlexSans
+- **Primary font**: GeneralSans (headings)
+- **Secondary font**: IBMPlexSans (body, article content)
 - **Path alias**: `@/` maps to project root
 - **Tailwind**: v4 with PostCSS
 - **TypeScript**: Strict mode enabled

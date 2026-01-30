@@ -19,7 +19,7 @@ ${noiseGLSL}
 // Uniforms
 uniform float uTime;
 uniform vec2 uResolution;
-uniform float uAnimationMode;  // 0=none, 1=intro, 2=idle
+uniform float uAnimationMode;  // 0=none, 1=intro, 2=idle, 3=blog
 uniform float uProgress;       // Animation progress (0-1)
 uniform float uScrollProgress; // Scroll progress (0=top, 1=scrolled past hero)
 uniform float uViewportHeight; // Viewport height in pixels (hero section height)
@@ -513,6 +513,73 @@ float calculateBreathing(vec2 pos, float time, vec2 seeds) {
   return breath * shimmer;
 }
 
+// Blog page animation - "Modular Sweep" Swiss typographic style
+// Inspired by Müller-Brockmann grid systems with rhythmic, intentional movement
+float calculateBlogEffect(vec2 pos, float time, vec2 seeds, vec2 gridPos) {
+  float effect = 0.0;
+
+  // Normalize position
+  vec2 normalizedPos = pos / uResolution;
+
+  // === TIMING (Stepped/Quantized for "Mechanical" Swiss feel) ===
+  float slowTime = time * 0.12;
+  float mediumTime = time * 0.4;
+
+  // === HORIZONTAL MODULAR SWEEP ===
+  // Creates elegant "scanning" bars that traverse the grid
+  // Multiple sweeps at different speeds for layered depth
+  float sweep1 = smoothstep(0.0, 0.08, fract(normalizedPos.x - slowTime)) *
+                 smoothstep(0.16, 0.08, fract(normalizedPos.x - slowTime));
+  float sweep2 = smoothstep(0.0, 0.04, fract(normalizedPos.x + slowTime * 1.3 + 0.5)) *
+                 smoothstep(0.08, 0.04, fract(normalizedPos.x + slowTime * 1.3 + 0.5));
+
+  // === VERTICAL COLUMN RHYTHM ===
+  // Specific columns activate based on modular arithmetic (like a typographic grid)
+  float colModule = mod(gridPos.x, 12.0); // 12-column grid system
+  float isActiveColumn = step(10.0, colModule); // Only columns 10, 11 in each module
+
+  // Pulse the active columns
+  float columnPulse = sin(mediumTime + gridPos.x * 0.3) * 0.5 + 0.5;
+  float verticalRhythm = isActiveColumn * columnPulse * 0.3;
+
+  // === SEED-BASED FRAGMENTING ===
+  // Extremely high thresholds = only ~1-2% of pixels
+  float fragment1 = step(0.992, fract(seeds.x * 17.0 + seeds.y * 11.0));
+  float fragment2 = step(0.995, fract(seeds.y * 23.0 + seeds.x * 7.0));
+
+  // === DIAGONAL ACCENT LINES ===
+  // Swiss design sometimes uses diagonal elements for dynamism
+  float diagonal = abs(fract((normalizedPos.x + normalizedPos.y) * 2.0 - slowTime * 0.5) - 0.5);
+  float diagonalLine = smoothstep(0.02, 0.0, diagonal) * 0.2;
+
+  // Only show diagonal on rare fragments
+  diagonalLine *= step(0.995, seeds.x);
+
+  // === INTERSECTION NODES ===
+  // Where horizontal and vertical grid lines would meet
+  float nodeX = smoothstep(0.02, 0.0, abs(fract(normalizedPos.x * 8.0) - 0.5) - 0.45);
+  float nodeY = smoothstep(0.02, 0.0, abs(fract(normalizedPos.y * 6.0) - 0.5) - 0.45);
+  float nodes = nodeX * nodeY;
+
+  // Animate nodes with offset timing (extremely sparse)
+  float nodePulse = sin(time * 0.6 + normalizedPos.x * 10.0 + normalizedPos.y * 8.0) * 0.5 + 0.5;
+  nodes *= nodePulse * step(0.995, seeds.y) * 0.25;
+
+  // === COMBINE EFFECTS (ultra-minimal) ===
+  // Primary: Horizontal sweeps with fragmentation
+  effect += sweep1 * fragment1 * 0.5;
+  effect += sweep2 * fragment2 * 0.4;
+
+  // Secondary: Vertical rhythm (barely visible)
+  effect += verticalRhythm * fragment1 * 0.2;
+
+  // Tertiary: Diagonal accents and nodes
+  effect += diagonalLine * 0.3;
+  effect += nodes;
+
+  return clamp(effect, 0.0, 0.5);
+}
+
 // ============================================================================
 // SOLUTION CARD GLOW EFFECT
 // ============================================================================
@@ -534,8 +601,9 @@ void main() {
   // Normalize position for calculations
   vec2 normalizedPos = vPosition / uResolution;
 
-  /// 2. Animation intro (if active: mode >= 1)
-  if (uAnimationMode >= 0.5) {
+  // 2. Animation modes
+  // Mode 1: Intro (arc animation) - excludes blog mode (3)
+  if (uAnimationMode >= 0.5 && uAnimationMode < 2.5) {
     float introIntensity = calculateIntroEffect(vPosition, uProgress, uTime);
     cellColor = mix(cellColor, uAccentColor, introIntensity);
 
@@ -543,11 +611,21 @@ void main() {
     alpha = mix(alpha, 1.0, introIntensity * 0.3);
   }
 
-  // 3. Idle breathing animation (mode >= 2)
-  if (uAnimationMode >= 1.5) {
+  // Mode 2: Idle breathing animation
+  if (uAnimationMode >= 1.5 && uAnimationMode < 2.5) {
     float breathing = calculateBreathing(vPosition, uTime, vSeeds);
 
     // Apply breathing to alpha for subtle pulsation
+    alpha *= breathing;
+  }
+
+  // Mode 3: Blog page animation
+  if (uAnimationMode >= 2.5) {
+    float blogIntensity = calculateBlogEffect(vPosition, uTime, vSeeds, vGridPos);
+    cellColor = mix(cellColor, uAccentColor, blogIntensity);
+
+    // Subtle breathing for blog mode too
+    float breathing = calculateBreathing(vPosition, uTime, vSeeds);
     alpha *= breathing;
   }
 

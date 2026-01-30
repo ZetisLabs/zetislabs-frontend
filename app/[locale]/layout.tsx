@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import LocaleScript from "@/components/ui/LocaleScript";
-import { EffectProvider, ScrollHijackProvider } from "@/components/providers";
+import {
+  EffectProvider,
+  ScrollHijackProvider,
+  WebGLAnimationModeProvider,
+} from "@/components/providers";
 import { WebGLBackground } from "@/components/webgl/WebGLBackground";
 import { getTranslation } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
@@ -32,15 +36,17 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <EffectProvider>
-      {/* Set html lang attribute based on locale */}
-      <LocaleScript />
-      <WebGLBackground animationMode="intro" />
-      <div className="flex min-h-screen flex-col overflow-x-hidden">
-        <Header locale={locale} />
-        <main className="relative z-10 flex-1 overflow-x-hidden">
-          {children}
-        </main>
-      </div>
+      <WebGLAnimationModeProvider defaultMode="intro">
+        {/* Set html lang attribute based on locale */}
+        <LocaleScript />
+        <WebGLBackground animationMode="intro" />
+        <div className="flex min-h-screen flex-col overflow-x-hidden">
+          <Header locale={locale} />
+          <main className="relative z-10 flex-1 overflow-x-hidden">
+            {children}
+          </main>
+        </div>
+      </WebGLAnimationModeProvider>
     </EffectProvider>
   );
 }

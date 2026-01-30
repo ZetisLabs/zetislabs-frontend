@@ -10,3 +10,8 @@ export {
   ScrollHijackProvider,
   useScrollHijackContext,
 } from "./ScrollHijackProvider";
+export {
+  WebGLAnimationModeProvider,
+  WebGLAnimationModeOverride,
+  useWebGLAnimationMode,
+} from "./WebGLAnimationModeProvider";
