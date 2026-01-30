@@ -36,6 +36,15 @@ interface ProcessSectionState {
   visible: boolean;
 }
 
+// Solution card tracking state
+interface SolutionCardState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  visible: boolean;
+}
+
 function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -53,6 +62,13 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const [iconChangeTime, setIconChangeTime] = useState(0); // Time when icon changed
   const lastHoveredIconRef = useRef(0);
   const [pixelArtPosition, setPixelArtPosition] = useState({ x: 0, y: 0 }); // Center position of pixel art zone
+  const [solutionCard, setSolutionCard] = useState<SolutionCardState>({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    visible: false,
+  });
 
   const { size } = useThree();
 
@@ -75,14 +91,39 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           visible: isVisible,
         });
       }
+
+      // Find and track Solution card
+      const solutionCardEl = document.querySelector("[data-solution-card]");
+      if (solutionCardEl) {
+        const rect = solutionCardEl.getBoundingClientRect();
+        const isVisible = rect.top < vh && rect.bottom > 0;
+        const cardData = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+          width: rect.width,
+          height: rect.height,
+          visible: isVisible,
+        };
+        setSolutionCard(cardData);
+        // Debug log
+        if (process.env.NODE_ENV === "development" && cardData.visible) {
+          console.log("[WebGL] Solution card tracked:", cardData);
+        }
+      }
     };
 
     // Initial check
     update();
 
+    // Retry after a short delay to catch dynamically rendered elements
+    const retryTimeout = setTimeout(update, 500);
+    const retryTimeout2 = setTimeout(update, 1500);
+
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
+      clearTimeout(retryTimeout);
+      clearTimeout(retryTimeout2);
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
@@ -104,7 +145,9 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     if (!processSectionEl) return;
 
     // Track position of the pixel art zone (the empty div in the header)
-    const pixelArtZone = processSectionEl.querySelector('[aria-hidden="true"]');
+    const pixelArtZone = processSectionEl.querySelector(
+      "[data-pixel-art-zone]"
+    );
     let updatePixelArtPosition: (() => void) | null = null;
 
     if (pixelArtZone) {
@@ -208,6 +251,12 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           // Pixel art position (screen coordinates)
           uPixelArtCenterX: { value: 0 },
           uPixelArtCenterY: { value: 0 },
+          // Solution card (screen coordinates)
+          uSolutionCardX: { value: 0 },
+          uSolutionCardY: { value: 0 },
+          uSolutionCardWidth: { value: 0 },
+          uSolutionCardHeight: { value: 0 },
+          uSolutionCardVisible: { value: 0 },
         },
         transparent: true,
         depthWrite: false,
@@ -269,6 +318,15 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     // Update pixel art position uniforms
     materialRef.current.uniforms.uPixelArtCenterX.value = pixelArtPosition.x;
     materialRef.current.uniforms.uPixelArtCenterY.value = pixelArtPosition.y;
+
+    // Update solution card uniforms
+    materialRef.current.uniforms.uSolutionCardX.value = solutionCard.x;
+    materialRef.current.uniforms.uSolutionCardY.value = solutionCard.y;
+    materialRef.current.uniforms.uSolutionCardWidth.value = solutionCard.width;
+    materialRef.current.uniforms.uSolutionCardHeight.value =
+      solutionCard.height;
+    materialRef.current.uniforms.uSolutionCardVisible.value =
+      solutionCard.visible ? 1.0 : 0.0;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "@/lib/motion";
+import { EyebrowBadge } from "@/lib/ui";
 import { Search, FileText, Terminal, Rocket } from "lucide-react";
 
 export interface Step {
@@ -79,10 +80,7 @@ export function ProcessSectionClient({
             <div className="max-w-xl">
               {/* Label badge */}
               <motion.div variants={itemVariants} className="mb-6">
-                <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/90 px-4 py-1.5 text-sm font-medium text-foreground/70">
-                  <span className="text-accent">●</span>
-                  {label}
-                </span>
+                <EyebrowBadge>{label}</EyebrowBadge>
               </motion.div>
 
               {/* Title */}
@@ -107,6 +105,7 @@ export function ProcessSectionClient({
             {/* Right: Pixel art space (desktop only) */}
             <div
               className="hidden lg:flex lg:h-40 lg:w-80 lg:items-center lg:justify-center"
+              data-pixel-art-zone
               aria-hidden="true"
             />
           </div>
@@ -177,39 +176,32 @@ export function ProcessSectionClient({
             </div>
           </div>
 
-          {/* Mobile: Vertical timeline */}
-          <div className="sm:hidden">
-            <div className="relative pl-14">
-              {steps.map((step, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                  className="relative pb-8 last:pb-0"
-                >
-                  {/* Timeline circle */}
-                  <div className="absolute top-0 left-0 -translate-x-[calc(100%+1.5rem)]">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white shadow-md">
-                      {step.number}
-                    </div>
+          {/* Mobile: Stacked cards */}
+          <div className="flex flex-col gap-4 sm:hidden">
+            {steps.map((step, idx) => (
+              <div
+                key={idx}
+                className="rounded-xl border border-border/40 bg-card/60 p-5"
+              >
+                {/* Header: Number left, Icon right */}
+                <div className="mb-4 flex items-start justify-between">
+                  <div className="text-3xl font-bold text-accent/20">
+                    {step.number}
                   </div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-background text-foreground/50">
+                    {stepIcons[idx] || stepIcons[0]}
+                  </div>
+                </div>
 
-                  {/* Card */}
-                  <div className="rounded-xl border border-border/40 bg-card/60 p-4">
-                    <div className="mb-2 flex items-center gap-2.5">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-md bg-background text-foreground/50">
-                        {stepIcons[idx] || stepIcons[0]}
-                      </div>
-                      <h3 className="text-sm font-medium text-foreground">
-                        {step.title}
-                      </h3>
-                    </div>
-                    <p className="text-xs leading-relaxed text-foreground/55">
-                      {step.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                {/* Content */}
+                <h3 className="mb-1.5 text-sm font-medium text-foreground">
+                  {step.title}
+                </h3>
+                <p className="text-xs leading-relaxed text-foreground/55">
+                  {step.description}
+                </p>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

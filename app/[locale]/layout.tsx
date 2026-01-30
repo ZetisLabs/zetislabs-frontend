@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import LocaleScript from "@/components/ui/LocaleScript";
 import { EffectProvider, ScrollHijackProvider } from "@/components/providers";
 import { WebGLBackground } from "@/components/webgl/WebGLBackground";
@@ -39,7 +38,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       <div className="flex min-h-screen flex-col">
         <Header locale={locale} />
         <main className="relative z-10 flex-1">{children}</main>
-        <Footer locale={locale} />
       </div>
     </EffectProvider>
   );

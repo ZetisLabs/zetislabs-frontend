@@ -6,7 +6,8 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
-  PulseGlow,
+  useMotionValue,
+  animate,
   easings,
   durations,
 } from "@/lib/motion";
@@ -34,6 +35,23 @@ export function HeroSection({
   // Combine: show halos only after mount AND if user doesn't prefer reduced motion
   const showAnimatedHalos = hasMounted && !prefersReducedMotion;
 
+  // Entrance animation progress (0 → 1) with staggered delays
+  const entranceEyebrow = useMotionValue(0);
+  const entranceTitle = useMotionValue(0);
+  const entranceSubtitle = useMotionValue(0);
+  const entranceCta = useMotionValue(0);
+
+  useEffect(() => {
+    const easing = [0.16, 1, 0.3, 1] as const;
+    const duration = 1.2;
+
+    // Staggered entrance animations
+    animate(entranceEyebrow, 1, { delay: 1.2, duration, ease: easing });
+    animate(entranceTitle, 1, { delay: 1.3, duration, ease: easing });
+    animate(entranceSubtitle, 1, { delay: 1.4, duration, ease: easing });
+    animate(entranceCta, 1, { delay: 1.5, duration, ease: easing });
+  }, [entranceEyebrow, entranceTitle, entranceSubtitle, entranceCta]);
+
   // Scroll-driven fade out
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -48,20 +66,40 @@ export function HeroSection({
   const haloScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.85]);
 
   // Eyebrow - starts immediately, shrinks slightly
-  const eyebrowOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
+  const eyebrowScrollOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
   const eyebrowScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.92]);
+  const eyebrowOpacity = useTransform(
+    [entranceEyebrow, eyebrowScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Title - shrinks more noticeably (main focal point)
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const titleScrollOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 0.35], [1, 0.88]);
+  const titleOpacity = useTransform(
+    [entranceTitle, titleScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Subtitle - subtle shrink
-  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.35], [1, 0]);
+  const subtitleScrollOpacity = useTransform(
+    scrollYProgress,
+    [0.02, 0.35],
+    [1, 0]
+  );
   const subtitleScale = useTransform(scrollYProgress, [0.02, 0.35], [1, 0.94]);
+  const subtitleOpacity = useTransform(
+    [entranceSubtitle, subtitleScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // CTAs - subtle shrink
-  const ctaOpacity = useTransform(scrollYProgress, [0.04, 0.35], [1, 0]);
+  const ctaScrollOpacity = useTransform(scrollYProgress, [0.04, 0.35], [1, 0]);
   const ctaScale = useTransform(scrollYProgress, [0.04, 0.35], [1, 0.95]);
+  const ctaOpacity = useTransform(
+    [entranceCta, ctaScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Global container opacity - used to hide the fixed container completely
   const containerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
@@ -82,20 +120,15 @@ export function HeroSection({
           <div className="mx-auto max-w-3xl pt-24 text-center md:pt-32">
             {/* Eyebrow with scroll fade */}
             <motion.div
-              className="hero-entrance hero-entrance-1"
               style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
             >
-              <EyebrowBadge>
-                <PulseGlow className="rounded-full bg-accent" />
+              <EyebrowBadge className="mb-6 justify-center">
                 {eyebrow}
               </EyebrowBadge>
             </motion.div>
 
             {/* Title with scroll fade */}
-            <motion.div
-              className="hero-entrance hero-entrance-2"
-              style={{ opacity: titleOpacity, scale: titleScale }}
-            >
+            <motion.div style={{ opacity: titleOpacity, scale: titleScale }}>
               {/* Breathing Halo - fades out FIRST like a sunset */}
               <div className="relative mx-auto">
                 {showAnimatedHalos && (
@@ -162,7 +195,7 @@ export function HeroSection({
 
             {/* Subtitle with scroll fade */}
             <motion.p
-              className="hero-entrance hero-entrance-3 mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
+              className="mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
               style={{ opacity: subtitleOpacity, scale: subtitleScale }}
             >
               {subtitle}
@@ -170,7 +203,7 @@ export function HeroSection({
 
             {/* CTAs with scroll fade */}
             <motion.div
-              className="hero-entrance hero-entrance-4 mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
+              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
               style={{ opacity: ctaOpacity, scale: ctaScale }}
             >
               {/* Primary CTA with its own breathing halo */}

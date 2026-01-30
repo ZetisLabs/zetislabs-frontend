@@ -11,13 +11,16 @@
     "logoAriaLabel": "Accueil ZetisLabs"
   },
   "footer": {
-    "copyright": "© {year} ZetisLabs. Tous droits réservés.",
+    "copyright": "© {year} ZetisLabs",
+    "legal": "Mentions légales",
     "privacy": "Confidentialité",
-    "terms": "Conditions",
+    "terms": "CGU",
+    "cookies": "Cookies",
     "contact": "Contact"
   },
   "home": {
     "sections": [
+      { "type": "problemSolution", "id": "problem-solution" },
       { "type": "stack", "id": "stack-integration" },
       { "type": "process", "id": "process" }
     ],
@@ -42,12 +45,10 @@
         }
       }
     },
-    "Problem": {
-      "title": "Combien d'heures perdues cette semaine ?",
-      "description": "Copier-coller des données entre outils\nRelancer les mêmes emails\nGénérer des rapports à la main\nVérifier des tableaux Excel\nRépondre aux mêmes questions\n\nCes tâches ne créent pas de valeur. Elles consomment du temps. Votre temps."
-    },
-    "Solution": {
-      "title": "On automatise, vous respirez",
+    "ProblemSolution": {
+      "titleProblem": "Combien d'heures perdues cette semaine ?",
+      "description": "Copier-coller des données entre outils\nRelancer les mêmes emails\nGénérer des rapports à la main\nVérifier des tableaux Excel\nRépondre aux mêmes questions\n\nCes tâches ne créent pas de valeur. Elles consomment du temps. Votre temps.",
+      "titleSolution": "On automatise, vous respirez",
       "body": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
       "accent": "Résultat : vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
     },

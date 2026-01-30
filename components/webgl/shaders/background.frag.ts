@@ -39,6 +39,13 @@ uniform float uIconChangeTime;       // Time when icon changed (seconds)
 uniform float uPixelArtCenterX;      // Center X of pixel art zone (screen space)
 uniform float uPixelArtCenterY;      // Center Y of pixel art zone (screen space)
 
+// Solution card uniforms (screen coordinates)
+uniform float uSolutionCardX;        // Center X of solution card
+uniform float uSolutionCardY;        // Center Y of solution card
+uniform float uSolutionCardWidth;    // Width of solution card
+uniform float uSolutionCardHeight;   // Height of solution card
+uniform float uSolutionCardVisible;  // 1.0 when visible
+
 // Varyings from vertex shader
 varying vec2 vUv;
 varying vec2 vPosition;
@@ -254,30 +261,9 @@ vec2 calculateProcessPixelArtWithDepth(vec2 pos) {
   float intensity = 0.0;
   float depth = 0.5;
 
-  // === MOBILE: Vertical timeline line using grid ===
+  // === MOBILE: No pixel art effects ===
   if (uResolution.x < 640.0) {
-    // Timeline is at left: 24px from edge (matching CSS left-5 = 20px + half of 40px circle)
-    float timelineX = 44.0; // Approximate center of timeline circles
-    float lineWidth = 8.0;  // Width of the grid line
-
-    // Only show in the cards area (after header)
-    if (sectionProgress > 0.35 && sectionProgress < 0.95) {
-      if (abs(pos.x - timelineX) < lineWidth) {
-        // Create dotted pattern
-        float dotSpacing = 15.0;
-        float dotSize = 6.0;
-        float yPattern = mod(screenY - sectionTopScreen, dotSpacing);
-        if (yPattern < dotSize) {
-          intensity = 0.6;
-          depth = 0.4;
-        }
-      }
-    }
-
-    // Fade
-    float fadeIn = smoothstep(0.35, 0.40, sectionProgress);
-    float fadeOut = 1.0 - smoothstep(0.90, 0.95, sectionProgress);
-    return vec2(intensity * fadeIn * fadeOut, depth);
+    return vec2(0.0);
   }
 
   // === TABLET: Hide pixel art ===
@@ -308,8 +294,8 @@ vec2 calculateProcessPixelArtWithDepth(vec2 pos) {
   float timeSinceChange = uTime - uIconChangeTime;
 
   // Animation durations
-  float fadeOutDuration = 0.25; // Quick fade out
-  float fadeInDuration = 0.5;   // Slower fade in with retro effect
+  float fadeOutDuration = 0.12; // Quick fade out
+  float fadeInDuration = 0.25;  // Fast fade in with retro effect
   float totalDuration = fadeOutDuration + fadeInDuration;
 
   // Calculate crossfade progress
@@ -528,6 +514,15 @@ float calculateBreathing(vec2 pos, float time, vec2 seeds) {
 }
 
 // ============================================================================
+// SOLUTION CARD GLOW EFFECT
+// ============================================================================
+
+// Solution card effect - DISABLED (using CSS glow instead)
+float calculateSolutionEffect(vec2 pos, float time) {
+  return 0.0;
+}
+
+// ============================================================================
 // MAIN
 // ============================================================================
 
@@ -539,7 +534,7 @@ void main() {
   // Normalize position for calculations
   vec2 normalizedPos = vPosition / uResolution;
 
-  // 2. Animation intro (if active: mode >= 1)
+  /// 2. Animation intro (if active: mode >= 1)
   if (uAnimationMode >= 0.5) {
     float introIntensity = calculateIntroEffect(vPosition, uProgress, uTime);
     cellColor = mix(cellColor, uAccentColor, introIntensity);
@@ -570,6 +565,13 @@ void main() {
     // Alpha also varies with depth for more 3D feel
     float depthAlpha = 0.6 + pixelArtDepth * 0.4;
     alpha = mix(alpha, depthAlpha, pixelArtIntensity * 0.7);
+  }
+
+  // 5. Solution card converging lines effect
+  float solutionEffect = calculateSolutionEffect(vPosition, uTime);
+  if (solutionEffect > 0.0) {
+    cellColor = mix(cellColor, uAccentColor, solutionEffect);
+    alpha = mix(alpha, 1.0, solutionEffect * 0.5);
   }
 
   // Output final color

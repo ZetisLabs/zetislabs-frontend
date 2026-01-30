@@ -120,7 +120,8 @@ export type SectionType =
   | "stack"
   | "useCases"
   | "whyZetisLabs"
-  | "process";
+  | "process"
+  | "problemSolution";
 
 /**
  * Section configuration from i18n

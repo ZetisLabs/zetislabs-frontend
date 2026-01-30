@@ -4,6 +4,7 @@ import { Reveal } from "@/lib/motion";
 import { HeroSection } from "@/components/HeroSection";
 import { SectionRenderer, type SectionConfig } from "@/lib/sections";
 import { CTAButton } from "@/lib/ui";
+import Footer from "@/components/layout/Footer";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -55,10 +56,10 @@ export default async function Home({ params }: Props) {
       {/* Dynamic: Sections from i18n configuration */}
       <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
 
-      {/* Static: Call to Action Section */}
-      <section className="flex scroll-section flex-col justify-center py-16 md:py-32">
+      {/* Static: Call to Action Section + Footer */}
+      <section className="flex min-h-dvh flex-col justify-between py-16 md:py-32">
         <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto mb-24 max-w-3xl text-center md:mb-48">
+          <div className="mx-auto max-w-3xl text-center">
             <Reveal>
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                 {t("home.cta.title")}
@@ -92,6 +93,7 @@ export default async function Home({ params }: Props) {
             </div>
           </div>
         </div>
+        <Footer locale={locale} />
       </section>
     </>
   );

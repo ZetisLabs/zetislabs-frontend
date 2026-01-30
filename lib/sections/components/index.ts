@@ -11,3 +11,5 @@ export { UseCasesSectionWrapper } from "./UseCasesSectionWrapper";
 export { CardShowcaseSection } from "./CardShowcaseSection";
 export { ProcessSection } from "./ProcessSectionWrapper";
 export { ProcessSectionClient } from "./ProcessSection";
+export { ProblemSolutionSection } from "./ProblemSolutionWrapper";
+export { ProblemSolutionClient } from "./ProblemSolutionSection";
