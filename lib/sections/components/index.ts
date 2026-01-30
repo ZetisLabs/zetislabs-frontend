@@ -13,3 +13,5 @@ export { ProcessSection } from "./ProcessSectionWrapper";
 export { ProcessSectionClient } from "./ProcessSection";
 export { ProblemSolutionSection } from "./ProblemSolutionWrapper";
 export { ProblemSolutionClient } from "./ProblemSolutionSection";
+export { TrustSection } from "./TrustWrapper";
+export { TrustClient } from "./TrustSection";

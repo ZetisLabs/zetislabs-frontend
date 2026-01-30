@@ -121,7 +121,8 @@ export type SectionType =
   | "useCases"
   | "whyZetisLabs"
   | "process"
-  | "problemSolution";
+  | "problemSolution"
+  | "trust";
 
 /**
  * Section configuration from i18n

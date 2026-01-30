@@ -15,6 +15,10 @@ export function ProblemSolutionSection({ dict }: SectionProps) {
         titleSolution?: string;
         body?: string;
         accent?: string;
+        stat?: {
+          value?: string;
+          label?: string;
+        };
       }
     | undefined;
 
@@ -54,6 +58,25 @@ export function ProblemSolutionSection({ dict }: SectionProps) {
     );
   const conclusion = conclusionLines.join(" ").trim();
 
+  // Build stat object if both value and label are present
+  const stat =
+    data.stat?.value && data.stat?.label
+      ? { value: data.stat.value, label: data.stat.label }
+      : undefined;
+
+  // Get Trust data
+  const trustData = dict.home?.Trust as
+    | {
+        title?: string;
+        logos?: Record<string, string>;
+      }
+    | undefined;
+
+  const trust =
+    trustData?.title && trustData?.logos
+      ? { title: trustData.title, logos: Object.values(trustData.logos) }
+      : undefined;
+
   return (
     <ProblemSolutionClient
       titleProblem={data.titleProblem}
@@ -62,6 +85,8 @@ export function ProblemSolutionSection({ dict }: SectionProps) {
       titleSolution={data.titleSolution}
       body={data.body ?? ""}
       accent={data.accent ?? ""}
+      stat={stat}
+      trust={trust}
     />
   );
 }

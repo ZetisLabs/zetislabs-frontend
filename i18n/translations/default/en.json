@@ -53,6 +53,10 @@
       "description": "Copy-pasting data between tools\nSending the same follow-up emails\nGenerating reports manually\nChecking Excel spreadsheets\nAnswering the same questions\n\nThese tasks don't create value. They consume time. Your time.",
       "titleSolution": "We automate, you breathe",
       "body": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
+      "stat": {
+        "value": "20h",
+        "label": "saved on average per week"
+      },
       "accent": "Result: your teams focus on what matters. You see the difference in your results."
     },
     "UseCases": {

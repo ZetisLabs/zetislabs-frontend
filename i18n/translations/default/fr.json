@@ -50,7 +50,19 @@
       "description": "Copier-coller des données entre outils\nRelancer les mêmes emails\nGénérer des rapports à la main\nVérifier des tableaux Excel\nRépondre aux mêmes questions\n\nCes tâches ne créent pas de valeur. Elles consomment du temps. Votre temps.",
       "titleSolution": "On automatise, vous respirez",
       "body": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
+      "stat": {
+        "value": "20h",
+        "label": "gagnées en moyenne par semaine"
+      },
       "accent": "Résultat : vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
+    },
+    "Trust": {
+      "title": "Vous hésitez encore ? Pas eux.",
+      "logos": {
+        "first": "Neede",
+        "second": "Controle-G",
+        "third": "Atelier Stéphane Fernandez"
+      }
     },
     "UseCases": {
       "title": "Exemples concrets",
@@ -70,14 +82,6 @@
           "description": "Factures générées automatiquement, rappels de paiement, synchronisation comptable. ",
           "footer": "Gain : 6h/semaine"
         }
-      }
-    },
-    "Trust": {
-      "title": "Ils nous font confiance",
-      "logos": {
-        "first": "Neede",
-        "second": "Controle-G",
-        "third": "Atelier Stéphane Fernandez"
       }
     },
     "Process": {
