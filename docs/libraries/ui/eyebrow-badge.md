@@ -1,6 +1,6 @@
 # EyebrowBadge
 
-A small section label badge used above headings to provide context.
+A small section label badge in Swiss International Typographic Style, used above headings to provide context.
 
 ## Import
 
@@ -23,9 +23,20 @@ import { EyebrowBadge } from "@/lib/ui";
 
 ## Features
 
-- Minimal, understated styling
-- Glow effect ready (composable with PulseGlow)
-- Consistent typography across sections
+- Swiss International Typographic Style design
+- Geometric vertical rule accent
+- Wide letter-spacing (0.25em)
+- Sharp edges with subtle border-radius
+- Minimal, static styling (no hover effects)
+
+## Design Principles
+
+The EyebrowBadge follows Swiss design principles:
+
+- **Sharp geometry**: Rectangular shape with minimal border-radius
+- **Vertical rule accent**: Small blue line as a geometric element
+- **Wide tracking**: Large letter-spacing for typography emphasis
+- **Minimalism**: No animations or hover effects
 
 ## Examples
 
@@ -36,16 +47,6 @@ import { EyebrowBadge } from "@/lib/ui";
   <EyebrowBadge>What We Make</EyebrowBadge>
   <h2 className="mt-4 text-4xl font-semibold">Intelligent Solutions</h2>
 </section>
-```
-
-### With Glow Effect
-
-```tsx
-import { PulseGlow } from "@/lib/motion";
-
-<PulseGlow>
-  <EyebrowBadge>AI-Powered</EyebrowBadge>
-</PulseGlow>;
 ```
 
 ### With Reveal Animation
@@ -66,26 +67,31 @@ import { Reveal } from "@/lib/motion";
 ### Default Styles
 
 ```css
-/* Typical eyebrow badge styling */
-display: inline-block;
-font-size: 0.875rem;
+/* Swiss typographic styling */
+display: inline-flex;
+align-items: center;
+gap: 0.625rem;
+padding: 0.25rem 0.5rem;
+border: 1px solid var(--color-border) / 40%;
+border-radius: 0.125rem;
+background: var(--color-background);
+
+/* Typography */
+font-size: 9px;
 font-weight: 500;
 text-transform: uppercase;
-letter-spacing: 0.05em;
-color: var(--color-accent);
+letter-spacing: 0.25em;
+color: var(--color-foreground) / 60%;
 ```
 
 ### Visual Structure
 
 ```
-┌──────────────────┐
-│  WHAT WE MAKE    │
-└──────────────────┘
-       ↓
-┌─────────────────────────────────┐
-│  Intelligent Solutions          │
-│  (Main heading below)           │
-└─────────────────────────────────┘
+┌─────────────────────────────┐
+│ |  WHAT WE MAKE             │
+└─────────────────────────────┘
+  ↑
+  Geometric vertical rule (accent color)
 ```
 
 ## Usage Patterns
@@ -110,12 +116,10 @@ The standard pattern for section headers:
 
 ### Hero Eyebrow
 
-In the hero section, often wrapped with a glow:
+In the hero section:
 
 ```tsx
-<PulseGlow className="inline-block">
-  <EyebrowBadge>AI-Powered Automation</EyebrowBadge>
-</PulseGlow>
+<EyebrowBadge>{t("home.hero.eyebrow")}</EyebrowBadge>
 ```
 
 ## Accessibility
@@ -123,3 +127,4 @@ In the hero section, often wrapped with a glow:
 - Semantic text element
 - Proper color contrast
 - Part of content flow (not purely decorative)
+- Geometric accent is marked as `aria-hidden`

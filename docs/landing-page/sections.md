@@ -96,7 +96,8 @@ Add `enabled: false`:
 // components/NewSection.tsx
 "use client";
 
-import { Reveal, EyebrowBadge } from "@/lib/motion";
+import { Reveal } from "@/lib/motion";
+import { EyebrowBadge } from "@/lib/ui";
 
 type Props = {
   locale: string;
