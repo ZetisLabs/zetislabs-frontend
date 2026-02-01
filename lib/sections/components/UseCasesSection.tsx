@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "@/lib/motion";
 import { EyebrowBadge } from "@/lib/ui";
 import { Users, Headphones, FileText, LucideIcon } from "lucide-react";
 
@@ -66,7 +72,7 @@ const flowStepVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 15,
     },
@@ -81,6 +87,171 @@ const arrowVariants = {
     transition: { duration: 0.3 },
   },
 };
+
+/**
+ * FlowStepCard - A flow step with scissor-like border glow effect
+ * Two rays start from top-center, spread around (one left, one right), meet at bottom-center
+ */
+interface FlowStepCardProps {
+  step: (typeof adminFlowSteps)[0];
+  index: number;
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function FlowStepCard({
+  step,
+  index,
+  totalSteps,
+  cycleDuration,
+}: FlowStepCardProps) {
+  // Animation progress: 0 = rays together, 1 = rays spread apart
+  const progress = useMotionValue(0);
+  const opacity = useMotionValue(0);
+
+  // Create a conic gradient that spreads like scissors from 0deg
+  // Opacity is baked into the colors
+  const background = useTransform([progress, opacity], ([p, o]) => {
+    const alpha = Math.round((o as number) * 255)
+      .toString(16)
+      .padStart(2, "0");
+    const alphaFaded = Math.round((o as number) * 64)
+      .toString(16)
+      .padStart(2, "0");
+
+    const baseColor = step.isCondition ? "#f59e0b" : "#3a7bd5";
+    const color = `${baseColor}${alpha}`;
+    const colorFaded = `${baseColor}${alphaFaded}`;
+
+    // Spread angle: 0 at start, 180 at end
+    const spread = (p as number) * 180;
+
+    return `conic-gradient(from ${-spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg),
+            conic-gradient(from ${spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg)`;
+  });
+
+  useEffect(() => {
+    const stepDuration = cycleDuration / totalSteps;
+    const stepDelay = index * stepDuration;
+    const animDuration = stepDuration * 0.85;
+
+    // Animate progress (scissor spread)
+    const progressControls = animate(progress, [0, 1], {
+      duration: animDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - animDuration,
+      delay: stepDelay,
+      ease: "easeInOut",
+    });
+
+    // Animate opacity: fade in at start, fade out at end
+    const opacityControls = animate(opacity, [0, 1, 1, 0], {
+      duration: animDuration,
+      times: [0, 0.1, 0.9, 1],
+      repeat: Infinity,
+      repeatDelay: cycleDuration - animDuration,
+      delay: stepDelay,
+      ease: "easeInOut",
+    });
+
+    return () => {
+      progressControls.stop();
+      opacityControls.stop();
+    };
+  }, [progress, opacity, index, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div variants={flowStepVariants} className="relative">
+      {/* Animated border wrapper with padding for border effect */}
+      <motion.div
+        className="relative rounded-xl p-[2px]"
+        style={{ background }}
+      >
+        {/* Inner card content */}
+        <div
+          className={`relative flex items-center gap-4 rounded-[10px] px-4 py-3 ${
+            step.isCondition ? "bg-amber-500/5" : "bg-card"
+          }`}
+        >
+          {/* Icon */}
+          <div
+            className={`flex h-10 w-10 items-center justify-center rounded-lg text-lg ${
+              step.isCondition ? "bg-amber-500/20" : "bg-accent/10"
+            }`}
+          >
+            {step.icon}
+          </div>
+
+          {/* Content */}
+          <div className="min-w-0 flex-1">
+            <p
+              className={`font-sans text-sm font-semibold ${
+                step.isCondition ? "text-amber-600" : "text-foreground"
+              }`}
+            >
+              {step.title}
+            </p>
+            <p className="truncate font-sans text-xs text-foreground/50">
+              {step.description}
+            </p>
+          </div>
+
+          {/* Auto badge */}
+          {step.auto && (
+            <span className="rounded-full bg-accent/10 px-2 py-1 font-sans text-[10px] font-bold tracking-wider text-accent uppercase">
+              Auto
+            </span>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/**
+ * FlowConnector - Animated connector between flow steps with intensity pulse
+ */
+interface FlowConnectorProps {
+  index: number;
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function FlowConnector({
+  index,
+  totalSteps,
+  cycleDuration,
+}: FlowConnectorProps) {
+  const intensity = useMotionValue(0);
+
+  // Gradient that pulses downward
+  const background = useTransform(intensity, (i) => {
+    const opacity = 0.1 + i * 0.4; // 0.1 to 0.5
+    return `linear-gradient(to bottom, rgba(58, 123, 213, ${opacity}), rgba(58, 123, 213, ${opacity * 0.3}))`;
+  });
+
+  useEffect(() => {
+    const stepDuration = cycleDuration / totalSteps;
+    // Connector activates at the end of its card's animation
+    const stepDelay = index * stepDuration + stepDuration * 0.85;
+
+    const controls = animate(intensity, [0, 1, 0], {
+      duration: stepDuration * 0.2, // Quick pulse
+      repeat: Infinity,
+      repeatDelay: cycleDuration - stepDuration * 0.2,
+      delay: stepDelay,
+      ease: "easeInOut",
+    });
+
+    return () => controls.stop();
+  }, [intensity, index, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div variants={arrowVariants} className="flex justify-center py-1">
+      <motion.div className="h-6 w-1 rounded-full" style={{ background }} />
+    </motion.div>
+  );
+}
 
 /**
  * UseCasesSectionClientProps defines the structure for the translations and content.
@@ -377,76 +548,25 @@ export function UseCasesSectionClient({
                     Processus automatisé
                   </motion.p>
 
-                  {/* Flow Steps */}
-                  <div className="flex flex-col gap-0">
+                  {/* Flow Steps with rotating border glow */}
+                  <div className="relative flex flex-col gap-0">
                     {adminFlowSteps.map((step, idx) => (
                       <div key={step.id}>
-                        {/* Step */}
-                        <motion.div
-                          variants={flowStepVariants}
-                          className={`flex items-center gap-4 rounded-xl border px-4 py-3 ${
-                            step.isCondition
-                              ? "border-amber-500/30 bg-amber-500/5"
-                              : "border-border/40 bg-card/60"
-                          }`}
-                        >
-                          {/* Icon */}
-                          <div
-                            className={`flex h-10 w-10 items-center justify-center rounded-lg text-lg ${
-                              step.isCondition
-                                ? "bg-amber-500/20"
-                                : "bg-accent/10"
-                            }`}
-                          >
-                            {step.icon}
-                          </div>
+                        {/* Flow step card with rotating border */}
+                        <FlowStepCard
+                          step={step}
+                          index={idx}
+                          totalSteps={adminFlowSteps.length}
+                          cycleDuration={12}
+                        />
 
-                          {/* Content */}
-                          <div className="min-w-0 flex-1">
-                            <p
-                              className={`font-sans text-sm font-semibold ${
-                                step.isCondition
-                                  ? "text-amber-600"
-                                  : "text-foreground"
-                              }`}
-                            >
-                              {step.title}
-                            </p>
-                            <p className="truncate font-sans text-xs text-foreground/50">
-                              {step.description}
-                            </p>
-                          </div>
-
-                          {/* Auto badge */}
-                          {step.auto && (
-                            <span className="rounded-full bg-accent/10 px-2 py-1 font-sans text-[10px] font-bold tracking-wider text-accent uppercase">
-                              Auto
-                            </span>
-                          )}
-                        </motion.div>
-
-                        {/* Arrow between steps */}
+                        {/* Connector between steps */}
                         {idx < adminFlowSteps.length - 1 && (
-                          <motion.div
-                            variants={arrowVariants}
-                            className="flex justify-center py-1"
-                          >
-                            <div className="relative h-6 w-0.5 bg-gradient-to-b from-accent/60 to-accent/30">
-                              {/* Animated dot */}
-                              <motion.div
-                                className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent"
-                                animate={{
-                                  top: ["0%", "100%"],
-                                  opacity: [0, 1, 1, 0],
-                                }}
-                                transition={{
-                                  duration: 1.2,
-                                  repeat: Infinity,
-                                  delay: idx * 0.2,
-                                }}
-                              />
-                            </div>
-                          </motion.div>
+                          <FlowConnector
+                            index={idx}
+                            totalSteps={adminFlowSteps.length}
+                            cycleDuration={12}
+                          />
                         )}
                       </div>
                     ))}
