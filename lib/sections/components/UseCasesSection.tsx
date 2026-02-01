@@ -109,8 +109,8 @@ function FlowStepCard({
   const progress = useMotionValue(0);
   const opacity = useMotionValue(0);
 
-  // Create a conic gradient that spreads like scissors from 0deg
-  // Opacity is baked into the colors
+  // Create a conic gradient that spreads like scissors from 0deg (right side)
+  // Rays start at 0deg and spread to meet at 180deg (left side)
   const background = useTransform([progress, opacity], ([p, o]) => {
     const alpha = Math.round((o as number) * 255)
       .toString(16)
@@ -123,9 +123,11 @@ function FlowStepCard({
     const color = `${baseColor}${alpha}`;
     const colorFaded = `${baseColor}${alphaFaded}`;
 
-    // Spread angle: 0 at start, 180 at end
+    // Spread angle: 0 at start (both rays at 0deg), 180 at end (both rays at 180deg)
     const spread = (p as number) * 180;
 
+    // Start from 0deg - one ray goes up (0-spread = -spread), one goes down (0+spread)
+    // They meet at 180deg (left side)
     return `conic-gradient(from ${-spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg),
             conic-gradient(from ${spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg)`;
   });
@@ -144,14 +146,15 @@ function FlowStepCard({
       ease: "easeInOut",
     });
 
-    // Animate opacity: fade in at start, fade out at end
+    // Animate opacity: fade in at start (from connector), fade out at end (to connector)
+    // Overlap with connector: start visible if coming from previous connector
     const opacityControls = animate(opacity, [0, 1, 1, 0], {
       duration: animDuration,
-      times: [0, 0.1, 0.9, 1],
+      times: [0, 0.08, 0.85, 1], // Faster fade in, earlier fade out for overlap
       repeat: Infinity,
       repeatDelay: cycleDuration - animDuration,
       delay: stepDelay,
-      ease: "easeInOut",
+      ease: "linear",
     });
 
     return () => {
@@ -209,7 +212,8 @@ function FlowStepCard({
 }
 
 /**
- * FlowConnector - Animated connector between flow steps with intensity pulse
+ * FlowConnector - Animated connector between flow steps
+ * A small blue streak travels down with a gradient trail
  */
 interface FlowConnectorProps {
   index: number;
@@ -222,33 +226,65 @@ function FlowConnector({
   totalSteps,
   cycleDuration,
 }: FlowConnectorProps) {
-  const intensity = useMotionValue(0);
+  const progress = useMotionValue(0);
 
-  // Gradient that pulses downward
-  const background = useTransform(intensity, (i) => {
-    const opacity = 0.1 + i * 0.4; // 0.1 to 0.5
-    return `linear-gradient(to bottom, rgba(58, 123, 213, ${opacity}), rgba(58, 123, 213, ${opacity * 0.3}))`;
+  // Create a traveling gradient - small bright spot with trail
+  // Fully transparent when inactive (p near 0 or 1)
+  const background = useTransform(progress, (p) => {
+    // Fade in/out at edges to avoid seeing blue when inactive
+    const edgeFade = Math.min(p * 5, (1 - p) * 5, 1);
+
+    // Position of the bright spot (0% to 100%)
+    const spotPos = p * 100;
+
+    // Intensity based on edge fade
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 40)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 20)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 10)}%,
+      transparent ${Math.min(100, spotPos + 20)}%
+    )`;
   });
 
   useEffect(() => {
     const stepDuration = cycleDuration / totalSteps;
-    // Connector activates at the end of its card's animation
-    const stepDelay = index * stepDuration + stepDuration * 0.85;
+    const cardAnimDuration = stepDuration * 0.85;
+    // Connector starts when card rays reach the bottom
+    const overlapTime = stepDuration * 0.1;
+    const connectorDelay =
+      index * stepDuration + cardAnimDuration - overlapTime;
+    const connectorDuration = stepDuration * 0.15 + overlapTime * 2;
 
-    const controls = animate(intensity, [0, 1, 0], {
-      duration: stepDuration * 0.2, // Quick pulse
+    const controls = animate(progress, [0, 1], {
+      duration: connectorDuration,
       repeat: Infinity,
-      repeatDelay: cycleDuration - stepDuration * 0.2,
-      delay: stepDelay,
-      ease: "easeInOut",
+      repeatDelay: cycleDuration - connectorDuration,
+      delay: connectorDelay,
+      ease: "linear",
     });
 
     return () => controls.stop();
-  }, [intensity, index, totalSteps, cycleDuration]);
+  }, [progress, index, totalSteps, cycleDuration]);
 
   return (
-    <motion.div variants={arrowVariants} className="flex justify-center py-1">
-      <motion.div className="h-6 w-1 rounded-full" style={{ background }} />
+    <motion.div
+      variants={arrowVariants}
+      className="-my-[1px] flex justify-center"
+    >
+      <div className="relative h-5 w-[2px]">
+        {/* Static base line */}
+        <div className="absolute inset-0 rounded-full bg-border/20" />
+
+        {/* Traveling blue streak */}
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          style={{ background }}
+        />
+      </div>
     </motion.div>
   );
 }
