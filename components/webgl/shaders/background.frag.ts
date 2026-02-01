@@ -46,6 +46,7 @@ uniform float uSolutionCardWidth;    // Width of solution card
 uniform float uSolutionCardHeight;   // Height of solution card
 uniform float uSolutionCardVisible;  // 1.0 when visible
 
+
 // Varyings from vertex shader
 varying vec2 vUv;
 varying vec2 vPosition;
@@ -414,6 +415,89 @@ vec2 calculateProcessPixelArtWithDepth(vec2 pos) {
   return vec2(intensity * visibility, depth);
 }
 
+// Helper to check a single flow icon
+vec2 checkFlowIcon(vec2 pos, vec2 iconCenter, int iconIndex, float pixelSize, float iconSize) {
+  // Skip if position is not set (use larger threshold for robustness)
+  if (iconCenter.x < 10.0) return vec2(0.0);
+
+  vec2 localPos = (pos - iconCenter + vec2(iconSize * 0.5)) / pixelSize;
+
+  // Check if within icon bounds
+  if (localPos.x < 0.0 || localPos.x >= 10.0 || localPos.y < 0.0 || localPos.y >= 10.0) {
+    return vec2(0.0);
+  }
+
+  float iconVal = 0.0;
+
+  // Select icon based on index
+  if (iconIndex == 0) {
+    iconVal = pixelArtInvoice(localPos);
+  } else if (iconIndex == 1) {
+    iconVal = pixelArtEmail(localPos);
+  } else if (iconIndex == 2) {
+    iconVal = pixelArtDatabase(localPos);
+  } else if (iconIndex == 3) {
+    iconVal = pixelArtVerify(localPos);
+  } else {
+    iconVal = pixelArtTimer(localPos);
+  }
+
+  if (iconVal > 0.0) {
+    // Subtle pulse animation for "alive" feeling
+    float pulse = 0.92 + 0.08 * sin(uTime * 1.5 + float(iconIndex) * 0.8);
+
+    // Depth based on position within icon
+    float depthGradient = 1.0 - (localPos.x + (10.0 - localPos.y)) / 20.0;
+    float depth = 0.5 + depthGradient * 0.4;
+
+    return vec2(iconVal * pulse, depth);
+  }
+
+  return vec2(0.0);
+}
+
+// Calculate pixel art effect for UseCases flow icons
+// Returns vec2: x = intensity, y = depth factor for transparency variation
+vec2 calculateFlowIconsPixelArt(vec2 pos) {
+  if (uFlowIconsVisible < 0.5) return vec2(0.0);
+
+  // Only show on desktop
+  if (uResolution.x < 1024.0) return vec2(0.0);
+
+  float pixelSize = 10.0; // Large pixels for visibility
+  float iconSize = 10.0 * pixelSize; // 100px per icon
+
+  // Check each icon individually (GLSL ES compatible)
+  vec2 result;
+
+  // Icon 1: Invoice
+  vec2 icon1Center = vec2(uFlowIcon1X, uResolution.y - uFlowIcon1Y);
+  result = checkFlowIcon(pos, icon1Center, 0, pixelSize, iconSize);
+  if (result.x > 0.0) return result;
+
+  // Icon 2: Email
+  vec2 icon2Center = vec2(uFlowIcon2X, uResolution.y - uFlowIcon2Y);
+  result = checkFlowIcon(pos, icon2Center, 1, pixelSize, iconSize);
+  if (result.x > 0.0) return result;
+
+  // Icon 3: Database
+  vec2 icon3Center = vec2(uFlowIcon3X, uResolution.y - uFlowIcon3Y);
+  result = checkFlowIcon(pos, icon3Center, 2, pixelSize, iconSize);
+  if (result.x > 0.0) return result;
+
+  // Icon 4: Verify
+  vec2 icon4Center = vec2(uFlowIcon4X, uResolution.y - uFlowIcon4Y);
+  result = checkFlowIcon(pos, icon4Center, 3, pixelSize, iconSize);
+  if (result.x > 0.0) return result;
+
+  // Icon 5: Timer
+  vec2 icon5Center = vec2(uFlowIcon5X, uResolution.y - uFlowIcon5Y);
+  result = checkFlowIcon(pos, icon5Center, 4, pixelSize, iconSize);
+  if (result.x > 0.0) return result;
+
+  return vec2(0.0);
+}
+
 // ============================================================================
 // ANIMATION FUNCTIONS
 // ============================================================================
@@ -644,6 +728,7 @@ void main() {
     float depthAlpha = 0.6 + pixelArtDepth * 0.4;
     alpha = mix(alpha, depthAlpha, pixelArtIntensity * 0.7);
   }
+
 
   // 5. Solution card converging lines effect
   float solutionEffect = calculateSolutionEffect(vPosition, uTime);

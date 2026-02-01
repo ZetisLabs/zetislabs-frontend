@@ -40,7 +40,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         {/* Set html lang attribute based on locale */}
         <LocaleScript />
         <WebGLBackground animationMode="intro" />
-        <div className="flex min-h-screen flex-col overflow-x-hidden">
+        <div className="flex min-h-screen flex-col">
           <Header locale={locale} />
           <main className="relative z-10 flex-1 overflow-x-hidden">
             {children}

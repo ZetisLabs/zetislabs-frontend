@@ -5,11 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { WebGLCanvas } from "./WebGLCanvas";
 import { useInstancedGrid } from "./hooks/useInstancedGrid";
-import { useScrollHijack } from "./hooks/useScrollHijack";
-import {
-  useScrollHijackContext,
-  useWebGLAnimationMode,
-} from "@/components/providers";
+import { useWebGLAnimationMode } from "@/components/providers";
 import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
@@ -108,10 +104,6 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           visible: isVisible,
         };
         setSolutionCard(cardData);
-        // Debug log
-        if (process.env.NODE_ENV === "development" && cardData.visible) {
-          console.log("[WebGL] Solution card tracked:", cardData);
-        }
       }
     };
 
@@ -124,6 +116,7 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
 
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+
     return () => {
       clearTimeout(retryTimeout);
       clearTimeout(retryTimeout2);

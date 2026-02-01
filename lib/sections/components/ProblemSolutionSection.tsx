@@ -3,32 +3,6 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "@/lib/motion";
 
-// Animation keyframes (only for arrows now)
-const arrowKeyframes = `
-@keyframes arrow-pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes arrow-flow {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-`;
-
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -235,73 +209,90 @@ export function ProblemSolutionClient({
             )}
           </motion.div>
 
-          {/* Animated Arrow between cards */}
+          {/* Animated Arrow between cards - Desktop */}
           <motion.div
             variants={cardVariants}
             className="hidden items-center justify-center lg:flex"
           >
-            <div className="relative flex h-16 w-16 items-center justify-center">
-              {/* Arrow line */}
-              <div className="absolute h-[2px] w-12 overflow-hidden bg-gradient-to-r from-border/40 via-accent/50 to-accent">
-                {/* Animated flow effect */}
-                <div
-                  className="absolute inset-0 h-full w-full"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(58, 123, 213, 0.8), transparent)",
-                    animation: "arrow-flow 2s ease-in-out infinite",
-                  }}
-                />
+            <div className="relative flex items-center justify-center">
+              {/* Subtle glow behind */}
+              <div className="absolute h-8 w-16 rounded-full bg-accent/10 blur-xl" />
+
+              {/* Chevrons container */}
+              <div className="relative flex items-center gap-0.5">
+                {[0, 1, 2].map((i) => (
+                  <motion.svg
+                    key={i}
+                    width="12"
+                    height="20"
+                    viewBox="0 0 12 20"
+                    fill="none"
+                    className="text-accent"
+                    initial={{ opacity: 0.2 }}
+                    animate={{ opacity: [0.2, 0.8, 0.2] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <path
+                      d="M2 2L10 10L2 18"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </motion.svg>
+                ))}
               </div>
-              {/* Arrow head */}
-              <div
-                className="absolute right-0 h-0 w-0"
-                style={{
-                  borderTop: "6px solid transparent",
-                  borderBottom: "6px solid transparent",
-                  borderLeft: "8px solid #3a7bd5",
-                  animation: "arrow-pulse 2s ease-in-out infinite",
-                }}
-              />
             </div>
           </motion.div>
 
-          {/* Mobile Arrow (vertical) */}
+          {/* Animated Arrow - Mobile (vertical) */}
           <motion.div
             variants={cardVariants}
-            className="flex items-center justify-center py-1 lg:hidden"
+            className="flex items-center justify-center py-2 lg:hidden"
           >
-            <div className="relative flex h-8 w-8 flex-col items-center justify-center">
-              {/* Arrow line */}
-              <div className="absolute h-5 w-[2px] overflow-hidden bg-gradient-to-b from-border/40 via-accent/50 to-accent">
-                {/* Animated flow effect */}
-                <div
-                  className="absolute inset-0 h-full w-full"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, transparent, rgba(58, 123, 213, 0.8), transparent)",
-                    animation: "arrow-flow 2s ease-in-out infinite",
-                  }}
-                />
+            <div className="relative flex flex-col items-center justify-center">
+              {/* Subtle glow behind */}
+              <div className="absolute h-12 w-8 rounded-full bg-accent/10 blur-xl" />
+
+              {/* Chevrons container */}
+              <div className="relative flex flex-col items-center gap-0">
+                {[0, 1, 2].map((i) => (
+                  <motion.svg
+                    key={i}
+                    width="16"
+                    height="10"
+                    viewBox="0 0 20 12"
+                    fill="none"
+                    className="text-accent"
+                    initial={{ opacity: 0.2 }}
+                    animate={{ opacity: [0.2, 0.8, 0.2] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <path
+                      d="M2 2L10 10L18 2"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </motion.svg>
+                ))}
               </div>
-              {/* Arrow head */}
-              <div
-                className="absolute bottom-0"
-                style={{
-                  borderLeft: "5px solid transparent",
-                  borderRight: "5px solid transparent",
-                  borderTop: "6px solid #3a7bd5",
-                  animation: "arrow-pulse 2s ease-in-out infinite",
-                }}
-              />
             </div>
           </motion.div>
 
           {/* Solution Card with rotating glow border */}
           <motion.div variants={cardVariants} className="relative h-full">
-            {/* Inject keyframes for arrows */}
-            <style>{arrowKeyframes}</style>
-
             {/* Rotating gradient border wrapper - animated with Framer Motion */}
             <motion.div
               className="relative h-full rounded-xl p-[2px] sm:rounded-2xl"

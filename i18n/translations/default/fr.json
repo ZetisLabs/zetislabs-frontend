@@ -21,6 +21,7 @@
   "home": {
     "sections": [
       { "type": "problemSolution", "id": "problem-solution" },
+      { "type": "useCases", "id": "use-cases" },
       { "type": "process", "id": "process" }
     ],
     "hero": {
