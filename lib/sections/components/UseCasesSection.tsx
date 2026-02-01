@@ -9,44 +9,189 @@ import {
   animate,
 } from "@/lib/motion";
 import { EyebrowBadge } from "@/lib/ui";
-import { Users, Headphones, FileText, LucideIcon } from "lucide-react";
+import {
+  Users,
+  Headphones,
+  FileText,
+  LucideIcon,
+  Receipt,
+  Send,
+  Database,
+  Search,
+  Clock,
+  CheckCircle,
+  Bell,
+  Zap,
+  MessageSquare,
+  Brain,
+  HelpCircle,
+  FileEdit,
+  AlertTriangle,
+  BookOpen,
+  FileBarChart,
+  Mail,
+  UserPlus,
+  RefreshCw,
+  AlertOctagon,
+  Target,
+} from "lucide-react";
 
 // Flow step data for Administrative use case
 const adminFlowSteps = [
   {
     id: 1,
-    icon: "📄",
+    icon: Receipt,
     title: "Facture créée",
     description: "Générée automatiquement",
     auto: true,
   },
   {
     id: 2,
-    icon: "✉️",
+    icon: Send,
     title: "Envoyée au client",
     description: "Email + PDF",
     auto: true,
   },
   {
     id: 3,
-    icon: "💾",
+    icon: Database,
     title: "Enregistrée CRM",
     description: "Historique mis à jour",
     auto: true,
   },
   {
     id: 4,
-    icon: "🔍",
+    icon: Search,
     title: "Paiement vérifié",
     description: "Surveillance quotidienne",
     auto: true,
   },
   {
     id: 5,
-    icon: "⏱️",
+    icon: Clock,
     title: "Échéance ?",
     description: "Vérification J+30",
     isCondition: true,
+  },
+];
+
+// Flow step data for Support Client use case
+const supportFlowSteps = [
+  {
+    id: 1,
+    icon: MessageSquare,
+    title: "Message client",
+    description: "Réception automatique",
+    auto: true,
+  },
+  {
+    id: 2,
+    icon: Brain,
+    title: "Analyse IA",
+    description: "Classification intelligente",
+    auto: true,
+    isCondition: true,
+  },
+];
+
+// Branch options for Support Client
+const supportBranches = [
+  {
+    id: 1,
+    icon: HelpCircle,
+    title: "Question FAQ",
+    subtitle: "Réponse auto",
+    color: "blue" as const,
+  },
+  {
+    id: 2,
+    icon: FileEdit,
+    title: "Demande standard",
+    subtitle: "Ticket créé",
+    color: "blue" as const,
+  },
+  {
+    id: 3,
+    icon: AlertTriangle,
+    title: "Urgence",
+    subtitle: "Alerte équipe",
+    color: "amber" as const,
+  },
+];
+
+// Output cards for Support Client
+const supportOutputs = [
+  {
+    id: 1,
+    icon: BookOpen,
+    title: "Base enrichie",
+    subtitle: "FAQ mise à jour",
+  },
+  {
+    id: 2,
+    icon: FileBarChart,
+    title: "Rapport hebdo",
+    subtitle: "Métriques client",
+  },
+];
+
+// Flow step data for Commercial use case
+const commercialFlowSteps = [
+  {
+    id: 1,
+    icon: Mail,
+    title: "Email reçu",
+    description: "Boîte partagée",
+    auto: true,
+  },
+  {
+    id: 2,
+    icon: Brain,
+    title: "Analyse IA",
+    description: "Intention détectée",
+    auto: true,
+    isCondition: true,
+  },
+];
+
+// Branch options for Commercial
+const commercialBranches = [
+  {
+    id: 1,
+    icon: UserPlus,
+    title: "Nouveau lead",
+    subtitle: "Fiche créée",
+    color: "green" as const,
+  },
+  {
+    id: 2,
+    icon: RefreshCw,
+    title: "Relance",
+    subtitle: "Rappel planifié",
+    color: "blue" as const,
+  },
+  {
+    id: 3,
+    icon: AlertOctagon,
+    title: "Problème",
+    subtitle: "Ticket SAV",
+    color: "red" as const,
+  },
+];
+
+// Output cards for Commercial
+const commercialOutputs = [
+  {
+    id: 1,
+    icon: Target,
+    title: "CRM synchronisé",
+    subtitle: "Pipeline à jour",
+  },
+  {
+    id: 2,
+    icon: FileBarChart,
+    title: "Rapport hebdo",
+    subtitle: "Performance commerciale",
   },
 ];
 
@@ -133,27 +278,27 @@ function FlowStepCard({
   });
 
   useEffect(() => {
-    const stepDuration = cycleDuration / totalSteps;
-    const stepDelay = index * stepDuration;
-    const animDuration = stepDuration * 0.85;
+    // Timing: cycle divided into segments for cards, connectors, branch, and results
+    const cardDuration = cycleDuration * 0.1; // Slower card animation
+    const connectorDuration = cycleDuration * 0.025; // Connector duration
 
-    // Animate progress (scissor spread)
+    // Calculate start time for this card
+    const cardStart = index * (cardDuration + connectorDuration);
+
     const progressControls = animate(progress, [0, 1], {
-      duration: animDuration,
+      duration: cardDuration,
       repeat: Infinity,
-      repeatDelay: cycleDuration - animDuration,
-      delay: stepDelay,
+      repeatDelay: cycleDuration - cardDuration,
+      delay: cardStart,
       ease: "easeInOut",
     });
 
-    // Animate opacity: fade in at start (from connector), fade out at end (to connector)
-    // Overlap with connector: start visible if coming from previous connector
     const opacityControls = animate(opacity, [0, 1, 1, 0], {
-      duration: animDuration,
-      times: [0, 0.08, 0.85, 1], // Faster fade in, earlier fade out for overlap
+      duration: cardDuration,
+      times: [0, 0.1, 0.85, 1],
       repeat: Infinity,
-      repeatDelay: cycleDuration - animDuration,
-      delay: stepDelay,
+      repeatDelay: cycleDuration - cardDuration,
+      delay: cardStart,
       ease: "linear",
     });
 
@@ -161,7 +306,7 @@ function FlowStepCard({
       progressControls.stop();
       opacityControls.stop();
     };
-  }, [progress, opacity, index, totalSteps, cycleDuration]);
+  }, [progress, opacity, index, cycleDuration]);
 
   return (
     <motion.div variants={flowStepVariants} className="relative">
@@ -171,27 +316,23 @@ function FlowStepCard({
         style={{ background }}
       >
         {/* Inner card content */}
-        <div
-          className={`relative flex items-center gap-4 rounded-[10px] px-4 py-3 ${
-            step.isCondition ? "bg-amber-500/5" : "bg-card"
-          }`}
-        >
+        <div className="relative flex items-center gap-4 rounded-[10px] bg-card px-4 py-3">
           {/* Icon */}
           <div
-            className={`flex h-10 w-10 items-center justify-center rounded-lg text-lg ${
-              step.isCondition ? "bg-amber-500/20" : "bg-accent/10"
+            className={`flex h-10 w-10 items-center justify-center rounded-lg ${
+              step.isCondition ? "bg-amber-500/15" : "bg-accent/10"
             }`}
           >
-            {step.icon}
+            <step.icon
+              className={`h-5 w-5 ${
+                step.isCondition ? "text-amber-600" : "text-accent"
+              }`}
+            />
           </div>
 
           {/* Content */}
           <div className="min-w-0 flex-1">
-            <p
-              className={`font-sans text-sm font-semibold ${
-                step.isCondition ? "text-amber-600" : "text-foreground"
-              }`}
-            >
+            <p className="font-sans text-sm font-semibold text-foreground">
               {step.title}
             </p>
             <p className="truncate font-sans text-xs text-foreground/50">
@@ -199,10 +340,15 @@ function FlowStepCard({
             </p>
           </div>
 
-          {/* Auto badge */}
+          {/* Auto badge or Condition badge */}
           {step.auto && (
             <span className="rounded-full bg-accent/10 px-2 py-1 font-sans text-[10px] font-bold tracking-wider text-accent uppercase">
               Auto
+            </span>
+          )}
+          {step.isCondition && (
+            <span className="rounded-full bg-amber-500/15 px-2 py-1 font-sans text-[10px] font-bold tracking-wider text-amber-600 uppercase">
+              Check
             </span>
           )}
         </div>
@@ -251,24 +397,24 @@ function FlowConnector({
   });
 
   useEffect(() => {
-    const stepDuration = cycleDuration / totalSteps;
-    const cardAnimDuration = stepDuration * 0.85;
-    // Connector starts when card rays reach the bottom
-    const overlapTime = stepDuration * 0.1;
-    const connectorDelay =
-      index * stepDuration + cardAnimDuration - overlapTime;
-    const connectorDuration = stepDuration * 0.15 + overlapTime * 2;
+    // Same timing as FlowStepCard
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+
+    // Connector starts at end of its card (with small overlap)
+    const connectorStart =
+      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
 
     const controls = animate(progress, [0, 1], {
-      duration: connectorDuration,
+      duration: connectorDuration * 1.3,
       repeat: Infinity,
-      repeatDelay: cycleDuration - connectorDuration,
-      delay: connectorDelay,
+      repeatDelay: cycleDuration - connectorDuration * 1.3,
+      delay: connectorStart,
       ease: "linear",
     });
 
     return () => controls.stop();
-  }, [progress, index, totalSteps, cycleDuration]);
+  }, [progress, index, cycleDuration]);
 
   return (
     <motion.div
@@ -280,6 +426,747 @@ function FlowConnector({
         <div className="absolute inset-0 rounded-full bg-border/20" />
 
         {/* Traveling blue streak */}
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          style={{ background }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * BranchConnector - Y-shaped connector that splits to two branches
+ * The glow effect flows like water: stem → split horizontal → drops
+ */
+interface BranchConnectorProps {
+  index: number;
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function BranchConnector({
+  index,
+  totalSteps,
+  cycleDuration,
+}: BranchConnectorProps) {
+  const progress = useMotionValue(0);
+
+  // Phase 1: Vertical stem (0% to 25%)
+  const stemProgress = useTransform(progress, [0, 0.25], [0, 1]);
+  const stemBackground = useTransform(stemProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  // Phase 2: Horizontal split (25% to 55%)
+  const splitProgress = useTransform(progress, [0.25, 0.55], [0, 1]);
+  const splitOpacity = useTransform(
+    progress,
+    [0.2, 0.3, 0.5, 0.6],
+    [0, 1, 1, 0]
+  );
+
+  // Left branch travels from center to left edge
+  const leftBackground = useTransform(splitProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    // Position goes from 100% (right/center) to 0% (left edge)
+    const spotPos = 100 - clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to left,
+      transparent ${Math.max(0, 100 - spotPos - 30)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, 100 - spotPos - 15)}%,
+      rgba(58, 123, 213, ${intensity}) ${100 - spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, 100 - spotPos + 25)}%,
+      transparent ${Math.min(100, 100 - spotPos + 50)}%
+    )`;
+  });
+
+  // Right branch travels from center to right edge
+  const rightBackground = useTransform(splitProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to right,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  // Phase 3: Vertical drops (55% to 100%)
+  const dropProgress = useTransform(progress, [0.55, 1], [0, 1]);
+  const dropOpacity = useTransform(progress, [0.5, 0.6, 0.9, 1], [0, 1, 1, 0]);
+
+  const dropBackground = useTransform(dropProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  useEffect(() => {
+    // Same timing as FlowStepCard/FlowConnector
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+
+    // Branch starts after last card (index is last card index)
+    const branchStart =
+      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const branchDuration = cycleDuration * 0.15; // Slower for branch animation
+
+    const controls = animate(progress, [0, 1], {
+      duration: branchDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - branchDuration,
+      delay: branchStart,
+      ease: "easeInOut",
+    });
+
+    return () => controls.stop();
+  }, [progress, index, cycleDuration]);
+
+  return (
+    <motion.div
+      variants={arrowVariants}
+      className="-my-[1px] flex flex-col items-center"
+    >
+      {/* Vertical stem */}
+      <div className="relative h-4 w-[2px]">
+        <div className="absolute inset-0 rounded-full bg-border/20" />
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          style={{ background: stemBackground }}
+        />
+      </div>
+
+      {/* Horizontal split bar */}
+      <div className="relative flex w-full max-w-[200px]">
+        {/* Left branch - flows from center to left */}
+        <div className="relative h-[2px] flex-1">
+          <div className="absolute inset-0 bg-border/20" />
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: leftBackground, opacity: splitOpacity }}
+          />
+        </div>
+
+        {/* Right branch - flows from center to right */}
+        <div className="relative h-[2px] flex-1">
+          <div className="absolute inset-0 bg-border/20" />
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: rightBackground, opacity: splitOpacity }}
+          />
+        </div>
+      </div>
+
+      {/* Vertical drops to cards */}
+      <div className="flex w-full max-w-[200px] justify-between px-1">
+        <div className="relative h-3 w-[2px]">
+          <div className="absolute inset-0 rounded-full bg-border/20" />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: dropBackground, opacity: dropOpacity }}
+          />
+        </div>
+        <div className="relative h-3 w-[2px]">
+          <div className="absolute inset-0 rounded-full bg-border/20" />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: dropBackground, opacity: dropOpacity }}
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * ResultCard - Small card with animated border for condition results (Payée/Impayée)
+ */
+interface ResultCardProps {
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  color: "green" | "red";
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function ResultCard({
+  icon: Icon,
+  title,
+  subtitle,
+  color,
+  totalSteps,
+  cycleDuration,
+}: ResultCardProps) {
+  const progress = useMotionValue(0);
+  const opacity = useMotionValue(0);
+
+  const colorValue = color === "green" ? "#22c55e" : "#ef4444";
+
+  const background = useTransform([progress, opacity], ([p, o]) => {
+    const alpha = Math.round((o as number) * 255)
+      .toString(16)
+      .padStart(2, "0");
+    const alphaFaded = Math.round((o as number) * 64)
+      .toString(16)
+      .padStart(2, "0");
+
+    const colorHex = `${colorValue}${alpha}`;
+    const colorFaded = `${colorValue}${alphaFaded}`;
+    const spread = (p as number) * 180;
+
+    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
+            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+  });
+
+  useEffect(() => {
+    // Same timing as other components
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+    const branchDuration = cycleDuration * 0.15;
+
+    // Result cards start after branch connector
+    const lastCardIndex = totalSteps - 1;
+    const branchStart =
+      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const resultStart = branchStart + branchDuration * 0.75;
+    const resultAnimDuration = cycleDuration * 0.18;
+
+    const progressControls = animate(progress, [0, 1], {
+      duration: resultAnimDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - resultAnimDuration,
+      delay: resultStart,
+      ease: "easeInOut",
+    });
+
+    const opacityControls = animate(opacity, [0, 1, 1, 0], {
+      duration: resultAnimDuration,
+      times: [0, 0.1, 0.85, 1],
+      repeat: Infinity,
+      repeatDelay: cycleDuration - resultAnimDuration,
+      delay: resultStart,
+      ease: "linear",
+    });
+
+    return () => {
+      progressControls.stop();
+      opacityControls.stop();
+    };
+  }, [progress, opacity, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div variants={flowStepVariants} className="relative">
+      <motion.div
+        className="relative rounded-xl p-[2px]"
+        style={{ background }}
+      >
+        <div className="flex items-center gap-2 rounded-[10px] bg-card px-3 py-2">
+          <div
+            className={`flex h-6 w-6 items-center justify-center rounded-full ${
+              color === "green" ? "bg-green-500/15" : "bg-red-500/15"
+            }`}
+          >
+            <Icon
+              className={`h-3.5 w-3.5 ${
+                color === "green" ? "text-green-600" : "text-red-500"
+              }`}
+            />
+          </div>
+          <div>
+            <p className="font-sans text-xs font-semibold text-foreground">
+              {title}
+            </p>
+            <p className="font-sans text-[10px] text-foreground/50">
+              {subtitle}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/**
+ * TripleBranchConnector - Y-shaped connector that splits to three branches
+ * The glow effect flows like water: stem → split horizontal → drops
+ */
+interface TripleBranchConnectorProps {
+  index: number;
+  cycleDuration: number;
+}
+
+function TripleBranchConnector({
+  index,
+  cycleDuration,
+}: TripleBranchConnectorProps) {
+  const progress = useMotionValue(0);
+
+  // Phase 1: Vertical stem (0% to 25%)
+  const stemProgress = useTransform(progress, [0, 0.25], [0, 1]);
+  const stemBackground = useTransform(stemProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  // Phase 2: Horizontal split (25% to 55%)
+  const splitProgress = useTransform(progress, [0.25, 0.55], [0, 1]);
+  const splitOpacity = useTransform(
+    progress,
+    [0.2, 0.3, 0.5, 0.6],
+    [0, 1, 1, 0]
+  );
+
+  // Left branch travels from center to left edge
+  const leftBackground = useTransform(splitProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = 100 - clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to left,
+      transparent ${Math.max(0, 100 - spotPos - 30)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, 100 - spotPos - 15)}%,
+      rgba(58, 123, 213, ${intensity}) ${100 - spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, 100 - spotPos + 25)}%,
+      transparent ${Math.min(100, 100 - spotPos + 50)}%
+    )`;
+  });
+
+  // Right branch travels from center to right edge
+  const rightBackground = useTransform(splitProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to right,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  // Phase 3: Vertical drops (55% to 100%)
+  const dropProgress = useTransform(progress, [0.55, 1], [0, 1]);
+  const dropOpacity = useTransform(progress, [0.5, 0.6, 0.9, 1], [0, 1, 1, 0]);
+
+  const dropBackground = useTransform(dropProgress, (p) => {
+    const clampedP = Math.max(0, Math.min(1, p));
+    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
+    const spotPos = clampedP * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 50)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
+      transparent ${Math.min(100, spotPos + 30)}%
+    )`;
+  });
+
+  useEffect(() => {
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+
+    const branchStart =
+      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const branchDuration = cycleDuration * 0.15;
+
+    const controls = animate(progress, [0, 1], {
+      duration: branchDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - branchDuration,
+      delay: branchStart,
+      ease: "easeInOut",
+    });
+
+    return () => controls.stop();
+  }, [progress, index, cycleDuration]);
+
+  return (
+    <motion.div
+      variants={arrowVariants}
+      className="-my-[1px] flex flex-col items-center"
+    >
+      {/* Vertical stem */}
+      <div className="relative h-4 w-[2px]">
+        <div className="absolute inset-0 rounded-full bg-border/20" />
+        <motion.div
+          className="absolute inset-0 rounded-full"
+          style={{ background: stemBackground }}
+        />
+      </div>
+
+      {/* Horizontal split bar - 3 branches */}
+      <div className="relative flex w-full max-w-[280px]">
+        {/* Left branch */}
+        <div className="relative h-[2px] flex-1">
+          <div className="absolute inset-0 bg-border/20" />
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: leftBackground, opacity: splitOpacity }}
+          />
+        </div>
+
+        {/* Right branch */}
+        <div className="relative h-[2px] flex-1">
+          <div className="absolute inset-0 bg-border/20" />
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: rightBackground, opacity: splitOpacity }}
+          />
+        </div>
+      </div>
+
+      {/* Vertical drops to 3 cards */}
+      <div className="flex w-full max-w-[280px] justify-between px-1">
+        {/* Left drop */}
+        <div className="relative h-3 w-[2px]">
+          <div className="absolute inset-0 rounded-full bg-border/20" />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: dropBackground, opacity: dropOpacity }}
+          />
+        </div>
+        {/* Center drop */}
+        <div className="relative h-3 w-[2px]">
+          <div className="absolute inset-0 rounded-full bg-border/20" />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: dropBackground, opacity: dropOpacity }}
+          />
+        </div>
+        {/* Right drop */}
+        <div className="relative h-3 w-[2px]">
+          <div className="absolute inset-0 rounded-full bg-border/20" />
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: dropBackground, opacity: dropOpacity }}
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * BranchCard - Card for branch options with colored border animation
+ */
+interface BranchCardProps {
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  color: "blue" | "green" | "amber" | "red";
+  branchIndex: number;
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function BranchCard({
+  icon: Icon,
+  title,
+  subtitle,
+  color,
+  branchIndex,
+  totalSteps,
+  cycleDuration,
+}: BranchCardProps) {
+  const progress = useMotionValue(0);
+  const opacity = useMotionValue(0);
+
+  const colorValues = {
+    blue: "#3a7bd5",
+    green: "#22c55e",
+    amber: "#f59e0b",
+    red: "#ef4444",
+  };
+  const colorValue = colorValues[color];
+
+  const bgColors = {
+    blue: "bg-accent/10",
+    green: "bg-green-500/15",
+    amber: "bg-amber-500/15",
+    red: "bg-red-500/15",
+  };
+
+  const textColors = {
+    blue: "text-accent",
+    green: "text-green-600",
+    amber: "text-amber-600",
+    red: "text-red-500",
+  };
+
+  const background = useTransform([progress, opacity], ([p, o]) => {
+    const alpha = Math.round((o as number) * 255)
+      .toString(16)
+      .padStart(2, "0");
+    const alphaFaded = Math.round((o as number) * 64)
+      .toString(16)
+      .padStart(2, "0");
+
+    const colorHex = `${colorValue}${alpha}`;
+    const colorFaded = `${colorValue}${alphaFaded}`;
+    const spread = (p as number) * 180;
+
+    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
+            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+  });
+
+  useEffect(() => {
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+    const branchDuration = cycleDuration * 0.15;
+
+    const lastCardIndex = totalSteps - 1;
+    const branchStart =
+      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const resultStart = branchStart + branchDuration * 0.75;
+    const resultAnimDuration = cycleDuration * 0.12;
+
+    const progressControls = animate(progress, [0, 1], {
+      duration: resultAnimDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - resultAnimDuration,
+      delay: resultStart,
+      ease: "easeInOut",
+    });
+
+    const opacityControls = animate(opacity, [0, 1, 1, 0], {
+      duration: resultAnimDuration,
+      times: [0, 0.1, 0.85, 1],
+      repeat: Infinity,
+      repeatDelay: cycleDuration - resultAnimDuration,
+      delay: resultStart,
+      ease: "linear",
+    });
+
+    return () => {
+      progressControls.stop();
+      opacityControls.stop();
+    };
+  }, [progress, opacity, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div variants={flowStepVariants} className="relative">
+      <motion.div
+        className="relative rounded-lg p-[2px]"
+        style={{ background }}
+      >
+        <div className="flex items-center gap-2 rounded-[6px] bg-card px-2 py-1.5">
+          <div
+            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded ${bgColors[color]}`}
+          >
+            <Icon className={`h-3 w-3 ${textColors[color]}`} />
+          </div>
+          <div className="min-w-0">
+            <p className="truncate font-sans text-[10px] font-semibold text-foreground">
+              {title}
+            </p>
+            <p className="truncate font-sans text-[8px] text-foreground/50">
+              {subtitle}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/**
+ * OutputCard - Card for output results (no animated border, subtle style)
+ */
+interface OutputCardProps {
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  outputIndex: number;
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function OutputCard({
+  icon: Icon,
+  title,
+  subtitle,
+  outputIndex,
+  totalSteps,
+  cycleDuration,
+}: OutputCardProps) {
+  const progress = useMotionValue(0);
+  const opacity = useMotionValue(0);
+
+  const background = useTransform([progress, opacity], ([p, o]) => {
+    const alpha = Math.round((o as number) * 200)
+      .toString(16)
+      .padStart(2, "0");
+    const alphaFaded = Math.round((o as number) * 50)
+      .toString(16)
+      .padStart(2, "0");
+
+    const colorHex = `#3a7bd5${alpha}`;
+    const colorFaded = `#3a7bd5${alphaFaded}`;
+    const spread = (p as number) * 180;
+
+    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
+            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+  });
+
+  useEffect(() => {
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+    const branchDuration = cycleDuration * 0.15;
+    const branchCardDuration = cycleDuration * 0.12;
+
+    const lastCardIndex = totalSteps - 1;
+    const branchStart =
+      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const outputStart = branchStart + branchDuration + branchCardDuration * 0.5;
+    const outputAnimDuration = cycleDuration * 0.15;
+
+    const progressControls = animate(progress, [0, 1], {
+      duration: outputAnimDuration,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - outputAnimDuration,
+      delay: outputStart + outputIndex * 0.1,
+      ease: "easeInOut",
+    });
+
+    const opacityControls = animate(opacity, [0, 1, 1, 0], {
+      duration: outputAnimDuration,
+      times: [0, 0.1, 0.85, 1],
+      repeat: Infinity,
+      repeatDelay: cycleDuration - outputAnimDuration,
+      delay: outputStart + outputIndex * 0.1,
+      ease: "linear",
+    });
+
+    return () => {
+      progressControls.stop();
+      opacityControls.stop();
+    };
+  }, [progress, opacity, outputIndex, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div variants={flowStepVariants} className="relative">
+      <motion.div
+        className="relative rounded-xl p-[2px]"
+        style={{ background }}
+      >
+        <div className="flex items-center gap-3 rounded-[10px] bg-card px-3 py-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10">
+            <Icon className="h-4 w-4 text-accent" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-sans text-xs font-semibold text-foreground">
+              {title}
+            </p>
+            <p className="font-sans text-[10px] text-foreground/50">
+              {subtitle}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/**
+ * OutputConnector - Vertical connector from branch cards to output cards
+ */
+interface OutputConnectorProps {
+  totalSteps: number;
+  cycleDuration: number;
+}
+
+function OutputConnector({ totalSteps, cycleDuration }: OutputConnectorProps) {
+  const progress = useMotionValue(0);
+
+  const background = useTransform(progress, (p) => {
+    const edgeFade = Math.min(p * 5, (1 - p) * 5, 1);
+    const spotPos = p * 100;
+    const intensity = 0.8 * edgeFade;
+    const trailIntensity = 0.3 * edgeFade;
+
+    return `linear-gradient(to bottom,
+      transparent ${Math.max(0, spotPos - 40)}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 20)}%,
+      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
+      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 10)}%,
+      transparent ${Math.min(100, spotPos + 20)}%
+    )`;
+  });
+
+  useEffect(() => {
+    const cardDuration = cycleDuration * 0.1;
+    const connectorDuration = cycleDuration * 0.025;
+    const branchDuration = cycleDuration * 0.15;
+    const branchCardDuration = cycleDuration * 0.12;
+
+    const lastCardIndex = totalSteps - 1;
+    const branchStart =
+      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
+    const connStart = branchStart + branchDuration + branchCardDuration * 0.3;
+
+    const controls = animate(progress, [0, 1], {
+      duration: connectorDuration * 2,
+      repeat: Infinity,
+      repeatDelay: cycleDuration - connectorDuration * 2,
+      delay: connStart,
+      ease: "linear",
+    });
+
+    return () => controls.stop();
+  }, [progress, totalSteps, cycleDuration]);
+
+  return (
+    <motion.div
+      variants={arrowVariants}
+      className="-my-[1px] flex justify-center"
+    >
+      <div className="relative h-4 w-[2px]">
+        <div className="absolute inset-0 rounded-full bg-border/20" />
         <motion.div
           className="absolute inset-0 rounded-full"
           style={{ background }}
@@ -566,8 +1453,202 @@ export function UseCasesSectionClient({
 
           {/* RIGHT SIDE: Flow Diagram - full height */}
           <div className="flex flex-col justify-center">
-            {/* Administrative Flow Diagram - only visible when activeIndex === 2 */}
             <AnimatePresence mode="wait">
+              {/* Support Client Flow - activeIndex === 0 */}
+              {activeIndex === 0 && (
+                <motion.div
+                  key="support-flow"
+                  variants={flowContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
+                  {/* Flow Title */}
+                  <motion.p
+                    variants={flowStepVariants}
+                    className="mb-6 font-sans text-sm font-medium tracking-wider text-foreground/50 uppercase"
+                  >
+                    Processus automatisé
+                  </motion.p>
+
+                  {/* Flow Steps */}
+                  <div className="relative flex flex-col gap-0">
+                    {supportFlowSteps.map((step, idx) => (
+                      <div key={step.id}>
+                        <FlowStepCard
+                          step={step}
+                          index={idx}
+                          totalSteps={supportFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                        {idx < supportFlowSteps.length - 1 && (
+                          <FlowConnector
+                            index={idx}
+                            totalSteps={supportFlowSteps.length}
+                            cycleDuration={12}
+                          />
+                        )}
+                      </div>
+                    ))}
+
+                    {/* Triple Branch connector */}
+                    <TripleBranchConnector
+                      index={supportFlowSteps.length - 1}
+                      cycleDuration={12}
+                    />
+
+                    {/* Branch cards */}
+                    <div className="-mt-[1px] grid grid-cols-3 gap-2">
+                      {supportBranches.map((branch, idx) => (
+                        <BranchCard
+                          key={branch.id}
+                          icon={branch.icon}
+                          title={branch.title}
+                          subtitle={branch.subtitle}
+                          color={branch.color}
+                          branchIndex={idx}
+                          totalSteps={supportFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Connector to outputs */}
+                    <OutputConnector
+                      totalSteps={supportFlowSteps.length}
+                      cycleDuration={12}
+                    />
+
+                    {/* Output cards */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {supportOutputs.map((output, idx) => (
+                        <OutputCard
+                          key={output.id}
+                          icon={output.icon}
+                          title={output.title}
+                          subtitle={output.subtitle}
+                          outputIndex={idx}
+                          totalSteps={supportFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Time saved badge */}
+                    <motion.div
+                      variants={flowStepVariants}
+                      className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border/40 bg-card px-4 py-2"
+                    >
+                      <Zap className="h-4 w-4 text-accent" />
+                      <span className="font-sans text-xs text-foreground/60">
+                        Temps économisé :
+                      </span>
+                      <span className="font-sans text-sm font-bold text-accent">
+                        12h/sem
+                      </span>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Commercial Flow - activeIndex === 1 */}
+              {activeIndex === 1 && (
+                <motion.div
+                  key="commercial-flow"
+                  variants={flowContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
+                  {/* Flow Title */}
+                  <motion.p
+                    variants={flowStepVariants}
+                    className="mb-6 font-sans text-sm font-medium tracking-wider text-foreground/50 uppercase"
+                  >
+                    Processus automatisé
+                  </motion.p>
+
+                  {/* Flow Steps */}
+                  <div className="relative flex flex-col gap-0">
+                    {commercialFlowSteps.map((step, idx) => (
+                      <div key={step.id}>
+                        <FlowStepCard
+                          step={step}
+                          index={idx}
+                          totalSteps={commercialFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                        {idx < commercialFlowSteps.length - 1 && (
+                          <FlowConnector
+                            index={idx}
+                            totalSteps={commercialFlowSteps.length}
+                            cycleDuration={12}
+                          />
+                        )}
+                      </div>
+                    ))}
+
+                    {/* Triple Branch connector */}
+                    <TripleBranchConnector
+                      index={commercialFlowSteps.length - 1}
+                      cycleDuration={12}
+                    />
+
+                    {/* Branch cards */}
+                    <div className="-mt-[1px] grid grid-cols-3 gap-2">
+                      {commercialBranches.map((branch, idx) => (
+                        <BranchCard
+                          key={branch.id}
+                          icon={branch.icon}
+                          title={branch.title}
+                          subtitle={branch.subtitle}
+                          color={branch.color}
+                          branchIndex={idx}
+                          totalSteps={commercialFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Connector to outputs */}
+                    <OutputConnector
+                      totalSteps={commercialFlowSteps.length}
+                      cycleDuration={12}
+                    />
+
+                    {/* Output cards */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {commercialOutputs.map((output, idx) => (
+                        <OutputCard
+                          key={output.id}
+                          icon={output.icon}
+                          title={output.title}
+                          subtitle={output.subtitle}
+                          outputIndex={idx}
+                          totalSteps={commercialFlowSteps.length}
+                          cycleDuration={12}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Time saved badge */}
+                    <motion.div
+                      variants={flowStepVariants}
+                      className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border/40 bg-card px-4 py-2"
+                    >
+                      <Zap className="h-4 w-4 text-accent" />
+                      <span className="font-sans text-xs text-foreground/60">
+                        Temps économisé :
+                      </span>
+                      <span className="font-sans text-sm font-bold text-accent">
+                        8h/sem
+                      </span>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Administrative Flow Diagram - activeIndex === 2 */}
               {activeIndex === 2 && (
                 <motion.div
                   key="admin-flow"
@@ -607,42 +1688,46 @@ export function UseCasesSectionClient({
                       </div>
                     ))}
 
+                    {/* Branch connectors with split animation */}
+                    <BranchConnector
+                      index={adminFlowSteps.length - 1}
+                      totalSteps={adminFlowSteps.length}
+                      cycleDuration={12}
+                    />
+
                     {/* Condition branches */}
-                    <motion.div
-                      variants={flowStepVariants}
-                      className="mt-3 grid grid-cols-2 gap-3"
-                    >
+                    <div className="-mt-[1px] grid grid-cols-2 gap-3">
                       {/* Paid */}
-                      <div className="rounded-lg border border-green-500/30 bg-green-500/5 p-3 text-center">
-                        <p className="mb-1 font-sans text-[10px] font-bold tracking-wider text-green-600 uppercase">
-                          ✓ Payée
-                        </p>
-                        <p className="font-sans text-xs text-foreground/60">
-                          Clôturée
-                        </p>
-                      </div>
+                      <ResultCard
+                        icon={CheckCircle}
+                        title="Payée"
+                        subtitle="Clôturée"
+                        color="green"
+                        totalSteps={adminFlowSteps.length}
+                        cycleDuration={12}
+                      />
 
                       {/* Unpaid */}
-                      <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-center">
-                        <p className="mb-1 font-sans text-[10px] font-bold tracking-wider text-red-600 uppercase">
-                          ✗ Impayée
-                        </p>
-                        <p className="font-sans text-xs text-foreground/60">
-                          Relance auto
-                        </p>
-                      </div>
-                    </motion.div>
+                      <ResultCard
+                        icon={Bell}
+                        title="Impayée"
+                        subtitle="Relance auto"
+                        color="red"
+                        totalSteps={adminFlowSteps.length}
+                        cycleDuration={12}
+                      />
+                    </div>
 
                     {/* Time saved badge */}
                     <motion.div
                       variants={flowStepVariants}
-                      className="mt-6 flex items-center justify-center gap-3 rounded-full border border-accent/20 bg-accent/5 px-4 py-2"
+                      className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border/40 bg-card px-4 py-2"
                     >
-                      <span className="text-lg">⚡</span>
-                      <span className="font-sans text-sm text-foreground/60">
+                      <Zap className="h-4 w-4 text-accent" />
+                      <span className="font-sans text-xs text-foreground/60">
                         Temps économisé :
                       </span>
-                      <span className="font-sans text-lg font-bold text-accent">
+                      <span className="font-sans text-sm font-bold text-accent">
                         6h/sem
                       </span>
                     </motion.div>
