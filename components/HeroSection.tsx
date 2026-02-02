@@ -29,6 +29,7 @@ export function HeroSection({
   // Prevent hydration mismatch by only showing motion elements after mount
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasMounted(true);
   }, []);
 
@@ -104,6 +105,12 @@ export function HeroSection({
   // Global container opacity - used to hide the fixed container completely
   const containerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
+  // Derived transforms - must be at top level, not in JSX
+  const containerPointerEvents = useTransform(containerOpacity, (v) =>
+    v < 0.1 ? "none" : "auto"
+  );
+  const secondaryHaloOpacity = useTransform(haloOpacity, (v) => v * 0.2);
+
   return (
     <section
       ref={sectionRef}
@@ -114,9 +121,7 @@ export function HeroSection({
         className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden"
         style={{
           opacity: containerOpacity,
-          pointerEvents: useTransform(containerOpacity, (v) =>
-            v < 0.1 ? "none" : "auto"
-          ),
+          pointerEvents: containerPointerEvents,
         }}
       >
         <div className="mx-auto w-full max-w-screen-xl px-4">
@@ -166,7 +171,7 @@ export function HeroSection({
                         background:
                           "radial-gradient(circle, rgba(90, 130, 255, 0.14), transparent 70%)",
                         filter: "blur(60px)",
-                        opacity: useTransform(haloOpacity, (v) => v * 0.2),
+                        opacity: secondaryHaloOpacity,
                         scale: haloScale,
                       }}
                       animate={{
