@@ -44,6 +44,13 @@ interface SolutionCardState {
   visible: boolean;
 }
 
+// CTA section tracking state
+interface CTASectionState {
+  top: number;
+  height: number;
+  visible: boolean;
+}
+
 function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -65,6 +72,11 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     x: 0,
     y: 0,
     width: 0,
+    height: 0,
+    visible: false,
+  });
+  const [ctaSection, setCtaSection] = useState<CTASectionState>({
+    top: 0,
     height: 0,
     visible: false,
   });
@@ -104,6 +116,18 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           visible: isVisible,
         };
         setSolutionCard(cardData);
+      }
+
+      // Find and track CTA section
+      const ctaSectionEl = document.querySelector('[data-section="cta"]');
+      if (ctaSectionEl) {
+        const rect = ctaSectionEl.getBoundingClientRect();
+        const isVisible = rect.top < vh && rect.bottom > 0;
+        setCtaSection({
+          top: rect.top,
+          height: rect.height,
+          visible: isVisible,
+        });
       }
     };
 
@@ -254,6 +278,10 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           uSolutionCardWidth: { value: 0 },
           uSolutionCardHeight: { value: 0 },
           uSolutionCardVisible: { value: 0 },
+          // CTA section uniforms
+          uCTASectionTop: { value: 0 },
+          uCTASectionHeight: { value: 0 },
+          uCTAVisible: { value: 0 },
         },
         transparent: true,
         depthWrite: false,
@@ -324,6 +352,13 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
       solutionCard.height;
     materialRef.current.uniforms.uSolutionCardVisible.value =
       solutionCard.visible ? 1.0 : 0.0;
+
+    // Update CTA section uniforms
+    materialRef.current.uniforms.uCTASectionTop.value = ctaSection.top;
+    materialRef.current.uniforms.uCTASectionHeight.value = ctaSection.height;
+    materialRef.current.uniforms.uCTAVisible.value = ctaSection.visible
+      ? 1.0
+      : 0.0;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(
