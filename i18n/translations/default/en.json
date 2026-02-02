@@ -35,7 +35,7 @@
       "cta": {
         "primary": {
           "label": "Estimate my time savings",
-          "href": "#contact",
+          "href": "https://calendly.com/lucien-zetislabs/30min",
           "ariaLabel": "Estimate my time savings"
         },
         "secondary": {
@@ -140,7 +140,7 @@
       "description": "Free audit. We analyze your processes and tell you where you can save time.",
       "primary": {
         "label": "Book my free audit",
-        "href": "#contact",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
         "ariaLabel": "Book my free audit"
       },
       "secondary": {

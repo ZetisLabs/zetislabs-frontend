@@ -1,9 +1,8 @@
 import { getTranslation, getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
-import { Reveal } from "@/lib/motion";
 import { HeroSection } from "@/components/HeroSection";
+import { CTAContent } from "@/components/CTAContent";
 import { SectionRenderer, type SectionConfig } from "@/lib/sections";
-import { CTAButton } from "@/lib/ui";
 import Footer from "@/components/layout/Footer";
 
 type Props = {
@@ -57,41 +56,25 @@ export default async function Home({ params }: Props) {
       <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
 
       {/* Static: Call to Action Section + Footer */}
-      <section className="flex min-h-dvh flex-col justify-between py-16 md:py-32">
+      <section
+        data-section="cta"
+        className="flex min-h-dvh flex-col justify-between pt-12 pb-16 md:pt-20 md:pb-32"
+      >
         <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {t("home.cta.title")}
-              </h2>
-            </Reveal>
-            <Reveal>
-              <p className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg">
-                {t("home.cta.description")}
-              </p>
-            </Reveal>
-            {/* CTAs */}
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Reveal>
-                <CTAButton
-                  href={t("home.cta.primary.href")}
-                  variant="primary"
-                  ariaLabel={t("home.cta.primary.ariaLabel")}
-                >
-                  {t("home.cta.primary.label")}
-                </CTAButton>
-              </Reveal>
-              <Reveal delay={250}>
-                <CTAButton
-                  href={t("home.cta.secondary.href")}
-                  variant="secondary"
-                  ariaLabel={t("home.cta.secondary.ariaLabel")}
-                >
-                  {t("home.cta.secondary.label")}
-                </CTAButton>
-              </Reveal>
-            </div>
-          </div>
+          <CTAContent
+            title={t("home.cta.title")}
+            description={t("home.cta.description")}
+            primaryCTA={{
+              label: t("home.cta.primary.label"),
+              href: t("home.cta.primary.href"),
+              ariaLabel: t("home.cta.primary.ariaLabel"),
+            }}
+            secondaryCTA={{
+              label: t("home.cta.secondary.label"),
+              href: t("home.cta.secondary.href"),
+              ariaLabel: t("home.cta.secondary.ariaLabel"),
+            }}
+          />
         </div>
         <Footer locale={locale} />
       </section>

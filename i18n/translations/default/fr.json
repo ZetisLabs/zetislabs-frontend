@@ -35,7 +35,7 @@
       "cta": {
         "primary": {
           "label": "Estimer mon gain de temps",
-          "href": "#contact",
+          "href": "https://calendly.com/lucien-zetislabs/30min",
           "ariaLabel": "Estimer mon gain de temps"
         },
         "secondary": {
@@ -140,7 +140,7 @@
       "description": "Audit gratuit. On analyse vos process et on vous dit où vous pouvez gagner du temps.",
       "primary": {
         "label": "Réserver mon audit gratuit",
-        "href": "#contact",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
         "ariaLabel": "Réserver mon audit gratuit"
       },
       "secondary": {

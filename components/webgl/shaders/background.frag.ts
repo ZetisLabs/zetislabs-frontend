@@ -46,6 +46,11 @@ uniform float uSolutionCardWidth;    // Width of solution card
 uniform float uSolutionCardHeight;   // Height of solution card
 uniform float uSolutionCardVisible;  // 1.0 when visible
 
+// CTA section uniforms (screen coordinates)
+uniform float uCTASectionTop;        // Top of CTA section (screen Y)
+uniform float uCTASectionHeight;     // Height of CTA section
+uniform float uCTAVisible;           // 1.0 when CTA section is visible
+
 
 // Varyings from vertex shader
 varying vec2 vUv;
@@ -503,6 +508,120 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
   return clamp(intensity, 0.0, 1.0);
 }
 
+// CTA section arc effect - inverted arc with scroll-based reveal
+// Inverse of hero sunset: arc "rises" as you scroll into the section
+float calculateCTAArcEffect(vec2 pos, float time) {
+  if (uCTAVisible < 0.5) return 0.0;
+
+  // Convert from WebGL coords (Y up from bottom) to screen coords
+  float screenY = uResolution.y - pos.y;
+
+  // Section bounds in screen coordinates
+  float sectionTopScreen = uCTASectionTop;
+  float sectionBottomScreen = uCTASectionTop + uCTASectionHeight;
+
+  // Check if we're in the CTA section area
+  if (screenY < sectionTopScreen || screenY > sectionBottomScreen) return 0.0;
+
+  // Normalize position within CTA section (-0.5 to 0.5 range, centered)
+  vec2 ctaPos;
+  ctaPos.x = (pos.x / uResolution.x) - 0.5;
+  float sectionProgress = (screenY - sectionTopScreen) / uCTASectionHeight;
+  ctaPos.y = 0.5 - sectionProgress;
+
+  float viewportHeight = uResolution.y;
+
+  // === SCROLL-BASED INTRO (inverse of hero outro) ===
+  // Hero outro: arc sinks and fades as scrollProgress increases (0 -> 0.3)
+  // CTA intro: arc rises and appears as section enters viewport
+  // Animation completes when CTA content is centered in viewport
+  // introProgress: 0 = arc just becoming visible, 1 = fully revealed
+  float introProgress = smoothstep(viewportHeight * 0.55, viewportHeight * 0.15, sectionTopScreen);
+
+  // === OUTRO when scrolling back up ===
+  float outroProgress = smoothstep(-viewportHeight * 0.2, viewportHeight * 0.15, sectionBottomScreen);
+
+  // Early exit
+  if (introProgress < 0.01 || outroProgress < 0.01) return 0.0;
+
+  // === ARC RISING EFFECT (inverse of hero's sinking arc) ===
+  // Hero: arcCenterY = -0.52 - (scrollProgress * 0.15) -> sinks down
+  // CTA: arc starts lower and rises up as intro progresses
+  float baseArcCenterY = 0.45; // Starting position (lower)
+  float targetArcCenterY = 0.62; // Final position (higher)
+  float arcCenterY = mix(baseArcCenterY, targetArcCenterY, introProgress);
+  float arcRadius = 0.75;
+
+  // Calculate arc position (inverted - curves DOWN)
+  float xClamped = clamp(ctaPos.x, -0.5, 0.5);
+  float arcY = arcCenterY - sqrt(max(0.0, arcRadius * arcRadius - xClamped * xClamped));
+
+  // Distance from arc
+  float distToArc = ctaPos.y - arcY;
+
+  // === HORIZON LINE GLOW (same as hero) ===
+  float horizonDist = abs(distToArc);
+  float horizonGlow = exp(-horizonDist * horizonDist * 500.0);
+
+  // === PROGRESSIVE REVEAL FROM CENTER OUTWARD ===
+  float horizonReveal = smoothstep(0.0, 0.35, introProgress);
+  float xReveal = 1.0 - smoothstep(0.0, introProgress * 1.5, abs(ctaPos.x));
+  horizonGlow *= horizonReveal * xReveal;
+
+  // === GLOW BELOW THE ARC (mirror of hero's glow above arc) ===
+  float belowGlow = 0.0;
+  if (distToArc < 0.0) {
+    // Glow expands with progress - use same maxDist as hero (0.25)
+    float maxDist = 0.25 * introProgress;
+    float distFactor = 1.0 - clamp(abs(distToArc) / max(maxDist, 0.01), 0.0, 1.0);
+    distFactor = distFactor * distFactor; // Quadratic falloff for softer edge
+
+    // Stronger glow near center of arc, weaker at edges (same as hero)
+    float horizontalFalloff = exp(-ctaPos.x * ctaPos.x * 3.0);
+
+    belowGlow = distFactor * horizontalFalloff * smoothstep(0.1, 0.6, introProgress) * 0.7;
+  }
+
+  // === ADDITIONAL FILL GLOW (to match hero's large glow area) ===
+  // The hero has a very large glow area - we need to add more fill
+  float fillGlow = 0.0;
+  if (distToArc < 0.0 && introProgress > 0.3) {
+    // Extended glow that fills more area below the arc
+    float extendedMaxDist = 0.4 * introProgress;
+    float fillFactor = 1.0 - clamp(abs(distToArc) / extendedMaxDist, 0.0, 1.0);
+    fillFactor = fillFactor * fillFactor * fillFactor; // Cubic falloff for even softer edge
+
+    float horizontalFalloff = exp(-ctaPos.x * ctaPos.x * 2.0);
+    fillGlow = fillFactor * horizontalFalloff * smoothstep(0.3, 0.8, introProgress) * 0.5;
+  }
+
+  // === PIXEL APPEARANCE (same as hero) ===
+  vec2 arcCenter = vec2(0.0, arcY);
+  float distFromCenter = length(ctaPos - arcCenter);
+  float appearDelay = distFromCenter * 0.6;
+  float pixelAppear = smoothstep(appearDelay, appearDelay + 0.4, introProgress);
+
+  // Add noise for organic feel
+  float noise = snoise(vGridPos * 8.0 + time * 0.1) * 0.12 + 0.88;
+
+  // Add shimmer
+  float shimmer = sin(time * 1.2 + vSeeds.x * TWO_PI + ctaPos.x * 15.0) * 0.08 + 0.92;
+
+  // Fade out just below the content area (like hero fades above eyebrow)
+  // sectionProgress 0 = top of section, 1 = bottom
+  // We want full effect in middle, fade at very bottom
+  float contentFade = 1.0 - smoothstep(0.0, 0.15, ctaPos.y + 0.15);
+  if (contentFade < 0.01) return 0.0;
+
+  // Combine effects (same as hero: horizonGlow * 1.2 + aboveGlow + fillGlow)
+  float intensity = (horizonGlow * 1.2 + belowGlow + fillGlow) * pixelAppear * noise * shimmer * contentFade;
+
+  // Apply outro fade
+  intensity *= outroProgress;
+
+  return clamp(intensity, 0.0, 1.0);
+}
+
 // Idle breathing animation
 float calculateBreathing(vec2 pos, float time, vec2 seeds) {
   // Slow breathing wave
@@ -652,6 +771,14 @@ void main() {
   if (solutionEffect > 0.0) {
     cellColor = mix(cellColor, uAccentColor, solutionEffect);
     alpha = mix(alpha, 1.0, solutionEffect * 0.5);
+  }
+
+  // 6. CTA section inverted arc effect
+  float ctaArcIntensity = calculateCTAArcEffect(vPosition, uTime);
+  if (ctaArcIntensity > 0.0) {
+    cellColor = mix(cellColor, uAccentColor, ctaArcIntensity);
+    // Boost alpha for stronger visibility
+    alpha = mix(alpha, 1.0, ctaArcIntensity * 0.5);
   }
 
   // Output final color
