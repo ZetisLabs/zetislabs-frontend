@@ -1,5 +1,6 @@
 // WebGL Components
 export { WebGLBackground } from "./WebGLBackground";
+export { WebGLBackgroundLazy } from "./WebGLBackgroundLazy";
 export { WebGLCanvas } from "./WebGLCanvas";
 
 // Hooks

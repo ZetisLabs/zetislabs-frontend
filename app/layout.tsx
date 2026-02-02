@@ -98,6 +98,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Preconnect to Google Fonts for faster font loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       {/* Apply GeneralSans font variable to body */}
       <body
         className={`${generalSans.variable} ${ibmPlexSans.variable} min-h-screen bg-background text-foreground antialiased`}

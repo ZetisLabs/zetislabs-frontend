@@ -5,7 +5,7 @@ import {
   EffectProvider,
   WebGLAnimationModeProvider,
 } from "@/components/providers";
-import { WebGLBackground } from "@/components/webgl/WebGLBackground";
+import { WebGLBackgroundLazy } from "@/components/webgl/WebGLBackgroundLazy";
 import { getTranslation } from "@/lib/i18n";
 import {
   type Locale,
@@ -98,7 +98,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <WebSiteJsonLd locale={locale} />
         {/* Set html lang attribute based on locale */}
         <LocaleScript />
-        <WebGLBackground animationMode="intro" />
+        <WebGLBackgroundLazy animationMode="intro" />
         <div className="flex min-h-screen flex-col">
           <Header locale={locale} />
           <main className="relative z-10 flex-1 overflow-x-hidden">
