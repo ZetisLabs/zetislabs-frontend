@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { useReducedMotion } from "@/lib/motion";
 
@@ -34,6 +34,24 @@ type UseCasesSectionProps = {
 // ============================================================================
 
 /**
+ * useHasMounted
+ *
+ * Returns true after component has mounted on the client.
+ * Uses useSyncExternalStore for hydration-safe mounting detection.
+ */
+const emptySubscribe = () => () => {};
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
+
+const useHasMounted = (): boolean => {
+  return useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  );
+};
+
+/**
  * useScrollProgress
  *
  * Tracks scroll progress within a sticky container.
@@ -49,14 +67,10 @@ const useScrollProgress = (
 ): { progress: number; isActive: boolean } => {
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const hasMounted = useHasMounted();
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isMounted) return;
+    if (!hasMounted) return;
 
     const calculateProgress = () => {
       if (!containerRef.current) return;
@@ -101,32 +115,9 @@ const useScrollProgress = (
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", calculateProgress);
     };
-  }, [containerRef, isMounted]);
+  }, [containerRef, hasMounted]);
 
   return { progress, isActive };
-};
-
-/**
- * useIsMobile
- *
- * Detects if viewport is mobile-sized.
- * Used to disable scroll hijacking on mobile for better UX.
- * Returns null during SSR to prevent hydration mismatch.
- */
-const useIsMobile = (): boolean | null => {
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  return isMobile;
 };
 
 // ============================================================================
@@ -546,23 +537,7 @@ export function UseCasesSection({
   const containerRef = useRef<HTMLDivElement>(null);
   const { progress, isActive } = useScrollProgress(containerRef);
   const prefersReducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
-
-  // Show loading state during hydration to prevent mismatch
-  if (isMobile === null) {
-    return (
-      <section className="flex min-h-screen items-center justify-center py-16 md:py-24">
-        <div className="mx-auto w-full max-w-screen-xl px-4 text-center">
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            {title}
-          </h2>
-          <p className="text-base text-foreground/70 sm:text-lg">
-            {description}
-          </p>
-        </div>
-      </section>
-    );
-  }
+  const hasMounted = useHasMounted();
 
   // Calculate which slide should be visible based on progress
   const totalSlides = useCases.length;
@@ -594,10 +569,22 @@ export function UseCasesSection({
     return "hidden";
   };
 
-  // Mobile fallback: traditional scroll layout (only for small screens)
-  if (isMobile) {
-    return (
-      <section className="py-16 md:py-24">
+  // For reduced motion: instant transitions instead of animated
+  const transitionStyle = prefersReducedMotion
+    ? "opacity 0s, transform 0s"
+    : "opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.4s ease-out";
+
+  // Desktop: Sticky scroll experience
+  // Height = viewport height + scroll runway (one viewport per slide transition)
+  const scrollRunwayHeight = `${100 + (totalSlides - 1) * 100}vh`;
+
+  // Render BOTH layouts and use CSS to show/hide based on screen size
+  // This prevents hydration mismatch since server and client render identical HTML
+  return (
+    <>
+      {/* ===== MOBILE LAYOUT ===== */}
+      {/* Visible on screens < 768px (md breakpoint) */}
+      <section className="block py-16 md:hidden md:py-24">
         <div className="mx-auto w-full max-w-screen-xl px-4">
           {/* Section Header */}
           <div className="mx-auto mb-12 max-w-3xl text-center">
@@ -622,100 +609,83 @@ export function UseCasesSection({
           </div>
         </div>
       </section>
-    );
-  }
 
-  // For reduced motion: instant transitions instead of animated
-  const transitionStyle = prefersReducedMotion
-    ? "opacity 0s, transform 0s"
-    : "opacity 0.4s ease-out, transform 0.4s ease-out, filter 0.4s ease-out";
-
-  // Desktop: Sticky scroll experience
-  // Height = viewport height + scroll runway (one viewport per slide transition)
-  const scrollRunwayHeight = `${100 + (totalSlides - 1) * 100}vh`;
-
-  return (
-    <section
-      ref={containerRef}
-      className="relative"
-      style={{ height: scrollRunwayHeight }}
-      aria-label="Use cases showcase"
-    >
-      {/* Sticky container - stays fixed while scrolling */}
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        {/* Background gradient */}
-        <div
-          className="absolute inset-0 -z-10 transition-opacity duration-500"
-          style={{ opacity: isActive ? 1 : 0 }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
-        </div>
-
-        {/* Section Header - fades out as we scroll */}
-        <div
-          className="absolute top-16 right-0 left-0 z-20 text-center transition-all duration-500"
-          style={{
-            opacity: progress < 0.15 ? 1 - progress * 6 : 0,
-            transform: `translateY(${progress * -20}px)`,
-          }}
-        >
-          <div className="mx-auto max-w-3xl px-4">
-            <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              {title}
-            </h2>
-            <p className="text-base text-foreground/70 sm:text-lg">
-              {description}
-            </p>
+      {/* ===== DESKTOP LAYOUT ===== */}
+      {/* Visible on screens >= 768px (md breakpoint) */}
+      <section
+        ref={containerRef}
+        className="relative hidden md:block"
+        style={{ height: scrollRunwayHeight }}
+        aria-label="Use cases showcase"
+      >
+        {/* Sticky container - stays fixed while scrolling */}
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          {/* Background gradient */}
+          <div
+            className="absolute inset-0 -z-10 transition-opacity duration-500"
+            style={{ opacity: hasMounted && isActive ? 1 : 0 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
           </div>
+
+          {/* Section Header - fades out as we scroll */}
+          <div
+            className="absolute top-16 right-0 left-0 z-20 text-center transition-all duration-500"
+            style={{
+              opacity: hasMounted && progress < 0.15 ? 1 - progress * 6 : 1,
+              transform: hasMounted
+                ? `translateY(${progress * -20}px)`
+                : "translateY(0)",
+            }}
+          >
+            <div className="mx-auto max-w-3xl px-4">
+              <h2 className="mb-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                {title}
+              </h2>
+              <p className="text-base text-foreground/70 sm:text-lg">
+                {description}
+              </p>
+            </div>
+          </div>
+
+          {/* Progress Indicator */}
+          <ProgressIndicator
+            totalSlides={totalSlides}
+            currentSlide={currentSlide}
+            progress={progressInSlide}
+          />
+
+          {/* Use Case Slides */}
+          {useCases.map((useCase, index) => {
+            const direction = getSlideDirection(index);
+            const isVisible = direction !== "hidden";
+
+            // Calculate individual slide progress for entering/exiting animations
+            // Transition starts at 50% of slide duration for a smoother, longer crossfade
+            let individualProgress = 0;
+            if (direction === "entering") {
+              individualProgress = (progressInSlide - 0.5) / 0.5;
+            } else if (direction === "exiting") {
+              individualProgress = (progressInSlide - 0.5) / 0.5;
+            }
+
+            return (
+              <UseCaseSlide
+                key={useCase.id}
+                useCase={useCase}
+                slideProgress={hasMounted ? individualProgress : 0}
+                isVisible={hasMounted ? isVisible : index === 0}
+                direction={
+                  hasMounted ? direction : index === 0 ? "active" : "hidden"
+                }
+                learnMoreLabel={learnMoreLabel}
+                transitionStyle={transitionStyle}
+              />
+            );
+          })}
         </div>
-
-        {/* Progress Indicator */}
-        <ProgressIndicator
-          totalSlides={totalSlides}
-          currentSlide={currentSlide}
-          progress={progressInSlide}
-        />
-
-        {/* Use Case Slides */}
-        {useCases.map((useCase, index) => {
-          const direction = getSlideDirection(index);
-          const isVisible = direction !== "hidden";
-
-          // Calculate individual slide progress for entering/exiting animations
-          // Transition starts at 50% of slide duration for a smoother, longer crossfade
-          let individualProgress = 0;
-          if (direction === "entering") {
-            individualProgress = (progressInSlide - 0.5) / 0.5;
-          } else if (direction === "exiting") {
-            individualProgress = (progressInSlide - 0.5) / 0.5;
-          }
-
-          return (
-            <UseCaseSlide
-              key={useCase.id}
-              useCase={useCase}
-              slideProgress={individualProgress}
-              isVisible={isVisible}
-              direction={direction}
-              learnMoreLabel={learnMoreLabel}
-              transitionStyle={transitionStyle}
-            />
-          );
-        })}
-
-        {/* Mobile progress bar (bottom) */}
-        <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 gap-2 md:hidden">
-          {useCases.map((_, index) => (
-            <div
-              key={index}
-              className={`h-1.5 w-8 rounded-full transition-all duration-300 ${
-                index <= currentSlide ? "bg-accent" : "bg-foreground/20"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
