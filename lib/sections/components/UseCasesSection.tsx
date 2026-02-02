@@ -195,9 +195,6 @@ const commercialOutputs = [
   },
 ];
 
-// Global animation cycle duration
-const FLOW_CYCLE_DURATION = 12; // seconds for full cycle
-
 // Diagonal light sweep - shared across all elements
 // The light moves from top-left (-100%) to bottom-right (200%)
 // Each element's "depth" determines when the light passes through it
@@ -212,7 +209,8 @@ function useDiagonalSweep(depth: number, cycleDuration: number) {
       ease: "linear",
     });
     return () => controls.stop();
-  }, [globalProgress, cycleDuration]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cycleDuration]);
 
   // Transform global progress to local sweep position
   // depth 0 = top of flow, depth 1+ = bottom of flow
@@ -545,7 +543,6 @@ interface ResultCardProps {
   title: string;
   subtitle: string;
   color: "green" | "red";
-  totalSteps: number;
   cycleDuration: number;
 }
 
@@ -554,7 +551,6 @@ function ResultCard({
   title,
   subtitle,
   color,
-  totalSteps,
   cycleDuration,
 }: ResultCardProps) {
   // Result cards are at the bottom of the flow
@@ -615,14 +611,10 @@ function ResultCard({
  * The glow effect flows like water: stem → split horizontal → drops
  */
 interface TripleBranchConnectorProps {
-  index: number;
   cycleDuration: number;
 }
 
-function TripleBranchConnector({
-  index,
-  cycleDuration,
-}: TripleBranchConnectorProps) {
+function TripleBranchConnector({ cycleDuration }: TripleBranchConnectorProps) {
   // Use fixed depth since this is for support/commercial flows with 2 steps
   const depth = 0.85;
   const sweepPosition = useDiagonalSweep(depth, cycleDuration);
@@ -1255,10 +1247,7 @@ export function UseCasesSectionClient({
                     ))}
 
                     {/* Triple Branch connector */}
-                    <TripleBranchConnector
-                      index={supportFlowSteps.length - 1}
-                      cycleDuration={12}
-                    />
+                    <TripleBranchConnector cycleDuration={12} />
 
                     {/* Branch cards */}
                     <div className="-mt-[1px] grid grid-cols-3 gap-2">
@@ -1352,10 +1341,7 @@ export function UseCasesSectionClient({
                     ))}
 
                     {/* Triple Branch connector */}
-                    <TripleBranchConnector
-                      index={commercialFlowSteps.length - 1}
-                      cycleDuration={12}
-                    />
+                    <TripleBranchConnector cycleDuration={12} />
 
                     {/* Branch cards */}
                     <div className="-mt-[1px] grid grid-cols-3 gap-2">
@@ -1466,7 +1452,6 @@ export function UseCasesSectionClient({
                         title="Payée"
                         subtitle="Clôturée"
                         color="green"
-                        totalSteps={adminFlowSteps.length}
                         cycleDuration={12}
                       />
 
@@ -1476,7 +1461,6 @@ export function UseCasesSectionClient({
                         title="Impayée"
                         subtitle="Relance auto"
                         color="red"
-                        totalSteps={adminFlowSteps.length}
                         cycleDuration={12}
                       />
                     </div>
