@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useSyncExternalStore } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { useReducedMotion } from "@/lib/motion";
 
@@ -34,24 +34,6 @@ type UseCasesSectionProps = {
 // ============================================================================
 
 /**
- * useHasMounted
- *
- * Returns true after component has mounted on the client.
- * Uses useSyncExternalStore for hydration-safe mounting detection.
- */
-const emptySubscribe = () => () => {};
-const getServerSnapshot = () => false;
-const getClientSnapshot = () => true;
-
-const useHasMounted = (): boolean => {
-  return useSyncExternalStore(
-    emptySubscribe,
-    getClientSnapshot,
-    getServerSnapshot
-  );
-};
-
-/**
  * useScrollProgress
  *
  * Tracks scroll progress within a sticky container.
@@ -60,17 +42,25 @@ const useHasMounted = (): boolean => {
  * that allows the sticky element to remain fixed while scrolling).
  *
  * @param containerRef - Ref to the outer container (with extra height)
- * @returns progress (0-1), isActive (section is in view)
+ * @returns progress (0-1), isActive (section is in view), hasMounted (client-side flag)
  */
 const useScrollProgress = (
   containerRef: React.RefObject<HTMLElement | null>
-): { progress: number; isActive: boolean } => {
+): { progress: number; isActive: boolean; hasMounted: boolean } => {
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const hasMounted = useHasMounted();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  // Track mount state - runs once after hydration
+  // This pattern is necessary for hydration-safe client detection
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (!hasMounted) return;
+    // Only run scroll tracking after component is mounted on client
+    if (typeof window === "undefined") return;
 
     const calculateProgress = () => {
       if (!containerRef.current) return;
@@ -115,9 +105,9 @@ const useScrollProgress = (
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", calculateProgress);
     };
-  }, [containerRef, hasMounted]);
+  }, [containerRef]);
 
-  return { progress, isActive };
+  return { progress, isActive, hasMounted };
 };
 
 // ============================================================================
@@ -535,9 +525,8 @@ export function UseCasesSection({
   learnMoreLabel = "Learn more",
 }: UseCasesSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { progress, isActive } = useScrollProgress(containerRef);
+  const { progress, isActive, hasMounted } = useScrollProgress(containerRef);
   const prefersReducedMotion = useReducedMotion();
-  const hasMounted = useHasMounted();
 
   // Calculate which slide should be visible based on progress
   const totalSlides = useCases.length;
