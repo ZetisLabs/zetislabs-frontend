@@ -195,6 +195,38 @@ const commercialOutputs = [
   },
 ];
 
+// Global animation cycle duration
+const FLOW_CYCLE_DURATION = 12; // seconds for full cycle
+
+// Diagonal light sweep - shared across all elements
+// The light moves from top-left (-100%) to bottom-right (200%)
+// Each element's "depth" determines when the light passes through it
+function useDiagonalSweep(depth: number, cycleDuration: number) {
+  const globalProgress = useMotionValue(0);
+
+  useEffect(() => {
+    const controls = animate(globalProgress, [0, 1], {
+      duration: cycleDuration * 0.3, // Sweep duration
+      repeat: Infinity,
+      repeatDelay: cycleDuration * 0.7, // Pause between sweeps
+      ease: "linear",
+    });
+    return () => controls.stop();
+  }, [globalProgress, cycleDuration]);
+
+  // Transform global progress to local sweep position
+  // depth 0 = top of flow, depth 1+ = bottom of flow
+  const sweepPosition = useTransform(globalProgress, (gp) => {
+    // Global sweep goes from -100 to 300 (extended range to clear all elements)
+    const globalSweep = gp * 400 - 100;
+    // Offset based on element depth (deeper = later)
+    // depth 0 = offset 0, depth 1.4 = offset 140
+    return globalSweep - depth * 100;
+  });
+
+  return sweepPosition;
+}
+
 // Animation variants for flow
 const flowContainerVariants = {
   hidden: { opacity: 0 },
@@ -250,63 +282,30 @@ function FlowStepCard({
   totalSteps,
   cycleDuration,
 }: FlowStepCardProps) {
-  // Animation progress: 0 = rays together, 1 = rays spread apart
-  const progress = useMotionValue(0);
-  const opacity = useMotionValue(0);
+  // Calculate depth: 0 at top, 1 at bottom of flow
+  const depth = index / Math.max(totalSteps, 1);
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  // Create a conic gradient that spreads like scissors from 0deg (right side)
-  // Rays start at 0deg and spread to meet at 180deg (left side)
-  const background = useTransform([progress, opacity], ([p, o]) => {
-    const alpha = Math.round((o as number) * 255)
-      .toString(16)
-      .padStart(2, "0");
-    const alphaFaded = Math.round((o as number) * 64)
-      .toString(16)
-      .padStart(2, "0");
+  const colorRgb = step.isCondition ? "245, 158, 11" : "58, 123, 213";
 
-    const baseColor = step.isCondition ? "#f59e0b" : "#3a7bd5";
-    const color = `${baseColor}${alpha}`;
-    const colorFaded = `${baseColor}${alphaFaded}`;
+  const background = useTransform(sweepPosition, (pos) => {
+    // Only show when sweep is passing through (-40 to 140)
+    if (pos < -40 || pos > 140) return "transparent";
 
-    // Spread angle: 0 at start (both rays at 0deg), 180 at end (both rays at 180deg)
-    const spread = (p as number) * 180;
+    // Intensity based on how centered the sweep is
+    const center = 50;
+    const dist = Math.abs(pos - center);
+    const intensity = Math.max(0, 1 - dist / 90);
 
-    // Start from 0deg - one ray goes up (0-spread = -spread), one goes down (0+spread)
-    // They meet at 180deg (left side)
-    return `conic-gradient(from ${-spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg),
-            conic-gradient(from ${spread}deg, ${color}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${color} 360deg)`;
+    return `linear-gradient(
+      135deg,
+      transparent ${Math.max(0, pos - 45)}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.max(0, pos - 22)}%,
+      rgba(${colorRgb}, ${0.9 * intensity}) ${pos}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.min(100, pos + 22)}%,
+      transparent ${Math.min(100, pos + 45)}%
+    )`;
   });
-
-  useEffect(() => {
-    // Timing: cycle divided into segments for cards, connectors, branch, and results
-    const cardDuration = cycleDuration * 0.1; // Slower card animation
-    const connectorDuration = cycleDuration * 0.025; // Connector duration
-
-    // Calculate start time for this card
-    const cardStart = index * (cardDuration + connectorDuration);
-
-    const progressControls = animate(progress, [0, 1], {
-      duration: cardDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - cardDuration,
-      delay: cardStart,
-      ease: "easeInOut",
-    });
-
-    const opacityControls = animate(opacity, [0, 1, 1, 0], {
-      duration: cardDuration,
-      times: [0, 0.1, 0.85, 1],
-      repeat: Infinity,
-      repeatDelay: cycleDuration - cardDuration,
-      delay: cardStart,
-      ease: "linear",
-    });
-
-    return () => {
-      progressControls.stop();
-      opacityControls.stop();
-    };
-  }, [progress, opacity, index, cycleDuration]);
 
   return (
     <motion.div variants={flowStepVariants} className="relative">
@@ -372,49 +371,23 @@ function FlowConnector({
   totalSteps,
   cycleDuration,
 }: FlowConnectorProps) {
-  const progress = useMotionValue(0);
+  // Connector is between cards, depth is between indices
+  const depth = (index + 0.5) / Math.max(totalSteps, 1);
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  // Create a traveling gradient - small bright spot with trail
-  // Fully transparent when inactive (p near 0 or 1)
-  const background = useTransform(progress, (p) => {
-    // Fade in/out at edges to avoid seeing blue when inactive
-    const edgeFade = Math.min(p * 5, (1 - p) * 5, 1);
+  const background = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
 
-    // Position of the bright spot (0% to 100%)
-    const spotPos = p * 100;
-
-    // Intensity based on edge fade
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+    const center = 50;
+    const dist = Math.abs(pos - center);
+    const intensity = Math.max(0, 1 - dist / 90);
 
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 40)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 20)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 10)}%,
-      transparent ${Math.min(100, spotPos + 20)}%
+      transparent ${Math.max(0, pos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${pos}%,
+      transparent ${Math.min(100, pos + 35)}%
     )`;
   });
-
-  useEffect(() => {
-    // Same timing as FlowStepCard
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-
-    // Connector starts at end of its card (with small overlap)
-    const connectorStart =
-      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
-
-    const controls = animate(progress, [0, 1], {
-      duration: connectorDuration * 1.3,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - connectorDuration * 1.3,
-      delay: connectorStart,
-      ease: "linear",
-    });
-
-    return () => controls.stop();
-  }, [progress, index, cycleDuration]);
 
   return (
     <motion.div
@@ -450,105 +423,63 @@ function BranchConnector({
   totalSteps,
   cycleDuration,
 }: BranchConnectorProps) {
-  const progress = useMotionValue(0);
+  // Branch connector depth - just after the last card
+  const depth = (index + 0.7) / Math.max(totalSteps, 1);
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  // Phase 1: Vertical stem (0% to 25%)
-  const stemProgress = useTransform(progress, [0, 0.25], [0, 1]);
-  const stemBackground = useTransform(stemProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  // All parts of the branch light up together with the diagonal sweep
+  const stemBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, pos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${pos}%,
+      transparent ${Math.min(100, pos + 35)}%
     )`;
   });
 
-  // Phase 2: Horizontal split (25% to 55%)
-  const splitProgress = useTransform(progress, [0.25, 0.55], [0, 1]);
-  const splitOpacity = useTransform(
-    progress,
-    [0.2, 0.3, 0.5, 0.6],
-    [0, 1, 1, 0]
-  );
+  const splitOpacity = useTransform(sweepPosition, (pos) => {
+    if (pos < 10 || pos > 90) return 0;
+    return Math.max(0, 1 - Math.abs(pos - 50) / 40);
+  });
 
-  // Left branch travels from center to left edge
-  const leftBackground = useTransform(splitProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    // Position goes from 100% (right/center) to 0% (left edge)
-    const spotPos = 100 - clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const leftBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 10 || pos > 90) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 40);
+    const spotPos = 100 - (pos - 10) * (100 / 80);
     return `linear-gradient(to left,
-      transparent ${Math.max(0, 100 - spotPos - 30)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, 100 - spotPos - 15)}%,
-      rgba(58, 123, 213, ${intensity}) ${100 - spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, 100 - spotPos + 25)}%,
-      transparent ${Math.min(100, 100 - spotPos + 50)}%
+      transparent ${Math.max(0, 100 - spotPos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${100 - spotPos}%,
+      transparent ${Math.min(100, 100 - spotPos + 35)}%
     )`;
   });
 
-  // Right branch travels from center to right edge
-  const rightBackground = useTransform(splitProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const rightBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 10 || pos > 90) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 40);
+    const spotPos = (pos - 10) * (100 / 80);
     return `linear-gradient(to right,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, spotPos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${spotPos}%,
+      transparent ${Math.min(100, spotPos + 35)}%
     )`;
   });
 
-  // Phase 3: Vertical drops (55% to 100%)
-  const dropProgress = useTransform(progress, [0.55, 1], [0, 1]);
-  const dropOpacity = useTransform(progress, [0.5, 0.6, 0.9, 1], [0, 1, 1, 0]);
+  const dropOpacity = useTransform(sweepPosition, (pos) => {
+    if (pos < 30 || pos > 110) return 0;
+    return Math.max(0, 1 - Math.abs(pos - 70) / 40);
+  });
 
-  const dropBackground = useTransform(dropProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const dropBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 30 || pos > 110) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 70) / 40);
+    const spotPos = (pos - 30) * (100 / 80);
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, spotPos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${spotPos}%,
+      transparent ${Math.min(100, spotPos + 35)}%
     )`;
   });
-
-  useEffect(() => {
-    // Same timing as FlowStepCard/FlowConnector
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-
-    // Branch starts after last card (index is last card index)
-    const branchStart =
-      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const branchDuration = cycleDuration * 0.15; // Slower for branch animation
-
-    const controls = animate(progress, [0, 1], {
-      duration: branchDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - branchDuration,
-      delay: branchStart,
-      ease: "easeInOut",
-    });
-
-    return () => controls.stop();
-  }, [progress, index, cycleDuration]);
 
   return (
     <motion.div
@@ -626,62 +557,26 @@ function ResultCard({
   totalSteps,
   cycleDuration,
 }: ResultCardProps) {
-  const progress = useMotionValue(0);
-  const opacity = useMotionValue(0);
+  // Result cards are at the bottom of the flow
+  const depth = 1.1; // Just past the end
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  const colorValue = color === "green" ? "#22c55e" : "#ef4444";
+  const colorRgb = color === "green" ? "34, 197, 94" : "239, 68, 68";
 
-  const background = useTransform([progress, opacity], ([p, o]) => {
-    const alpha = Math.round((o as number) * 255)
-      .toString(16)
-      .padStart(2, "0");
-    const alphaFaded = Math.round((o as number) * 64)
-      .toString(16)
-      .padStart(2, "0");
+  const background = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
 
-    const colorHex = `${colorValue}${alpha}`;
-    const colorFaded = `${colorValue}${alphaFaded}`;
-    const spread = (p as number) * 180;
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
 
-    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
-            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+    return `linear-gradient(
+      135deg,
+      transparent ${Math.max(0, pos - 45)}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.max(0, pos - 22)}%,
+      rgba(${colorRgb}, ${0.9 * intensity}) ${pos}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.min(100, pos + 22)}%,
+      transparent ${Math.min(100, pos + 45)}%
+    )`;
   });
-
-  useEffect(() => {
-    // Same timing as other components
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-    const branchDuration = cycleDuration * 0.15;
-
-    // Result cards start after branch connector
-    const lastCardIndex = totalSteps - 1;
-    const branchStart =
-      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const resultStart = branchStart + branchDuration * 0.75;
-    const resultAnimDuration = cycleDuration * 0.18;
-
-    const progressControls = animate(progress, [0, 1], {
-      duration: resultAnimDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - resultAnimDuration,
-      delay: resultStart,
-      ease: "easeInOut",
-    });
-
-    const opacityControls = animate(opacity, [0, 1, 1, 0], {
-      duration: resultAnimDuration,
-      times: [0, 0.1, 0.85, 1],
-      repeat: Infinity,
-      repeatDelay: cycleDuration - resultAnimDuration,
-      delay: resultStart,
-      ease: "linear",
-    });
-
-    return () => {
-      progressControls.stop();
-      opacityControls.stop();
-    };
-  }, [progress, opacity, totalSteps, cycleDuration]);
 
   return (
     <motion.div variants={flowStepVariants} className="relative">
@@ -728,102 +623,62 @@ function TripleBranchConnector({
   index,
   cycleDuration,
 }: TripleBranchConnectorProps) {
-  const progress = useMotionValue(0);
+  // Use fixed depth since this is for support/commercial flows with 2 steps
+  const depth = 0.85;
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  // Phase 1: Vertical stem (0% to 25%)
-  const stemProgress = useTransform(progress, [0, 0.25], [0, 1]);
-  const stemBackground = useTransform(stemProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const stemBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, pos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${pos}%,
+      transparent ${Math.min(100, pos + 35)}%
     )`;
   });
 
-  // Phase 2: Horizontal split (25% to 55%)
-  const splitProgress = useTransform(progress, [0.25, 0.55], [0, 1]);
-  const splitOpacity = useTransform(
-    progress,
-    [0.2, 0.3, 0.5, 0.6],
-    [0, 1, 1, 0]
-  );
+  const splitOpacity = useTransform(sweepPosition, (pos) => {
+    if (pos < 20 || pos > 80) return 0;
+    return Math.max(0, 1 - Math.abs(pos - 50) / 30);
+  });
 
-  // Left branch travels from center to left edge
-  const leftBackground = useTransform(splitProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = 100 - clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const leftBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 20 || pos > 80) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 30);
+    const spotPos = 100 - (pos - 20) * (100 / 60);
     return `linear-gradient(to left,
-      transparent ${Math.max(0, 100 - spotPos - 30)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, 100 - spotPos - 15)}%,
-      rgba(58, 123, 213, ${intensity}) ${100 - spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, 100 - spotPos + 25)}%,
-      transparent ${Math.min(100, 100 - spotPos + 50)}%
+      transparent ${Math.max(0, 100 - spotPos - 25)}%,
+      rgba(58, 123, 213, ${0.6 * intensity}) ${100 - spotPos}%,
+      transparent ${Math.min(100, 100 - spotPos + 25)}%
     )`;
   });
 
-  // Right branch travels from center to right edge
-  const rightBackground = useTransform(splitProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const rightBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 20 || pos > 80) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 30);
+    const spotPos = (pos - 20) * (100 / 60);
     return `linear-gradient(to right,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, spotPos - 25)}%,
+      rgba(58, 123, 213, ${0.6 * intensity}) ${spotPos}%,
+      transparent ${Math.min(100, spotPos + 25)}%
     )`;
   });
 
-  // Phase 3: Vertical drops (55% to 100%)
-  const dropProgress = useTransform(progress, [0.55, 1], [0, 1]);
-  const dropOpacity = useTransform(progress, [0.5, 0.6, 0.9, 1], [0, 1, 1, 0]);
+  const dropOpacity = useTransform(sweepPosition, (pos) => {
+    if (pos < 40 || pos > 100) return 0;
+    return Math.max(0, 1 - Math.abs(pos - 70) / 30);
+  });
 
-  const dropBackground = useTransform(dropProgress, (p) => {
-    const clampedP = Math.max(0, Math.min(1, p));
-    const edgeFade = Math.min(clampedP * 5, (1 - clampedP) * 3, 1);
-    const spotPos = clampedP * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const dropBackground = useTransform(sweepPosition, (pos) => {
+    if (pos < 30 || pos > 110) return "transparent";
+    const intensity = Math.max(0, 1 - Math.abs(pos - 70) / 40);
+    const spotPos = (pos - 30) * (100 / 80);
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 50)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 25)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 15)}%,
-      transparent ${Math.min(100, spotPos + 30)}%
+      transparent ${Math.max(0, spotPos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${spotPos}%,
+      transparent ${Math.min(100, spotPos + 35)}%
     )`;
   });
-
-  useEffect(() => {
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-
-    const branchStart =
-      index * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const branchDuration = cycleDuration * 0.15;
-
-    const controls = animate(progress, [0, 1], {
-      duration: branchDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - branchDuration,
-      delay: branchStart,
-      ease: "easeInOut",
-    });
-
-    return () => controls.stop();
-  }, [progress, index, cycleDuration]);
 
   return (
     <motion.div
@@ -913,16 +768,17 @@ function BranchCard({
   totalSteps,
   cycleDuration,
 }: BranchCardProps) {
-  const progress = useMotionValue(0);
-  const opacity = useMotionValue(0);
+  // Branch cards are at the end of the flow, slight offset by branch position
+  const depth = 1.0 + branchIndex * 0.05;
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  const colorValues = {
-    blue: "#3a7bd5",
-    green: "#22c55e",
-    amber: "#f59e0b",
-    red: "#ef4444",
+  const colorRgbValues = {
+    blue: "58, 123, 213",
+    green: "34, 197, 94",
+    amber: "245, 158, 11",
+    red: "239, 68, 68",
   };
-  const colorValue = colorValues[color];
+  const colorRgb = colorRgbValues[color];
 
   const bgColors = {
     blue: "bg-accent/10",
@@ -938,55 +794,20 @@ function BranchCard({
     red: "text-red-500",
   };
 
-  const background = useTransform([progress, opacity], ([p, o]) => {
-    const alpha = Math.round((o as number) * 255)
-      .toString(16)
-      .padStart(2, "0");
-    const alphaFaded = Math.round((o as number) * 64)
-      .toString(16)
-      .padStart(2, "0");
+  const background = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
 
-    const colorHex = `${colorValue}${alpha}`;
-    const colorFaded = `${colorValue}${alphaFaded}`;
-    const spread = (p as number) * 180;
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
 
-    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
-            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+    return `linear-gradient(
+      135deg,
+      transparent ${Math.max(0, pos - 45)}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.max(0, pos - 22)}%,
+      rgba(${colorRgb}, ${0.9 * intensity}) ${pos}%,
+      rgba(${colorRgb}, ${0.2 * intensity}) ${Math.min(100, pos + 22)}%,
+      transparent ${Math.min(100, pos + 45)}%
+    )`;
   });
-
-  useEffect(() => {
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-    const branchDuration = cycleDuration * 0.15;
-
-    const lastCardIndex = totalSteps - 1;
-    const branchStart =
-      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const resultStart = branchStart + branchDuration * 0.75;
-    const resultAnimDuration = cycleDuration * 0.12;
-
-    const progressControls = animate(progress, [0, 1], {
-      duration: resultAnimDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - resultAnimDuration,
-      delay: resultStart,
-      ease: "easeInOut",
-    });
-
-    const opacityControls = animate(opacity, [0, 1, 1, 0], {
-      duration: resultAnimDuration,
-      times: [0, 0.1, 0.85, 1],
-      repeat: Infinity,
-      repeatDelay: cycleDuration - resultAnimDuration,
-      delay: resultStart,
-      ease: "linear",
-    });
-
-    return () => {
-      progressControls.stop();
-      opacityControls.stop();
-    };
-  }, [progress, opacity, totalSteps, cycleDuration]);
 
   return (
     <motion.div variants={flowStepVariants} className="relative">
@@ -1034,59 +855,24 @@ function OutputCard({
   totalSteps,
   cycleDuration,
 }: OutputCardProps) {
-  const progress = useMotionValue(0);
-  const opacity = useMotionValue(0);
+  // Output cards are at the very bottom
+  const depth = 1.3 + outputIndex * 0.05;
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  const background = useTransform([progress, opacity], ([p, o]) => {
-    const alpha = Math.round((o as number) * 200)
-      .toString(16)
-      .padStart(2, "0");
-    const alphaFaded = Math.round((o as number) * 50)
-      .toString(16)
-      .padStart(2, "0");
+  const background = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
 
-    const colorHex = `#3a7bd5${alpha}`;
-    const colorFaded = `#3a7bd5${alphaFaded}`;
-    const spread = (p as number) * 180;
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
 
-    return `conic-gradient(from ${-spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg),
-            conic-gradient(from ${spread}deg, ${colorHex}, ${colorFaded} 15deg, transparent 30deg, transparent 330deg, ${colorFaded} 345deg, ${colorHex} 360deg)`;
+    return `linear-gradient(
+      135deg,
+      transparent ${Math.max(0, pos - 45)}%,
+      rgba(58, 123, 213, ${0.15 * intensity}) ${Math.max(0, pos - 22)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${pos}%,
+      rgba(58, 123, 213, ${0.15 * intensity}) ${Math.min(100, pos + 22)}%,
+      transparent ${Math.min(100, pos + 45)}%
+    )`;
   });
-
-  useEffect(() => {
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-    const branchDuration = cycleDuration * 0.15;
-    const branchCardDuration = cycleDuration * 0.12;
-
-    const lastCardIndex = totalSteps - 1;
-    const branchStart =
-      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const outputStart = branchStart + branchDuration + branchCardDuration * 0.5;
-    const outputAnimDuration = cycleDuration * 0.15;
-
-    const progressControls = animate(progress, [0, 1], {
-      duration: outputAnimDuration,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - outputAnimDuration,
-      delay: outputStart + outputIndex * 0.1,
-      ease: "easeInOut",
-    });
-
-    const opacityControls = animate(opacity, [0, 1, 1, 0], {
-      duration: outputAnimDuration,
-      times: [0, 0.1, 0.85, 1],
-      repeat: Infinity,
-      repeatDelay: cycleDuration - outputAnimDuration,
-      delay: outputStart + outputIndex * 0.1,
-      ease: "linear",
-    });
-
-    return () => {
-      progressControls.stop();
-      opacityControls.stop();
-    };
-  }, [progress, opacity, outputIndex, totalSteps, cycleDuration]);
 
   return (
     <motion.div variants={flowStepVariants} className="relative">
@@ -1121,44 +907,21 @@ interface OutputConnectorProps {
 }
 
 function OutputConnector({ totalSteps, cycleDuration }: OutputConnectorProps) {
-  const progress = useMotionValue(0);
+  // Output connector is between branch cards and output cards
+  const depth = 1.2;
+  const sweepPosition = useDiagonalSweep(depth, cycleDuration);
 
-  const background = useTransform(progress, (p) => {
-    const edgeFade = Math.min(p * 5, (1 - p) * 5, 1);
-    const spotPos = p * 100;
-    const intensity = 0.8 * edgeFade;
-    const trailIntensity = 0.3 * edgeFade;
+  const background = useTransform(sweepPosition, (pos) => {
+    if (pos < -40 || pos > 140) return "transparent";
+
+    const intensity = Math.max(0, 1 - Math.abs(pos - 50) / 90);
 
     return `linear-gradient(to bottom,
-      transparent ${Math.max(0, spotPos - 40)}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.max(0, spotPos - 20)}%,
-      rgba(58, 123, 213, ${intensity}) ${spotPos}%,
-      rgba(58, 123, 213, ${trailIntensity}) ${Math.min(100, spotPos + 10)}%,
-      transparent ${Math.min(100, spotPos + 20)}%
+      transparent ${Math.max(0, pos - 35)}%,
+      rgba(58, 123, 213, ${0.7 * intensity}) ${pos}%,
+      transparent ${Math.min(100, pos + 35)}%
     )`;
   });
-
-  useEffect(() => {
-    const cardDuration = cycleDuration * 0.1;
-    const connectorDuration = cycleDuration * 0.025;
-    const branchDuration = cycleDuration * 0.15;
-    const branchCardDuration = cycleDuration * 0.12;
-
-    const lastCardIndex = totalSteps - 1;
-    const branchStart =
-      lastCardIndex * (cardDuration + connectorDuration) + cardDuration * 0.9;
-    const connStart = branchStart + branchDuration + branchCardDuration * 0.3;
-
-    const controls = animate(progress, [0, 1], {
-      duration: connectorDuration * 2,
-      repeat: Infinity,
-      repeatDelay: cycleDuration - connectorDuration * 2,
-      delay: connStart,
-      ease: "linear",
-    });
-
-    return () => controls.stop();
-  }, [progress, totalSteps, cycleDuration]);
 
   return (
     <motion.div
@@ -1258,7 +1021,7 @@ export function UseCasesSectionClient({
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    const interval = setInterval(nextSlide, 5000);
+    const interval = setInterval(nextSlide, 12000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, nextSlide]);
 
