@@ -6,31 +6,22 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
+  useMotionValue,
+  animate,
   easings,
   durations,
 } from "@/lib/motion";
 import { EyebrowBadge } from "@/lib/ui";
 
-type HeroSectionProps = {
-  eyebrowText: string;
-  titleDefault: string;
-  titleThin: string;
-  titleAccent: string;
-  subtitle: string;
-  ctaText: string;
-  ctaSecondaryText: string;
-  ctaSecondaryAriaLabel: string;
-};
+import type { HeroContent } from "@/lib/sections/types";
+
+type HeroSectionProps = HeroContent;
 
 export function HeroSection({
-  eyebrowText,
-  titleDefault,
-  titleThin,
-  titleAccent,
+  eyebrow,
+  title,
   subtitle,
-  ctaText,
-  ctaSecondaryText,
-  ctaSecondaryAriaLabel,
+  cta,
 }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -43,6 +34,23 @@ export function HeroSection({
 
   // Combine: show halos only after mount AND if user doesn't prefer reduced motion
   const showAnimatedHalos = hasMounted && !prefersReducedMotion;
+
+  // Entrance animation progress (0 → 1) with staggered delays
+  const entranceEyebrow = useMotionValue(0);
+  const entranceTitle = useMotionValue(0);
+  const entranceSubtitle = useMotionValue(0);
+  const entranceCta = useMotionValue(0);
+
+  useEffect(() => {
+    const easing = [0.16, 1, 0.3, 1] as const;
+    const duration = 1.2;
+
+    // Staggered entrance animations
+    animate(entranceEyebrow, 1, { delay: 1.2, duration, ease: easing });
+    animate(entranceTitle, 1, { delay: 1.3, duration, ease: easing });
+    animate(entranceSubtitle, 1, { delay: 1.4, duration, ease: easing });
+    animate(entranceCta, 1, { delay: 1.5, duration, ease: easing });
+  }, [entranceEyebrow, entranceTitle, entranceSubtitle, entranceCta]);
 
   // Scroll-driven fade out
   const { scrollYProgress } = useScroll({
@@ -58,29 +66,52 @@ export function HeroSection({
   const haloScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.85]);
 
   // Eyebrow - starts immediately, shrinks slightly
-  const eyebrowOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
+  const eyebrowScrollOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
   const eyebrowScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.92]);
+  const eyebrowOpacity = useTransform(
+    [entranceEyebrow, eyebrowScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Title - shrinks more noticeably (main focal point)
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const titleScrollOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 0.35], [1, 0.88]);
+  const titleOpacity = useTransform(
+    [entranceTitle, titleScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Subtitle - subtle shrink
-  const subtitleOpacity = useTransform(scrollYProgress, [0.02, 0.35], [1, 0]);
+  const subtitleScrollOpacity = useTransform(
+    scrollYProgress,
+    [0.02, 0.35],
+    [1, 0]
+  );
   const subtitleScale = useTransform(scrollYProgress, [0.02, 0.35], [1, 0.94]);
+  const subtitleOpacity = useTransform(
+    [entranceSubtitle, subtitleScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // CTAs - subtle shrink
-  const ctaOpacity = useTransform(scrollYProgress, [0.04, 0.35], [1, 0]);
+  const ctaScrollOpacity = useTransform(scrollYProgress, [0.04, 0.35], [1, 0]);
   const ctaScale = useTransform(scrollYProgress, [0.04, 0.35], [1, 0.95]);
+  const ctaOpacity = useTransform(
+    [entranceCta, ctaScrollOpacity],
+    ([entrance, scroll]) => (entrance as number) * (scroll as number)
+  );
 
   // Global container opacity - used to hide the fixed container completely
   const containerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative isolate h-[115vh] w-full">
+    <section
+      ref={sectionRef}
+      className="relative isolate h-[115vh] w-full overflow-hidden"
+    >
       {/* Fixed container - stays absolutely fixed in viewport center */}
       <motion.div
-        className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center"
+        className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden"
         style={{
           opacity: containerOpacity,
           pointerEvents: useTransform(containerOpacity, (v) =>
@@ -92,27 +123,23 @@ export function HeroSection({
           <div className="mx-auto max-w-3xl pt-24 text-center md:pt-32">
             {/* Eyebrow with scroll fade */}
             <motion.div
-              className="hero-entrance hero-entrance-1"
               style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
             >
-              <EyebrowBadge>{eyebrowText}</EyebrowBadge>
+              <EyebrowBadge className="mb-6 justify-center">
+                {eyebrow}
+              </EyebrowBadge>
             </motion.div>
 
             {/* Title with scroll fade */}
-            <motion.div
-              className="hero-entrance hero-entrance-2"
-              style={{ opacity: titleOpacity, scale: titleScale }}
-            >
+            <motion.div style={{ opacity: titleOpacity, scale: titleScale }}>
               {/* Breathing Halo - fades out FIRST like a sunset */}
               <div className="relative mx-auto">
                 {showAnimatedHalos && (
                   <>
-                    {/* Primary halo */}
+                    {/* Primary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[200px] w-[280px] rounded-full sm:h-[280px] sm:w-[500px] lg:h-[350px] lg:w-[950px]"
                       style={{
-                        width: 950,
-                        height: 350,
                         x: "-50%",
                         y: "-50%",
                         background:
@@ -130,12 +157,10 @@ export function HeroSection({
                         ease: easings.breathing,
                       }}
                     />
-                    {/* Secondary halo */}
+                    {/* Secondary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[150px] w-[220px] rounded-full sm:h-[200px] sm:w-[400px] lg:h-[266px] lg:w-[720px]"
                       style={{
-                        width: 720,
-                        height: 266,
                         x: "-50%",
                         y: "-50%",
                         background:
@@ -156,12 +181,12 @@ export function HeroSection({
                   </>
                 )}
                 <h1 className="text-4xl leading-[1.15] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                  <span className="font-semibold">{titleDefault}</span>
+                  <span className="font-semibold">{title.default}</span>
                   <span className="font-normal text-foreground/90">
-                    {titleThin}
+                    {title.thin}
                   </span>
                   <span className="glass-text font-semibold">
-                    {titleAccent}
+                    {title.accent}
                   </span>
                 </h1>
               </div>
@@ -169,7 +194,7 @@ export function HeroSection({
 
             {/* Subtitle with scroll fade */}
             <motion.p
-              className="hero-entrance hero-entrance-3 mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
+              className="mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
               style={{ opacity: subtitleOpacity, scale: subtitleScale }}
             >
               {subtitle}
@@ -177,7 +202,7 @@ export function HeroSection({
 
             {/* CTAs with scroll fade */}
             <motion.div
-              className="hero-entrance hero-entrance-4 mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
+              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
               style={{ opacity: ctaOpacity, scale: ctaScale }}
             >
               {/* Primary CTA with its own breathing halo */}
@@ -207,14 +232,19 @@ export function HeroSection({
                   />
                 )}
                 <motion.a
-                  href="#"
+                  href={cta.primary.href}
                   className="group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)]"
                   whileHover={{
                     scale: 1.02,
                     y: -2,
                   }}
                   whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  transition={{
+                    type: "spring" as const,
+                    stiffness: 400,
+                    damping: 15,
+                  }}
+                  aria-label={cta.primary.ariaLabel}
                 >
                   {/* Glass Sheen Effect */}
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -232,12 +262,12 @@ export function HeroSection({
                     }}
                   />
 
-                  <span className="relative z-10">{ctaText}</span>
+                  <span className="relative z-10">{cta.primary.label}</span>
 
                   <motion.div
                     className="relative z-10"
                     whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 400 }}
+                    transition={{ type: "spring" as const, stiffness: 400 }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -262,12 +292,16 @@ export function HeroSection({
                 </motion.a>
               </div>
               <motion.a
-                href="#examples"
+                href={cta.secondary.href}
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                aria-label={ctaSecondaryAriaLabel}
+                transition={{
+                  type: "spring" as const,
+                  stiffness: 400,
+                  damping: 20,
+                }}
+                aria-label={cta.secondary.ariaLabel}
               >
                 {/* Layered Glass Depth (Inner Border) */}
                 <div className="pointer-events-none absolute inset-[1px] rounded-[11px] border border-white/80 opacity-60" />
@@ -279,7 +313,7 @@ export function HeroSection({
                 <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-[100%]" />
 
                 <span className="relative z-10 flex items-center gap-2">
-                  {ctaSecondaryText}
+                  {cta.secondary.label}
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"

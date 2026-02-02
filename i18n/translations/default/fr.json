@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "ZetisLabs — Automatisation alimentée par des agents IA",
-    "description": "ZetisLabs aide les entreprises à automatiser leurs processus en utilisant des flux de travail intelligents pilotés par des agents."
+    "title": "ZetisLabs — Gagnez 20h par semaine grâce à l'automatisation",
+    "description": "Vos équipes perdent du temps sur des tâches répétitives ? On automatise vos process et vous fait gagner jusqu'à 20h par semaine. ROI garanti."
   },
   "header": {
     "home": "Home",
@@ -20,149 +20,133 @@
   },
   "home": {
     "sections": [
-      { "type": "whatWeMake", "id": "what-we-make" },
-      { "type": "stack", "id": "stack-integration" },
+      { "type": "problemSolution", "id": "problem-solution" },
       { "type": "useCases", "id": "use-cases" },
-      { "type": "whyZetisLabs", "id": "why-zetislabs" }
+      { "type": "process", "id": "process" }
     ],
     "hero": {
-      "eyebrow": "Vos journées disparaissent dans des tâches répétitives.",
+      "eyebrow": "Automatisation sur-mesure pour PME",
       "title": {
-        "default": "Nous automatisons les tâches qui ",
-        "thin": "ralentissent votre équipe. ",
-        "accent": ""
+        "default": "",
+        "thin": "20 heures gagnées par semaine. ",
+        "accent": "Par employé."
       },
-      "subtitle": "ZetisLabs construit des automatisations sur-mesure pour vous faire gagner plus de 20h par semaine.",
-      "cta": "Parler à un expert (15 min)",
-      "ctaSecondary": "Voir des exemples",
-      "ctaSecondaryAriaLabel": "Voir des exemples de projets"
+      "subtitle": "Vos équipes perdent du temps sur des tâches répétitives ? On les automatise pour que vous puissiez vous concentrer sur ce qui fait vraiment avancer votre business.",
+      "cta": {
+        "primary": {
+          "label": "Estimer mon gain de temps",
+          "href": "#contact",
+          "ariaLabel": "Estimer mon gain de temps"
+        },
+        "secondary": {
+          "label": "Voir des exemples concrets",
+          "href": "#use-cases",
+          "ariaLabel": "Voir des exemples concrets"
+        }
+      }
+    },
+    "ProblemSolution": {
+      "titleProblem": "Combien d'heures perdues cette semaine ?",
+      "description": "Copier-coller des données entre outils\nRelancer les mêmes emails\nGénérer des rapports à la main\nVérifier des tableaux Excel\nRépondre aux mêmes questions\n\nCes tâches ne créent pas de valeur. Elles consomment du temps. Votre temps.",
+      "titleSolution": "On automatise, vous respirez",
+      "body": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
+      "stat": {
+        "value": "20h",
+        "label": "gagnées en moyenne par semaine"
+      },
+      "accent": "Résultat : vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
+    },
+    "Trust": {
+      "title": "Vous hésitez encore ? Pas eux.",
+      "logos": {
+        "first": "Neede",
+        "second": "Controle-G",
+        "third": "Atelier Stéphane Fernandez"
+      }
+    },
+    "UseCases": {
+      "title": "Exemples concrets",
+      "infoCard": {
+        "first": {
+          "title": "Gestion commerciale",
+          "description": "Un CRM qui se met à jour automatiquement depuis vos emails, génère des relances, et produit un rapport hebdo.",
+          "footer": "Gain : 8h/semaine"
+        },
+        "second": {
+          "title": "Support client",
+          "description": "Un agent IA qui répond aux questions fréquentes, trie les demandes, et escalade les urgences. ",
+          "footer": "Gain : 12h/semaine"
+        },
+        "third": {
+          "title": "Administratif",
+          "description": "Factures générées automatiquement, rappels de paiement, synchronisation comptable. ",
+          "footer": "Gain : 6h/semaine"
+        }
+      }
+    },
+    "Process": {
+      "label": "Processus",
+      "title": "Comment ça marche",
+      "subtitle": "Des étapes simples pour transformer votre workflow",
+      "route": {
+        "1": {
+          "title": "Audit gratuit",
+          "description": "On identifie vos quick wins"
+        },
+        "2": {
+          "title": "Proposition chiffrée",
+          "description": "ROI estimé avant de commencer"
+        },
+        "3": {
+          "title": "Développement",
+          "description": "Itérations rapides, démos régulières"
+        },
+        "4": {
+          "title": "Résultats",
+          "description": "Vous mesurez le temps gagné dès le premier mois"
+        }
+      }
+    },
+    "qa": {
+      "title": "Questions fréquentes",
+      "questions": {
+        "1": {
+          "question": "Combien ça coûte ?",
+          "response": "Chaque projet est différent. On commence toujours par un audit gratuit de 30 minutes pour estimer le périmètre et vous donner un devis clair, sans surprise."
+        },
+        "2": {
+          "question": "Combien de temps pour voir des résultats ?",
+          "response": "Les premières automatisations sont généralement en place sous 2 à 4 semaines. Vous mesurez le temps gagné dès le premier mois."
+        },
+        "3": {
+          "question": "Ça fonctionne avec mes outils actuels ?",
+          "response": "Oui. On s'adapte à votre stack existante — CRM, ERP, outils métiers, Google Workspace, etc. Pas besoin de tout changer."
+        },
+        "4": {
+          "question": "Et si ça ne me convient pas ?",
+          "response": "L'audit est gratuit et sans engagement. Vous décidez ensuite si vous voulez avancer ou non, en toute transparence."
+        },
+        "5": {
+          "question": "C'est quoi la différence avec du no-code type Zapier ?",
+          "response": "On développe du code natif, pas des workflows visuels. Résultat : plus de flexibilité, moins de limites, et des solutions qui tiennent dans le temps."
+        }
+      }
     },
     "stack": {
       "title": "Compatible avec vos outils actuels."
     },
-    "whatWeMake": {
-      "title": "Nos solutions d’automatisation",
-      "description": "Nous construisons des systèmes d’automatisation sur mesure, capables de gérer les tâches répétitives, d’optimiser vos processus internes et de s’intégrer parfaitement à vos outils existants.",
-      "features": {
-        "aiAgents": {
-          "title": "Workflow Audit",
-          "subtitle": "The Blueprint.",
-          "description": "Nous analysons vos opérations pour identifier les goulots d'étranglement. Avant de coder, nous livrons un plan clair : ce qui doit être automatisé et ce qui doit rester humain.",
-          "cta": "Créer un agent"
-        },
-        "processAutomation": {
-          "title": "System Integration",
-          "subtitle": "The Engine.",
-          "description": "L'automatisation pure, basée sur des règles. Nous connectons vos outils pour déplacer des données structurées instantanément. Idéal pour les tâches répétitives à zéro marge d'erreur.",
-          "cta": "Créer une automatisation"
-        },
-        "intelligentWorkflows": {
-          "title": "AI Agents",
-          "subtitle": "The Intelligence.",
-          "description": "Quand les règles ne suffisent plus. Nous déployons des outils boostés à l'IA capables de \"raisonner\" : lire des emails complexes, prendre des décisions ou interagir en langage naturel.",
-          "cta": "Obtenir un audit"
-        }
-      }
-    },
-    "exampleProjects": {
-      "title": "Use cases",
-      "description": "Découvrez comment nous avons aidé les entreprises à automatiser leurs flux de travail et à économiser un temps précieux.",
-      "projects": {
-        "tabs": {
-          "project1": {
-            "title": "Pré-remplissage automatisé d’avis de valeur",
-            "description": "Analyser une demande d’estimation reçue par mail, extraire les informations essentielles, récupérer les données du marché local et générer une ébauche d’avis de valeur pour accélérer le travail de l’agence."
-          },
-          "project2": {
-            "title": "Sec Ops",
-            "description": "Enrichir les tickets de sécurité"
-          },
-          "project3": {
-            "title": "Dev Ops",
-            "description": "Convertir le langage naturel en appels API"
-          },
-          "project4": {
-            "title": "Ventes",
-            "description": "Générer des insights clients"
-          },
-          "project5": {
-            "title": "Vous",
-            "description": "Regardez cette vidéo pour entendre notre pitch"
-          }
-        },
-        "diagrams": {
-          "project1": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux IT Ops"
-          },
-          "project2": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Sec Ops"
-          },
-          "project3": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Dev Ops"
-          },
-          "project4": {
-            "image": "/diagrams/Capture d’écran 2025-11-23 à 14.16.52.png",
-            "alt": "Diagramme de flux Ventes"
-          }
-        }
-      }
-    },
-    "whyZetisLabs": {
-      "title": "Pourquoi ZetisLabs",
-      "description": "Nous combinons une technologie IA de pointe avec une expertise approfondie en automatisation pour fournir des solutions qui fonctionnent.",
-      "reasons": {
-        "expertise": {
-          "title": "Pas de Sur-Ingénierie",
-          "description": "Si un simple script suffit, on n'installe pas une IA complexe. On protège votre budget."
-        },
-        "scalability": {
-          "title": "Évolutivité & Sécurité",
-          "description": "Bâti sur une architecture de niveau entreprise qui grandit avec vous. Nos solutions privilégient la sécurité et la conformité tout en gérant une complexité croissante sans effort."
-        },
-        "results": {
-          "title": "Approche Chirurgicale",
-          "description": "On ne casse pas tout. On s'insère dans votre workflow existant pour fluidifier, pas pour perturber."
-        }
-      }
-    },
     "cta": {
-      "title": "Vous ne savez pas par où commencer ?",
-      "description": "On prend 15 minutes pour identifier ensemble la tâche la plus chronophage de votre semaine. Sans engagement.",
-      "primary": "Réserver mon créneau conseil",
-      "secondary": "Nous contacter",
-      "primaryAriaLabel": "Réserver mon créneau conseil",
-      "secondaryAriaLabel": "Nous contacter"
-    },
-    "useCases": {
-      "title": "Nos Outils",
-      "description": "Des solutions prêtes à l'emploi pour automatiser vos tâches les plus chronophages.",
-      "learnMore": "En savoir plus",
-      "cases": {
-        "mailWriter": {
-          "title": "Mail-Writer",
-          "subtitle": "Extension Chrome",
-          "description": "Écrivez des emails ultra-personnalisés en un clic. Mail-Writer apprend de vos emails envoyés (anonymisés) et utilise vos templates pour générer des réponses qui sonnent vraiment comme vous.",
-          "features": [
-            "Apprentissage sur vos emails envoyés (données anonymisées)",
-            "Templates intelligents pour gagner du temps",
-            "Service client premium avec personnalisation poussée",
-            "Confidentialité garantie : aucune fuite de données"
-          ]
-        },
-        "docGen": {
-          "title": "DocGen",
-          "subtitle": "Générateur de Documents",
-          "description": "Fini les copier-coller et les recherches de documents. Décrivez ce dont vous avez besoin, DocGen génère le document technique complet à partir de vos sources existantes.",
-          "features": [
-            "Génération à partir d'une simple description",
-            "Crée 80% de vos dossiers automatiquement",
-            "Fini les recherches et copier-coller fastidieux",
-            "Idéal pour dossiers techniques PME"
-          ]
-        }
+      "title": "Combien d'heures pourriez-vous récupérer ?",
+      "description": "Audit gratuit. On analyse vos process et on vous dit où vous pouvez gagner du temps.",
+      "primary": {
+        "label": "Réserver mon audit gratuit",
+        "href": "#contact",
+        "ariaLabel": "Réserver mon audit gratuit"
+      },
+      "secondary": {
+        "label": "En savoir plus",
+        "href": "#what-we-make",
+        "ariaLabel": "En savoir plus sur nos services"
       }
     }
   }

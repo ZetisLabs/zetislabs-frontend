@@ -5,11 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { WebGLCanvas } from "./WebGLCanvas";
 import { useInstancedGrid } from "./hooks/useInstancedGrid";
-import { useScrollHijack } from "./hooks/useScrollHijack";
-import {
-  useScrollHijackContext,
-  useWebGLAnimationMode,
-} from "@/components/providers";
+import { useWebGLAnimationMode } from "@/components/providers";
 import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
@@ -32,6 +28,22 @@ interface BackgroundMeshProps {
 /**
  * BackgroundMesh - The instanced mesh for the background grid
  */
+// Process section tracking state
+interface ProcessSectionState {
+  top: number;
+  height: number;
+  visible: boolean;
+}
+
+// Solution card tracking state
+interface SolutionCardState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  visible: boolean;
+}
+
 function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -39,28 +51,141 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
   const [introComplete, setIntroComplete] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
+  const [processSection, setProcessSection] = useState<ProcessSectionState>({
+    top: 0,
+    height: 0,
+    visible: false,
+  });
+  const [hoveredIcon, setHoveredIcon] = useState(0); // 0-3 for icons
+  const [previousIcon, setPreviousIcon] = useState(0); // Previous icon for crossfade
+  const [iconChangeTime, setIconChangeTime] = useState(0); // Time when icon changed
+  const lastHoveredIconRef = useRef(0);
+  const [pixelArtPosition, setPixelArtPosition] = useState({ x: 0, y: 0 }); // Center position of pixel art zone
+  const [solutionCard, setSolutionCard] = useState<SolutionCardState>({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    visible: false,
+  });
 
   const { size } = useThree();
 
-  // Track scroll progress and viewport height
+  // Track scroll progress, viewport height, and process section position
   useEffect(() => {
     const update = () => {
       const vh = window.innerHeight;
       setViewportHeight(vh);
       const progress = Math.min(window.scrollY / vh, 1);
       setScrollProgress(progress);
+
+      // Find and track Process section
+      const processEl = document.querySelector('[data-section="process"]');
+      if (processEl) {
+        const rect = processEl.getBoundingClientRect();
+        const isVisible = rect.top < vh && rect.bottom > 0;
+        setProcessSection({
+          top: rect.top,
+          height: rect.height,
+          visible: isVisible,
+        });
+      }
+
+      // Find and track Solution card
+      const solutionCardEl = document.querySelector("[data-solution-card]");
+      if (solutionCardEl) {
+        const rect = solutionCardEl.getBoundingClientRect();
+        const isVisible = rect.top < vh && rect.bottom > 0;
+        const cardData = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+          width: rect.width,
+          height: rect.height,
+          visible: isVisible,
+        };
+        setSolutionCard(cardData);
+      }
     };
 
     // Initial check
     update();
 
+    // Retry after a short delay to catch dynamically rendered elements
+    const retryTimeout = setTimeout(update, 500);
+    const retryTimeout2 = setTimeout(update, 1500);
+
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+
     return () => {
+      clearTimeout(retryTimeout);
+      clearTimeout(retryTimeout2);
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
   }, []);
+
+  // Track hover on process section cards
+  useEffect(() => {
+    const handleMouseEnter = (index: number) => {
+      if (lastHoveredIconRef.current !== index) {
+        setPreviousIcon(lastHoveredIconRef.current); // Store previous icon for crossfade
+        lastHoveredIconRef.current = index;
+        setHoveredIcon(index);
+        setIconChangeTime(performance.now() / 1000); // Convert to seconds
+      }
+    };
+
+    // Find all process cards and add hover listeners
+    const processSectionEl = document.querySelector('[data-section="process"]');
+    if (!processSectionEl) return;
+
+    // Track position of the pixel art zone (the empty div in the header)
+    const pixelArtZone = processSectionEl.querySelector(
+      "[data-pixel-art-zone]"
+    );
+    let updatePixelArtPosition: (() => void) | null = null;
+
+    if (pixelArtZone) {
+      updatePixelArtPosition = () => {
+        const rect = pixelArtZone.getBoundingClientRect();
+        // Get center position of the pixel art zone
+        setPixelArtPosition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        });
+      };
+      updatePixelArtPosition();
+      window.addEventListener("scroll", updatePixelArtPosition, {
+        passive: true,
+      });
+      window.addEventListener("resize", updatePixelArtPosition);
+    }
+
+    // Select cards in the grid (desktop uses grid-cols-4)
+    const cards = processSectionEl.querySelectorAll(".group");
+
+    const listeners: Array<{ el: Element; enter: () => void }> = [];
+
+    cards.forEach((card, index) => {
+      if (index < 4) {
+        // Only first 4 cards
+        const enter = () => handleMouseEnter(index);
+        card.addEventListener("mouseenter", enter);
+        listeners.push({ el: card, enter });
+      }
+    });
+
+    return () => {
+      listeners.forEach(({ el, enter }) => {
+        el.removeEventListener("mouseenter", enter);
+      });
+      if (updatePixelArtPosition) {
+        window.removeEventListener("scroll", updatePixelArtPosition);
+        window.removeEventListener("resize", updatePixelArtPosition);
+      }
+    };
+  }, [processSection.visible]); // Re-run when section becomes visible
 
   // Generate grid attributes
   const { count, attributes } = useInstancedGrid({
@@ -112,6 +237,23 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
           uViewportHeight: { value: size.height },
           uBaseColor: { value: BASE_COLOR },
           uAccentColor: { value: ACCENT_COLOR },
+          // Process section pixel art uniforms
+          uProcessSectionTop: { value: 0 },
+          uProcessSectionHeight: { value: 0 },
+          uProcessVisible: { value: 0 },
+          // Hover-triggered icon animation
+          uHoveredIcon: { value: 0 },
+          uPreviousIcon: { value: 0 },
+          uIconChangeTime: { value: 0 },
+          // Pixel art position (screen coordinates)
+          uPixelArtCenterX: { value: 0 },
+          uPixelArtCenterY: { value: 0 },
+          // Solution card (screen coordinates)
+          uSolutionCardX: { value: 0 },
+          uSolutionCardY: { value: 0 },
+          uSolutionCardWidth: { value: 0 },
+          uSolutionCardHeight: { value: 0 },
+          uSolutionCardVisible: { value: 0 },
         },
         transparent: true,
         depthWrite: false,
@@ -157,6 +299,31 @@ function BackgroundMesh({ cols, rows, animationMode }: BackgroundMeshProps) {
     materialRef.current.uniforms.uProgress.value = progress;
     materialRef.current.uniforms.uScrollProgress.value = scrollProgress;
     materialRef.current.uniforms.uViewportHeight.value = viewportHeight;
+
+    // Update process section uniforms
+    materialRef.current.uniforms.uProcessSectionTop.value = processSection.top;
+    materialRef.current.uniforms.uProcessSectionHeight.value =
+      processSection.height;
+    materialRef.current.uniforms.uProcessVisible.value = processSection.visible
+      ? 1.0
+      : 0.0;
+
+    // Update hover-triggered icon uniforms
+    materialRef.current.uniforms.uHoveredIcon.value = hoveredIcon;
+    materialRef.current.uniforms.uPreviousIcon.value = previousIcon;
+    materialRef.current.uniforms.uIconChangeTime.value = iconChangeTime;
+    // Update pixel art position uniforms
+    materialRef.current.uniforms.uPixelArtCenterX.value = pixelArtPosition.x;
+    materialRef.current.uniforms.uPixelArtCenterY.value = pixelArtPosition.y;
+
+    // Update solution card uniforms
+    materialRef.current.uniforms.uSolutionCardX.value = solutionCard.x;
+    materialRef.current.uniforms.uSolutionCardY.value = solutionCard.y;
+    materialRef.current.uniforms.uSolutionCardWidth.value = solutionCard.width;
+    materialRef.current.uniforms.uSolutionCardHeight.value =
+      solutionCard.height;
+    materialRef.current.uniforms.uSolutionCardVisible.value =
+      solutionCard.visible ? 1.0 : 0.0;
 
     // Update animation mode
     materialRef.current.uniforms.uAnimationMode.value = getAnimationModeValue(

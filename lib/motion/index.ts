@@ -58,6 +58,7 @@ export {
   useAnimation,
   useMotionValue,
   useSpring,
+  animate,
 } from "framer-motion";
 
 // Re-export types for TypeScript users

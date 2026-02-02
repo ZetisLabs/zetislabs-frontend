@@ -1,5 +1,6 @@
 import type { SectionConfig, SectionProps } from "./types";
 import { getSectionComponent, isValidSectionType } from "./registry";
+import { SectionErrorBoundary } from "./SectionErrorBoundary";
 
 interface SectionRendererProps extends SectionProps {
   /** Array of section configurations from i18n */
@@ -11,6 +12,7 @@ interface SectionRendererProps extends SectionProps {
  *
  * Server component that dynamically renders sections based on configuration.
  * Sections are rendered in the order they appear in the configuration array.
+ * Each section is wrapped in an error boundary to prevent cascading failures.
  */
 export function SectionRenderer({
   sections,
@@ -41,7 +43,15 @@ export function SectionRenderer({
           return null;
         }
 
-        return <Component key={config.id} locale={locale} t={t} dict={dict} />;
+        return (
+          <SectionErrorBoundary
+            key={config.id}
+            sectionId={config.id}
+            sectionType={config.type}
+          >
+            <Component locale={locale} t={t} dict={dict} />
+          </SectionErrorBoundary>
+        );
       })}
     </>
   );

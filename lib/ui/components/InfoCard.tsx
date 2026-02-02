@@ -26,7 +26,7 @@ export function InfoCard({
   return (
     <motion.div
       whileHover={{ scale: 1.015, borderColor: "var(--color-accent)" }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ type: "spring" as const, stiffness: 300, damping: 20 }}
       onClick={onClick}
       className={cn(
         "group relative flex flex-col gap-5 p-6",

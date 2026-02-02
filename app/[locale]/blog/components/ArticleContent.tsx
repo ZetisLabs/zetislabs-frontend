@@ -97,7 +97,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
 
           // Images
           img: ({ src, alt }) => {
-            if (!src) return null;
+            if (!src || typeof src !== "string") return null;
             // For external images, use regular img tag
             if (src.startsWith("http")) {
               return (

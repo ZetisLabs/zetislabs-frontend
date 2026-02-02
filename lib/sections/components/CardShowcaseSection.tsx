@@ -21,7 +21,7 @@ import { Reveal, CardCarousel } from "@/lib/motion";
 
 export function CardShowcaseSection() {
   return (
-    <section className="overflow-hidden bg-background py-20">
+    <section className="overflow-hidden py-20">
       <div className="mx-auto max-w-7xl space-y-24">
         {/* SECTION HEADER */}
         <div className="space-y-4 px-6 text-center">

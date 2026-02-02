@@ -21,7 +21,23 @@ const featureIcons: Record<(typeof featureKeys)[number], React.ReactNode> = {
  * Displays service cards showcasing the company's offerings.
  * Uses ServiceCard component with clean notification style.
  */
-export function WhatWeMakeSection({ t }: SectionProps) {
+export function WhatWeMakeSection({ t, dict }: SectionProps) {
+  // Defensive check: return null if required data is missing
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const homeData = dict.home as Record<string, any>;
+  const whatWeMakeData = homeData?.whatWeMake as
+    | { features?: Record<string, unknown> }
+    | undefined;
+
+  if (!whatWeMakeData?.features) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "[WhatWeMakeSection] Missing translation data: home.whatWeMake.features"
+      );
+    }
+    return null;
+  }
+
   return (
     <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
       <div className="mx-auto w-full max-w-screen-xl px-4">

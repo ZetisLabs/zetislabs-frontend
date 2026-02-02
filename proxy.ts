@@ -3,12 +3,12 @@ import type { NextRequest } from "next/server";
 import { defaultLocale, isValidLocale, locales } from "@/i18n/config";
 
 /**
- * Middleware for locale detection and routing
+ * Proxy for locale detection and routing
  * - Detects browser language preference
  * - Redirects root `/` to `/en` or `/fr` based on browser language
  * - Validates locale in URL and falls back to default if invalid
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Check if pathname already has a locale
@@ -74,8 +74,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - sitemap.xml, robots.txt (SEO files)
      * - public files (images, fonts, etc.)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|otf|ico)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|otf|ico)$).*)",
   ],
 };

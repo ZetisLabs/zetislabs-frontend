@@ -46,7 +46,7 @@ export function MetricCard({
           : {}
       }
       whileTap={isClickable ? { scale: 0.98 } : {}}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      transition={{ type: "spring" as const, stiffness: 400, damping: 25 }}
       className={cn(
         "group relative flex w-full flex-col",
         "rounded-3xl border border-border/50 bg-card p-6 md:p-8",
