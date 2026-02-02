@@ -18,7 +18,9 @@ const badgeLabels: Record<(typeof reasonKeys)[number], string> = {
  */
 export function WhyZetisLabsSection({ t, dict }: SectionProps) {
   // Defensive check: return null if required data is missing
-  const whyZetisLabsData = dict.home?.whyZetisLabs as
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const homeData = dict.home as Record<string, any>;
+  const whyZetisLabsData = homeData?.whyZetisLabs as
     | { reasons?: Record<string, unknown> }
     | undefined;
 

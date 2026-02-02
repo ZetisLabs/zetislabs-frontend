@@ -202,9 +202,10 @@ const ArticleRow = ({
 
 interface BlogClientProps {
   articles: Article[];
+  locale: string;
 }
 
-export function BlogClient({ articles }: BlogClientProps) {
+export function BlogClient({ articles, locale }: BlogClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -212,23 +213,21 @@ export function BlogClient({ articles }: BlogClientProps) {
   const featuredArticle = articles.find((a) => a.featured) || articles[0];
   const gridArticles = articles.filter((a) => !a.featured);
 
-  // Get selected article from URL (by slug)
+  // Get selected article from URL (by slug) - for backward compatibility with query params
   const articleSlug = searchParams.get("article");
   const selectedArticle = articleSlug
     ? articles.find((a) => a.slug === articleSlug) || null
     : null;
 
-  // Open article (updates URL)
+  // Navigate to article page (SEO-friendly URL)
   const openArticle = useCallback(
     (article: Article) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("article", article.slug);
-      router.push(`?${params.toString()}`, { scroll: false });
+      router.push(`/${locale}/blog/${article.slug}`);
     },
-    [router, searchParams]
+    [router, locale]
   );
 
-  // Close article (removes from URL)
+  // Close article modal (for backward compatibility)
   const closeArticle = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("article");

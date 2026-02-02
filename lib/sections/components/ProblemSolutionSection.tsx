@@ -13,7 +13,7 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-};
+} as const;
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -21,12 +21,12 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 80,
       damping: 20,
     },
   },
-};
+} as const;
 
 const listItemVariants = {
   hidden: { opacity: 0, x: -12 },
@@ -34,12 +34,12 @@ const listItemVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 20,
     },
   },
-};
+} as const;
 
 // Problem icons - simple SVG icons for each problem type
 const problemIcons = [

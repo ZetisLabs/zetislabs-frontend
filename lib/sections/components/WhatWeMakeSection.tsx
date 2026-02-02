@@ -23,7 +23,9 @@ const featureIcons: Record<(typeof featureKeys)[number], React.ReactNode> = {
  */
 export function WhatWeMakeSection({ t, dict }: SectionProps) {
   // Defensive check: return null if required data is missing
-  const whatWeMakeData = dict.home?.whatWeMake as
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const homeData = dict.home as Record<string, any>;
+  const whatWeMakeData = homeData?.whatWeMake as
     | { features?: Record<string, unknown> }
     | undefined;
 

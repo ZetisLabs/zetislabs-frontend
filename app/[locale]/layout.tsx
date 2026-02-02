@@ -3,12 +3,18 @@ import Header from "@/components/layout/Header";
 import LocaleScript from "@/components/ui/LocaleScript";
 import {
   EffectProvider,
-  ScrollHijackProvider,
   WebGLAnimationModeProvider,
 } from "@/components/providers";
 import { WebGLBackground } from "@/components/webgl/WebGLBackground";
 import { getTranslation } from "@/lib/i18n";
-import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
+import {
+  type Locale,
+  isValidLocale,
+  defaultLocale,
+  locales,
+} from "@/i18n/config";
+import { siteConfig } from "@/lib/seo/config";
+import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/JsonLd";
 
 type Props = {
   children: React.ReactNode;
@@ -22,9 +28,59 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : defaultLocale;
   const t = (key: string) => getTranslation(locale, key);
 
+  const title = t("metadata.title");
+  const description = t("metadata.description");
+  const url = `${siteConfig.url}/${locale}`;
+
+  // Build hreflang alternates
+  const languages: Record<string, string> = {};
+  for (const loc of locales) {
+    languages[loc] = `${siteConfig.url}/${loc}`;
+  }
+  languages["x-default"] = `${siteConfig.url}/${defaultLocale}`;
+
   return {
-    title: t("metadata.title"),
-    description: t("metadata.description"),
+    title,
+    description,
+    metadataBase: new URL(siteConfig.url),
+    alternates: {
+      canonical: url,
+      languages,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: siteConfig.name,
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      type: "website",
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: siteConfig.twitter,
+      images: [siteConfig.ogImage],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
   };
 }
 
@@ -37,6 +93,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <EffectProvider>
       <WebGLAnimationModeProvider defaultMode="intro">
+        {/* JSON-LD Structured Data */}
+        <OrganizationJsonLd />
+        <WebSiteJsonLd locale={locale} />
         {/* Set html lang attribute based on locale */}
         <LocaleScript />
         <WebGLBackground animationMode="intro" />

@@ -36,8 +36,18 @@ import {
   Target,
 } from "lucide-react";
 
+// Interface for flow step data
+interface FlowStepData {
+  id: number;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  auto?: boolean;
+  isCondition?: boolean;
+}
+
 // Flow step data for Administrative use case
-const adminFlowSteps = [
+const adminFlowSteps: FlowStepData[] = [
   {
     id: 1,
     icon: Receipt,
@@ -76,7 +86,7 @@ const adminFlowSteps = [
 ];
 
 // Flow step data for Support Client use case
-const supportFlowSteps = [
+const supportFlowSteps: FlowStepData[] = [
   {
     id: 1,
     icon: MessageSquare,
@@ -136,7 +146,7 @@ const supportOutputs = [
 ];
 
 // Flow step data for Commercial use case
-const commercialFlowSteps = [
+const commercialFlowSteps: FlowStepData[] = [
   {
     id: 1,
     icon: Mail,
@@ -268,7 +278,7 @@ const arrowVariants = {
  * Two rays start from top-center, spread around (one left, one right), meet at bottom-center
  */
 interface FlowStepCardProps {
-  step: (typeof adminFlowSteps)[0];
+  step: FlowStepData;
   index: number;
   totalSteps: number;
   cycleDuration: number;
@@ -1152,7 +1162,7 @@ export function UseCasesSectionClient({
                         zIndex: isActive ? 20 : 10 - Math.abs(relIndex),
                       }}
                       transition={{
-                        type: "spring",
+                        type: "spring" as const,
                         stiffness: 100,
                         damping: 18,
                         mass: 1,

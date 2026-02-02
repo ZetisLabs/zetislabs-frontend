@@ -37,7 +37,7 @@ export function ServiceCard({
         scale: 1.02,
         rotate: rotation * 0.5,
         y: -4,
-        transition: { type: "spring", stiffness: 400, damping: 25 },
+        transition: { type: "spring" as const, stiffness: 400, damping: 25 },
       }}
       className="group relative w-full max-w-sm overflow-hidden rounded-3xl border border-border/50 bg-card p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-shadow duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
     >

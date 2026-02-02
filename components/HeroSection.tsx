@@ -239,7 +239,11 @@ export function HeroSection({
                     y: -2,
                   }}
                   whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  transition={{
+                    type: "spring" as const,
+                    stiffness: 400,
+                    damping: 15,
+                  }}
                   aria-label={cta.primary.ariaLabel}
                 >
                   {/* Glass Sheen Effect */}
@@ -263,7 +267,7 @@ export function HeroSection({
                   <motion.div
                     className="relative z-10"
                     whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 400 }}
+                    transition={{ type: "spring" as const, stiffness: 400 }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +296,11 @@ export function HeroSection({
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                transition={{
+                  type: "spring" as const,
+                  stiffness: 400,
+                  damping: 20,
+                }}
                 aria-label={cta.secondary.ariaLabel}
               >
                 {/* Layered Glass Depth (Inner Border) */}

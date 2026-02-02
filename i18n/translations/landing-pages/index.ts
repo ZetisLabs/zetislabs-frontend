@@ -33,25 +33,32 @@ import variantDEn from "./D/en.json";
 export type LandingVariant = "A" | "B" | "C" | "D";
 export type LandingLocale = "en" | "fr";
 
-export type LandingTranslation = typeof variantAFr;
+// Each variant has a different structure for A/B testing
+export type LandingTranslationA = typeof variantAFr;
+export type LandingTranslationB = typeof variantBFr;
+export type LandingTranslationC = typeof variantCFr;
+export type LandingTranslationD = typeof variantDFr;
 
-const translations: Record<
-  LandingVariant,
-  Record<LandingLocale, LandingTranslation>
-> = {
+export type LandingTranslation =
+  | LandingTranslationA
+  | LandingTranslationB
+  | LandingTranslationC
+  | LandingTranslationD;
+
+const translations = {
   A: { fr: variantAFr, en: variantAEn },
   B: { fr: variantBFr, en: variantBEn },
   C: { fr: variantCFr, en: variantCEn },
   D: { fr: variantDFr, en: variantDEn },
-};
+} as const;
 
 /**
  * Get translations for a specific landing page variant and locale
  */
-export function getLandingTranslation(
-  variant: LandingVariant,
+export function getLandingTranslation<V extends LandingVariant>(
+  variant: V,
   locale: LandingLocale
-): LandingTranslation {
+) {
   return translations[variant][locale];
 }
 
