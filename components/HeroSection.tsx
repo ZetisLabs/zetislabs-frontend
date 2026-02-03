@@ -114,7 +114,7 @@ export function HeroSection({
   return (
     <section
       ref={sectionRef}
-      className="relative isolate h-[115vh] w-full overflow-hidden"
+      className="relative isolate h-[110vh] w-full overflow-hidden md:h-[115vh]"
     >
       {/* Fixed container - stays absolutely fixed in viewport center */}
       <motion.div
@@ -125,7 +125,7 @@ export function HeroSection({
         }}
       >
         <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl pt-24 text-center md:pt-32">
+          <div className="mx-auto max-w-3xl pt-20 text-center sm:pt-24 md:pt-32">
             {/* Eyebrow with scroll fade */}
             <motion.div
               style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
@@ -207,14 +207,14 @@ export function HeroSection({
 
             {/* CTAs with scroll fade */}
             <motion.div
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
+              className="mt-8 flex w-full flex-col items-center justify-center gap-4 px-4 sm:w-auto sm:flex-row sm:px-0 md:mt-10"
               style={{ opacity: ctaOpacity, scale: ctaScale }}
             >
               {/* Primary CTA with its own breathing halo */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 {showAnimatedHalos && (
                   <motion.div
-                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 hidden rounded-full sm:block"
                     style={{
                       width: 420,
                       height: 420,
@@ -238,7 +238,7 @@ export function HeroSection({
                 )}
                 <motion.a
                   href={cta.primary.href}
-                  className="group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)]"
+                  className="group relative isolate inline-flex h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:h-auto sm:w-auto"
                   whileHover={{
                     scale: 1.02,
                     y: -2,
@@ -298,7 +298,7 @@ export function HeroSection({
               </div>
               <motion.a
                 href={cta.secondary.href}
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
+                className="group relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:h-auto sm:w-auto"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{
