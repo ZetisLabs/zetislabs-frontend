@@ -238,7 +238,7 @@ export function HeroSection({
                 )}
                 <motion.a
                   href={cta.primary.href}
-                  className="group relative isolate inline-flex min-h-[48px] w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-6 py-3 text-[15px] font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:min-h-0 sm:px-8 sm:py-3.5 sm:text-base"
+                  className="group relative isolate inline-flex h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:h-auto sm:w-auto"
                   whileHover={{
                     scale: 1.02,
                     y: -2,
@@ -298,7 +298,7 @@ export function HeroSection({
               </div>
               <motion.a
                 href={cta.secondary.href}
-                className="group relative inline-flex min-h-[48px] w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-6 py-3 text-[15px] font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:min-h-0 sm:px-8 sm:text-base"
+                className="group relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:h-auto sm:w-auto"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{
