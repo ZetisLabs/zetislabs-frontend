@@ -280,7 +280,7 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
                     {featuredArticle.date}
                   </span>
                 </div>
-                <h2 className="font-sans text-3xl leading-[1.1] font-bold tracking-tight md:text-4xl lg:text-5xl">
+                <h2 className="font-sans text-2xl leading-[1.1] font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
                   {featuredArticle.title}
                 </h2>
                 <p className="max-w-xl font-sans text-base leading-relaxed text-foreground/60 md:text-lg">
@@ -325,7 +325,7 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`cursor-pointer rounded-[4px] px-4 py-1.5 text-[10px] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-all duration-200 ${
+              className={`h-10 cursor-pointer rounded-[4px] px-4 py-2 text-[10px] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-all duration-200 active:scale-95 ${
                 activeCategory === category
                   ? "bg-foreground text-background"
                   : "text-foreground/40 hover:bg-foreground/5 hover:text-foreground"
