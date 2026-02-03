@@ -472,7 +472,7 @@ const MobileUseCaseCard = ({
 
         <a
           href="#"
-          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground shadow-sm shadow-accent/20 transition-transform duration-300 hover:scale-105"
+          className="inline-flex h-12 items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-sm shadow-accent/20 transition-transform duration-300 active:scale-95"
         >
           {learnMoreLabel}
           <svg

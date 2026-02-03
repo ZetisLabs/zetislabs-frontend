@@ -34,7 +34,7 @@ export function CTAContent({
   return (
     <div ref={ref} className="mx-auto max-w-3xl text-center">
       <motion.h2
-        className="text-3xl font-semibold tracking-tight sm:text-4xl"
+        className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -52,8 +52,9 @@ export function CTAContent({
       </motion.p>
 
       {/* CTAs */}
-      <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <div className="mt-8 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
         <motion.div
+          className="w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -68,6 +69,7 @@ export function CTAContent({
         </motion.div>
 
         <motion.div
+          className="w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}

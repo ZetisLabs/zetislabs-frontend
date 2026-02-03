@@ -39,11 +39,11 @@ export function WhatWeMakeSection({ t, dict }: SectionProps) {
   }
 
   return (
-    <section className="flex min-h-[100dvh] flex-col justify-center pb-16 md:pb-32">
+    <section className="flex min-h-[100dvh] flex-col justify-center py-16 md:pb-32">
       <div className="mx-auto w-full max-w-screen-xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
               {t("home.whatWeMake.title")}
             </h2>
           </Reveal>
@@ -54,7 +54,7 @@ export function WhatWeMakeSection({ t, dict }: SectionProps) {
           </Reveal>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-8 grid max-w-6xl gap-4 sm:mt-12 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featureKeys.map((featureKey, index) => (
             <CardReveal key={featureKey} index={index} variant="lift">
               <ServiceCard
