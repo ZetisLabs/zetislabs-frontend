@@ -52,8 +52,9 @@ export function CTAContent({
       </motion.p>
 
       {/* CTAs */}
-      <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <div className="mt-8 flex w-full flex-col items-center justify-center gap-4 px-4 sm:w-auto sm:flex-row sm:px-0">
         <motion.div
+          className="w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -62,12 +63,14 @@ export function CTAContent({
             href={primaryCTA.href}
             variant="primary"
             ariaLabel={primaryCTA.ariaLabel}
+            className="w-full sm:w-auto"
           >
             {primaryCTA.label}
           </CTAButton>
         </motion.div>
 
         <motion.div
+          className="w-full sm:w-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -76,6 +79,7 @@ export function CTAContent({
             href={secondaryCTA.href}
             variant="secondary"
             ariaLabel={secondaryCTA.ariaLabel}
+            className="w-full sm:w-auto"
           >
             {secondaryCTA.label}
           </CTAButton>
