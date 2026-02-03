@@ -170,28 +170,28 @@ export function ProblemSolutionClient({
           {/* Problem Card */}
           <motion.div
             variants={cardVariants}
-            className="relative rounded-xl border border-border/40 bg-card p-4 sm:rounded-2xl sm:p-6 lg:p-8"
+            className="relative rounded-xl border border-border/40 bg-card p-5 sm:rounded-2xl sm:p-6 lg:p-8"
           >
             {/* Title */}
-            <h2 className="mb-4 text-lg font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
+            <h2 className="mb-4 text-xl font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
               {titleProblem}
             </h2>
 
             {/* Problem List */}
             <motion.ul
               variants={containerVariants}
-              className="mb-4 space-y-2 sm:mb-6 sm:space-y-3"
+              className="mb-4 space-y-2.5 sm:mb-6 sm:space-y-3"
             >
               {problemItems.map((item, idx) => (
                 <motion.li
                   key={idx}
                   variants={listItemVariants}
-                  className="flex items-start gap-2 text-foreground/70 sm:gap-3"
+                  className="flex items-start gap-3 text-foreground/70"
                 >
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-foreground/5 text-foreground/40 sm:h-6 sm:w-6 sm:rounded-lg">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-foreground/5 text-foreground/40">
                     {problemIcons[idx % problemIcons.length]}
                   </span>
-                  <span className="text-xs leading-relaxed sm:text-sm lg:text-base">
+                  <span className="text-sm leading-relaxed sm:text-sm lg:text-base">
                     {item}
                   </span>
                 </motion.li>
@@ -202,7 +202,7 @@ export function ProblemSolutionClient({
             {conclusion && (
               <motion.p
                 variants={listItemVariants}
-                className="border-t border-border/30 pt-3 text-xs text-foreground/60 italic sm:pt-4 sm:text-sm"
+                className="border-t border-border/30 pt-3 text-xs leading-relaxed text-foreground/60 italic sm:pt-4 sm:text-sm"
               >
                 {conclusion}
               </motion.p>
@@ -299,15 +299,15 @@ export function ProblemSolutionClient({
               style={{ background }}
             >
               {/* Inner card content */}
-              <div className="relative h-full rounded-[10px] bg-card p-4 sm:rounded-[14px] sm:p-6 lg:p-8">
+              <div className="relative h-full rounded-[10px] bg-card p-5 sm:rounded-[14px] sm:p-6 lg:p-8">
                 {/* Title with accent underline */}
-                <h2 className="relative mb-4 text-lg font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
+                <h2 className="relative mb-4 text-xl font-semibold tracking-tight text-foreground sm:mb-6 sm:text-2xl lg:text-3xl">
                   {titleSolution}
                   <span className="absolute -bottom-1 left-0 h-0.5 w-12 bg-accent/60 sm:w-16" />
                 </h2>
 
                 {/* Body */}
-                <p className="relative mb-4 text-xs leading-relaxed text-foreground/75 sm:mb-6 sm:text-sm lg:text-base">
+                <p className="relative mb-4 text-sm leading-relaxed text-foreground/75 sm:mb-6 sm:text-sm lg:text-base">
                   {body}
                 </p>
 
@@ -315,9 +315,9 @@ export function ProblemSolutionClient({
                 {accent && (
                   <motion.div
                     variants={listItemVariants}
-                    className="relative rounded-lg border border-accent/20 bg-accent/5 p-3 sm:rounded-xl sm:p-4"
+                    className="relative rounded-lg border border-accent/20 bg-accent/5 p-4 sm:rounded-xl sm:p-4"
                   >
-                    <p className="text-xs font-medium text-foreground/90 sm:text-sm lg:text-base">
+                    <p className="text-sm leading-relaxed font-medium text-foreground/90 sm:text-sm lg:text-base">
                       {accent}
                     </p>
                   </motion.div>
@@ -327,12 +327,12 @@ export function ProblemSolutionClient({
                 {stat && (
                   <motion.div
                     variants={listItemVariants}
-                    className="mt-4 flex flex-col items-center text-center sm:mt-6"
+                    className="mt-5 flex flex-col items-center text-center sm:mt-6"
                   >
-                    <span className="text-2xl font-semibold tracking-tight text-accent sm:text-3xl lg:text-4xl">
+                    <span className="text-3xl font-semibold tracking-tight text-accent sm:text-3xl lg:text-4xl">
                       {stat.value}
                     </span>
-                    <span className="text-[10px] text-foreground/50 sm:text-xs lg:text-sm">
+                    <span className="text-xs text-foreground/50 sm:text-xs lg:text-sm">
                       {stat.label}
                     </span>
                   </motion.div>
