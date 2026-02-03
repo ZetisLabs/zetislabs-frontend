@@ -18,13 +18,16 @@ npm run lint:fix # Auto-fix lint issues
 | Path                 | Purpose                                                                   |
 | -------------------- | ------------------------------------------------------------------------- |
 | `app/[locale]/`      | Internationalized pages (App Router)                                      |
-| `app/[locale]/blog/` | Blog listing page and components                                          |
+| `app/[locale]/blog/` | Blog listing and article pages                                            |
 | `articles/`          | Markdown articles organized by locale (en/, fr/)                          |
-| `components/`        | Page-specific sections (HeroSection, StackSection, etc.)                  |
+| `components/`        | Page-specific sections (HeroSection, CTAContent, etc.)                    |
+| `components/webgl/`  | WebGL background system with lazy loading                                 |
+| `components/seo/`    | JSON-LD structured data components                                        |
 | `lib/ui/`            | Reusable UI components (CTAButton, FeatureCard, ReasonCard, EyebrowBadge) |
 | `lib/motion/`        | Framer Motion animation library (Reveal, FadeIn, ScrollFade, etc.)        |
 | `lib/articles/`      | Article loading utilities (getAllArticles, getArticleBySlug)              |
 | `lib/sections/`      | Dynamic section composition system                                        |
+| `lib/seo/`           | SEO configuration (siteConfig)                                            |
 | `i18n/translations/` | Translation files (default/, landing-pages/A,B,C,D/)                      |
 
 ### Import Conventions
@@ -41,6 +44,17 @@ import { SectionRenderer, type SectionConfig } from "@/lib/sections";
 
 // Articles (blog)
 import { getAllArticles, getArticleBySlug, type Article } from "@/lib/articles";
+
+// SEO
+import { siteConfig } from "@/lib/seo/config";
+import {
+  ArticleJsonLd,
+  WebSiteJsonLd,
+  BreadcrumbJsonLd,
+} from "@/components/seo/JsonLd";
+
+// WebGL (use lazy version for performance)
+import { WebGLBackgroundLazy } from "@/components/webgl";
 ```
 
 ## Patterns & Rules
@@ -61,6 +75,19 @@ return (
     {children}
   </motion.div>
 );
+```
+
+### Hook Rules (Critical)
+
+Never call hooks inside JSX render or conditionally:
+
+```tsx
+// BAD - hooks in JSX render
+<motion.div style={{ y: useTransform(scrollY, [0, 1], [0, -50]) }} />;
+
+// GOOD - hooks at component top level
+const y = useTransform(scrollY, [0, 1], [0, -50]);
+<motion.div style={{ y }} />;
 ```
 
 ### Component Types
@@ -88,12 +115,15 @@ return (
 
 ### Available Section Types
 
-| Type           | Description          |
-| -------------- | -------------------- |
-| `whatWeMake`   | Feature cards grid   |
-| `stack`        | Logo constellation   |
-| `useCases`     | Sticky scroll slides |
-| `whyZetisLabs` | Reason cards grid    |
+| Type              | Description          |
+| ----------------- | -------------------- |
+| `whatWeMake`      | Feature cards grid   |
+| `stack`           | Logo constellation   |
+| `useCases`        | Sticky scroll slides |
+| `whyZetisLabs`    | Reason cards grid    |
+| `process`         | Pixel art steps      |
+| `problemSolution` | Problem/solution     |
+| `trust`           | Trust indicators     |
 
 ### Animation Guidelines
 
@@ -113,6 +143,19 @@ return (
 
 Variants: `primary` (blue glow, light sweep) | `secondary` (glass effect, chevron)
 
+### CTAContent
+
+Client component for CTA sections with in-view animations:
+
+```tsx
+<CTAContent
+  title="Ready to automate?"
+  description="Let's discuss your needs."
+  primaryCTA={{ label: "Book a call", href: "/contact", ariaLabel: "..." }}
+  secondaryCTA={{ label: "Learn more", href: "/about", ariaLabel: "..." }}
+/>
+```
+
 ### FeatureCard / ReasonCard
 
 ```tsx
@@ -128,11 +171,89 @@ Variants: `primary` (blue glow, light sweep) | `secondary` (glass effect, chevro
 </Reveal>
 ```
 
-## Blog System
+## WebGL Background System
 
 ### Architecture
 
-The blog uses a markdown-based article system with server-side rendering:
+The WebGL background uses Three.js with custom shaders and supports lazy loading for performance:
+
+```
+/components/webgl
+  /WebGLBackground.tsx      # Main WebGL component
+  /WebGLBackgroundLazy.tsx  # Lazy-loaded wrapper (use this!)
+  /WebGLCanvas.tsx          # Canvas setup
+  /hooks/                   # Custom hooks (useShaderMaterial, etc.)
+  /shaders/                 # GLSL shaders
+    /background.frag.ts     # Fragment shader with animation modes
+    /background.vert.ts     # Vertex shader
+    /includes/              # Shared shader code (noise, hsl)
+  /index.ts                 # Exports
+```
+
+### Lazy Loading (Performance)
+
+Always use `WebGLBackgroundLazy` instead of `WebGLBackground` directly:
+
+```tsx
+import { WebGLBackgroundLazy } from "@/components/webgl";
+
+// Defers Three.js loading until after LCP, improving performance by ~48%
+<WebGLBackgroundLazy animationMode="intro" loadDelay={100} />;
+```
+
+### Animation Modes
+
+| Mode    | Value | Description                             |
+| ------- | ----- | --------------------------------------- |
+| `none`  | 0     | No animation                            |
+| `intro` | 1     | Arc sunrise effect (home page)          |
+| `idle`  | 2     | Subtle breathing animation              |
+| `blog`  | 3     | Modular sweep - Swiss typographic style |
+
+To override animation mode in a layout:
+
+```tsx
+import { WebGLAnimationModeOverride } from "@/components/providers";
+
+export default function MyLayout({ children }) {
+  return (
+    <WebGLAnimationModeOverride mode="blog">
+      {children}
+    </WebGLAnimationModeOverride>
+  );
+}
+```
+
+## SEO Infrastructure
+
+### Configuration
+
+Central SEO config in `lib/seo/config.ts`:
+
+```tsx
+import { siteConfig } from "@/lib/seo/config";
+// siteConfig.name, siteConfig.url, siteConfig.description, etc.
+```
+
+### Structured Data (JSON-LD)
+
+```tsx
+import { ArticleJsonLd, WebSiteJsonLd, BreadcrumbJsonLd, OrganizationJsonLd } from "@/components/seo/JsonLd";
+
+// In layouts/pages:
+<WebSiteJsonLd locale={locale} />
+<ArticleJsonLd article={article} locale={locale} />
+<BreadcrumbJsonLd items={[{ name: "Blog", url: "/blog" }]} />
+```
+
+### Sitemap & Robots
+
+- `app/sitemap.ts` - Auto-generates sitemap with all locales and articles
+- `app/robots.ts` - Configures crawler rules
+
+## Blog System
+
+### Architecture
 
 ```
 /articles
@@ -142,7 +263,8 @@ The blog uses a markdown-based article system with server-side rendering:
     /mon-article.md
 
 /app/[locale]/blog
-  /page.tsx              # Server component - loads articles
+  /page.tsx              # Blog listing (server component)
+  /[slug]/page.tsx       # Article page with SEO metadata
   /layout.tsx            # Sets WebGL animation mode to "blog"
   /components
     /BlogClient.tsx      # Client component - interactivity
@@ -214,31 +336,6 @@ interface Article {
 
 Article content uses **IBMPlexSans** for all text including headings (not GeneralSans). This is handled by the `ArticleContent` component which wraps content in `font-sans`.
 
-### WebGL Animation Modes
-
-The WebGL background supports different animation modes per route:
-
-| Mode    | Value | Description                             |
-| ------- | ----- | --------------------------------------- |
-| `none`  | 0     | No animation                            |
-| `intro` | 1     | Arc sunrise effect (home page)          |
-| `idle`  | 2     | Subtle breathing animation              |
-| `blog`  | 3     | Modular sweep - Swiss typographic style |
-
-To override animation mode in a layout:
-
-```tsx
-import { WebGLAnimationModeOverride } from "@/components/providers";
-
-export default function MyLayout({ children }) {
-  return (
-    <WebGLAnimationModeOverride mode="blog">
-      {children}
-    </WebGLAnimationModeOverride>
-  );
-}
-```
-
 ## Design System
 
 - **Primary font**: GeneralSans (headings)
@@ -246,6 +343,37 @@ export default function MyLayout({ children }) {
 - **Path alias**: `@/` maps to project root
 - **Tailwind**: v4 with PostCSS
 - **TypeScript**: Strict mode enabled
+
+## Recent Updates (2025-02-02)
+
+### Performance Optimizations
+
+- **WebGL Lazy Loading**: New `WebGLBackgroundLazy` component defers Three.js bundle loading until after LCP, improving performance by ~48%
+- Uses `requestIdleCallback` for optimal scheduling with fallback
+
+### SEO Infrastructure
+
+- Added comprehensive SEO system with JSON-LD structured data
+- New `lib/seo/config.ts` for centralized SEO configuration
+- Auto-generated `sitemap.xml` and `robots.txt`
+- Article pages include full SEO metadata and structured data
+
+### New Components
+
+- `CTAContent`: Client component for CTA sections with in-view animations
+- `components/seo/JsonLd.tsx`: Organization, WebSite, Article, and Breadcrumb JSON-LD
+
+### Bug Fixes
+
+- Fixed hydration mismatches in UseCasesSection using simpler useState pattern
+- Moved useTransform calls out of JSX render in HeroSection
+- Resolved SSR mismatch issues with consistent component structure
+
+### i18n Updates
+
+- Primary CTAs now link to Calendly booking
+
+---
 
 # MCP Gemini Design - MANDATORY FOR FRONTEND
 
