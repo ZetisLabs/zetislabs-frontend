@@ -45,9 +45,6 @@
         }
       }
     },
-    "stack": {
-      "title": "Compatible with your current tools."
-    },
     "ProblemSolution": {
       "titleProblem": "How many hours lost this week?",
       "description": "Copy-pasting data between tools\nSending the same follow-up emails\nGenerating reports manually\nChecking Excel spreadsheets\nAnswering the same questions\n\nThese tasks don't create value. They consume time. Your time.",
