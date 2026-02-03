@@ -64,7 +64,7 @@ export function ProcessSectionClient({
   return (
     <section
       data-section="process"
-      className="relative scroll-section overflow-hidden py-24 sm:py-32 lg:py-40"
+      className="relative scroll-section overflow-hidden py-16 sm:py-24 lg:py-40"
     >
       <div className="relative mx-auto w-full max-w-6xl px-6 lg:px-8">
         {/* Header with pixel art zone on right */}
@@ -73,20 +73,20 @@ export function ProcessSectionClient({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="mb-16 sm:mb-20 lg:mb-24"
+          className="mb-8 sm:mb-16 lg:mb-24"
         >
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between lg:gap-12">
             {/* Left: Label, Title, Subtitle */}
             <div className="max-w-xl">
               {/* Label badge */}
-              <motion.div variants={itemVariants} className="mb-6">
+              <motion.div variants={itemVariants} className="mb-4 sm:mb-6">
                 <EyebrowBadge>{label}</EyebrowBadge>
               </motion.div>
 
               {/* Title */}
               <motion.h2
                 variants={itemVariants}
-                className="text-3xl leading-[1.15] font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+                className="text-2xl leading-[1.15] font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
               >
                 {title}
               </motion.h2>
@@ -176,30 +176,32 @@ export function ProcessSectionClient({
             </div>
           </div>
 
-          {/* Mobile: Stacked cards */}
-          <div className="flex flex-col gap-4 sm:hidden">
+          {/* Mobile: Compact horizontal layout */}
+          <div className="flex flex-col gap-3 sm:hidden">
             {steps.map((step, idx) => (
               <div
                 key={idx}
-                className="rounded-xl border border-border/40 bg-card/60 p-5"
+                className="flex items-start gap-4 rounded-xl border border-border/40 bg-card/60 p-4"
               >
-                {/* Header: Number left, Icon right */}
-                <div className="mb-4 flex items-start justify-between">
-                  <div className="text-3xl font-bold text-accent/20">
+                {/* Left: Number + Icon stacked */}
+                <div className="flex flex-col items-center gap-1">
+                  <div className="text-2xl font-bold text-accent/30">
                     {step.number}
                   </div>
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-background text-foreground/50">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-foreground/50">
                     {stepIcons[idx] || stepIcons[0]}
                   </div>
                 </div>
 
-                {/* Content */}
-                <h3 className="mb-1.5 text-sm font-medium text-foreground">
-                  {step.title}
-                </h3>
-                <p className="text-xs leading-relaxed text-foreground/55">
-                  {step.description}
-                </p>
+                {/* Right: Content */}
+                <div className="flex-1 pt-1">
+                  <h3 className="mb-1 text-base font-semibold text-foreground">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-foreground/60">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
