@@ -44,13 +44,29 @@ export function HeroSection({
 
   useEffect(() => {
     const easing = [0.16, 1, 0.3, 1] as const;
-    const duration = 1.2;
+    // Faster animations on mobile for snappier experience
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const duration = isMobile ? 0.8 : 1.2;
+    const baseDelay = isMobile ? 0.3 : 1.2;
+    const stagger = isMobile ? 0.08 : 0.1;
 
     // Staggered entrance animations
-    animate(entranceEyebrow, 1, { delay: 1.2, duration, ease: easing });
-    animate(entranceTitle, 1, { delay: 1.3, duration, ease: easing });
-    animate(entranceSubtitle, 1, { delay: 1.4, duration, ease: easing });
-    animate(entranceCta, 1, { delay: 1.5, duration, ease: easing });
+    animate(entranceEyebrow, 1, { delay: baseDelay, duration, ease: easing });
+    animate(entranceTitle, 1, {
+      delay: baseDelay + stagger,
+      duration,
+      ease: easing,
+    });
+    animate(entranceSubtitle, 1, {
+      delay: baseDelay + stagger * 2,
+      duration,
+      ease: easing,
+    });
+    animate(entranceCta, 1, {
+      delay: baseDelay + stagger * 3,
+      duration,
+      ease: easing,
+    });
   }, [entranceEyebrow, entranceTitle, entranceSubtitle, entranceCta]);
 
   // Scroll-driven fade out
@@ -207,14 +223,14 @@ export function HeroSection({
 
             {/* CTAs with scroll fade */}
             <motion.div
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
+              className="mt-8 flex w-full flex-col items-center justify-center gap-4 px-4 sm:w-auto sm:flex-row sm:px-0 md:mt-10"
               style={{ opacity: ctaOpacity, scale: ctaScale }}
             >
               {/* Primary CTA with its own breathing halo */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 {showAnimatedHalos && (
                   <motion.div
-                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 hidden rounded-full sm:block"
                     style={{
                       width: 420,
                       height: 420,
@@ -238,7 +254,7 @@ export function HeroSection({
                 )}
                 <motion.a
                   href={cta.primary.href}
-                  className="group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)]"
+                  className="group relative isolate inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:w-auto"
                   whileHover={{
                     scale: 1.02,
                     y: -2,
@@ -298,7 +314,7 @@ export function HeroSection({
               </div>
               <motion.a
                 href={cta.secondary.href}
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
+                className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:w-auto"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{
