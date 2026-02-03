@@ -941,6 +941,229 @@ function OutputConnector({ totalSteps, cycleDuration }: OutputConnectorProps) {
   );
 }
 
+// ============================================================================
+// MOBILE FLOW COMPONENTS
+// ============================================================================
+
+/**
+ * MobileFlowStep - Compact flow step for mobile
+ */
+function MobileFlowStep({
+  step,
+  isLast,
+}: {
+  step: FlowStepData;
+  isLast?: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      {/* Icon with connecting line */}
+      <div className="flex flex-col items-center">
+        <div
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+            step.isCondition ? "bg-amber-500/15" : "bg-accent/10"
+          }`}
+        >
+          <step.icon
+            className={`h-4 w-4 ${
+              step.isCondition ? "text-amber-600" : "text-accent"
+            }`}
+          />
+        </div>
+        {!isLast && (
+          <div className="mt-1 h-4 w-[2px] rounded-full bg-border/30" />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="-mt-0.5 min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="text-xs font-semibold text-foreground">{step.title}</p>
+          {step.auto && (
+            <span className="rounded bg-accent/10 px-1.5 py-0.5 text-[8px] font-bold tracking-wider text-accent uppercase">
+              Auto
+            </span>
+          )}
+          {step.isCondition && (
+            <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[8px] font-bold tracking-wider text-amber-600 uppercase">
+              Check
+            </span>
+          )}
+        </div>
+        <p className="text-[10px] text-foreground/50">{step.description}</p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * MobileBranchCard - Compact branch outcome for mobile
+ */
+function MobileBranchCard({
+  icon: Icon,
+  title,
+  color,
+}: {
+  icon: LucideIcon;
+  title: string;
+  color: "blue" | "green" | "amber" | "red";
+}) {
+  const bgColors = {
+    blue: "bg-accent/10",
+    green: "bg-green-500/15",
+    amber: "bg-amber-500/15",
+    red: "bg-red-500/15",
+  };
+
+  const textColors = {
+    blue: "text-accent",
+    green: "text-green-600",
+    amber: "text-amber-600",
+    red: "text-red-500",
+  };
+
+  return (
+    <div className="flex items-center gap-1.5 rounded-md bg-card/80 px-2 py-1.5">
+      <div
+        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded ${bgColors[color]}`}
+      >
+        <Icon className={`h-3 w-3 ${textColors[color]}`} />
+      </div>
+      <span className="text-[10px] font-medium text-foreground">{title}</span>
+    </div>
+  );
+}
+
+/**
+ * MobileFlowDiagram - Complete flow diagram for mobile
+ * Shows the automated process for each use case
+ *
+ * Card order in carousel:
+ * - Index 0: Gestion commerciale (Users icon) → Commercial Flow
+ * - Index 1: Support client (Headphones icon) → Support Flow
+ * - Index 2: Administratif (FileText icon) → Admin Flow
+ */
+function MobileFlowDiagram({ flowType }: { flowType: 0 | 1 | 2 }) {
+  // Commercial Flow (Gestion commerciale - index 0)
+  if (flowType === 0) {
+    return (
+      <div className="mt-4 rounded-xl border border-border/30 bg-background/50 p-4">
+        <p className="mb-3 text-[10px] font-medium tracking-wider text-foreground/40 uppercase">
+          Processus automatisé
+        </p>
+
+        {/* Flow steps */}
+        <div className="space-y-1">
+          {commercialFlowSteps.map((step, idx) => (
+            <MobileFlowStep
+              key={step.id}
+              step={step}
+              isLast={idx === commercialFlowSteps.length - 1}
+            />
+          ))}
+        </div>
+
+        {/* Branch indicator */}
+        <div className="my-3 flex items-center gap-2">
+          <div className="h-[1px] flex-1 bg-border/30" />
+          <span className="text-[9px] text-foreground/40">Résultats</span>
+          <div className="h-[1px] flex-1 bg-border/30" />
+        </div>
+
+        {/* Branches */}
+        <div className="flex flex-wrap gap-2">
+          {commercialBranches.map((branch) => (
+            <MobileBranchCard
+              key={branch.id}
+              icon={branch.icon}
+              title={branch.title}
+              color={branch.color}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Support Client Flow (Support client - index 1)
+  if (flowType === 1) {
+    return (
+      <div className="mt-4 rounded-xl border border-border/30 bg-background/50 p-4">
+        <p className="mb-3 text-[10px] font-medium tracking-wider text-foreground/40 uppercase">
+          Processus automatisé
+        </p>
+
+        {/* Flow steps */}
+        <div className="space-y-1">
+          {supportFlowSteps.map((step, idx) => (
+            <MobileFlowStep
+              key={step.id}
+              step={step}
+              isLast={idx === supportFlowSteps.length - 1}
+            />
+          ))}
+        </div>
+
+        {/* Branch indicator */}
+        <div className="my-3 flex items-center gap-2">
+          <div className="h-[1px] flex-1 bg-border/30" />
+          <span className="text-[9px] text-foreground/40">Résultats</span>
+          <div className="h-[1px] flex-1 bg-border/30" />
+        </div>
+
+        {/* Branches */}
+        <div className="flex flex-wrap gap-2">
+          {supportBranches.map((branch) => (
+            <MobileBranchCard
+              key={branch.id}
+              icon={branch.icon}
+              title={branch.title}
+              color={branch.color}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Administrative Flow (Administratif - index 2)
+  return (
+    <div className="mt-4 rounded-xl border border-border/30 bg-background/50 p-4">
+      <p className="mb-3 text-[10px] font-medium tracking-wider text-foreground/40 uppercase">
+        Processus automatisé
+      </p>
+
+      {/* Flow steps */}
+      <div className="space-y-1">
+        {adminFlowSteps.map((step, idx) => (
+          <MobileFlowStep
+            key={step.id}
+            step={step}
+            isLast={idx === adminFlowSteps.length - 1}
+          />
+        ))}
+      </div>
+
+      {/* Branch indicator */}
+      <div className="my-3 flex items-center gap-2">
+        <div className="h-[1px] flex-1 bg-border/30" />
+        <span className="text-[9px] text-foreground/40">Résultats</span>
+        <div className="h-[1px] flex-1 bg-border/30" />
+      </div>
+
+      {/* Outcome branches */}
+      <div className="flex gap-2">
+        <MobileBranchCard icon={CheckCircle} title="Payée" color="green" />
+        <MobileBranchCard icon={Bell} title="Relance auto" color="red" />
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// MAIN COMPONENT PROPS
+// ============================================================================
+
 /**
  * UseCasesSectionClientProps defines the structure for the translations and content.
  */
@@ -1094,7 +1317,7 @@ export function UseCasesSectionClient({
               return (
                 <div
                   key={item.id}
-                  className="w-[80vw] max-w-[320px] shrink-0 snap-center rounded-2xl border border-border/40 bg-card p-5 shadow-sm first:ml-0 sm:w-[70vw]"
+                  className="w-[85vw] max-w-[340px] shrink-0 snap-center rounded-2xl border border-border/40 bg-card p-5 shadow-sm first:ml-0 sm:w-[75vw]"
                 >
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                     <Icon className="h-5 w-5" />
@@ -1113,6 +1336,9 @@ export function UseCasesSectionClient({
                       {index + 1}/{useCases.length}
                     </span>
                   </div>
+
+                  {/* Mobile Flow Diagram */}
+                  <MobileFlowDiagram flowType={index as 0 | 1 | 2} />
                 </div>
               );
             })}
