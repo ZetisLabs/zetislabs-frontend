@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useInView, useReducedMotion, Reveal } from "@/lib/motion";
 
@@ -17,7 +17,10 @@ const stackLogos = [
   { name: "OpenAI", path: "/stack-logo/OpenAI SVG Icons.svg" },
   { name: "Python", path: "/stack-logo/Python SVG Vectors.svg" },
   { name: "Slack", path: "/stack-logo/Slack SVG Icons.svg" },
-  { name: "Google Calendar", path: "/stack-logo/Icône Calendrier Google.svg" },
+  {
+    name: "Google Calendar",
+    path: "/stack-logo/Icône Calendrier Google.svg",
+  },
   { name: "Airtable", path: "/stack-logo/Airtable SVG Icons.svg" },
   { name: "Google Docs", path: "/stack-logo/Google Docs SVG Icon.svg" },
 ];
@@ -38,16 +41,163 @@ const logoPositions = [
   { x: 23, y: 85, depth: 1.0 }, // docs - far, bottom-center
 ];
 
-export function StackSection({ title }: StackSectionProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, {
-    margin: "-16% 0px -15% 0px",
-    once: false,
-  });
-  const prefersReducedMotion = useReducedMotion();
+/**
+ * Mobile Logo Grid Component
+ * Simple grid layout for mobile devices
+ */
+function MobileLogoGrid() {
+  return (
+    <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 sm:gap-4">
+      {stackLogos.map((logo, index) => (
+        <motion.div
+          key={logo.name}
+          className="flex aspect-square items-center justify-center rounded-xl border border-border/40 bg-card p-3 shadow-sm"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.4,
+            delay: index * 0.05,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+          <Image
+            src={logo.path}
+            alt={logo.name}
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
-  // Pre-compute static logo data (size, blur, opacity, angle, etc.)
-  const logoAnimationData = useMemo(() => {
+/**
+ * Desktop Constellation Component
+ * Original animated constellation layout
+ */
+function DesktopConstellation({
+  containerRef,
+  isInView,
+  prefersReducedMotion,
+  logoAnimationData,
+  title,
+}: {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  isInView: boolean;
+  prefersReducedMotion: boolean | null;
+  logoAnimationData: ReturnType<typeof useLogoAnimationData>;
+  title: string;
+}) {
+  return (
+    <div
+      ref={containerRef}
+      className="relative mx-auto h-[600px] w-full lg:h-[700px]"
+    >
+      {logoAnimationData.map((data) => {
+        const {
+          logo,
+          position,
+          size,
+          blur,
+          opacity,
+          delay,
+          zIndex,
+          imageSize,
+          boxShadow,
+          hiddenX,
+          hiddenY,
+        } = data;
+
+        return (
+          <motion.div
+            key={logo.name}
+            className="absolute"
+            style={{
+              filter: `blur(${blur}px)`,
+              zIndex,
+            }}
+            initial={{
+              left: `${hiddenX}%`,
+              top: `${hiddenY}%`,
+              scale: 0.3,
+              opacity: 0,
+              x: "-50%",
+              y: "-50%",
+            }}
+            animate={
+              isInView
+                ? {
+                    left: `${position.x}%`,
+                    top: `${position.y}%`,
+                    scale: 1,
+                    opacity: opacity,
+                    x: "-50%",
+                    y: "-50%",
+                  }
+                : {
+                    left: `${hiddenX}%`,
+                    top: `${hiddenY}%`,
+                    scale: 0.3,
+                    opacity: 0,
+                    x: "-50%",
+                    y: "-50%",
+                  }
+            }
+            transition={{
+              duration: 1,
+              ease: [0, 0, 0.58, 1],
+              delay: prefersReducedMotion ? 0 : delay,
+            }}
+          >
+            <motion.div
+              className="group relative flex items-center justify-center rounded-2xl border border-border/40 bg-card shadow-lg"
+              style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                boxShadow,
+              }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Glassmorphism overlay */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                aria-hidden="true"
+              />
+
+              <Image
+                src={logo.path}
+                alt={logo.name}
+                width={imageSize}
+                height={imageSize}
+                className="relative z-10 object-contain"
+              />
+            </motion.div>
+          </motion.div>
+        );
+      })}
+
+      {/* Central Title - On Top */}
+      <div className="absolute inset-0 z-20 flex items-center justify-center">
+        <Reveal>
+          <h2 className="max-w-4xl px-4 text-center text-4xl font-semibold tracking-tight lg:text-5xl">
+            {title}
+          </h2>
+        </Reveal>
+      </div>
+    </div>
+  );
+}
+
+// Hook to compute logo animation data
+function useLogoAnimationData() {
+  return useMemo(() => {
     const centerX = 50;
     const centerY = 50;
     const minSize = 20;
@@ -85,111 +235,50 @@ export function StackSection({ title }: StackSectionProps) {
       };
     });
   }, []);
+}
+
+export function StackSection({ title }: StackSectionProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, {
+    margin: "-16% 0px -15% 0px",
+    once: false,
+  });
+  const prefersReducedMotion = useReducedMotion();
+  const logoAnimationData = useLogoAnimationData();
+
+  // Track mount state for hydration safety
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <section className="flex flex-col justify-center overflow-hidden py-16 md:py-32">
       <div className="mx-auto w-full max-w-screen-xl px-4">
         <div className="relative mx-auto max-w-6xl">
-          {/* Logos Container */}
-          <div
-            ref={containerRef}
-            className="relative mx-auto h-[500px] w-full sm:h-[600px] lg:h-[700px]"
-          >
-            {logoAnimationData.map((data) => {
-              const {
-                logo,
-                position,
-                size,
-                blur,
-                opacity,
-                delay,
-                zIndex,
-                imageSize,
-                boxShadow,
-                hiddenX,
-                hiddenY,
-              } = data;
-
-              return (
-                <motion.div
-                  key={logo.name}
-                  className="absolute"
-                  style={{
-                    filter: `blur(${blur}px)`,
-                    zIndex,
-                  }}
-                  initial={{
-                    left: `${hiddenX}%`,
-                    top: `${hiddenY}%`,
-                    scale: 0.3,
-                    opacity: 0,
-                    x: "-50%",
-                    y: "-50%",
-                  }}
-                  animate={
-                    isInView
-                      ? {
-                          left: `${position.x}%`,
-                          top: `${position.y}%`,
-                          scale: 1,
-                          opacity: opacity,
-                          x: "-50%",
-                          y: "-50%",
-                        }
-                      : {
-                          left: `${hiddenX}%`,
-                          top: `${hiddenY}%`,
-                          scale: 0.3,
-                          opacity: 0,
-                          x: "-50%",
-                          y: "-50%",
-                        }
-                  }
-                  transition={{
-                    duration: 1,
-                    ease: [0, 0, 0.58, 1],
-                    delay: prefersReducedMotion ? 0 : delay,
-                  }}
-                >
-                  <motion.div
-                    className="group relative flex items-center justify-center rounded-2xl border border-border/40 bg-card shadow-lg"
-                    style={{
-                      width: `${size}px`,
-                      height: `${size}px`,
-                      boxShadow,
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {/* Glassmorphism overlay */}
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      aria-hidden="true"
-                    />
-
-                    <Image
-                      src={logo.path}
-                      alt={logo.name}
-                      width={imageSize}
-                      height={imageSize}
-                      className="relative z-10 object-contain"
-                    />
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-
-            {/* Central Title - On Top */}
-            <div className="absolute inset-0 z-20 flex items-center justify-center">
+          {/* Mobile Layout: Title + Grid */}
+          <div className="md:hidden">
+            <div className="mb-8 text-center">
               <Reveal>
-                <h2 className="max-w-4xl px-4 text-center text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
+                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                   {title}
                 </h2>
               </Reveal>
             </div>
+            <MobileLogoGrid />
+          </div>
+
+          {/* Desktop Layout: Constellation */}
+          <div className="hidden md:block">
+            {hasMounted && (
+              <DesktopConstellation
+                containerRef={containerRef}
+                isInView={isInView}
+                prefersReducedMotion={prefersReducedMotion}
+                logoAnimationData={logoAnimationData}
+                title={title}
+              />
+            )}
           </div>
         </div>
       </div>
