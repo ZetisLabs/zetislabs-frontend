@@ -154,14 +154,14 @@ const ArticleRow = ({
 }) => (
   <motion.button
     onClick={onClick}
-    className="group -mx-4 flex w-full cursor-pointer flex-row items-start gap-6 rounded-md border-b border-foreground/10 px-4 py-8 text-left transition-all duration-300 hover:border-[0.75px] hover:border-border/50 hover:bg-background/75 hover:shadow-sm hover:backdrop-blur-md md:gap-8 md:py-10"
+    className="group -mx-4 flex w-full cursor-pointer flex-row items-start gap-4 rounded-md border-b border-foreground/10 px-4 py-6 text-left transition-all duration-300 hover:border-[0.75px] hover:border-border/50 hover:bg-background/75 hover:shadow-sm hover:backdrop-blur-md sm:gap-6 md:gap-8 md:py-10"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.4 }}
   >
     {/* Left: Fixed Square Thumbnail */}
-    <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden bg-foreground/5 md:h-20 md:w-20">
+    <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-foreground/5 sm:h-16 sm:w-16 md:h-20 md:w-20">
       <Image
         src={article.image}
         alt={article.title}
@@ -172,7 +172,7 @@ const ArticleRow = ({
     </div>
 
     {/* Right: Content */}
-    <div className="flex-grow space-y-2">
+    <div className="flex-grow space-y-1.5 sm:space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-[9px] font-bold tracking-[0.3em] text-foreground/40 uppercase">
           {article.category}
@@ -183,7 +183,7 @@ const ArticleRow = ({
         </div>
       </div>
 
-      <h3 className="font-sans text-lg font-bold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-1 md:text-xl">
+      <h3 className="font-sans text-base leading-snug font-bold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-1 sm:text-lg md:text-xl">
         {article.title}
       </h3>
 
@@ -191,7 +191,7 @@ const ArticleRow = ({
         {article.excerpt}
       </p>
 
-      <div className="flex items-center gap-4 pt-1 text-[10px] font-medium tracking-widest text-foreground/40 uppercase">
+      <div className="flex items-center gap-3 pt-1 text-[10px] font-medium tracking-widest text-foreground/40 uppercase sm:gap-4">
         <span className="text-foreground">{article.author.name}</span>
         <span>•</span>
         <span>{article.date}</span>
@@ -280,7 +280,7 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
                     {featuredArticle.date}
                   </span>
                 </div>
-                <h2 className="font-sans text-2xl leading-[1.1] font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
+                <h2 className="font-sans text-[1.5rem] leading-[1.15] font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
                   {featuredArticle.title}
                 </h2>
                 <p className="max-w-xl font-sans text-base leading-relaxed text-foreground/60 md:text-lg">
@@ -325,7 +325,7 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`h-10 cursor-pointer rounded-[4px] px-4 py-2 text-[10px] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-all duration-200 active:scale-95 ${
+              className={`min-h-[44px] cursor-pointer rounded-[4px] px-4 py-2.5 text-[10px] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-all duration-200 active:scale-95 sm:min-h-[40px] sm:py-2 ${
                 activeCategory === category
                   ? "bg-foreground text-background"
                   : "text-foreground/40 hover:bg-foreground/5 hover:text-foreground"
