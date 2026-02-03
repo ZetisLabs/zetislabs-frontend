@@ -7,6 +7,7 @@ import { type Locale } from "@/i18n/config";
 import { useElementEffect } from "../effects/hooks/useElementEffect";
 import { EFFECT_LAYERS } from "../effects/EffectLayerProvider";
 import { Menu, X } from "lucide-react";
+import { CTAButton } from "@/lib/ui";
 
 type Props = {
   locale: Locale;
@@ -203,15 +204,15 @@ export default function Header({ locale }: Props) {
               </Link>
             </nav>
 
-            {/* CTA in menu */}
+            {/* CTA in menu - Same as hero section */}
             <div className="absolute right-6 bottom-8 left-6">
-              <Link
-                href={`/${locale}#contact`}
+              <CTAButton
+                href="https://calendly.com/lucien-zetislabs/30min"
                 onClick={() => setIsMenuOpen(false)}
-                className="flex h-14 w-full items-center justify-center rounded-xl bg-accent text-base font-semibold text-accent-foreground shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                ariaLabel={t("home.hero.cta.primary.ariaLabel")}
               >
-                {t("header.contact") || "Get in touch"}
-              </Link>
+                {t("home.hero.cta.primary.label")}
+              </CTAButton>
             </div>
           </div>
         </div>
