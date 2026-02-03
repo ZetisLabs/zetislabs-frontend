@@ -1080,34 +1080,53 @@ export function UseCasesSectionClient({
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         {/* MOBILE: Title + Swipeable Cards */}
         <div className="lg:hidden">
-          <div className="mb-8 flex flex-col items-start">
+          <div className="mb-6 flex flex-col items-start">
             <EyebrowBadge>{label}</EyebrowBadge>
-            <h2 className="mt-6 text-3xl leading-[1.1] font-semibold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="mt-4 text-2xl leading-[1.15] font-semibold tracking-tight text-foreground sm:text-4xl">
               {title}
             </h2>
           </div>
 
-          <div className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
-            {useCases.map((item) => {
+          {/* Horizontal scroll carousel with snap */}
+          <div className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-6">
+            {useCases.map((item, index) => {
               const Icon = item.icon;
               return (
                 <div
                   key={item.id}
-                  className="w-[85vw] shrink-0 snap-center rounded-2xl border border-border/40 bg-card p-6 shadow-sm"
+                  className="w-[80vw] max-w-[320px] shrink-0 snap-center rounded-2xl border border-border/40 bg-card p-5 shadow-sm first:ml-0 sm:w-[70vw]"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                    <Icon className="h-6 w-6" />
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  <h3 className="mb-2 text-base font-semibold text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mb-4 text-sm text-foreground/70">
+                  <p className="mb-4 text-sm leading-relaxed text-foreground/70">
                     {item.description}
                   </p>
-                  <div className="font-bold text-accent">{item.footer}</div>
+                  <div className="flex items-center justify-between border-t border-border/30 pt-4">
+                    <span className="text-sm font-bold text-accent">
+                      {item.footer}
+                    </span>
+                    <span className="text-xs text-foreground/40">
+                      {index + 1}/{useCases.length}
+                    </span>
+                  </div>
                 </div>
               );
             })}
+          </div>
+
+          {/* Scroll indicator dots */}
+          <div className="flex justify-center gap-2 pt-2">
+            {useCases.map((_, index) => (
+              <div
+                key={index}
+                className="h-1.5 w-1.5 rounded-full bg-foreground/20"
+                aria-hidden="true"
+              />
+            ))}
           </div>
         </div>
 
