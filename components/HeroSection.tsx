@@ -114,7 +114,7 @@ export function HeroSection({
   return (
     <section
       ref={sectionRef}
-      className="relative isolate h-[115vh] w-full overflow-hidden"
+      className="relative isolate h-[110vh] w-full overflow-hidden md:h-[115vh]"
     >
       {/* Fixed container - stays absolutely fixed in viewport center */}
       <motion.div
@@ -125,12 +125,12 @@ export function HeroSection({
         }}
       >
         <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl pt-24 text-center md:pt-32">
+          <div className="mx-auto max-w-3xl px-1 pt-16 text-center sm:px-0 sm:pt-24 md:pt-32">
             {/* Eyebrow with scroll fade */}
             <motion.div
               style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
             >
-              <EyebrowBadge className="mb-6 justify-center">
+              <EyebrowBadge className="mb-4 justify-center sm:mb-6">
                 {eyebrow}
               </EyebrowBadge>
             </motion.div>
@@ -143,7 +143,7 @@ export function HeroSection({
                   <>
                     {/* Primary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[200px] w-[280px] rounded-full sm:h-[280px] sm:w-[500px] lg:h-[350px] lg:w-[950px]"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[180px] w-[260px] rounded-full sm:h-[280px] sm:w-[500px] lg:h-[350px] lg:w-[950px]"
                       style={{
                         x: "-50%",
                         y: "-50%",
@@ -164,7 +164,7 @@ export function HeroSection({
                     />
                     {/* Secondary halo - responsive size */}
                     <motion.div
-                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[150px] w-[220px] rounded-full sm:h-[200px] sm:w-[400px] lg:h-[266px] lg:w-[720px]"
+                      className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[140px] w-[200px] rounded-full sm:h-[200px] sm:w-[400px] lg:h-[266px] lg:w-[720px]"
                       style={{
                         x: "-50%",
                         y: "-50%",
@@ -185,7 +185,7 @@ export function HeroSection({
                     />
                   </>
                 )}
-                <h1 className="text-4xl leading-[1.15] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                <h1 className="text-[1.75rem] leading-[1.12] tracking-tight text-balance sm:text-5xl lg:text-6xl">
                   <span className="font-semibold">{title.default}</span>
                   <span className="font-normal text-foreground/90">
                     {title.thin}
@@ -199,7 +199,7 @@ export function HeroSection({
 
             {/* Subtitle with scroll fade */}
             <motion.p
-              className="mx-auto mt-6 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
+              className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-pretty text-foreground/75 sm:mt-6 sm:text-lg"
               style={{ opacity: subtitleOpacity, scale: subtitleScale }}
             >
               {subtitle}
@@ -207,14 +207,14 @@ export function HeroSection({
 
             {/* CTAs with scroll fade */}
             <motion.div
-              className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10"
+              className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:mt-8 sm:w-auto sm:flex-row sm:gap-4 md:mt-10"
               style={{ opacity: ctaOpacity, scale: ctaScale }}
             >
               {/* Primary CTA with its own breathing halo */}
-              <div className="relative">
+              <div className="relative w-full sm:w-auto">
                 {showAnimatedHalos && (
                   <motion.div
-                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 rounded-full"
+                    className="pointer-events-none absolute top-1/2 left-1/2 -z-10 hidden rounded-full sm:block"
                     style={{
                       width: 420,
                       height: 420,
@@ -238,7 +238,7 @@ export function HeroSection({
                 )}
                 <motion.a
                   href={cta.primary.href}
-                  className="group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)]"
+                  className="group relative isolate inline-flex h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:h-auto sm:w-auto"
                   whileHover={{
                     scale: 1.02,
                     y: -2,
@@ -298,7 +298,7 @@ export function HeroSection({
               </div>
               <motion.a
                 href={cta.secondary.href}
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)]"
+                className="group relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:h-auto sm:w-auto"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{

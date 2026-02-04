@@ -38,7 +38,7 @@ export function WhyZetisLabsSection({ t, dict }: SectionProps) {
       <div className="mx-auto w-full max-w-screen-xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
               {t("home.whyZetisLabs.title")}
             </h2>
           </Reveal>
@@ -49,7 +49,7 @@ export function WhyZetisLabsSection({ t, dict }: SectionProps) {
           </Reveal>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-8 grid max-w-5xl gap-4 sm:mt-12 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {reasonKeys.map((reasonKey, index) => (
             <CardReveal key={reasonKey} index={index} variant="lift">
               <TestimonialCard

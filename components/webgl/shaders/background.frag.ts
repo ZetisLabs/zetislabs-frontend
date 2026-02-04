@@ -452,8 +452,10 @@ float calculateIntroEffect(vec2 pos, float progress, float time) {
 
   // === HORIZON ARC (semi-circle from left-middle to right-middle, curving UP) ===
   // Arc center reflects a 'sunset' by sinking slightly as user scrolls
-  float arcCenterY = -0.52 - (uScrollProgress * 0.15);
-  float arcRadius = 0.75;
+  // On mobile, use a larger radius for a gentler curve (less acute)
+  float isMobile = step(uResolution.x, 768.0);
+  float arcRadius = mix(0.75, 1.1, isMobile); // 0.75 desktop, 1.1 mobile (flatter)
+  float arcCenterY = mix(-0.52, -0.75, isMobile) - (uScrollProgress * 0.15); // Lower center on mobile
 
   // Calculate Y position of the arc at current X (upper part of circle)
   float xClamped = clamp(heroPos.x, -0.5, 0.5);
