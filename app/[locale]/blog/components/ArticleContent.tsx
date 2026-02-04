@@ -2,6 +2,7 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import Image from "next/image";
 
 interface ArticleContentProps {
@@ -16,7 +17,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
   return (
     <div className="font-sans text-foreground/80">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
           // Headings - all use IBMPlexSans (inherited from font-sans wrapper)
           h1: ({ children }) => (

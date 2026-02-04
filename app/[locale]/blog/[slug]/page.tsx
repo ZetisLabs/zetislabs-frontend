@@ -150,40 +150,42 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Article Content */}
         <div className="mx-auto max-w-4xl px-6 py-12 md:py-16">
-          {/* Meta */}
-          <div className="mb-6 flex flex-wrap items-center gap-4">
-            <span className="text-[10px] font-bold tracking-[0.3em] text-foreground/40 uppercase">
-              {article.category}
-            </span>
-            <span className="text-[10px] tracking-[0.25em] text-foreground/40 uppercase">
-              {article.date}
-            </span>
-            <div className="flex items-center gap-1 text-[10px] tracking-widest text-foreground/40 uppercase">
-              <Clock className="h-3 w-3" />
-              {article.readTime}
+          <div className="rounded-xl border-[0.75px] border-border/50 bg-background/75 px-6 py-8 shadow-sm backdrop-blur-md md:px-10 md:py-12">
+            {/* Meta */}
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+              <span className="text-[10px] font-bold tracking-[0.3em] text-foreground/40 uppercase">
+                {article.category}
+              </span>
+              <span className="text-[10px] tracking-[0.25em] text-foreground/40 uppercase">
+                {article.date}
+              </span>
+              <div className="flex items-center gap-1 text-[10px] tracking-widest text-foreground/40 uppercase">
+                <Clock className="h-3 w-3" />
+                {article.readTime}
+              </div>
             </div>
+
+            {/* Title - H1 for SEO */}
+            <h1 className="mb-6 font-sans text-3xl leading-tight font-bold tracking-tight md:text-4xl lg:text-5xl">
+              {article.title}
+            </h1>
+
+            {/* Author */}
+            <div className="mb-8 flex items-center gap-3 border-b border-foreground/10 pb-8">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground/10 text-sm font-bold">
+                {article.author.avatar}
+              </div>
+              <div>
+                <p className="text-sm font-bold">{article.author.name}</p>
+                <p className="text-xs text-foreground/40">
+                  {locale === "fr" ? "Auteur" : "Author"}
+                </p>
+              </div>
+            </div>
+
+            {/* Article Body */}
+            <ArticleContent content={article.content} />
           </div>
-
-          {/* Title - H1 for SEO */}
-          <h1 className="mb-6 font-sans text-3xl leading-tight font-bold tracking-tight md:text-4xl lg:text-5xl">
-            {article.title}
-          </h1>
-
-          {/* Author */}
-          <div className="mb-8 flex items-center gap-3 border-b border-foreground/10 pb-8">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground/10 text-sm font-bold">
-              {article.author.avatar}
-            </div>
-            <div>
-              <p className="text-sm font-bold">{article.author.name}</p>
-              <p className="text-xs text-foreground/40">
-                {locale === "fr" ? "Auteur" : "Author"}
-              </p>
-            </div>
-          </div>
-
-          {/* Article Body */}
-          <ArticleContent content={article.content} />
         </div>
 
         {/* Footer */}

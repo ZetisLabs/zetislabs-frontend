@@ -211,7 +211,8 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const featuredArticle = articles.find((a) => a.featured) || articles[0];
-  const gridArticles = articles.filter((a) => !a.featured);
+  // Show all articles in the list (including featured)
+  const gridArticles = articles;
 
   // Get selected article from URL (by slug) - for backward compatibility with query params
   const articleSlug = searchParams.get("article");
