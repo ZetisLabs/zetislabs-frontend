@@ -28,13 +28,26 @@ export function HeroSection({
 
   // Prevent hydration mismatch by only showing motion elements after mount
   const [hasMounted, setHasMounted] = useState(false);
+  // Detect mobile for disabling scroll effects (touch devices have issues with fixed + scroll)
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasMounted(true);
+
+    // Check if mobile on mount and on resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Combine: show halos only after mount AND if user doesn't prefer reduced motion
   const showAnimatedHalos = hasMounted && !prefersReducedMotion;
+  // Disable scroll effects on mobile to prevent touch scroll bugs
+  const enableScrollEffects = hasMounted && !isMobile;
 
   // Entrance animation progress (0 → 1) with staggered delays
   const entranceEyebrow = useMotionValue(0);
@@ -103,6 +116,7 @@ export function HeroSection({
   );
 
   // Global container opacity - used to hide the fixed container completely
+  // On mobile, keep opacity at 1 (no scroll fade)
   const containerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   // Derived transforms - must be at top level, not in JSX
@@ -114,29 +128,52 @@ export function HeroSection({
   return (
     <section
       ref={sectionRef}
-      className="relative isolate h-[110vh] w-full overflow-hidden md:h-[115vh]"
+      // Mobile: shorter height, no extra scroll space needed
+      // Desktop: taller to accommodate scroll effects
+      className="relative isolate h-auto min-h-screen w-full overflow-hidden md:h-[115vh]"
     >
-      {/* Fixed container - stays absolutely fixed in viewport center */}
+      {/*
+        Mobile: relative positioning, no scroll effects
+        Desktop: fixed positioning with scroll fade effects
+      */}
       <motion.div
-        className="fixed inset-0 z-10 flex h-screen w-full items-center justify-center overflow-hidden"
-        style={{
-          opacity: containerOpacity,
-          pointerEvents: containerPointerEvents,
-        }}
+        className={`z-10 flex w-full items-center justify-center overflow-hidden ${
+          enableScrollEffects
+            ? "fixed inset-0 h-screen"
+            : "relative min-h-screen py-20"
+        }`}
+        style={
+          enableScrollEffects
+            ? {
+                opacity: containerOpacity,
+                pointerEvents: containerPointerEvents,
+              }
+            : undefined
+        }
       >
         <div className="mx-auto w-full max-w-screen-xl px-4">
           <div className="mx-auto max-w-3xl px-1 pt-16 text-center sm:px-0 sm:pt-24 md:pt-32">
-            {/* Eyebrow with scroll fade */}
+            {/* Eyebrow with scroll fade (desktop only) */}
             <motion.div
-              style={{ opacity: eyebrowOpacity, scale: eyebrowScale }}
+              style={
+                enableScrollEffects
+                  ? { opacity: eyebrowOpacity, scale: eyebrowScale }
+                  : { opacity: entranceEyebrow }
+              }
             >
               <EyebrowBadge className="mb-4 justify-center sm:mb-6">
                 {eyebrow}
               </EyebrowBadge>
             </motion.div>
 
-            {/* Title with scroll fade */}
-            <motion.div style={{ opacity: titleOpacity, scale: titleScale }}>
+            {/* Title with scroll fade (desktop only) */}
+            <motion.div
+              style={
+                enableScrollEffects
+                  ? { opacity: titleOpacity, scale: titleScale }
+                  : { opacity: entranceTitle }
+              }
+            >
               {/* Breathing Halo - fades out FIRST like a sunset */}
               <div className="relative mx-auto">
                 {showAnimatedHalos && (
@@ -150,8 +187,10 @@ export function HeroSection({
                         background:
                           "radial-gradient(circle, rgba(90, 130, 255, 0.12), transparent 70%)",
                         filter: "blur(60px)",
-                        opacity: haloOpacity,
-                        scale: haloScale,
+                        // Only apply scroll effects on desktop
+                        ...(enableScrollEffects
+                          ? { opacity: haloOpacity, scale: haloScale }
+                          : {}),
                       }}
                       animate={{
                         scale: [0.96, 1.03, 0.97],
@@ -171,8 +210,10 @@ export function HeroSection({
                         background:
                           "radial-gradient(circle, rgba(90, 130, 255, 0.14), transparent 70%)",
                         filter: "blur(60px)",
-                        opacity: secondaryHaloOpacity,
-                        scale: haloScale,
+                        // Only apply scroll effects on desktop
+                        ...(enableScrollEffects
+                          ? { opacity: secondaryHaloOpacity, scale: haloScale }
+                          : { opacity: 0.2 }),
                       }}
                       animate={{
                         scale: [0.94, 1.02, 0.95],
@@ -197,18 +238,26 @@ export function HeroSection({
               </div>
             </motion.div>
 
-            {/* Subtitle with scroll fade */}
+            {/* Subtitle with scroll fade (desktop only) */}
             <motion.p
               className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-pretty text-foreground/75 sm:mt-6 sm:text-lg"
-              style={{ opacity: subtitleOpacity, scale: subtitleScale }}
+              style={
+                enableScrollEffects
+                  ? { opacity: subtitleOpacity, scale: subtitleScale }
+                  : { opacity: entranceSubtitle }
+              }
             >
               {subtitle}
             </motion.p>
 
-            {/* CTAs with scroll fade */}
+            {/* CTAs with scroll fade (desktop only) */}
             <motion.div
               className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:mt-8 sm:w-auto sm:flex-row sm:gap-4 md:mt-10"
-              style={{ opacity: ctaOpacity, scale: ctaScale }}
+              style={
+                enableScrollEffects
+                  ? { opacity: ctaOpacity, scale: ctaScale }
+                  : { opacity: entranceCta }
+              }
             >
               {/* Primary CTA with its own breathing halo */}
               <div className="relative w-full sm:w-auto">
@@ -223,7 +272,8 @@ export function HeroSection({
                       background:
                         "radial-gradient(circle, rgba(90, 130, 255, 0.12), transparent 70%)",
                       filter: "blur(60px)",
-                      opacity: haloOpacity,
+                      // Only apply scroll effects on desktop
+                      ...(enableScrollEffects ? { opacity: haloOpacity } : {}),
                     }}
                     animate={{
                       scale: [0.96, 1.03, 0.97],
@@ -335,6 +385,42 @@ export function HeroSection({
             </motion.div>
           </div>
         </div>
+
+        {/* Scroll indicator - subtle arrow */}
+        <motion.div
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-10"
+          style={
+            enableScrollEffects
+              ? { opacity: haloOpacity }
+              : { opacity: entranceCta }
+          }
+        >
+          <motion.div
+            className="flex flex-col items-center gap-1 text-foreground/30"
+            animate={{ y: [0, 6, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="opacity-60"
+              aria-hidden="true"
+            >
+              <path d="M12 5v14" />
+              <path d="m19 12-7 7-7-7" />
+            </svg>
+          </motion.div>
+        </motion.div>
       </motion.div>
     </section>
   );
