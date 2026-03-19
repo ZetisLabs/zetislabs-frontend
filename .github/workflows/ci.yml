@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+  vercel-deployment:
+    name: Vercel Deployment
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    steps:
+      - name: Wait for Vercel deployment
+        id: vercel
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.sha;
+            const maxAttempts = 30;
+            const delay = 20000; // 20 seconds
+
+            for (let i = 0; i < maxAttempts; i++) {
+              const { data } = await github.rest.repos.getCombinedStatusForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: sha,
+              });
+
+              const vercelStatus = data.statuses.find(s => s.context === 'Vercel');
+
+              if (vercelStatus) {
+                if (vercelStatus.state === 'success') {
+                  core.setOutput('url', vercelStatus.target_url);
+                  core.setOutput('state', 'success');
+                  return;
+                } else if (vercelStatus.state === 'failure' || vercelStatus.state === 'error') {
+                  core.setOutput('url', vercelStatus.target_url || '');
+                  core.setOutput('state', 'failure');
+                  core.setFailed('Vercel deployment failed');
+                  return;
+                }
+              }
+
+              core.info(`Attempt ${i + 1}/${maxAttempts}: Vercel deployment pending...`);
+              await new Promise(r => setTimeout(r, delay));
+            }
+
+            core.setFailed('Timed out waiting for Vercel deployment');
+
+      - name: Post deployment summary
+        if: always() && steps.vercel.outputs.url
+        run: |
+          if [ "${{ steps.vercel.outputs.state }}" = "success" ]; then
+            echo "## ✅ Vercel Deployment Successful" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Deployment URL:** ${{ steps.vercel.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Vercel Deployment Failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Details:** ${{ steps.vercel.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          fi
