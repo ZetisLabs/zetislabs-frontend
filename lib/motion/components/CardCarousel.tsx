@@ -59,6 +59,7 @@ export function CardCarousel({
       checkScroll();
       return () => el.removeEventListener("scroll", checkScroll);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- checkScroll reads scrollRef which is stable
   }, [activeIndex]);
 
   useEffect(() => {

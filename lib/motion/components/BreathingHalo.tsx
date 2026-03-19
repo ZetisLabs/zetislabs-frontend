@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { easings, durations, glowColors } from "../config";
+import { useHasMounted } from "../hooks";
 
 type BreathingHaloProps = {
   children: ReactNode;
@@ -48,11 +49,7 @@ export const BreathingHalo = ({
 }: BreathingHaloProps) => {
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch - only show halos after mount
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const showHalos = hasMounted && !prefersReducedMotion;
 

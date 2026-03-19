@@ -1,13 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
+
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function subscribe(callback: () => void) {
+  const mediaQuery = window.matchMedia(reducedMotionQuery);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getSnapshot() {
+  return window.matchMedia(reducedMotionQuery).matches;
+}
+
+function getServerSnapshot() {
+  return false;
+}
 
 /**
  * useReducedMotion
  *
  * Detects user preference for reduced motion.
  * Returns true if user prefers reduced motion.
- * Initializes as false for SSR, updates on mount.
+ * Uses useSyncExternalStore for SSR safety.
  *
  * @example
  * ```tsx
@@ -23,21 +39,5 @@ import { useState, useEffect } from "react";
  * ```
  */
 export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    // Check on mount and subscribe to changes
-    // This is intentional - we need to check browser preferences after hydration
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setPrefersReducedMotion(event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  return prefersReducedMotion;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+import { useHasMounted } from "../hooks";
 
 type ScrollFadeProps = {
   children: ReactNode;
@@ -48,11 +49,7 @@ export const ScrollFade = ({
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const { scrollYProgress } = useScroll({
     target: ref,

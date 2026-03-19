@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { motion, useMotionValue, useTransform, animate } from "@/lib/motion";
 
 // Animation variants
@@ -375,9 +376,11 @@ export function ProblemSolutionClient({
                     className="flex items-center justify-center"
                   >
                     {logoFile ? (
-                      <img
+                      <Image
                         src={logoFile}
                         alt={logo}
+                        width={80}
+                        height={32}
                         className="h-5 w-auto opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-6 lg:h-8"
                         style={{
                           filter: "brightness(0) saturate(100%)",

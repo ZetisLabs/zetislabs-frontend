@@ -21,15 +21,8 @@ export function ServiceCard({
   title,
   date,
   assignee,
-  gradientColor = "none",
   rotation = 0,
 }: ServiceCardProps) {
-  const gradientStyles = {
-    peach: "from-transparent via-orange-50/10 to-orange-200/20",
-    blue: "from-transparent via-blue-50/10 to-sky-200/20",
-    none: "from-transparent to-transparent",
-  };
-
   return (
     <motion.div
       initial={{ rotate: rotation }}
