@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { staggerContainer, staggerItem } from "../variants";
+import { useHasMounted } from "../hooks";
 
 type StaggerContainerProps = {
   children: ReactNode;
@@ -37,11 +38,7 @@ export const StaggerContainer = ({
 }: StaggerContainerProps) => {
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const shouldAnimate = hasMounted && !prefersReducedMotion;
 

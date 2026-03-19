@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { transitions, easings } from "../config";
+import { useHasMounted } from "../hooks";
 
 type FadeInProps = {
   children: ReactNode;
@@ -38,15 +39,10 @@ export const FadeIn = ({
   className,
   delay = 0,
   duration,
-  y = 8,
 }: FadeInProps) => {
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const shouldAnimate = hasMounted && !prefersReducedMotion;
 

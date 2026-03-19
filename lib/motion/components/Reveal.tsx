@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { UseInViewOptions } from "framer-motion";
 import { transitions } from "../config";
+import { useHasMounted } from "../hooks";
 
 type RevealProps = {
   children: ReactNode;
@@ -51,11 +52,7 @@ export const Reveal = ({
   const isInView = useInView(ref, { margin, once });
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch - always render same structure
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   // Direction determines initial position
   const y = direction === "up" ? distance : -distance;

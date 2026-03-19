@@ -1,8 +1,14 @@
 "use client";
 
-import { useRef, useMemo, useState, useEffect } from "react";
+import { useRef, useMemo } from "react";
 import Image from "next/image";
-import { motion, useInView, useReducedMotion, Reveal } from "@/lib/motion";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  Reveal,
+  useHasMounted,
+} from "@/lib/motion";
 
 interface StackSectionProps {
   title: string;
@@ -246,11 +252,7 @@ export function StackSection({ title }: StackSectionProps) {
   const prefersReducedMotion = useReducedMotion();
   const logoAnimationData = useLogoAnimationData();
 
-  // Track mount state for hydration safety
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   return (
     <section className="flex flex-col justify-center overflow-hidden py-16 md:py-32">

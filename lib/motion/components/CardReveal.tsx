@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { UseInViewOptions } from "framer-motion";
-import { easings, transitions } from "../config";
+import { easings } from "../config";
+import { useHasMounted } from "../hooks";
 
 type CardRevealProps = {
   children: ReactNode;
@@ -52,10 +53,7 @@ export const CardReveal = ({
   const isInView = useInView(ref, { margin, once });
   const prefersReducedMotion = useReducedMotion();
 
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const totalDelay = delay + index * staggerDelay;
 
