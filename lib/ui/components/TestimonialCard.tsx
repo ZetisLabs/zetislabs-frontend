@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "@/lib/motion";
 
 interface TestimonialCardProps {
@@ -61,9 +62,11 @@ export function TestimonialCard({
       {author && (
         <div className="mt-auto flex flex-col items-center gap-3">
           {author.avatar ? (
-            <img
+            <Image
               src={author.avatar}
               alt={author.name}
+              width={40}
+              height={40}
               className="h-10 w-10 rounded-full object-cover opacity-80 grayscale"
             />
           ) : (

@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo, useCallback } from "react";
 import * as THREE from "three";
 
 type UniformValue =
@@ -62,9 +62,8 @@ export function useShaderMaterial<T extends UniformsConfig>({
   side = THREE.FrontSide,
   blending = THREE.NormalBlending,
 }: UseShaderMaterialOptions<T>): UseShaderMaterialReturn {
-  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-
   // Create material with uniforms (memoized)
+
   const material = useMemo(() => {
     // Convert uniform values to Three.js format
     const threeUniforms: Record<string, { value: unknown }> = {
@@ -88,7 +87,7 @@ export function useShaderMaterial<T extends UniformsConfig>({
       }
     }
 
-    const mat = new THREE.ShaderMaterial({
+    return new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: threeUniforms,
@@ -98,39 +97,37 @@ export function useShaderMaterial<T extends UniformsConfig>({
       depthWrite: false,
       depthTest: false,
     });
-
-    materialRef.current = mat;
-    return mat;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- uniforms object recreated every render; values are consumed once at creation
   }, [vertexShader, fragmentShader, transparent, side, blending]);
 
   // Update uTime each frame
   useFrame(({ clock, size }) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
-      materialRef.current.uniforms.uResolution.value.set(
-        size.width,
-        size.height
-      );
+    if (material) {
+      material.uniforms.uTime.value = clock.getElapsedTime();
+      material.uniforms.uResolution.value.set(size.width, size.height);
     }
   });
 
   // Helper to update uniforms at runtime
-  const setUniform = (name: string, value: UniformValue) => {
-    if (materialRef.current?.uniforms[name]) {
-      if (Array.isArray(value)) {
-        const uniform = materialRef.current.uniforms[name].value;
-        if (uniform instanceof THREE.Vector2) {
-          uniform.set(value[0], value[1]);
-        } else if (uniform instanceof THREE.Vector3) {
-          uniform.set(value[0], value[1], value[2]);
+  const setUniform = useCallback(
+    (name: string, value: UniformValue) => {
+      if (material?.uniforms[name]) {
+        if (Array.isArray(value)) {
+          const uniform = material.uniforms[name].value;
+          if (uniform instanceof THREE.Vector2) {
+            uniform.set(value[0], value[1]);
+          } else if (uniform instanceof THREE.Vector3) {
+            uniform.set(value[0], value[1], value[2]);
+          } else {
+            material.uniforms[name].value = value;
+          }
         } else {
-          materialRef.current.uniforms[name].value = value;
+          material.uniforms[name].value = value;
         }
-      } else {
-        materialRef.current.uniforms[name].value = value;
       }
-    }
-  };
+    },
+    [material]
+  );
 
   return { material, setUniform };
 }

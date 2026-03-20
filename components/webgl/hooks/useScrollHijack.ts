@@ -49,7 +49,9 @@ export function useScrollHijack({
       // Check if user already scrolled past hero before intro completed
       const scrolledPastHero = window.scrollY > window.innerHeight * 0.1;
       if (scrolledPastHero) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing from browser scroll position
         setPhase("NORMAL");
+
         setProgress(0);
       } else {
         setPhase("HIJACKED");

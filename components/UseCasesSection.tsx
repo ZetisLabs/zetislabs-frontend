@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { useReducedMotion } from "@/lib/motion";
+import { useReducedMotion, useHasMounted } from "@/lib/motion";
 
 // ============================================================================
 // TYPES
@@ -49,14 +49,7 @@ const useScrollProgress = (
 ): { progress: number; isActive: boolean; hasMounted: boolean } => {
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
-
-  // Track mount state - runs once after hydration
-  // This pattern is necessary for hydration-safe client detection
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   useEffect(() => {
     // Only run scroll tracking after component is mounted on client

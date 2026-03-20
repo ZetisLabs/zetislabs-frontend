@@ -10,6 +10,7 @@ import {
   animate,
   easings,
   durations,
+  useHasMounted,
 } from "@/lib/motion";
 import { EyebrowBadge } from "@/lib/ui";
 
@@ -26,16 +27,11 @@ export function HeroSection({
   const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch by only showing motion elements after mount
-  const [hasMounted, setHasMounted] = useState(false);
+  const hasMounted = useHasMounted();
   // Detect mobile for disabling scroll effects (touch devices have issues with fixed + scroll)
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setHasMounted(true);
-
-    // Check if mobile on mount and on resize
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };

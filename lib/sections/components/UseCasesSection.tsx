@@ -757,7 +757,6 @@ interface BranchCardProps {
   subtitle: string;
   color: "blue" | "green" | "amber" | "red";
   branchIndex: number;
-  totalSteps: number;
   cycleDuration: number;
 }
 
@@ -767,7 +766,6 @@ function BranchCard({
   subtitle,
   color,
   branchIndex,
-  totalSteps,
   cycleDuration,
 }: BranchCardProps) {
   // Branch cards are at the end of the flow, slight offset by branch position
@@ -845,7 +843,6 @@ interface OutputCardProps {
   title: string;
   subtitle: string;
   outputIndex: number;
-  totalSteps: number;
   cycleDuration: number;
 }
 
@@ -854,7 +851,6 @@ function OutputCard({
   title,
   subtitle,
   outputIndex,
-  totalSteps,
   cycleDuration,
 }: OutputCardProps) {
   // Output cards are at the very bottom
@@ -904,11 +900,10 @@ function OutputCard({
  * OutputConnector - Vertical connector from branch cards to output cards
  */
 interface OutputConnectorProps {
-  totalSteps: number;
   cycleDuration: number;
 }
 
-function OutputConnector({ totalSteps, cycleDuration }: OutputConnectorProps) {
+function OutputConnector({ cycleDuration }: OutputConnectorProps) {
   // Output connector is between branch cards and output cards
   const depth = 1.2;
   const sweepPosition = useDiagonalSweep(depth, cycleDuration);
@@ -1240,10 +1235,6 @@ export function UseCasesSectionClient({
     setActiveIndex((prev) => (prev + 1) % useCases.length);
   }, [useCases.length]);
 
-  const prevSlide = useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + useCases.length) % useCases.length);
-  }, [useCases.length]);
-
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(nextSlide, 12000);
@@ -1514,17 +1505,13 @@ export function UseCasesSectionClient({
                           subtitle={branch.subtitle}
                           color={branch.color}
                           branchIndex={idx}
-                          totalSteps={supportFlowSteps.length}
                           cycleDuration={12}
                         />
                       ))}
                     </div>
 
                     {/* Connector to outputs */}
-                    <OutputConnector
-                      totalSteps={supportFlowSteps.length}
-                      cycleDuration={12}
-                    />
+                    <OutputConnector cycleDuration={12} />
 
                     {/* Output cards */}
                     <div className="grid grid-cols-2 gap-3">
@@ -1535,7 +1522,6 @@ export function UseCasesSectionClient({
                           title={output.title}
                           subtitle={output.subtitle}
                           outputIndex={idx}
-                          totalSteps={supportFlowSteps.length}
                           cycleDuration={12}
                         />
                       ))}
@@ -1608,17 +1594,13 @@ export function UseCasesSectionClient({
                           subtitle={branch.subtitle}
                           color={branch.color}
                           branchIndex={idx}
-                          totalSteps={commercialFlowSteps.length}
                           cycleDuration={12}
                         />
                       ))}
                     </div>
 
                     {/* Connector to outputs */}
-                    <OutputConnector
-                      totalSteps={commercialFlowSteps.length}
-                      cycleDuration={12}
-                    />
+                    <OutputConnector cycleDuration={12} />
 
                     {/* Output cards */}
                     <div className="grid grid-cols-2 gap-3">
@@ -1629,7 +1611,6 @@ export function UseCasesSectionClient({
                           title={output.title}
                           subtitle={output.subtitle}
                           outputIndex={idx}
-                          totalSteps={commercialFlowSteps.length}
                           cycleDuration={12}
                         />
                       ))}
