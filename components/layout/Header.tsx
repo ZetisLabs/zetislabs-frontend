@@ -45,21 +45,23 @@ export default function Header({ locale }: Props) {
   }, []);
 
   // Glow effects for navigation links (desktop only)
-  const homeEffect = useElementEffect<HTMLDivElement>({
-    layer: EFFECT_LAYERS.UNDER_GRID,
-    trigger: "hover",
-    color: "accent",
-    padding: 8,
-    trackOnScroll: false,
-  });
+  const { ref: homeRef, triggerProps: homeTriggerProps } =
+    useElementEffect<HTMLDivElement>({
+      layer: EFFECT_LAYERS.UNDER_GRID,
+      trigger: "hover",
+      color: "accent",
+      padding: 8,
+      trackOnScroll: false,
+    });
 
-  const blogEffect = useElementEffect<HTMLDivElement>({
-    layer: EFFECT_LAYERS.UNDER_GRID,
-    trigger: "hover",
-    color: "accent",
-    padding: 8,
-    trackOnScroll: false,
-  });
+  const { ref: blogRef, triggerProps: blogTriggerProps } =
+    useElementEffect<HTMLDivElement>({
+      layer: EFFECT_LAYERS.UNDER_GRID,
+      trigger: "hover",
+      color: "accent",
+      padding: 8,
+      trackOnScroll: false,
+    });
 
   return (
     <>
@@ -131,15 +133,15 @@ export default function Header({ locale }: Props) {
             {/* Navigation shadow elements - aligned with nav buttons */}
             <div className="flex h-[40px] items-center gap-4 text-sm">
               <div
-                ref={homeEffect.ref}
-                {...homeEffect.triggerProps}
+                ref={homeRef}
+                {...homeTriggerProps}
                 className="nav-link-home-shadow pointer-events-none z-[-1] mx-1 h-full bg-transparent px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out"
               >
                 {t("header.home")}
               </div>
               <div
-                ref={blogEffect.ref}
-                {...blogEffect.triggerProps}
+                ref={blogRef}
+                {...blogTriggerProps}
                 className="nav-link-blog-shadow pointer-events-none z-[-1] mx-1 h-full bg-transparent px-3 text-transparent opacity-0 shadow-xl shadow-accent/50 transition-opacity duration-700 ease-in-out"
               >
                 {t("header.blog")}

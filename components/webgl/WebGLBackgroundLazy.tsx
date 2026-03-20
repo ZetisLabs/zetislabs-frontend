@@ -2,17 +2,6 @@
 
 import { useState, useEffect, Suspense, lazy } from "react";
 
-// Static placeholder that matches initial WebGL state
-function WebGLPlaceholder() {
-  return (
-    <div
-      className="pointer-events-none fixed inset-0 z-0"
-      style={{ height: "100vh", backgroundColor: "#f8f8f8" }}
-      aria-hidden="true"
-    />
-  );
-}
-
 // Lazy load the WebGL component - Three.js bundle won't load until needed
 const WebGLBackground = lazy(() =>
   import("./WebGLBackground").then((mod) => ({ default: mod.WebGLBackground }))

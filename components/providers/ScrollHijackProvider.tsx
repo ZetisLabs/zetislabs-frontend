@@ -79,15 +79,16 @@ export function ScrollHijackProvider({ children }: ScrollHijackProviderProps) {
     }
   }, [scrollLocked]);
 
-  // Check for reduced motion preference
+  // Check for reduced motion preference — reading external browser state
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
     if (prefersReducedMotion) {
-      // Skip hijacking for users who prefer reduced motion
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing from browser media query
       setPhase("NORMAL");
+
       setProgress(0);
     }
   }, []);

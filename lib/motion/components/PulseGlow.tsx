@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { durations, glowColors } from "../config";
+import { useHasMounted } from "../hooks";
 
 type PulseGlowProps = {
   /** Additional CSS classes */
@@ -37,11 +37,7 @@ export const PulseGlow = ({
 }: PulseGlowProps) => {
   const prefersReducedMotion = useReducedMotion();
 
-  // Prevent hydration mismatch
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  const hasMounted = useHasMounted();
 
   const shouldAnimate = hasMounted && !prefersReducedMotion;
 
