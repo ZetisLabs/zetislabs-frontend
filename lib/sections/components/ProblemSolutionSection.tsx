@@ -364,9 +364,7 @@ export function ProblemSolutionClient({
             >
               {trust.logos.map((logo, idx) => {
                 // Map logo names to file paths (if available)
-                const logoFiles: Record<string, string> = {
-                  Neede: "/logo-trusted/need.svg",
-                };
+                const logoFiles: Record<string, string> = {};
                 const logoFile = logoFiles[logo];
 
                 return (
