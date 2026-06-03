@@ -191,18 +191,18 @@ export default async function ArticlePage({ params }: Props) {
         {/* Footer */}
         <footer className="relative z-10 mt-16 border-t border-border/40">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 text-[11px] text-foreground/50">
-            <p>© 2024 ZetisLabs. All rights reserved.</p>
-            <div className="flex items-center gap-4">
-              {["Twitter", "LinkedIn", "GitHub"].map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  className="cursor-pointer transition-colors hover:text-foreground"
-                >
-                  {social}
-                </a>
-              ))}
-            </div>
+            <p>
+              © {new Date().getFullYear()} ZetisLabs.{" "}
+              {locale === "fr"
+                ? "Tous droits réservés."
+                : "All rights reserved."}
+            </p>
+            <Link
+              href={`/${locale}/blog`}
+              className="transition-colors hover:text-foreground"
+            >
+              {locale === "fr" ? "Retour au blog" : "Back to blog"}
+            </Link>
           </div>
         </footer>
       </article>

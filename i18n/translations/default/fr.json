@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "ZetisLabs — Gagnez 20h par semaine grâce à l'automatisation",
-    "description": "Vos équipes perdent du temps sur des tâches répétitives ? On automatise vos process et vous fait gagner jusqu'à 20h par semaine. ROI garanti."
+    "title": "ZetisLabs — Labo IA : des outils sur-mesure que vous possédez",
+    "description": "ZetisLabs, le labo IA français : des outils IA sur-mesure (RAG, agents) que vous possédez. Paiement unique, pas d'abonnement. L'IA assiste vos experts. Audit gratuit 30 min."
   },
   "header": {
     "home": "Home",
@@ -25,84 +25,84 @@
       { "type": "process", "id": "process" }
     ],
     "hero": {
-      "eyebrow": "Automatisation sur-mesure pour PME",
+      "eyebrow": "Labo d'intégration IA · France · depuis 2025",
       "title": {
-        "default": "",
-        "thin": "20 heures gagnées par semaine. ",
-        "accent": "Par employé."
+        "default": "L'IA dans votre métier, ",
+        "thin": "sans devenir ",
+        "accent": "un logiciel à louer."
       },
-      "subtitle": "Vos équipes perdent du temps sur des tâches répétitives ? On les automatise pour que vous puissiez vous concentrer sur ce qui fait vraiment avancer votre business.",
+      "subtitle": "ZetisLabs est le labo qui aide les entreprises à passer un vrai cap en IA — intégration sur-mesure, RAG, agents, branchés sur vos données. Vous payez une fois : l'outil et le code vous appartiennent. Vos experts gardent la main sur chaque décision.",
       "cta": {
         "primary": {
-          "label": "Estimer mon gain de temps",
+          "label": "Réserver un audit gratuit (30 min)",
           "href": "https://calendly.com/lucien-zetislabs/30min",
-          "ariaLabel": "Estimer mon gain de temps"
+          "ariaLabel": "Réserver un audit gratuit de 30 minutes"
         },
         "secondary": {
-          "label": "Voir des exemples concrets",
+          "label": "Voir ce qu'on construit",
           "href": "#use-cases",
           "ariaLabel": "Voir des exemples concrets"
         }
       }
     },
     "ProblemSolution": {
-      "titleProblem": "Combien d'heures perdues cette semaine ?",
-      "description": "Copier-coller des données entre outils\nRelancer les mêmes emails\nGénérer des rapports à la main\nVérifier des tableaux Excel\nRépondre aux mêmes questions\n\nCes tâches ne créent pas de valeur. Elles consomment du temps. Votre temps.",
-      "titleSolution": "On automatise, vous respirez",
-      "body": "On analyse votre façon de travailler. On identifie les tâches chronophages. Et on crée des automatisations sur-mesure qui font le travail à votre place.",
+      "titleProblem": "Le problème n'est pas le manque d'IA.",
+      "description": "Des outils IA génériques qui ignorent votre métier\nDes abonnements SaaS qui s'empilent, à vie\nLa peur que l'IA « hallucine » ou décide à votre place\nDes promesses floues, jamais chiffrées\n\nLe vrai sujet, c'est la manière d'intégrer l'IA. Pas l'IA elle-même.",
+      "titleSolution": "Un outil branché sur vos données — que vous possédez",
+      "body": "On conçoit un outil sur-mesure branché sur votre corpus (vos documents, votre vocabulaire, vos process), on le teste sur vos cas réels, puis on vous le remet : le code est à vous.",
       "stat": {
-        "value": "20h",
-        "label": "gagnées en moyenne par semaine"
+        "value": "1×",
+        "label": "paiement unique — l'outil et le code vous appartiennent"
       },
-      "accent": "Vos équipes se concentrent sur ce qui compte. Vous, vous voyez la différence sur les résultats."
+      "accent": "L'IA enlève le travail mécanique. Vos experts gardent le jugement et la décision."
     },
     "Trust": {
-      "title": "Vous hésitez encore ? Pas eux.",
+      "title": "Ils nous font confiance",
       "logos": {
         "first": "Controle-G",
         "second": "Atelier Stéphane Fernandez"
       }
     },
     "UseCases": {
-      "title": "Exemples concrets",
+      "title": "Trois façons concrètes de passer un cap",
       "infoCard": {
         "first": {
-          "title": "Gestion commerciale",
-          "description": "Un CRM qui se met à jour automatiquement depuis vos emails, génère des relances, et produit un rapport hebdo.",
-          "footer": "Gain : 8h/semaine"
+          "title": "Exploiter vos documents (RAG)",
+          "description": "Un assistant qui répond à partir de vos dossiers — contrats, notes, référentiels — avec la source citée. Notre cas phare : aider un bureau d'études à rédiger ses notes de concours à partir de son propre corpus.",
+          "footer": "Cas phare · BET / concours"
         },
         "second": {
-          "title": "Support client",
-          "description": "Un agent IA qui répond aux questions fréquentes, trie les demandes, et escalade les urgences. ",
-          "footer": "Gain : 12h/semaine"
+          "title": "Automatiser une tâche répétitive (agents)",
+          "description": "Un agent qui prend en charge une chaîne de tâches manuelles — trier, extraire, classer, préparer un brouillon — et la rend prête à valider. L'humain garde le dernier mot.",
+          "footer": "Agents IA"
         },
         "third": {
-          "title": "Administratif",
-          "description": "Factures générées automatiquement, rappels de paiement, synchronisation comptable. ",
-          "footer": "Gain : 6h/semaine"
+          "title": "Intégrer l'IA dans vos outils",
+          "description": "Pas un logiciel de plus à apprendre : l'IA se branche dans ce que vous utilisez déjà — messagerie, espace documentaire, outils métier.",
+          "footer": "Sans nouvel outil à apprendre"
         }
       }
     },
     "Process": {
       "label": "Processus",
       "title": "Comment ça marche",
-      "subtitle": "Des étapes simples pour transformer votre workflow",
+      "subtitle": "Quatre étapes, un outil qui vous appartient à la fin",
       "route": {
         "1": {
-          "title": "Audit gratuit",
-          "description": "On identifie vos quick wins"
+          "title": "Audit gratuit (30 min)",
+          "description": "On identifie la perte de temps la plus coûteuse et si l'IA est la bonne réponse"
         },
         "2": {
-          "title": "Proposition chiffrée",
-          "description": "ROI estimé avant de commencer"
+          "title": "Proposition",
+          "description": "Périmètre précis, livrables datés, prix fixe en paiement unique"
         },
         "3": {
-          "title": "Développement",
-          "description": "Itérations rapides, démos régulières"
+          "title": "Build",
+          "description": "On conçoit l'outil sur vos données et on le teste sur vos cas réels"
         },
         "4": {
-          "title": "Résultats",
-          "description": "Vous mesurez le temps gagné dès le premier mois"
+          "title": "Remise & ownership",
+          "description": "Vous recevez l'outil et le code. C'est désormais votre actif."
         }
       }
     },
@@ -110,39 +110,39 @@
       "title": "Questions fréquentes",
       "questions": {
         "1": {
-          "question": "Combien ça coûte ?",
-          "response": "Chaque projet est différent. On commence toujours par un audit gratuit de 30 minutes pour estimer le périmètre et vous donner un devis clair, sans surprise."
+          "question": "L'IA peut-elle aider à rédiger une note méthodologique de concours d'architecture ?",
+          "response": "Oui, à condition qu'elle assiste sans remplacer l'architecte. L'outil s'appuie sur le corpus de l'agence pour structurer et reformuler plus vite ; l'architecte garde la maîtrise du parti et valide chaque passage. Selon la MIQCP, 75 % des architectes jugent le temps et le coût des candidatures régulièrement dissuasifs."
         },
         "2": {
-          "question": "Combien de temps pour voir des résultats ?",
-          "response": "Les premières automatisations sont généralement en place sous 2 à 4 semaines. Vous mesurez le temps gagné dès le premier mois."
+          "question": "Faut-il un abonnement ?",
+          "response": "Non. ZetisLabs fonctionne en paiement unique : vous payez une fois et l'outil, avec son code, vous appartient. L'avantage se mesure sur le coût total dans le temps."
         },
         "3": {
-          "question": "Ça fonctionne avec mes outils actuels ?",
-          "response": "Oui. On s'adapte à votre stack existante — CRM, ERP, outils métiers, Google Workspace, etc. Pas besoin de tout changer."
+          "question": "Mes données restent-elles privées ?",
+          "response": "Oui. L'outil fonctionne sur votre environnement et votre corpus. Comme le code vous est remis, vous gardez le contrôle de vos données. Les modalités sont fixées pendant la proposition."
         },
         "4": {
-          "question": "Et si ça ne me convient pas ?",
-          "response": "L'audit est gratuit et sans engagement. Vous décidez ensuite si vous voulez avancer ou non, en toute transparence."
+          "question": "L'IA remplace-t-elle l'expert ?",
+          "response": "Non, c'est une règle de conception : l'IA enlève le travail mécanique, le jugement reste humain. L'outil assiste l'expert, il ne décide ni ne juge jamais à sa place."
         },
         "5": {
-          "question": "C'est quoi la différence avec du no-code type Zapier ?",
-          "response": "On développe du code natif, pas des workflows visuels. Résultat : plus de flexibilité, moins de limites, et des solutions qui tiennent dans le temps."
+          "question": "ZetisLabs ne fait que de l'architecture / des BET ?",
+          "response": "Non. ZetisLabs est un labo IA généraliste : RAG, agents et intégration sur-mesure, tous métiers. L'aide à la rédaction de notes de concours est notre cas phare actuel — la preuve concrète de ce qu'on sait faire sur un corpus métier réel."
         }
       }
     },
     "cta": {
-      "title": "Combien d'heures pourriez-vous récupérer ?",
-      "description": "Audit gratuit. On analyse vos process et on vous dit où vous pouvez gagner du temps.",
+      "title": "Passez un vrai cap en IA — et gardez la main.",
+      "description": "Un outil sur-mesure, branché sur vos données, que vous possédez. L'IA fait le travail mécanique, vos experts gardent la décision. Audit gratuit, sans engagement.",
       "primary": {
-        "label": "Réserver mon audit gratuit",
+        "label": "Réserver mon audit gratuit (30 min)",
         "href": "https://calendly.com/lucien-zetislabs/30min",
         "ariaLabel": "Réserver mon audit gratuit"
       },
       "secondary": {
-        "label": "En savoir plus",
-        "href": "#what-we-make",
-        "ariaLabel": "En savoir plus sur nos services"
+        "label": "Voir des exemples",
+        "href": "#use-cases",
+        "ariaLabel": "Voir des exemples concrets"
       }
     }
   }
