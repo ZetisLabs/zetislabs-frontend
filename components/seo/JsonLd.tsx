@@ -23,6 +23,7 @@ export function OrganizationJsonLd() {
     logo: `${siteConfig.url}/logo.png`,
     sameAs: [
       siteConfig.linkedin,
+      siteConfig.github,
       `https://twitter.com/${siteConfig.twitter.replace("@", "")}`,
     ],
     contactPoint: {

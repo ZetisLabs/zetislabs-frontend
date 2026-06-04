@@ -14,6 +14,7 @@ export const siteConfig = {
   locales: ["en", "fr"] as const,
   twitter: "@zetislabs",
   linkedin: "https://www.linkedin.com/company/zetislabs/",
+  github: "https://github.com/ZetisLabs",
   ogImage: "/og-image.png",
 };
 
