@@ -13,6 +13,7 @@ export const siteConfig = {
   defaultLocale: "fr" as const,
   locales: ["en", "fr"] as const,
   twitter: "@zetislabs",
+  linkedin: "https://www.linkedin.com/company/zetislabs/",
   ogImage: "/og-image.png",
 };
 

@@ -21,7 +21,10 @@ export function OrganizationJsonLd() {
     name: siteConfig.name,
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
-    sameAs: [`https://twitter.com/${siteConfig.twitter.replace("@", "")}`],
+    sameAs: [
+      siteConfig.linkedin,
+      `https://twitter.com/${siteConfig.twitter.replace("@", "")}`,
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
