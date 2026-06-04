@@ -1,0 +1,3 @@
+[submodule "design-wiki"]
+	path = design-wiki
+	url = git@github.com:lucienfer/design-wiki.git
