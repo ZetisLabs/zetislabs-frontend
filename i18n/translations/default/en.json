@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "ZetisLabs — AI lab: custom tools you actually own",
-    "description": "ZetisLabs, a French AI lab: custom AI tools (RAG, agents) that you own. One-time payment, no subscription. AI assists your experts, it never decides for them. Free 30-min audit."
+    "title": "ZetisLabs — Save 20 hours per week with automation",
+    "description": "Your teams waste time on repetitive tasks? We automate your processes and help you save up to 20 hours per week. Guaranteed ROI."
   },
   "header": {
     "home": "Home",
@@ -25,54 +25,54 @@
       { "type": "process", "id": "process" }
     ],
     "hero": {
-      "eyebrow": "AI integration lab · France · since 2025",
+      "eyebrow": "Custom automation for SMBs",
       "title": {
-        "default": "AI inside your business, ",
-        "thin": "without becoming ",
-        "accent": "one more app to rent."
+        "default": "",
+        "thin": "20 hours saved per week. ",
+        "accent": "Per employee."
       },
-      "subtitle": "ZetisLabs is the lab that helps companies cross a real AI threshold — custom integration, RAG, agents, wired into your data. You pay once: the tool and the code are yours. Your experts keep the final call on every decision.",
+      "subtitle": "Your teams waste time on repetitive tasks? We automate them so you can focus on what truly moves your business forward.",
       "cta": {
         "primary": {
-          "label": "Book a free audit (30 min)",
+          "label": "Estimate my time savings",
           "href": "https://calendly.com/lucien-zetislabs/30min",
-          "ariaLabel": "Book a free 30-minute audit"
+          "ariaLabel": "Estimate my time savings"
         },
         "secondary": {
-          "label": "See what we are building",
+          "label": "See real examples",
           "href": "#use-cases",
           "ariaLabel": "See real examples"
         }
       }
     },
     "ProblemSolution": {
-      "titleProblem": "The problem isn't a lack of AI.",
-      "description": "Generic AI tools that know nothing about your work\nStacked SaaS subscriptions, billed forever\nThe fear that AI will \"hallucinate\" or decide for you\nVague promises, never measured\n\nThe real issue is how you integrate AI. Not AI itself.",
-      "titleSolution": "A tool wired into your data — that you own",
-      "body": "We build a custom tool wired into your corpus (your documents, your vocabulary, your processes), test it on your real cases, then hand it over: the code is yours.",
+      "titleProblem": "How many hours lost this week?",
+      "description": "Copy-pasting data between tools\nSending the same follow-up emails\nGenerating reports manually\nChecking Excel spreadsheets\nAnswering the same questions\n\nThese tasks don't create value. They consume time. Your time.",
+      "titleSolution": "We automate, you breathe",
+      "body": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
       "stat": {
-        "value": "1×",
-        "label": "one-time payment — the tool and the code are yours"
+        "value": "20h",
+        "label": "saved on average per week"
       },
-      "accent": "AI removes the mechanical work. Your experts keep the judgment and the decision."
+      "accent": "Result: your teams focus on what matters. You see the difference in your results."
     },
     "UseCases": {
-      "title": "Three concrete ways to cross a threshold",
+      "title": "Real examples",
       "infoCard": {
         "first": {
-          "title": "Leverage your documents (RAG)",
-          "description": "An assistant that answers from your own files — contracts, notes, references — with the source cited. Our flagship: helping an engineering office write its tender notes from its own corpus.",
-          "footer": "Flagship · tenders / BET"
+          "title": "Sales management",
+          "description": "A CRM that updates automatically from your emails, generates follow-ups, and produces a weekly report.",
+          "footer": "Saved: 8h/week"
         },
         "second": {
-          "title": "Automate a repetitive task (agents)",
-          "description": "An agent that handles a chain of manual tasks — sort, extract, classify, draft — and hands it back ready to validate. The human keeps the last word.",
-          "footer": "AI agents"
+          "title": "Customer support",
+          "description": "An AI agent that answers frequently asked questions, sorts requests, and escalates urgent issues.",
+          "footer": "Saved: 12h/week"
         },
         "third": {
-          "title": "Integrate AI into your tools",
-          "description": "Not one more app to learn: AI plugs into what you already use — email, document space, business tools.",
-          "footer": "No new tool to learn"
+          "title": "Administrative",
+          "description": "Invoices generated automatically, payment reminders, accounting synchronization.",
+          "footer": "Saved: 6h/week"
         }
       }
     },
@@ -86,23 +86,23 @@
     "Process": {
       "label": "Process",
       "title": "How it works",
-      "subtitle": "Four steps, a tool that is yours at the end",
+      "subtitle": "Simple steps to transform your workflow",
       "route": {
         "1": {
-          "title": "Free audit (30 min)",
-          "description": "We pinpoint the most costly time sink and whether AI is the right answer"
+          "title": "Free audit",
+          "description": "We identify your quick wins"
         },
         "2": {
-          "title": "Proposal",
-          "description": "Clear scope, dated deliverables, fixed one-time price"
+          "title": "Detailed proposal",
+          "description": "Estimated ROI before we start"
         },
         "3": {
-          "title": "Build",
-          "description": "We build the tool on your data and test it on your real cases"
+          "title": "Development",
+          "description": "Fast iterations, regular demos"
         },
         "4": {
-          "title": "Handover & ownership",
-          "description": "You receive the tool and the code. It is now your asset."
+          "title": "Results",
+          "description": "You measure the time saved from the first month"
         }
       }
     },
@@ -110,39 +110,39 @@
       "title": "Frequently asked questions",
       "questions": {
         "1": {
-          "question": "Can AI help write an architecture-competition methodology note?",
-          "response": "Yes, as long as it assists rather than replaces the architect. The tool draws on the firm's own corpus to structure and rephrase faster; the architect keeps control of the design intent and validates every passage. Per the MIQCP, 75% of architects find the time and cost of bids regularly off-putting."
+          "question": "How much does it cost?",
+          "response": "Every project is different. We always start with a free 30-minute audit to estimate the scope and give you a clear quote, with no surprises."
         },
         "2": {
-          "question": "Is a subscription required?",
-          "response": "No. ZetisLabs works on a one-time payment: you pay once and the tool, with its code, is yours. The advantage shows in total cost over time."
+          "question": "How long until I see results?",
+          "response": "The first automations are typically in place within 2 to 4 weeks. You'll measure the time saved from the first month."
         },
         "3": {
-          "question": "Does my data stay private?",
-          "response": "Yes. The tool runs on your environment and your corpus. Since the code is handed to you, you keep control of your data. The exact terms are set during the proposal."
+          "question": "Does it work with my current tools?",
+          "response": "Yes. We adapt to your existing stack — CRM, ERP, business tools, Google Workspace, etc. No need to change everything."
         },
         "4": {
-          "question": "Does AI replace the expert?",
-          "response": "No, it's a design rule: AI removes the mechanical work, the judgment stays human. The tool assists the expert, it never decides or judges in their place."
+          "question": "What if it doesn't work for me?",
+          "response": "The audit is free and comes with no commitment. You then decide whether to move forward or not, in full transparency."
         },
         "5": {
-          "question": "Does ZetisLabs only do architecture / engineering offices?",
-          "response": "No. ZetisLabs is a generalist AI lab: RAG, agents and custom integration, for any field. Helping write competition notes is our current flagship — concrete proof of what we can do on a real business corpus."
+          "question": "What's the difference from no-code tools like Zapier?",
+          "response": "We develop native code, not visual workflows. Result: more flexibility, fewer limitations, and solutions that stand the test of time."
         }
       }
     },
     "cta": {
-      "title": "Cross a real AI threshold — and keep control.",
-      "description": "A custom tool, wired into your data, that you own. AI does the mechanical work, your experts keep the decision. Free audit, no commitment.",
+      "title": "How many hours could you get back?",
+      "description": "Free audit. We analyze your processes and tell you where you can save time.",
       "primary": {
-        "label": "Book my free audit (30 min)",
+        "label": "Book my free audit",
         "href": "https://calendly.com/lucien-zetislabs/30min",
         "ariaLabel": "Book my free audit"
       },
       "secondary": {
-        "label": "See examples",
-        "href": "#use-cases",
-        "ariaLabel": "See real examples"
+        "label": "Learn more",
+        "href": "#what-we-make",
+        "ariaLabel": "Learn more about our services"
       }
     }
   }
