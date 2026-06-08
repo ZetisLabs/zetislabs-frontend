@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense, lazy } from "react";
+import { useWebGLAnimationMode } from "@/components/providers";
 
 // Lazy load the WebGL component - Three.js bundle won't load until needed
 const WebGLBackground = lazy(() =>
@@ -34,33 +35,36 @@ export function WebGLBackgroundLazy({
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // A child layout (e.g. blog) can set the mode to "none" to disable the WebGL
+  // background entirely. Because <WebGLBackground> is only rendered when enabled,
+  // React.lazy never imports the Three.js chunk on those routes.
+  const { animationMode: contextMode } = useWebGLAnimationMode();
+  const webglEnabled = contextMode !== "none";
+
   useEffect(() => {
-    // Use requestIdleCallback for better scheduling, with setTimeout fallback
+    // Defer loading Three.js until the browser is idle, so it doesn't compete
+    // with React hydration / the hero content paint.
     const scheduleLoad = () => {
       if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(
-          () => setShouldLoad(true),
-          { timeout: loadDelay + 500 } // Max wait time
-        );
+        window.requestIdleCallback(() => setShouldLoad(true), {
+          timeout: loadDelay + 500,
+        });
       } else {
         setTimeout(() => setShouldLoad(true), loadDelay);
       }
     };
-
-    // Small initial delay to ensure LCP content renders first
     const timer = setTimeout(scheduleLoad, loadDelay);
-
     return () => clearTimeout(timer);
   }, [loadDelay]);
 
   // Track when WebGL is actually loaded and rendered
   useEffect(() => {
-    if (shouldLoad) {
+    if (shouldLoad && webglEnabled) {
       // Give the component a moment to mount
       const timer = setTimeout(() => setIsLoaded(true), 50);
       return () => clearTimeout(timer);
     }
-  }, [shouldLoad]);
+  }, [shouldLoad, webglEnabled]);
 
   return (
     <>
@@ -76,8 +80,8 @@ export function WebGLBackgroundLazy({
         aria-hidden="true"
       />
 
-      {/* Load WebGL when ready */}
-      {shouldLoad && (
+      {/* Load WebGL when ready — skipped entirely when disabled (mode "none") */}
+      {shouldLoad && webglEnabled && (
         <Suspense fallback={null}>
           <WebGLBackground animationMode={animationMode} />
         </Suspense>
