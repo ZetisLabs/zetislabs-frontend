@@ -103,7 +103,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <WebSiteJsonLd locale={locale} />
         {/* Set html lang attribute based on locale */}
         <LocaleScript />
-        <WebGLBackgroundLazy animationMode="intro" />
+        <WebGLBackgroundLazy animationMode="intro" loadDelay={0} />
         <div className="flex min-h-screen flex-col">
           <Header locale={locale} />
           <main className="relative z-10 flex-1 overflow-x-hidden">
