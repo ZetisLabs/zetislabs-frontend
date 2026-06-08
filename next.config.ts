@@ -44,6 +44,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Pin Turbopack's project root to THIS worktree. The parent repo also has a
+  // package-lock.json, so without this Turbopack picks the wrong root and enters
+  // a recompile thrash (malformed CSS + multi-minute compiles). Absolute path is
+  // used deliberately to avoid any ambiguity in how the config is loaded.
+  turbopack: {
+    root: "/Users/takezo/projects/zetislabs-frontend/.worktrees/redesign",
+  },
   async headers() {
     return [
       {
