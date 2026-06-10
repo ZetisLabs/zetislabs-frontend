@@ -18,6 +18,37 @@
   /* Font family */
   --font-sans: var(--font-ibm-plex-sans);
   --font-heading: var(--font-general-sans);
+
+  /* Signature motion easings (from the design-wiki) */
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Craft layer — focus rings via box-shadow (never outline, so the ring follows
+   each element's own border-radius). Keyboard-only via :focus-visible. This is a
+   wiki non-negotiable that was missing site-wide. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px color-mix(in srgb, var(--color-accent) 65%, transparent);
+}
+
+/* Tactile press feedback — buttons dip slightly on activation. Scoped to
+   button-like elements so inline text links are unaffected. Hero CTAs use
+   Framer whileTap (inline transform) which takes precedence — no double-scale. */
+@media (hover: hover) {
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.98);
+  }
 }
 
 /* Base document styles */
@@ -57,6 +88,37 @@ input {
   font-weight: 600;
 }
 
+/* Swiss paper — subtle dot grid for reading surfaces (replaces WebGL on the
+   blog). Matches the wiki's "dot grid radial-gradient opacity ~0.03". */
+@utility swiss-paper {
+  background-image: radial-gradient(
+    circle,
+    rgba(26, 26, 26, 0.035) 1px,
+    transparent 1.5px
+  );
+  background-size: 22px 22px;
+}
+
+/* Vertical scroll fade — articles dissolve near the top/bottom edges of a
+   scroll container as they scroll out. Subtle at the top, stronger at the
+   bottom (hints at more below). Pure CSS, GPU-composited. */
+@utility scroll-fade-y {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 4%,
+    #000 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 4%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
 /* Glass text effect for accent text */
 @utility glass-text {
   position: relative;
@@ -92,4 +154,47 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100dvh;
+}
+
+/* Hero Section Entrance Animations */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CSS-driven entrance: runs at first paint, before/without JS hydration, so the
+   hero content never waits for the bundle to hydrate (kills the load "dead time"
+   and improves LCP). */
+.hero-entrance {
+  animation: hero-fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.hero-entrance-1 {
+  animation-delay: 0.08s;
+}
+
+.hero-entrance-2 {
+  animation-delay: 0.18s;
+}
+
+.hero-entrance-3 {
+  animation-delay: 0.28s;
+}
+
+.hero-entrance-4 {
+  animation-delay: 0.38s;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-entrance {
+    animation: none;
+    opacity: 1;
+  }
 }

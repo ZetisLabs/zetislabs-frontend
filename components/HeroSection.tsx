@@ -6,8 +6,6 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
-  useMotionValue,
-  animate,
   easings,
   durations,
   useHasMounted,
@@ -45,22 +43,9 @@ export function HeroSection({
   // Disable scroll effects on mobile to prevent touch scroll bugs
   const enableScrollEffects = hasMounted && !isMobile;
 
-  // Entrance animation progress (0 → 1) with staggered delays
-  const entranceEyebrow = useMotionValue(0);
-  const entranceTitle = useMotionValue(0);
-  const entranceSubtitle = useMotionValue(0);
-  const entranceCta = useMotionValue(0);
-
-  useEffect(() => {
-    const easing = [0.16, 1, 0.3, 1] as const;
-    const duration = 1.2;
-
-    // Staggered entrance animations
-    animate(entranceEyebrow, 1, { delay: 1.2, duration, ease: easing });
-    animate(entranceTitle, 1, { delay: 1.3, duration, ease: easing });
-    animate(entranceSubtitle, 1, { delay: 1.4, duration, ease: easing });
-    animate(entranceCta, 1, { delay: 1.5, duration, ease: easing });
-  }, [entranceEyebrow, entranceTitle, entranceSubtitle, entranceCta]);
+  // The entrance is now CSS-driven (.hero-entrance on the content container), so
+  // it paints at first load without waiting for hydration. The motion values
+  // below only handle the scroll-driven fade-out.
 
   // Scroll-driven fade out
   const { scrollYProgress } = useScroll({
@@ -78,18 +63,12 @@ export function HeroSection({
   // Eyebrow - starts immediately, shrinks slightly
   const eyebrowScrollOpacity = useTransform(scrollYProgress, [0, 0.32], [1, 0]);
   const eyebrowScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.92]);
-  const eyebrowOpacity = useTransform(
-    [entranceEyebrow, eyebrowScrollOpacity],
-    ([entrance, scroll]) => (entrance as number) * (scroll as number)
-  );
+  const eyebrowOpacity = eyebrowScrollOpacity;
 
   // Title - shrinks more noticeably (main focal point)
   const titleScrollOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const titleScale = useTransform(scrollYProgress, [0, 0.35], [1, 0.88]);
-  const titleOpacity = useTransform(
-    [entranceTitle, titleScrollOpacity],
-    ([entrance, scroll]) => (entrance as number) * (scroll as number)
-  );
+  const titleOpacity = titleScrollOpacity;
 
   // Subtitle - subtle shrink
   const subtitleScrollOpacity = useTransform(
@@ -98,18 +77,12 @@ export function HeroSection({
     [1, 0]
   );
   const subtitleScale = useTransform(scrollYProgress, [0.02, 0.35], [1, 0.94]);
-  const subtitleOpacity = useTransform(
-    [entranceSubtitle, subtitleScrollOpacity],
-    ([entrance, scroll]) => (entrance as number) * (scroll as number)
-  );
+  const subtitleOpacity = subtitleScrollOpacity;
 
   // CTAs - subtle shrink
   const ctaScrollOpacity = useTransform(scrollYProgress, [0.04, 0.35], [1, 0]);
   const ctaScale = useTransform(scrollYProgress, [0.04, 0.35], [1, 0.95]);
-  const ctaOpacity = useTransform(
-    [entranceCta, ctaScrollOpacity],
-    ([entrance, scroll]) => (entrance as number) * (scroll as number)
-  );
+  const ctaOpacity = ctaScrollOpacity;
 
   // Global container opacity - used to hide the fixed container completely
   // On mobile, keep opacity at 1 (no scroll fade)
@@ -148,13 +121,13 @@ export function HeroSection({
         }
       >
         <div className="mx-auto w-full max-w-screen-xl px-4">
-          <div className="mx-auto max-w-3xl px-1 pt-16 text-center sm:px-0 sm:pt-24 md:pt-32">
+          <div className="hero-entrance mx-auto max-w-3xl px-1 pt-16 text-center sm:px-0 sm:pt-24 md:pt-32">
             {/* Eyebrow with scroll fade (desktop only) */}
             <motion.div
               style={
                 enableScrollEffects
                   ? { opacity: eyebrowOpacity, scale: eyebrowScale }
-                  : { opacity: entranceEyebrow }
+                  : undefined
               }
             >
               <EyebrowBadge className="mb-4 justify-center sm:mb-6">
@@ -167,7 +140,7 @@ export function HeroSection({
               style={
                 enableScrollEffects
                   ? { opacity: titleOpacity, scale: titleScale }
-                  : { opacity: entranceTitle }
+                  : undefined
               }
             >
               {/* Breathing Halo - fades out FIRST like a sunset */}
@@ -222,7 +195,7 @@ export function HeroSection({
                     />
                   </>
                 )}
-                <h1 className="text-[1.75rem] leading-[1.12] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                <h1 className="text-[1.75rem] leading-[1.12] tracking-[-0.03em] text-balance sm:text-5xl lg:text-6xl">
                   <span className="font-semibold">{title.default}</span>
                   <span className="font-normal text-foreground/90">
                     {title.thin}
@@ -240,7 +213,7 @@ export function HeroSection({
               style={
                 enableScrollEffects
                   ? { opacity: subtitleOpacity, scale: subtitleScale }
-                  : { opacity: entranceSubtitle }
+                  : undefined
               }
             >
               {subtitle}
@@ -252,7 +225,7 @@ export function HeroSection({
               style={
                 enableScrollEffects
                   ? { opacity: ctaOpacity, scale: ctaScale }
-                  : { opacity: entranceCta }
+                  : undefined
               }
             >
               {/* Primary CTA with its own breathing halo */}
@@ -385,11 +358,7 @@ export function HeroSection({
         {/* Scroll indicator - subtle arrow */}
         <motion.div
           className="absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-10"
-          style={
-            enableScrollEffects
-              ? { opacity: haloOpacity }
-              : { opacity: entranceCta }
-          }
+          style={enableScrollEffects ? { opacity: haloOpacity } : undefined}
         >
           <motion.div
             className="flex flex-col items-center gap-1 text-foreground/30"

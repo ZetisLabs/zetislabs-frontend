@@ -10,7 +10,7 @@ import { backgroundVertexShader } from "./shaders/background.vert";
 import { backgroundFragmentShader } from "./shaders/background.frag";
 
 // Animation constants
-const ANIMATION_DURATION = 2.8; // seconds for intro animation
+const ANIMATION_DURATION = 1.5; // seconds — matches the hero entrance window so the arc and content land together
 const CELL_SIZE = 5; // pixels
 
 // Colors (normalized RGB)

@@ -1,204 +1,47 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "@/lib/motion";
-import { Clock, X } from "lucide-react";
-import Image from "next/image";
-import { ArticleContent } from "./ArticleContent";
+import Link from "next/link";
+import { Reveal } from "@/lib/motion";
 import type { Article } from "@/lib/articles";
 
-const CATEGORIES = [
-  "All",
-  "AI & Automation",
-  "Product Updates",
-  "Case Studies",
-  "Engineering",
-];
+/**
+ * Blog — abstract single-screen list with a continuous "loupe".
+ *
+ * The page does not scroll; the list is contained, vertically centered, and
+ * snaps each article to the centre (the "crans"). A continuous, scroll-driven
+ * loupe scales/fades each article by its distance to the centre (smooth bell
+ * curve, no stepped jumps), so the centred article reads largest. On the left,
+ * one dot per article — the centred one morphs into an accent dash.
+ *
+ * The loupe is applied via direct DOM writes (transform/opacity only, GPU) so
+ * there is no per-frame React re-render. Hydration-safe: no inline transform on
+ * first render; the loupe is applied after mount, masked by the entrance.
+ */
 
-// Article Modal - Floating window with header blur style
-const ArticleModal = ({
-  article,
-  onClose,
-}: {
-  article: Article | null;
-  onClose: () => void;
-}) => {
-  // Close on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (article) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [article]);
-
-  if (!article) return null;
-
-  return (
-    <AnimatePresence>
-      {article && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          {/* Backdrop with blur - hidden on mobile (full-screen mode) */}
-          <motion.div
-            className="absolute inset-0 hidden cursor-pointer bg-background/60 backdrop-blur-sm md:block"
-            onClick={onClose}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          />
-
-          {/* Close button - outside modal content for reliable touch on mobile */}
-          <motion.button
-            type="button"
-            onClick={onClose}
-            className="absolute top-4 right-4 z-[60] flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-foreground text-background shadow-xl transition-all active:scale-90 md:top-12 md:right-12 md:h-10 md:w-10 md:bg-foreground/90 md:shadow-lg md:hover:bg-foreground"
-            aria-label="Fermer"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
-          >
-            <X className="h-7 w-7 md:h-5 md:w-5" strokeWidth={2.5} />
-          </motion.button>
-
-          {/* Modal content - Full-screen on mobile, floating window on desktop */}
-          <motion.div
-            className="relative z-10 flex h-full w-full flex-col overflow-hidden bg-background md:h-auto md:max-h-[85vh] md:max-w-4xl md:rounded-md md:border-[0.75px] md:border-border/50 md:bg-background/75 md:shadow-lg md:backdrop-blur-md"
-            initial={{ opacity: 0, scale: 0.98, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 20 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            {/* Scrollable content - no scrollbar */}
-            <div className="no-scrollbar overflow-y-auto">
-              {/* Hero image */}
-              <div className="relative aspect-[21/9] w-full bg-foreground/5">
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 896px"
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Article content - opaque background for readability */}
-              <div className="bg-background p-6 md:p-12">
-                {/* Meta */}
-                <div className="mb-6 flex items-center gap-4">
-                  <span className="text-[10px] font-bold tracking-[0.3em] text-foreground/40 uppercase">
-                    {article.category}
-                  </span>
-                  <span className="text-[10px] tracking-[0.25em] text-foreground/40 uppercase">
-                    {article.date}
-                  </span>
-                  <div className="flex items-center gap-1 text-[10px] tracking-widest text-foreground/40 uppercase">
-                    <Clock className="h-3 w-3" />
-                    {article.readTime}
-                  </div>
-                </div>
-
-                {/* Title - using font-sans (IBMPlexSans) */}
-                <h2 className="mb-6 font-sans text-3xl leading-tight font-bold tracking-tight md:text-4xl">
-                  {article.title}
-                </h2>
-
-                {/* Author */}
-                <div className="mb-8 flex items-center gap-3 border-b border-foreground/10 pb-8">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground/10 text-sm font-bold">
-                    {article.author.avatar}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold">{article.author.name}</p>
-                    <p className="text-xs text-foreground/40">Author</p>
-                  </div>
-                </div>
-
-                {/* Article body - Markdown content */}
-                <ArticleContent content={article.content} />
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+const COPY = {
+  en: {
+    srTitle: "Journal — ZetisLabs workshop notes",
+    empty: "No articles found.",
+  },
+  fr: {
+    srTitle: "Journal — notes de l'atelier ZetisLabs",
+    empty: "Aucun article pour le moment.",
+  },
 };
 
-// Swiss-style horizontal article card
-const ArticleRow = ({
-  article,
-  onClick,
-}: {
-  article: Article;
-  onClick: () => void;
-}) => (
-  <motion.button
-    onClick={onClick}
-    className="group -mx-4 flex w-full cursor-pointer flex-row items-start gap-4 rounded-md border-b border-foreground/10 px-4 py-6 text-left transition-all duration-300 hover:border-[0.75px] hover:border-border/50 hover:bg-background/75 hover:shadow-sm hover:backdrop-blur-md sm:gap-6 md:gap-8 md:py-10"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.4 }}
-  >
-    {/* Left: Fixed Square Thumbnail */}
-    <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-foreground/5 sm:h-16 sm:w-16 md:h-20 md:w-20">
-      <Image
-        src={article.image}
-        alt={article.title}
-        fill
-        sizes="80px"
-        className="object-cover transition-all duration-500"
-      />
-    </div>
+// Loupe shape
+const SCALE_MIN = 0.92;
+const SCALE_MAX = 1.07;
+const OPACITY_MIN = 0.4;
+const FALLOFF = 190; // px — smaller = tighter loupe
 
-    {/* Right: Content */}
-    <div className="flex-grow space-y-1.5 sm:space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-[9px] font-bold tracking-[0.3em] text-foreground/40 uppercase">
-          {article.category}
-        </span>
-        <div className="flex items-center gap-1 text-[9px] tracking-widest text-foreground/40 uppercase">
-          <Clock className="h-3 w-3" />
-          {article.readTime}
-        </div>
-      </div>
-
-      <h3 className="font-sans text-base leading-snug font-bold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-1 sm:text-lg md:text-xl">
-        {article.title}
-      </h3>
-
-      <p className="line-clamp-2 max-w-2xl font-sans text-sm leading-relaxed text-foreground/60">
-        {article.excerpt}
-      </p>
-
-      <div className="flex items-center gap-3 pt-1 text-[10px] font-medium tracking-widest text-foreground/40 uppercase sm:gap-4">
-        <span className="text-foreground">{article.author.name}</span>
-        <span>•</span>
-        <span>{article.date}</span>
-      </div>
-    </div>
-  </motion.button>
-);
+// DD.MM.YY from an ISO-ish date, falling back to the raw string.
+function formatDate(raw: string): string {
+  const m = raw?.match(/(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}.${m[2]}.${m[1].slice(2)}` : raw;
+}
 
 interface BlogClientProps {
   articles: Article[];
@@ -208,175 +51,150 @@ interface BlogClientProps {
 export function BlogClient({ articles, locale }: BlogClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [active, setActive] = useState(0);
+  const ulRef = useRef<HTMLUListElement>(null);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const featuredArticle = articles.find((a) => a.featured) || articles[0];
-  // Show all articles in the list (including featured)
-  const gridArticles = articles;
+  const lang = locale === "fr" ? "fr" : "en";
+  const t = COPY[lang];
 
-  // Get selected article from URL (by slug) - for backward compatibility with query params
-  const articleSlug = searchParams.get("article");
-  const selectedArticle = articleSlug
-    ? articles.find((a) => a.slug === articleSlug) || null
-    : null;
+  // Backward-compat: legacy ?article=<slug> links now redirect to the page.
+  useEffect(() => {
+    const legacy = searchParams.get("article");
+    if (legacy) router.replace(`/${locale}/blog/${legacy}`);
+  }, [searchParams, router, locale]);
 
-  // Navigate to article page (SEO-friendly URL)
-  const openArticle = useCallback(
-    (article: Article) => {
-      router.push(`/${locale}/blog/${article.slug}`);
-    },
-    [router, locale]
-  );
+  // Lock page scroll on the index — only the list scrolls. Article pages don't
+  // mount this component, so their normal scroll is unaffected.
+  useEffect(() => {
+    const html = document.documentElement;
+    const prevHtml = html.style.overflow;
+    const prevBody = document.body.style.overflow;
+    html.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      document.body.style.overflow = prevBody;
+    };
+  }, []);
 
-  // Close article modal (for backward compatibility)
-  const closeArticle = useCallback(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("article");
-    const newUrl = params.toString()
-      ? `?${params.toString()}`
-      : window.location.pathname;
-    router.push(newUrl, { scroll: false });
-  }, [router, searchParams]);
+  // Continuous loupe: scale/fade each item by its distance to the viewport
+  // centre, and flag the nearest as active (for the dot indicator).
+  const applyLoupe = useCallback((ul: HTMLUListElement) => {
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const center = ul.scrollTop + ul.clientHeight / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < itemRefs.current.length; i++) {
+      const el = itemRefs.current[i];
+      if (!el) continue;
+      const dist = Math.abs(el.offsetTop + el.offsetHeight / 2 - center);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+      if (reduce) {
+        el.style.transform = "";
+        el.style.opacity = "";
+      } else {
+        const f = 1 / (1 + Math.pow(dist / FALLOFF, 2)); // 1 at centre → 0 far
+        const scale = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * f;
+        const opacity = OPACITY_MIN + (1 - OPACITY_MIN) * f;
+        el.style.transform = `scale(${scale.toFixed(4)})`;
+        el.style.opacity = opacity.toFixed(3);
+      }
+    }
+    setActive(best);
+  }, []);
 
-  // Filter articles by category
-  const filteredArticles =
-    activeCategory === "All"
-      ? gridArticles
-      : gridArticles.filter((a) => a.category === activeCategory);
-
-  // Show message if no articles
-  if (!articles.length) {
-    return (
-      <main className="min-h-screen text-foreground selection:bg-foreground selection:text-background">
-        <div className="flex h-[60vh] items-center justify-center">
-          <p className="text-foreground/40">No articles found.</p>
-        </div>
-      </main>
-    );
-  }
+  // Apply once after mount and on resize (no inline transform on first render
+  // keeps SSR/client identical).
+  useEffect(() => {
+    const ul = ulRef.current;
+    if (ul) applyLoupe(ul);
+    const onResize = () => ulRef.current && applyLoupe(ulRef.current);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [applyLoupe, articles.length]);
 
   return (
-    <main className="min-h-screen text-foreground selection:bg-foreground selection:text-background">
-      {/* Header Spacing */}
-      <div className="h-24 md:h-32" />
+    <main className="flex h-[calc(100dvh_-_62px)] flex-col overflow-hidden text-foreground selection:bg-foreground selection:text-background">
+      {/* Title kept for SEO/a11y only — never shown */}
+      <h1 className="sr-only">{t.srTitle}</h1>
 
-      {/* Featured Article */}
-      {featuredArticle && (
-        <section className="mx-auto max-w-6xl px-6">
-          <motion.button
-            onClick={() => openArticle(featuredArticle)}
-            className="group mb-16 block w-full cursor-pointer text-left md:mb-24"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="grid grid-cols-1 items-center gap-8 overflow-hidden lg:grid-cols-2 lg:gap-12">
-              {/* Content */}
-              <div className="order-2 space-y-6 lg:order-1">
-                <div className="flex items-center gap-4">
-                  <span className="text-[10px] tracking-[0.25em] text-foreground/40 uppercase">
-                    {featuredArticle.category}
-                  </span>
-                  <span className="text-[10px] tracking-[0.25em] text-foreground/40 uppercase">
-                    {featuredArticle.date}
-                  </span>
-                </div>
-                <h2 className="font-sans text-[1.5rem] leading-[1.15] font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
-                  {featuredArticle.title}
-                </h2>
-                <p className="max-w-xl font-sans text-base leading-relaxed text-foreground/60 md:text-lg">
-                  {featuredArticle.excerpt}
-                </p>
-                <div className="flex items-center gap-3 border-t border-foreground/10 pt-6">
-                  <span className="text-xs font-bold tracking-widest uppercase">
-                    {featuredArticle.author.name}
-                  </span>
-                  <span className="text-xs text-foreground/40">
-                    — {featuredArticle.readTime}
-                  </span>
-                </div>
-              </div>
-
-              {/* Image */}
-              <div className="relative order-1 aspect-[4/3] overflow-hidden bg-foreground/5 lg:order-2">
-                <Image
-                  src={featuredArticle.image}
-                  alt={featuredArticle.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  loading="eager"
-                  priority
-                  className="object-cover transition-all duration-700 ease-in-out group-hover:scale-105"
-                />
-              </div>
-            </div>
-          </motion.button>
-        </section>
-      )}
-
-      {/* Category Filter Bar - Header Style Bubble */}
-      <nav className="mb-12 flex justify-center px-6 md:mb-16">
-        <motion.div
-          className="no-scrollbar flex items-center gap-1 overflow-x-auto rounded-md border-[0.75px] border-border/50 bg-background/75 px-3 py-1.5 shadow-sm backdrop-blur-md"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`min-h-[44px] cursor-pointer rounded-[4px] px-4 py-2.5 text-[10px] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-all duration-200 active:scale-95 sm:min-h-[40px] sm:py-2 ${
-                activeCategory === category
-                  ? "bg-foreground text-background"
-                  : "text-foreground/40 hover:bg-foreground/5 hover:text-foreground"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </motion.div>
-      </nav>
-
-      {/* Article List - Swiss Typographic Style */}
-      <section className="mx-auto mb-24 max-w-4xl px-6 md:mb-32">
-        <div className="space-y-0">
-          {filteredArticles.length > 0 ? (
-            filteredArticles.map((article) => (
-              <ArticleRow
-                key={article.slug}
-                article={article}
-                onClick={() => openArticle(article)}
-              />
-            ))
-          ) : (
-            <p className="py-16 text-center text-sm text-foreground/40">
-              No articles found in this category.
-            </p>
-          )}
+      {articles.length === 0 ? (
+        <div className="flex flex-1 items-center justify-center">
+          <p className="text-sm text-foreground/40">{t.empty}</p>
         </div>
-      </section>
-
-      {/* Simple Footer */}
-      <footer className="relative z-10 mt-16 border-t border-border/40">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 text-[11px] text-foreground/50">
-          <p>© 2024 ZetisLabs. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            {["Twitter", "LinkedIn", "GitHub"].map((social) => (
-              <a
-                key={social}
-                href="#"
-                className="cursor-pointer transition-colors hover:text-foreground"
-              >
-                {social}
-              </a>
+      ) : (
+        <div className="mx-auto flex w-full max-w-3xl flex-1 gap-5 overflow-hidden px-6 pt-8 pb-10 md:gap-8 md:pt-12">
+          {/* Dot indicator — the active dot morphs into an accent dash */}
+          <div
+            className="flex shrink-0 flex-col items-center justify-center gap-2.5"
+            aria-hidden="true"
+          >
+            {articles.map((article, i) => (
+              <span
+                key={article.slug}
+                className={`rounded-full transition-all duration-300 ease-out ${
+                  i === active
+                    ? "h-5 w-0.5 bg-accent"
+                    : "h-1 w-1 bg-foreground/25"
+                }`}
+              />
             ))}
           </div>
-        </div>
-      </footer>
 
-      {/* Article Modal */}
-      <ArticleModal article={selectedArticle} onClose={closeArticle} />
+          {/* The list — scrolls internally, snaps to centre, page stays put */}
+          <ul
+            ref={ulRef}
+            onScroll={(e) => applyLoupe(e.currentTarget)}
+            className="no-scrollbar relative min-w-0 flex-1 snap-y snap-mandatory overflow-x-hidden overflow-y-auto scroll-fade-y py-[33dvh]"
+          >
+            {articles.map((article, i) => (
+              <li
+                key={article.slug}
+                ref={(el) => {
+                  itemRefs.current[i] = el;
+                }}
+                className="snap-center"
+              >
+                <Reveal once delay={Math.min(i * 0.04, 0.24)}>
+                  <Link
+                    href={`/${locale}/blog/${article.slug}`}
+                    className="group block rounded-lg px-3 py-6 transition-colors duration-300 hover:bg-foreground/[0.02] active:opacity-90 motion-reduce:transition-none"
+                  >
+                    {/* Quiet eyebrow — wakes to accent on contact */}
+                    <p className="text-[11px] tracking-[0.18em] text-foreground/35 uppercase tabular-nums transition-colors duration-300 group-hover:text-accent group-focus-visible:text-accent">
+                      {formatDate(article.date)}
+                      <span className="px-1.5 text-foreground/20">·</span>
+                      {article.readTime}
+                    </p>
+
+                    {/* Title — calm, deepens on contact */}
+                    <h2 className="mt-2.5 font-heading text-xl leading-snug font-medium tracking-[-0.02em] text-balance text-foreground/90 transition-colors duration-300 group-hover:text-foreground md:text-2xl">
+                      {article.title}
+                    </h2>
+
+                    {/* The accent traces itself in, left→right, on contact */}
+                    <span
+                      aria-hidden="true"
+                      className="mt-2.5 block h-0.5 w-8 origin-right scale-x-0 rounded-full bg-[var(--color-accent)] transition-transform duration-[450ms] [transition-timing-function:var(--ease-out-strong)] group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100 motion-reduce:transition-none"
+                    />
+
+                    {/* One quiet line of context */}
+                    <p className="mt-2.5 line-clamp-1 text-sm leading-relaxed text-foreground/50">
+                      {article.excerpt}
+                    </p>
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </main>
   );
 }

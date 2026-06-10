@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { IBM_Plex_Sans } from "next/font/google";
-import "../globals.css";
 import Header from "@/components/layout/Header";
+import LocaleScript from "@/components/ui/LocaleScript";
 import {
   EffectProvider,
   WebGLAnimationModeProvider,
@@ -17,90 +15,6 @@ import {
 } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/JsonLd";
-
-/**
- * IBM Plex Sans - Google Font for body text
- * Supports weights: 300 (Light), 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
- */
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-ibm-plex-sans",
-  display: "swap",
-});
-
-/**
- * GeneralSans font family - loaded from local files (used for headings)
- * Supports multiple weights: 200 (Extralight), 300 (Light), 400 (Regular),
- * 500 (Medium), 600 (Semibold), 700 (Bold)
- */
-const generalSans = localFont({
-  src: [
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Extralight.otf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-ExtralightItalic.otf",
-      weight: "200",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Light.otf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-LightItalic.otf",
-      weight: "300",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Italic.otf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-MediumItalic.otf",
-      weight: "500",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Semibold.otf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-SemiboldItalic.otf",
-      weight: "600",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-Bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans/GeneralSans-BoldItalic.otf",
-      weight: "700",
-      style: "italic",
-    },
-  ],
-  variable: "--font-general-sans",
-  display: "swap",
-});
 
 type Props = {
   children: React.ReactNode;
@@ -118,7 +32,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("metadata.description");
   const url = `${siteConfig.url}/${locale}`;
 
-  // Build hreflang alternates
   const languages: Record<string, string> = {};
   for (const loc of locales) {
     languages[loc] = `${siteConfig.url}/${loc}`;
@@ -182,25 +95,19 @@ export default async function LocaleLayout({ children, params }: Props) {
     : defaultLocale;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`${generalSans.variable} ${ibmPlexSans.variable} min-h-screen bg-background text-foreground antialiased`}
-      >
-        <EffectProvider>
-          <WebGLAnimationModeProvider defaultMode="intro">
-            {/* JSON-LD Structured Data */}
-            <OrganizationJsonLd />
-            <WebSiteJsonLd locale={locale} />
-            <WebGLBackgroundLazy animationMode="intro" />
-            <div className="flex min-h-screen flex-col">
-              <Header locale={locale} />
-              <main className="relative z-10 flex-1 overflow-x-hidden">
-                {children}
-              </main>
-            </div>
-          </WebGLAnimationModeProvider>
-        </EffectProvider>
-      </body>
-    </html>
+    <EffectProvider>
+      <WebGLAnimationModeProvider defaultMode="intro">
+        <OrganizationJsonLd />
+        <WebSiteJsonLd locale={locale} />
+        <LocaleScript />
+        <WebGLBackgroundLazy animationMode="intro" loadDelay={0} />
+        <div className="flex min-h-screen flex-col">
+          <Header locale={locale} />
+          <main className="relative z-10 flex-1 overflow-x-hidden">
+            {children}
+          </main>
+        </div>
+      </WebGLAnimationModeProvider>
+    </EffectProvider>
   );
 }
