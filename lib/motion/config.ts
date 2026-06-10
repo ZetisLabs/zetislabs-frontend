@@ -34,3 +34,12 @@ export const durations = {
   // Pulse animation
   pulse: 2,
 };
+
+// Ready-to-use transition presets
+export const transitions = {
+  // For scroll reveals (used by Reveal)
+  reveal: {
+    duration: durations.reveal,
+    ease: easings.easeOut,
+  },
+};

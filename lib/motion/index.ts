@@ -16,6 +16,9 @@ export { useHasMounted } from "./hooks";
 // Configuration
 export * from "./config";
 
+// Components
+export { Reveal } from "./components/Reveal";
+
 // Re-export commonly used Framer Motion utilities
 export {
   motion,
