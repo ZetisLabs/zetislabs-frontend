@@ -13,11 +13,7 @@
   --color-accent: #3a7bd5;
   --color-accent-foreground: #f8f8f8;
   --color-card: #ffffff;
-  --color-card-foreground: #1a1a1a;
   --color-border: #e2e2e2;
-  --color-hover: #e2e2e2;
-  --color-hover-foreground: #1a1a1a;
-  --color-underline: #3a7bd5;
 
   /* Font family */
   --font-sans: var(--font-ibm-plex-sans);
@@ -96,45 +92,4 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100dvh;
-}
-
-/* Hero Section Entrance Animations */
-@keyframes hero-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-entrance {
-  animation: hero-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-}
-
-.hero-entrance-1 {
-  animation-delay: 1.2s;
-}
-
-.hero-entrance-2 {
-  animation-delay: 1.3s;
-}
-
-.hero-entrance-3 {
-  animation-delay: 1.4s;
-}
-
-.hero-entrance-4 {
-  animation-delay: 1.5s;
-}
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .hero-entrance {
-    animation: none;
-    opacity: 1;
-  }
 }

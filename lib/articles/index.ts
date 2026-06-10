@@ -1,14 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { cache } from "react";
 import matter from "gray-matter";
 import type { Article, ArticleFrontmatter } from "./types";
 
 const articlesDirectory = path.join(process.cwd(), "articles");
 
 /**
- * Get all articles for a specific locale
+ * Get all articles for a specific locale.
+ *
+ * Wrapped in React `cache()` so repeated calls within a single request
+ * (page render + generateMetadata + generateStaticParams) reuse one
+ * filesystem read + gray-matter parse instead of re-reading each time.
  */
-export function getAllArticles(locale: string): Article[] {
+export const getAllArticles = cache((locale: string): Article[] => {
   const localeDir = path.join(articlesDirectory, locale);
 
   // Return empty array if directory doesn't exist
@@ -38,42 +43,31 @@ export function getAllArticles(locale: string): Article[] {
     const dateB = new Date(b.date);
     return dateB.getTime() - dateA.getTime();
   });
-}
+});
 
 /**
- * Get a single article by slug for a specific locale
+ * Get a single article by slug for a specific locale.
+ *
+ * Wrapped in React `cache()` so the same (slug, locale) is read and parsed
+ * once per request even when referenced by both metadata and the page.
  */
-export function getArticleBySlug(slug: string, locale: string): Article | null {
-  const fullPath = path.join(articlesDirectory, locale, `${slug}.md`);
+export const getArticleBySlug = cache(
+  (slug: string, locale: string): Article | null => {
+    const fullPath = path.join(articlesDirectory, locale, `${slug}.md`);
 
-  if (!fs.existsSync(fullPath)) {
-    return null;
+    if (!fs.existsSync(fullPath)) {
+      return null;
+    }
+
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data, content } = matter(fileContents);
+
+    return {
+      slug,
+      content,
+      ...(data as ArticleFrontmatter),
+    };
   }
-
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-
-  return {
-    slug,
-    content,
-    ...(data as ArticleFrontmatter),
-  };
-}
-
-/**
- * Get all article slugs for a specific locale (useful for static generation)
- */
-export function getArticleSlugs(locale: string): string[] {
-  const localeDir = path.join(articlesDirectory, locale);
-
-  if (!fs.existsSync(localeDir)) {
-    return [];
-  }
-
-  return fs
-    .readdirSync(localeDir)
-    .filter((fileName) => fileName.endsWith(".md"))
-    .map((fileName) => fileName.replace(/\.md$/, ""));
-}
+);
 
 export type { Article, ArticleFrontmatter };

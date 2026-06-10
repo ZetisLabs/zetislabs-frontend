@@ -52,9 +52,6 @@ export {
 // Effets predefinis
 export {
   GlowEffect,
-  BadgeGlow,
-  CardGlow,
-  FocusGlow,
   type GlowEffectProps,
   type GlowPosition,
   type GlowColorPreset,

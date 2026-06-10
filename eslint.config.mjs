@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local agent worktrees are full repo checkouts; don't lint them.
+    ".worktrees/**",
   ]),
 ]);
 

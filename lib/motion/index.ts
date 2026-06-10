@@ -1,27 +1,12 @@
 /**
  * Motion Library
  *
- * A reusable Framer Motion animation library for React applications.
- * Easily extractable for use across multiple projects.
+ * A thin wrapper over Framer Motion plus shared animation config used
+ * across the site.
  *
  * @example
  * ```tsx
- * import {
- *   Reveal,
- *   FadeIn,
- *   StaggerContainer,
- *   StaggerItem,
- *   ScrollFade,
- *   HoverScale,
- *   PulseGlow,
- *   BreathingHalo,
- *   motion,
- *   useInView,
- *   fadeInUp,
- *   hoverScale,
- *   transitions,
- *   easings,
- * } from "@/lib/motion";
+ * import { motion, useInView, easings, durations, useHasMounted } from "@/lib/motion";
  * ```
  */
 
@@ -31,25 +16,6 @@ export { useHasMounted } from "./hooks";
 // Configuration
 export * from "./config";
 
-// Variants
-export * from "./variants";
-
-// Components
-export {
-  Reveal,
-  FadeIn,
-  StaggerContainer,
-  StaggerItem,
-  ScrollFade,
-  HoverScale,
-  PulseGlow,
-  BreathingHalo,
-  GridBackground,
-  CardReveal,
-  FloatingCardsShowcase,
-  CardCarousel,
-} from "./components";
-
 // Re-export commonly used Framer Motion utilities
 export {
   motion,
@@ -58,11 +24,6 @@ export {
   useScroll,
   useTransform,
   useReducedMotion,
-  useAnimation,
   useMotionValue,
-  useSpring,
   animate,
 } from "framer-motion";
-
-// Re-export types for TypeScript users
-export type { Variants, MotionProps } from "framer-motion";
