@@ -17,7 +17,7 @@ featured: true
 
 Cette phrase, postée par un entrepreneur sur Reddit, résonne chez des milliers de dirigeants de PME. Car voilà le paradoxe moderne : plus votre entreprise grandit, plus vous vous noyez dans les détails opérationnels.
 
-Le burn-out des dirigeants de PME explose : de 36% en 2023 à 51% en 2024. Une augmentation dramatique qui révèle une vérité inconfortable : le succès business peut détruire celui qui l'a créé.
+Le burn-out des dirigeants de PME explose : de 40 % en 2023 à 66 % en 2024 (étude LHH ICEO, panel de dirigeants français). Une augmentation dramatique qui révèle une vérité inconfortable : le succès business peut détruire celui qui l'a créé.
 
 L'automation business n'est pas qu'un outil d'efficacité. C'est un antidote au burn-out, une façon de redevenir dirigeant au lieu d'être un super-employé épuisé.
 
@@ -190,7 +190,7 @@ L'automation mal pensée crée plus de problèmes qu'elle n'en résout. Mon appr
 
 **À retenir :**
 
-- **Le burn-out dirigeant explose** : 36% → 51% en un an, l'automation est devenue essentielle
+- **Le burn-out dirigeant explose** : 40 % → 66 % en un an (LHH ICEO), l'automation est devenue essentielle
 - **20+ heures récupérées par semaine** avec une automation intelligente
 - **Commencer par UN processus** haute fréquence + facilement automatisable
 - **L'automation libère l'humain** pour la stratégie au lieu de le remplacer

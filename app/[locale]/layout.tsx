@@ -32,7 +32,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("metadata.description");
   const url = `${siteConfig.url}/${locale}`;
 
-  // Build hreflang alternates
   const languages: Record<string, string> = {};
   for (const loc of locales) {
     languages[loc] = `${siteConfig.url}/${loc}`;
@@ -98,10 +97,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <EffectProvider>
       <WebGLAnimationModeProvider defaultMode="intro">
-        {/* JSON-LD Structured Data */}
         <OrganizationJsonLd />
         <WebSiteJsonLd locale={locale} />
-        {/* Set html lang attribute based on locale */}
         <LocaleScript />
         <WebGLBackgroundLazy animationMode="intro" loadDelay={0} />
         <div className="flex min-h-screen flex-col">

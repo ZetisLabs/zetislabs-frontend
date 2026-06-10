@@ -13,15 +13,15 @@ featured: true
 
 # Concours d'architecture : pourquoi vos meilleurs architectes passent des semaines à écrire au lieu de concevoir
 
-Les concours d'architecture sont un paradoxe. C'est le principal mécanisme d'accès à la commande publique en France — environ 1 000 à 1 100 concours par an. Et pourtant, 75 % des architectes trouvent le temps et le coût de préparation **régulièrement dissuasifs**.
+Les concours d'architecture sont un paradoxe. C'est le principal mécanisme d'accès à la commande publique en France — environ 1 000 à 1 100 concours par an en moyenne sur la période 2006-2015 (étude MIQCP), un volume depuis nettement retombé (de l'ordre de 499 en 2020). Et pourtant, selon cette même étude, 75 % des architectes trouvent le temps et le coût de préparation **régulièrement dissuasifs**.
 
 Le problème n'est pas le concours en lui-même. C'est ce qu'il exige : des dizaines d'heures de rédaction pour un résultat incertain.
 
 ## Les chiffres que personne ne veut regarder en face
 
-Une agence d'architecture d'une dizaine de permanents consacre entre **15 et 25 % de son chiffre d'affaires annuel** aux concours. À titre de comparaison, les entreprises du BTP y consacrent 3 à 4,5 %. Les architectes investissent donc 4 à 5 fois plus que le reste de la filière pour décrocher leurs marchés.
+Une agence d'architecture d'une dizaine de permanents consacre entre **15 et 25 % de son chiffre d'affaires annuel** aux concours (étude MIQCP). C'est un investissement considérable, engagé pour décrocher des marchés sans aucune garantie de retour.
 
-Et pour quel retour ? Une agence de taille moyenne se porte candidate à environ **40 concours par an** et en remporte **un ou deux**. Moins d'un tiers des agences ont gagné ne serait-ce que 1 à 5 concours sur une période de 5 ans. Seules 3 % des structures en remportent plus de 5 — et ce sont des agences de plus de 10 salariés.
+Et pour quel retour ? Une agence de taille moyenne se porte candidate à environ **40 concours par an** et en remporte **un ou deux** (MIQCP, recoupé par *Le Moniteur*). Moins d'un tiers des agences ont gagné ne serait-ce que 1 à 5 concours sur une période de 5 ans. Seules 3 % des structures en remportent plus de 5 — et ce sont des agences de plus de 10 salariés.
 
 Autrement dit : **la majorité des heures investies dans la rédaction de notes de concours ne mèneront jamais à un projet signé.**
 

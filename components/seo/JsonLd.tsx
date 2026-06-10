@@ -20,8 +20,17 @@ export function OrganizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/logo.png`,
-    sameAs: [`https://twitter.com/${siteConfig.twitter.replace("@", "")}`],
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteConfig.url}/logo.png`,
+      width: 512,
+      height: 512,
+    },
+    sameAs: [
+      siteConfig.linkedin,
+      siteConfig.github,
+      `https://twitter.com/${siteConfig.twitter.replace("@", "")}`,
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
@@ -72,6 +81,8 @@ export function ArticleJsonLd({ article, locale }: ArticleJsonLdProps) {
       logo: {
         "@type": "ImageObject",
         url: `${siteConfig.url}/logo.png`,
+        width: 512,
+        height: 512,
       },
     },
     mainEntityOfPage: {
