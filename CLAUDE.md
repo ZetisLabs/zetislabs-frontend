@@ -15,29 +15,30 @@ npm run lint:fix # Auto-fix lint issues
 
 ### Key Directories
 
-| Path                 | Purpose                                                                   |
-| -------------------- | ------------------------------------------------------------------------- |
-| `app/[locale]/`      | Internationalized pages (App Router)                                      |
-| `app/[locale]/blog/` | Blog listing and article pages                                            |
-| `articles/`          | Markdown articles organized by locale (en/, fr/)                          |
-| `components/`        | Page-specific sections (HeroSection, CTAContent, etc.)                    |
-| `components/webgl/`  | WebGL background system with lazy loading                                 |
-| `components/seo/`    | JSON-LD structured data components                                        |
-| `lib/ui/`            | Reusable UI components (CTAButton, FeatureCard, ReasonCard, EyebrowBadge) |
-| `lib/motion/`        | Framer Motion animation library (Reveal, FadeIn, ScrollFade, etc.)        |
-| `lib/articles/`      | Article loading utilities (getAllArticles, getArticleBySlug)              |
-| `lib/sections/`      | Dynamic section composition system                                        |
-| `lib/seo/`           | SEO configuration (siteConfig)                                            |
-| `i18n/translations/` | Translation files (default/, landing-pages/A,B,C,D/)                      |
+| Path                 | Purpose                                                            |
+| -------------------- | ------------------------------------------------------------------ |
+| `app/[locale]/`      | Internationalized pages (App Router)                               |
+| `app/[locale]/blog/` | Blog listing and article pages                                     |
+| `articles/`          | Markdown articles organized by locale (en/, fr/)                   |
+| `components/`        | Page-specific sections (HeroSection, CTAContent, etc.)             |
+| `components/webgl/`  | WebGL background system with lazy loading                          |
+| `components/seo/`    | JSON-LD structured data components                                 |
+| `lib/ui/`            | Reusable UI primitives (CTAButton, EyebrowBadge)                   |
+| `lib/motion/`        | Framer Motion wrapper + animation config (Reveal, motion, easings) |
+| `lib/articles/`      | Article loading utilities (getAllArticles, getArticleBySlug)       |
+| `lib/sections/`      | Dynamic section composition system                                 |
+| `lib/seo/`           | SEO configuration (siteConfig)                                     |
+| `i18n/translations/` | Translation files (default/ — en.json, fr.json)                    |
+| `design-wiki/`       | Design system & philosophy (git submodule — UI source of truth)    |
 
 ### Import Conventions
 
 ```tsx
 // UI components
-import { CTAButton, FeatureCard, ReasonCard, EyebrowBadge } from "@/lib/ui";
+import { CTAButton, EyebrowBadge } from "@/lib/ui";
 
 // Motion/animations
-import { Reveal, FadeIn, motion, useScroll, useTransform } from "@/lib/motion";
+import { Reveal, motion, useScroll, useTransform } from "@/lib/motion";
 
 // Sections
 import { SectionRenderer, type SectionConfig } from "@/lib/sections";
@@ -54,7 +55,7 @@ import {
 } from "@/components/seo/JsonLd";
 
 // WebGL (use lazy version for performance)
-import { WebGLBackgroundLazy } from "@/components/webgl";
+import { WebGLBackgroundLazy } from "@/components/webgl/WebGLBackgroundLazy";
 ```
 
 ## Patterns & Rules
@@ -106,8 +107,9 @@ const y = useTransform(scrollY, [0, 1], [0, -50]);
 {
   "home": {
     "sections": [
-      { "type": "whatWeMake", "id": "services" },
-      { "type": "stack", "id": "integrations" }
+      { "type": "problemSolution", "id": "problem-solution" },
+      { "type": "useCases", "id": "use-cases" },
+      { "type": "process", "id": "process" }
     ]
   }
 }
@@ -115,15 +117,14 @@ const y = useTransform(scrollY, [0, 1], [0, -50]);
 
 ### Available Section Types
 
-| Type              | Description          |
-| ----------------- | -------------------- |
-| `whatWeMake`      | Feature cards grid   |
-| `stack`           | Logo constellation   |
-| `useCases`        | Sticky scroll slides |
-| `whyZetisLabs`    | Reason cards grid    |
-| `process`         | Pixel art steps      |
-| `problemSolution` | Problem/solution     |
-| `trust`           | Trust indicators     |
+Registered in `lib/sections/registry.ts` (add a row there + a `SectionType`
+entry in `lib/sections/types.ts` to introduce a new one):
+
+| Type              | Description        |
+| ----------------- | ------------------ |
+| `problemSolution` | Problem / solution |
+| `useCases`        | Use-case slides    |
+| `process`         | Process steps      |
 
 ### Animation Guidelines
 
@@ -156,13 +157,6 @@ Client component for CTA sections with in-view animations:
 />
 ```
 
-### FeatureCard / ReasonCard
-
-```tsx
-<FeatureCard title="AI Agents" subtitle="The Intelligence." description="..." cta="Learn more" />
-<ReasonCard index={0} title="Deep Expertise" description="..." />
-```
-
 ### Reveal (Animation)
 
 ```tsx
@@ -182,20 +176,22 @@ The WebGL background uses Three.js with custom shaders and supports lazy loading
   /WebGLBackground.tsx      # Main WebGL component
   /WebGLBackgroundLazy.tsx  # Lazy-loaded wrapper (use this!)
   /WebGLCanvas.tsx          # Canvas setup
-  /hooks/                   # Custom hooks (useShaderMaterial, etc.)
+  /hooks/                   # Custom hooks (useInstancedGrid, etc.)
   /shaders/                 # GLSL shaders
     /background.frag.ts     # Fragment shader with animation modes
     /background.vert.ts     # Vertex shader
-    /includes/              # Shared shader code (noise, hsl)
-  /index.ts                 # Exports
+    /includes/              # Shared shader code (noise)
 ```
+
+Import `WebGLBackgroundLazy` directly from its file (there is no barrel):
+`import { WebGLBackgroundLazy } from "@/components/webgl/WebGLBackgroundLazy";`
 
 ### Lazy Loading (Performance)
 
 Always use `WebGLBackgroundLazy` instead of `WebGLBackground` directly:
 
 ```tsx
-import { WebGLBackgroundLazy } from "@/components/webgl";
+import { WebGLBackgroundLazy } from "@/components/webgl/WebGLBackgroundLazy";
 
 // Defers Three.js loading until after LCP, improving performance by ~48%
 <WebGLBackgroundLazy animationMode="intro" loadDelay={100} />;
@@ -375,82 +371,53 @@ Article content uses **IBMPlexSans** for all text including headings (not Genera
 
 ---
 
-# MCP Gemini Design - MANDATORY FOR FRONTEND
+# Frontend / UI Workflow
 
-## ABSOLUTE RULE - NEVER IGNORE
+> Earlier versions of this file mandated routing **all** frontend through a
+> "Gemini Design" MCP server. **That MCP is not connected in our sessions**, so
+> that rule is obsolete. Hand-code the UI in React directly, using the project's
+> own design system as the source of truth. If a Gemini design MCP is ever
+> connected again, re-offer to route visual work through it.
 
-**You MUST NEVER write frontend/UI code yourself.**
+## Source of truth for design
 
-Gemini is your frontend developer. You are NOT allowed to create visual components, pages, or interfaces without going through Gemini. This is NON-NEGOTIABLE.
+When building or changing UI, read these **before** writing any markup/styles:
 
-### When to use Gemini? ALWAYS for:
+1. **`design-wiki/`** (git submodule) — the design system & philosophy.
+   - `design-wiki/synthesis/zetis-design-philosophy.md`
+   - `design-wiki/decisions.md`
+   - Initialize it if empty: `git submodule update --init design-wiki`
+2. **`app/globals.css`** — the live Tailwind v4 `@theme` tokens and utilities.
+   Reuse these instead of inventing values:
+   - Colors: `--color-background`, `--color-foreground`, `--color-accent`,
+     `--color-card`, `--color-border`
+   - Fonts: `--font-sans` (IBM Plex), `--font-heading` (GeneralSans)
+   - Easings: `--ease-snappy`, `--ease-spring`, `--ease-out-strong`
+   - Utilities: `swiss-paper`, `scroll-fade-y`, `glass-text`, `scroll-section`,
+     `.hero-entrance` (CSS-driven hero entrance, no JS)
+   - Built-in `:focus-visible` rings + tactile `:active` press (don't reinvent)
 
-- Creating a page (dashboard, landing, settings, etc.)
-- Creating a visual component (card, modal, sidebar, form, button, etc.)
-- Modifying the design of an existing element
-- Anything related to styling/layout
+## Design direction (non-negotiable)
 
-### Exceptions (you can do it yourself):
+- Swiss + organic; lab/craft identity; **accent color used sparingly for "life"**
+- **No horizontal rules** (`<hr>` / border dividers) — separate with space/rhythm
+- "Code is the design medium" — iterate in real components, on-brand by default
 
-- Modifying text/copy
-- Adding JS logic without changing the UI
-- Non-visual bug fixes
-- Data wiring (useQuery, useMutation, etc.)
+## How to work on UI
 
-## MANDATORY Workflow
+1. Read the design-wiki philosophy + the relevant `globals.css` tokens.
+2. Hand-write the React/Tailwind, reusing existing primitives
+   (`@/lib/ui`: `CTAButton`, `EyebrowBadge`; `@/lib/motion`: `Reveal`, `motion`).
+3. Follow the **Hydration Safety** and **Hook Rules** above.
+4. Keep components server-first; add `"use client"` only when interactivity needs it.
 
-### 1. New project without existing design
+## You CAN always do without any design tooling
 
-```
-STEP 1: generate_vibes → show options to the user
-STEP 2: User chooses their vibe
-STEP 3: create_frontend with the chosen vibe AND generateDesignSystem: true
-STEP 4: Gemini returns code + designSystem in the response
-STEP 5: Save the code to the target file AND save designSystem to design-system.md at project root
-```
+- Text/copy, i18n strings, JS logic, data wiring, non-visual bug fixes,
+  refactors, and the dead-code/perf cleanups already established in this repo.
 
-### 2. Subsequent pages/components (after first page)
+## Heavy commands
 
-```
-Use create_frontend / modify_frontend / snippet_frontend with projectRoot parameter.
-The design-system.md is automatically loaded and Gemini will use the exact same styles.
-```
-
-### 3. Existing project with its own design
-
-```
-ALWAYS pass CSS/theme files in the `context` parameter
-```
-
-### 4. After Gemini's response
-
-```
-Gemini returns code → YOU write it to disk with Write/Edit
-```
-
-## Design System Feature
-
-When creating the FIRST page of a new project, set `generateDesignSystem: true` in create_frontend. Gemini will return both the code AND a complete design system with all colors, typography, spacing, buttons, inputs, cards, etc.
-
-Save this design system to `design-system.md` at the project root. For all subsequent calls (create_frontend, modify_frontend, snippet_frontend), pass `projectRoot` and the design system will be automatically loaded. This ensures all pages have consistent styling.
-
-## Checklist before coding frontend
-
-- [ ] Am I creating/modifying something visual?
-- [ ] If YES → STOP → Use Gemini
-- [ ] If NO (pure logic) → You can continue
-
-## WHAT IS FORBIDDEN
-
-- Writing a React component with styling without Gemini
-- Creating a page without Gemini
-- "Reusing existing styles" as an excuse to not use Gemini
-- Doing frontend "quickly" yourself
-
-## WHAT IS EXPECTED
-
-- Call Gemini BEFORE writing any frontend code
-- Ask the user for their vibe choice if new project
-- Use generateDesignSystem: true for the FIRST page, then save design-system.md
-- Pass projectRoot for all subsequent frontend calls
-- Let Gemini design, you implement
+`next dev` once crashed the machine — **ask before launching `next dev` or
+`next build`.** Prefer `next start` on the existing build to preview, and use
+`-H 0.0.0.0` when the user needs LAN access.
