@@ -68,7 +68,7 @@ export function ArticleJsonLd({ article, locale }: ArticleJsonLdProps) {
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
-    image: article.image,
+    image: `${siteConfig.url}${siteConfig.ogImage}`,
     datePublished: article.date,
     dateModified: article.date,
     author: {
