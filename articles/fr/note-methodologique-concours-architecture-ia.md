@@ -7,7 +7,6 @@ author:
   avatar: "LF"
 date: "2026-06-03"
 readTime: "9 min"
-image: "/article/concours-architecture.png"
 featured: true
 ---
 
@@ -15,7 +14,7 @@ featured: true
 
 La rédaction de la note méthodologique est le moment où beaucoup d'agences perdent du temps — et parfois le concours. Le projet est dessiné, l'intention est claire dans la tête de l'architecte, mais il faut encore tout structurer, reformuler, mettre en page, harmoniser avec le mémoire technique et la note d'intention. Cette phase de réécriture mécanique pèse lourd, et les chiffres du secteur le confirment.
 
-Selon l'**étude de la MIQCP (Mission interministérielle pour la qualité des constructions publiques) sur les concours d'architecture en France, période 2006-2015** (miqcp.gouv.fr), **75 % des architectes jugent le temps et le coût des candidatures régulièrement dissuasifs**. La même étude estime que les agences consacrent **entre 15 et 25 % de leur chiffre d'affaires annuel aux concours** — pour un rendement moyen de **1 à 2 lauréats par an sur une quarantaine de candidatures**, un ordre de grandeur recoupé par *Le Moniteur* (lemoniteur.fr).
+Selon l'**étude de la MIQCP (Mission interministérielle pour la qualité des constructions publiques) sur les concours d'architecture en France, période 2006-2015** (miqcp.gouv.fr), **75 % des architectes jugent le temps et le coût des candidatures régulièrement dissuasifs**. La même étude estime que les agences consacrent **entre 15 et 25 % de leur chiffre d'affaires annuel aux concours** — pour un rendement moyen de **1 à 2 lauréats par an sur une quarantaine de candidatures**, un ordre de grandeur recoupé par _Le Moniteur_ (lemoniteur.fr).
 
 Dans cet article, nous regardons concrètement où l'intelligence artificielle peut alléger ce poids — et, tout aussi important, où elle n'a rien à faire. ZetisLabs est un studio d'intégration IA sur mesure (RAG, agents) qui aide les entreprises à passer un cap. Sur ce sujet précis, nous ne théorisons pas : nous **testons déjà un outil de ce type dans un vrai cabinet d'architecture**, ce qui nous donne un point de vue de terrain plutôt qu'un argumentaire de plaquette.
 
@@ -27,7 +26,7 @@ Une note méthodologique solide — qui décrit votre compréhension du programm
 
 Or les volumes restent significatifs. La MIQCP recensait **environ 1 000 à 1 100 concours par an sur la période 2006-2015**. Attention toutefois : ce chiffre est une **moyenne historique** et le volume a depuis nettement baissé — on comptait **environ 499 concours en 2020**. La pression n'a pas pour autant disparu : avec moins de concours pour le même nombre d'agences, chaque candidature compte davantage, donc chaque note doit être meilleure et produite plus vite.
 
-Le constat de fond, lui, ne bouge pas. Une analyse publiée dans la **revue CRAUP** (Macaire, journals.openedition.org/craup/1923) confirme que le coût d'entrée des concours pèse structurellement sur les agences, en particulier les plus petites. Et *Le Moniteur* (lemoniteur.fr) rappelle le ratio cruel : **une quarantaine de candidatures par an pour 1 ou 2 lauréates**. Autrement dit, la majorité du temps de rédaction est, statistiquement, du temps « perdu » au sens comptable — même s'il est nécessaire pour exister.
+Le constat de fond, lui, ne bouge pas. Une analyse publiée dans la **revue CRAUP** (Macaire, journals.openedition.org/craup/1923) confirme que le coût d'entrée des concours pèse structurellement sur les agences, en particulier les plus petites. Et _Le Moniteur_ (lemoniteur.fr) rappelle le ratio cruel : **une quarantaine de candidatures par an pour 1 ou 2 lauréates**. Autrement dit, la majorité du temps de rédaction est, statistiquement, du temps « perdu » au sens comptable — même s'il est nécessaire pour exister.
 
 C'est précisément ce déséquilibre que l'automatisation peut corriger : non pas en gagnant plus de concours par magie, mais en **réduisant le coût de production de chaque dossier** pour que le ratio effort/résultat redevienne supportable.
 
@@ -62,7 +61,7 @@ Cette ligne n'est pas un slogan, c'est une condition de qualité. Une note de co
 
 C'est la crainte légitime des agences : « si tout le monde utilise l'IA, tous les dossiers vont se ressembler. » La réponse tient au point de départ de l'outil.
 
-Un assistant généraliste part du **web** : il produit donc des formulations moyennes, statistiquement les mêmes pour tout le monde. Un outil construit sur **votre corpus** part de l'inverse : il reproduit *votre* vocabulaire, *vos* tournures, *vos* références. Plus vous l'alimentez avec vos dossiers passés, plus il devient un amplificateur de votre style — pas un nivellement.
+Un assistant généraliste part du **web** : il produit donc des formulations moyennes, statistiquement les mêmes pour tout le monde. Un outil construit sur **votre corpus** part de l'inverse : il reproduit _votre_ vocabulaire, _vos_ tournures, _vos_ références. Plus vous l'alimentez avec vos dossiers passés, plus il devient un amplificateur de votre style — pas un nivellement.
 
 Concrètement, la singularité se préserve par trois réflexes :
 
@@ -95,7 +94,7 @@ Si vous répondez régulièrement à des concours, la démarche réaliste tient 
 
 ## En résumé
 
-- La rédaction d'une note méthodologique pèse lourd : **75 % des architectes** jugent le coût des candidatures dissuasif et **15 à 25 % du CA** y passent (MIQCP, 2006-2015), pour **1 à 2 victoires par an** sur une quarantaine de candidatures (MIQCP, recoupé par *Le Moniteur*).
+- La rédaction d'une note méthodologique pèse lourd : **75 % des architectes** jugent le coût des candidatures dissuasif et **15 à 25 % du CA** y passent (MIQCP, 2006-2015), pour **1 à 2 victoires par an** sur une quarantaine de candidatures (MIQCP, recoupé par _Le Moniteur_).
 - Le volume de concours a baissé (de **~1 000-1 100/an en moyenne 2006-2015** à **~499 en 2020**) : chaque candidature compte donc davantage.
 - La bonne IA part de **votre corpus** (approche RAG), pas du web : elle préserve votre style au lieu de l'uniformiser.
 - **L'architecte garde l'intention ; l'outil enlève la mécanique.** L'IA ne rédige jamais le projet à votre place.

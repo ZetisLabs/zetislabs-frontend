@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { Clock, ArrowLeft } from "lucide-react";
 import { getArticleBySlug, getAllArticles } from "@/lib/articles";
@@ -74,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [article.author.name],
       images: [
         {
-          url: article.image,
+          url: siteConfig.ogImage,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -86,7 +85,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: article.title,
       description: article.excerpt,
       site: siteConfig.twitter,
-      images: [article.image],
+      images: [siteConfig.ogImage],
     },
     alternates: {
       canonical: url,
@@ -132,20 +131,6 @@ export default async function ArticlePage({ params }: Props) {
             <ArrowLeft className="h-4 w-4" />
             <span>{locale === "fr" ? "Retour au blog" : "Back to blog"}</span>
           </Link>
-        </div>
-
-        {/* Hero Image */}
-        <div className="mx-auto max-w-5xl px-6">
-          <div className="relative aspect-[21/9] w-full overflow-hidden bg-foreground/5">
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              priority
-              className="object-cover"
-            />
-          </div>
         </div>
 
         {/* Article Content */}

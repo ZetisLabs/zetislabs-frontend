@@ -7,7 +7,6 @@ author:
   avatar: "LF"
 date: "2026-03-20"
 readTime: "6 min"
-image: "/article/concours-architecture.png"
 featured: true
 ---
 
@@ -21,7 +20,7 @@ Le problème n'est pas le concours en lui-même. C'est ce qu'il exige : des diza
 
 Une agence d'architecture d'une dizaine de permanents consacre entre **15 et 25 % de son chiffre d'affaires annuel** aux concours (étude MIQCP). C'est un investissement considérable, engagé pour décrocher des marchés sans aucune garantie de retour.
 
-Et pour quel retour ? Une agence de taille moyenne se porte candidate à environ **40 concours par an** et en remporte **un ou deux** (MIQCP, recoupé par *Le Moniteur*). Moins d'un tiers des agences ont gagné ne serait-ce que 1 à 5 concours sur une période de 5 ans. Seules 3 % des structures en remportent plus de 5 — et ce sont des agences de plus de 10 salariés.
+Et pour quel retour ? Une agence de taille moyenne se porte candidate à environ **40 concours par an** et en remporte **un ou deux** (MIQCP, recoupé par _Le Moniteur_). Moins d'un tiers des agences ont gagné ne serait-ce que 1 à 5 concours sur une période de 5 ans. Seules 3 % des structures en remportent plus de 5 — et ce sont des agences de plus de 10 salariés.
 
 Autrement dit : **la majorité des heures investies dans la rédaction de notes de concours ne mèneront jamais à un projet signé.**
 
@@ -83,4 +82,4 @@ Ce n'est pas de la science-fiction. C'est ce que nous développons, et c'est dé
 
 ---
 
-*Vous passez trop de temps à rédiger vos notes de concours ? Parlons-en. [Contact]*
+_Vous passez trop de temps à rédiger vos notes de concours ? Parlons-en. [Contact]_
