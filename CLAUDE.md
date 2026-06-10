@@ -334,7 +334,9 @@ interface Article {
 
 ### Blog Typography
 
-Article content uses **IBMPlexSans** for all text including headings (not GeneralSans). This is handled by the `ArticleContent` component which wraps content in `font-sans`.
+The article reading surface follows the redesigned Journal: **GeneralSans (`font-heading`)** for headings — the page `<h1>` and every in-article `h2`/`h3`/`h4` (tight tracking) — and **IBMPlexSans (`font-sans`)** for body copy, at a generous reading measure (`max-w-2xl`) and leading (`1.75`). The `ArticleContent` component wraps body text in `font-sans` and sets `font-heading` per heading.
+
+The page renders on the swiss-paper surface with **no card, no hero-image crop, and no horizontal rules** (a markdown `---` becomes an organic three-dot break; the frontmatter `image` is kept only for OG/JSON-LD metadata). Accent is reserved for "life": links, the header dash, and the centre break dot.
 
 ## Design System
 

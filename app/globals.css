@@ -4,6 +4,10 @@
 @source "../app/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
 @source "../lib/**/*.{ts,tsx}";
+/* The design-wiki submodule is docs, not source. Tailwind v4 auto-detection
+   would otherwise scan its markdown and pick up class-like prose (e.g. the
+   literal `origin-[var(...)]`), generating invalid CSS that breaks the build. */
+@source not "../design-wiki";
 
 /* Theme configuration - colors and fonts */
 @theme {
