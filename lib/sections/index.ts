@@ -22,7 +22,6 @@ export type {
   // Static section content types
   HeroContent,
   CTAButtonContent,
-  CTASectionContent,
   // Dynamic section types
   SectionConfig,
   SectionType,
@@ -42,12 +41,3 @@ export { SectionRenderer } from "./SectionRenderer";
 
 // Error Boundary
 export { SectionErrorBoundary } from "./SectionErrorBoundary";
-
-// Individual section components (for direct use if needed)
-export {
-  WhatWeMakeSection,
-  WhyZetisLabsSection,
-  StackSectionWrapper,
-  UseCasesSectionWrapper,
-  CardShowcaseSection,
-} from "./components";

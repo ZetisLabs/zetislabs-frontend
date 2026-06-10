@@ -7,10 +7,6 @@
 
 export { EffectProvider } from "./EffectProvider";
 export {
-  ScrollHijackProvider,
-  useScrollHijackContext,
-} from "./ScrollHijackProvider";
-export {
   WebGLAnimationModeProvider,
   WebGLAnimationModeOverride,
   useWebGLAnimationMode,

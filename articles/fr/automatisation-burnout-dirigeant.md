@@ -7,7 +7,6 @@ author:
   avatar: "LF"
 date: "2026-02-04"
 readTime: "4 min"
-image: "/article/burnout-dirigeant.png"
 featured: true
 ---
 

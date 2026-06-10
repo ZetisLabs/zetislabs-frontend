@@ -229,39 +229,3 @@ export function GlowEffect({
     />
   );
 }
-
-// =============================================================================
-// VARIANTS PRECONFIGUREES
-// =============================================================================
-
-/**
- * Variante du GlowEffect optimisee pour les badges/pills.
- * Plus petit et plus subtil.
- */
-export function BadgeGlow(props: Omit<GlowEffectProps, "size" | "padding">) {
-  return <GlowEffect {...props} size={60} padding={13} intensity={0.8} />;
-}
-
-/**
- * Variante du GlowEffect pour les cartes/sections.
- * Plus grand et plus diffus.
- */
-export function CardGlow(props: Omit<GlowEffectProps, "size" | "padding">) {
-  return (
-    <GlowEffect
-      {...props}
-      size={200}
-      padding={30}
-      aspectRatio={{ x: 100, y: 80 }}
-      intensity={0.6}
-    />
-  );
-}
-
-/**
- * Variante du GlowEffect pour le focus/highlight.
- * Circulaire et intense.
- */
-export function FocusGlow(props: Omit<GlowEffectProps, "shape">) {
-  return <GlowEffect {...props} shape="circle" intensity={1.2} />;
-}

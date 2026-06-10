@@ -95,7 +95,7 @@ export function ProcessSectionClient({
               {subtitle && (
                 <motion.p
                   variants={itemVariants}
-                  className="font-secondary mt-4 max-w-md text-base leading-relaxed text-foreground/60"
+                  className="mt-4 max-w-md text-base leading-relaxed text-foreground/60"
                 >
                   {subtitle}
                 </motion.p>

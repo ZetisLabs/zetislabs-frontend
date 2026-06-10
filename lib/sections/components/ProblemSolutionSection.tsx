@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import { motion, useMotionValue, useTransform, animate } from "@/lib/motion";
 
 // Animation variants
@@ -362,36 +361,17 @@ export function ProblemSolutionClient({
               variants={containerVariants}
               className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 lg:gap-12"
             >
-              {trust.logos.map((logo, idx) => {
-                // Map logo names to file paths (if available)
-                const logoFiles: Record<string, string> = {};
-                const logoFile = logoFiles[logo];
-
-                return (
-                  <motion.div
-                    key={idx}
-                    variants={listItemVariants}
-                    className="flex items-center justify-center"
-                  >
-                    {logoFile ? (
-                      <Image
-                        src={logoFile}
-                        alt={logo}
-                        width={80}
-                        height={32}
-                        className="h-5 w-auto opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-6 lg:h-8"
-                        style={{
-                          filter: "brightness(0) saturate(100%)",
-                        }}
-                      />
-                    ) : (
-                      <span className="text-sm font-medium tracking-tight text-[#1a1a1a]/40 transition-colors duration-300 hover:text-[#1a1a1a]/70 sm:text-base lg:text-lg">
-                        {logo}
-                      </span>
-                    )}
-                  </motion.div>
-                );
-              })}
+              {trust.logos.map((logo, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={listItemVariants}
+                  className="flex items-center justify-center"
+                >
+                  <span className="text-sm font-medium tracking-tight text-[#1a1a1a]/40 transition-colors duration-300 hover:text-[#1a1a1a]/70 sm:text-base lg:text-lg">
+                    {logo}
+                  </span>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
         )}

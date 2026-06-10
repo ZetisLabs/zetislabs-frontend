@@ -17,11 +17,7 @@
   --color-accent: #3a7bd5;
   --color-accent-foreground: #f8f8f8;
   --color-card: #ffffff;
-  --color-card-foreground: #1a1a1a;
   --color-border: #e2e2e2;
-  --color-hover: #e2e2e2;
-  --color-hover-foreground: #1a1a1a;
-  --color-underline: #3a7bd5;
 
   /* Font family */
   --font-sans: var(--font-ibm-plex-sans);

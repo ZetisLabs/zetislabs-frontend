@@ -8,7 +8,6 @@ export interface ArticleFrontmatter {
   };
   date: string;
   readTime: string;
-  image: string;
   featured?: boolean;
 }
 

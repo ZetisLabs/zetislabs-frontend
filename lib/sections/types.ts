@@ -76,37 +76,6 @@ export interface CTAButtonContent {
   ariaLabel?: string;
 }
 
-/**
- * CTA Section Content
- *
- * Required structure for the final CTA section in translation files.
- * Path: home.cta
- *
- * @example
- * ```json
- * {
- *   "home": {
- *     "cta": {
- *       "title": "How many hours could you get back?",
- *       "description": "Free audit. We analyze your processes...",
- *       "primary": { "label": "Book my free audit", "href": "/contact" },
- *       "secondary": { "label": "Learn more", "href": "/about" }
- *     }
- *   }
- * }
- * ```
- */
-export interface CTASectionContent {
-  /** Section title */
-  title: string;
-  /** Section description */
-  description: string;
-  /** Primary CTA button (required) */
-  primary: CTAButtonContent;
-  /** Secondary CTA button (optional) */
-  secondary?: CTAButtonContent;
-}
-
 // =============================================================================
 // DYNAMIC SECTION TYPES
 // =============================================================================
@@ -115,14 +84,7 @@ export interface CTASectionContent {
  * Available section types
  * Each type corresponds to a registered section component
  */
-export type SectionType =
-  | "whatWeMake"
-  | "stack"
-  | "useCases"
-  | "whyZetisLabs"
-  | "process"
-  | "problemSolution"
-  | "trust";
+export type SectionType = "useCases" | "process" | "problemSolution";
 
 /**
  * Section configuration from i18n

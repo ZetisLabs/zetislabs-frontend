@@ -7,26 +7,18 @@
 
 import type { SectionType, SectionComponent } from "./types";
 import {
-  WhatWeMakeSection,
-  WhyZetisLabsSection,
-  StackSectionWrapper,
   UseCasesSectionWrapper,
   ProcessSection,
   ProblemSolutionSection,
-  TrustSection,
 } from "./components";
 
 /**
  * Registry mapping section types to components
  */
 export const sectionRegistry: Record<SectionType, SectionComponent> = {
-  whatWeMake: WhatWeMakeSection,
-  stack: StackSectionWrapper,
   useCases: UseCasesSectionWrapper,
-  whyZetisLabs: WhyZetisLabsSection,
   process: ProcessSection,
   problemSolution: ProblemSolutionSection,
-  trust: TrustSection,
 } as const;
 
 /**
