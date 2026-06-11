@@ -18,6 +18,17 @@
     "cookies": "Cookies",
     "contact": "Contact"
   },
+  "wip": {
+    "title": "This page is being written",
+    "description": "We're still drafting it. In the meantime, reach out if you have a question — we usually reply within a day.",
+    "status": "In progress",
+    "back": "Back to home",
+    "backAriaLabel": "Go back to the homepage",
+    "contactCta": "Contact us",
+    "contactAriaLabel": "Go to the contact page",
+    "metaTitleSuffix": "Coming soon",
+    "metaDescription": "This page is being written and will be available soon."
+  },
   "contact": {
     "metadata": {
       "title": "Contact — ZetisLabs",

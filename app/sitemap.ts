@@ -20,7 +20,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily" as const,
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/${locale}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
   ]);
+  // Note: the legal placeholders (/legal, /privacy, /terms, /cookies) are
+  // intentionally excluded — they're robots:noindex until written, and listing
+  // a noindex URL in the sitemap sends a conflicting signal to crawlers.
 
   // Blog articles for each locale
   const articlePages = locales.flatMap((locale) => {

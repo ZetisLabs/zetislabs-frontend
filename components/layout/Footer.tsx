@@ -21,12 +21,15 @@ export default function Footer({ locale }: Props) {
     currentYear.toString()
   );
 
+  // Locale-prefixed so the links stay on the visitor's language. Without the
+  // prefix, the proxy treats a locale-less path as the default locale (fr) and
+  // redirects there — e.g. an English visitor would land on /fr/contact.
   const footerLinks = [
-    { href: "/legal", label: t("footer.legal") },
-    { href: "/privacy", label: t("footer.privacy") },
-    { href: "/terms", label: t("footer.terms") },
-    { href: "/cookies", label: t("footer.cookies") },
-    { href: "/contact", label: t("footer.contact") },
+    { href: `/${locale}/legal`, label: t("footer.legal") },
+    { href: `/${locale}/privacy`, label: t("footer.privacy") },
+    { href: `/${locale}/terms`, label: t("footer.terms") },
+    { href: `/${locale}/cookies`, label: t("footer.cookies") },
+    { href: `/${locale}/contact`, label: t("footer.contact") },
   ];
 
   return (
