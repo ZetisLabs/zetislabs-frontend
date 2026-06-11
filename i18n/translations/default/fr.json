@@ -16,7 +16,19 @@
     "privacy": "Confidentialité",
     "terms": "CGU",
     "cookies": "Cookies",
-    "contact": "Contact"
+    "contact": "Contact",
+    "linkedinAriaLabel": "ZetisLabs sur LinkedIn"
+  },
+  "wip": {
+    "title": "Cette page est en cours de rédaction",
+    "description": "Nous sommes encore en train de l'écrire. En attendant, écrivez-nous si vous avez une question — nous répondons généralement sous 24 h.",
+    "status": "En cours d'écriture",
+    "back": "Retour à l'accueil",
+    "backAriaLabel": "Revenir à la page d'accueil",
+    "contactCta": "Nous contacter",
+    "contactAriaLabel": "Aller à la page de contact",
+    "metaTitleSuffix": "Bientôt disponible",
+    "metaDescription": "Cette page est en cours de rédaction et sera bientôt disponible."
   },
   "contact": {
     "metadata": {
