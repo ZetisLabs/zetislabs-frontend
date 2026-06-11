@@ -55,29 +55,26 @@ export default async function Home({ params }: Props) {
       {/* Dynamic: Sections from i18n configuration */}
       <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
 
-      {/* Static: Call to Action Section + Footer */}
-      <section
-        data-section="cta"
-        className="flex min-h-dvh flex-col justify-between pt-12 pb-16 md:pt-20 md:pb-32"
+      {/* Static: Call to Action Section + Footer.
+          CTAContent owns its <section data-section="cta"> and pins its content like the
+          hero (revealed in place on scroll); the Footer is passed as children and sits
+          pinned at the bottom of that section. */}
+      <CTAContent
+        title={t("home.cta.title")}
+        description={t("home.cta.description")}
+        primaryCTA={{
+          label: t("home.cta.primary.label"),
+          href: t("home.cta.primary.href"),
+          ariaLabel: t("home.cta.primary.ariaLabel"),
+        }}
+        secondaryCTA={{
+          label: t("home.cta.secondary.label"),
+          href: t("home.cta.secondary.href"),
+          ariaLabel: t("home.cta.secondary.ariaLabel"),
+        }}
       >
-        <div className="mx-auto w-full max-w-screen-xl px-4">
-          <CTAContent
-            title={t("home.cta.title")}
-            description={t("home.cta.description")}
-            primaryCTA={{
-              label: t("home.cta.primary.label"),
-              href: t("home.cta.primary.href"),
-              ariaLabel: t("home.cta.primary.ariaLabel"),
-            }}
-            secondaryCTA={{
-              label: t("home.cta.secondary.label"),
-              href: t("home.cta.secondary.href"),
-              ariaLabel: t("home.cta.secondary.ariaLabel"),
-            }}
-          />
-        </div>
         <Footer locale={locale} />
-      </section>
+      </CTAContent>
     </>
   );
 }
