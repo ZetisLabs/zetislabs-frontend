@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Linkedin } from "lucide-react";
 import { getTranslation } from "@/lib/i18n";
 import { type Locale } from "@/i18n/config";
+import { siteConfig } from "@/lib/seo/config";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 type Props = {
@@ -32,6 +34,21 @@ export default function Footer({ locale }: Props) {
     { href: `/${locale}/contact`, label: t("footer.contact") },
   ];
 
+  // Company LinkedIn — the one social entry point in the footer. Same hover
+  // treatment as the contact page's social rail (muted → accent on hover).
+  // Defined once so the mobile and desktop layouts stay identical.
+  const linkedinButton = (
+    <Link
+      href={siteConfig.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={t("footer.linkedinAriaLabel")}
+      className="inline-flex h-9 w-9 items-center justify-center rounded-md text-foreground/50 transition-colors hover:bg-foreground/5 hover:text-accent"
+    >
+      <Linkedin className="h-4 w-4" aria-hidden="true" />
+    </Link>
+  );
+
   return (
     <footer className="relative z-10 border-t border-border/40">
       {/* Mobile Layout */}
@@ -49,10 +66,13 @@ export default function Footer({ locale }: Props) {
           ))}
         </div>
 
-        {/* Bottom row: Copyright + Language */}
+        {/* Bottom row: Copyright + LinkedIn + Language */}
         <div className="flex items-center justify-between border-t border-border/20 pt-4">
           <p className="text-xs text-foreground/50">{copyright}</p>
-          <LanguageSwitcher currentLocale={locale} />
+          <div className="flex items-center gap-1">
+            {linkedinButton}
+            <LanguageSwitcher currentLocale={locale} />
+          </div>
         </div>
       </div>
 
@@ -73,6 +93,7 @@ export default function Footer({ locale }: Props) {
               )}
             </span>
           ))}
+          {linkedinButton}
           <LanguageSwitcher currentLocale={locale} />
         </div>
       </div>
