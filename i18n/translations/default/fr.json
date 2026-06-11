@@ -18,6 +18,59 @@
     "cookies": "Cookies",
     "contact": "Contact"
   },
+  "contact": {
+    "metadata": {
+      "title": "Contact — ZetisLabs",
+      "description": "Parlons de vos process. Réservez un audit gratuit de 30 minutes ou écrivez-nous : on vous dit où automatiser et combien de temps vous pouvez gagner."
+    },
+    "eyebrow": "Contact",
+    "title": "Parlons de vos process",
+    "subtitle": "Une tâche qui vous fait perdre du temps ? Décrivez-la en deux lignes, ou réservez directement un audit gratuit de 30 minutes.",
+    "status": "Disponible pour de nouveaux projets",
+    "rail": {
+      "heading": "Échangeons"
+    },
+    "form": {
+      "heading": "Écrivez-nous",
+      "name": { "label": "Nom", "placeholder": "Jean Dupont" },
+      "email": { "label": "Email", "placeholder": "jean@entreprise.com" },
+      "company": {
+        "label": "Entreprise",
+        "optional": "optionnel",
+        "placeholder": "Acme SAS"
+      },
+      "message": {
+        "label": "Votre message",
+        "placeholder": "Quelle tâche aimeriez-vous automatiser ?"
+      },
+      "submit": "Envoyer le message",
+      "submitAriaLabel": "Envoyer le message par email",
+      "subject": "Demande de contact — {name}",
+      "errors": {
+        "name": "Indiquez votre nom",
+        "email": "Indiquez un email valide",
+        "message": "Écrivez quelques mots sur votre besoin"
+      },
+      "success": "Votre logiciel de messagerie va s'ouvrir avec votre message pré-rempli. Il ne reste qu'à l'envoyer."
+    },
+    "call": {
+      "heading": "Réserver un appel",
+      "description": "30 minutes, gratuit et sans engagement. On analyse vos process et on identifie vos quick wins.",
+      "cta": {
+        "label": "Réserver un audit gratuit",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
+        "ariaLabel": "Réserver un audit gratuit de 30 minutes"
+      }
+    },
+    "direct": {
+      "heading": "En direct",
+      "emailLabel": "Email",
+      "linkedinLabel": "LinkedIn",
+      "githubLabel": "GitHub",
+      "copy": "Copier",
+      "copied": "Copié"
+    }
+  },
   "home": {
     "sections": [
       { "type": "problemSolution", "id": "problem-solution" },

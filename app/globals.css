@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* source(none) disables Tailwind's automatic content detection so ONLY the
+   explicit @source globs below are scanned. Without this, v4 auto-scans the whole
+   project tree — which now includes the design-wiki submodule whose markdown holds
+   doc placeholders like `origin-[var(...)]` that generate invalid CSS, and (in a
+   git worktree) the parent repo + sibling worktrees. The three globs cover every
+   real class source and are relative to this file, so scanning stays correct. */
+@import "tailwindcss" source(none);
 
 /* Content scanning directives for optimal performance */
 @source "../app/**/*.{ts,tsx}";

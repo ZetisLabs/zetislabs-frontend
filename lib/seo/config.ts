@@ -15,6 +15,7 @@ export const siteConfig = {
   twitter: "@zetislabs",
   linkedin: "https://www.linkedin.com/company/zetislabs/",
   github: "https://github.com/ZetisLabs",
+  email: "contact@zetislabs.com",
   ogImage: "/og-image.png",
 };
 

@@ -18,6 +18,59 @@
     "cookies": "Cookies",
     "contact": "Contact"
   },
+  "contact": {
+    "metadata": {
+      "title": "Contact — ZetisLabs",
+      "description": "Let's talk about your processes. Book a free 30-minute audit or send us a message: we'll tell you what to automate and how much time you can save."
+    },
+    "eyebrow": "Contact",
+    "title": "Let's talk about your processes",
+    "subtitle": "Got a task that wastes your time? Describe it in a couple of lines, or book a free 30-minute audit right away.",
+    "status": "Available for new projects",
+    "rail": {
+      "heading": "Let's talk"
+    },
+    "form": {
+      "heading": "Send us a message",
+      "name": { "label": "Name", "placeholder": "John Doe" },
+      "email": { "label": "Email", "placeholder": "john@company.com" },
+      "company": {
+        "label": "Company",
+        "optional": "optional",
+        "placeholder": "Acme Inc."
+      },
+      "message": {
+        "label": "Your message",
+        "placeholder": "Which task would you like to automate?"
+      },
+      "submit": "Send message",
+      "submitAriaLabel": "Send message by email",
+      "subject": "Contact request — {name}",
+      "errors": {
+        "name": "Please enter your name",
+        "email": "Please enter a valid email",
+        "message": "Tell us a few words about your need"
+      },
+      "success": "Your email app will open with your message pre-filled. Just hit send."
+    },
+    "call": {
+      "heading": "Book a call",
+      "description": "30 minutes, free and no commitment. We analyze your processes and spot your quick wins.",
+      "cta": {
+        "label": "Book a free audit",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
+        "ariaLabel": "Book a free 30-minute audit"
+      }
+    },
+    "direct": {
+      "heading": "Direct",
+      "emailLabel": "Email",
+      "linkedinLabel": "LinkedIn",
+      "githubLabel": "GitHub",
+      "copy": "Copy",
+      "copied": "Copied"
+    }
+  },
   "home": {
     "sections": [
       { "type": "problemSolution", "id": "problem-solution" },

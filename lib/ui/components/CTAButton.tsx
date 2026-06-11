@@ -3,7 +3,10 @@
 import { motion } from "@/lib/motion";
 
 type CTAButtonProps = {
-  href: string;
+  /** Render as a link. Omit to render a real <button> (e.g. a form submit). */
+  href?: string;
+  /** Button type when rendered as a <button> (no href). */
+  type?: "button" | "submit";
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   ariaLabel?: string;
@@ -13,16 +16,27 @@ type CTAButtonProps = {
 
 export function CTAButton({
   href,
+  type = "button",
   children,
   variant = "primary",
   ariaLabel,
   showArrow = true,
   onClick,
 }: CTAButtonProps) {
+  // Same visual component whether it's a link (href) or a real submit button —
+  // so every CTA on the site stays identical.
+  const Tag = (
+    href !== undefined ? motion.a : motion.button
+  ) as React.ComponentType<
+    Record<string, unknown> & { children?: React.ReactNode }
+  >;
+  const tagProps: Record<string, unknown> =
+    href !== undefined ? { href } : { type };
+
   if (variant === "primary") {
     return (
-      <motion.a
-        href={href}
+      <Tag
+        {...tagProps}
         onClick={onClick}
         className="group relative isolate inline-flex h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-accent px-8 py-3.5 font-semibold text-background shadow-[0_8px_30px_rgb(58,123,213,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] sm:h-auto sm:w-auto"
         whileHover={{
@@ -78,14 +92,14 @@ export function CTAButton({
 
         {/* Geometric "Cell" Accent - Echoing the background grid */}
         <div className="absolute top-0 left-0 m-1.5 h-2 w-2 border-t-2 border-l-2 border-white/40 opacity-60" />
-      </motion.a>
+      </Tag>
     );
   }
 
   // Secondary variant
   return (
-    <motion.a
-      href={href}
+    <Tag
+      {...tagProps}
       onClick={onClick}
       className="group relative inline-flex h-14 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-card/40 px-8 py-3 text-base font-medium text-foreground/80 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-card/60 hover:text-foreground hover:shadow-[0_10px_25px_-5px_rgba(58,123,213,0.12)] sm:h-auto sm:w-auto"
       whileHover={{ y: -2 }}
@@ -116,6 +130,6 @@ export function CTAButton({
           />
         </svg>
       </span>
-    </motion.a>
+    </Tag>
   );
 }
