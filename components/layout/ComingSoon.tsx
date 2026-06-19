@@ -51,22 +51,43 @@ export function buildWipMetadata(
 
 type Props = {
   locale: Locale;
-  /** Footer key for the section label shown in the eyebrow. */
-  section: WipSection;
+  /** Footer key for the section label shown in the eyebrow (legal pages). */
+  section?: WipSection;
+  /** Explicit eyebrow label — takes precedence over `section`. */
+  eyebrow?: string;
+  /** Heading override (defaults to the generic `wip.title`). */
+  title?: string;
+  /** Body override (defaults to the generic `wip.description`). */
+  description?: string;
+  /** Status-line override (defaults to the generic `wip.status`). */
+  status?: string;
 };
 
 /**
  * ComingSoon
  *
- * On-brand placeholder for the legal pages that aren't written yet (legal,
- * privacy, terms, cookies). Same calm surface as the contact page: WebGL arc
- * disabled, flat Swiss-paper dot grid, single screen with the footer pinned
- * below. Left-anchored so the negative space falls to the right (Swiss,
- * asymmetric). Accent is reserved for the one spot of "life" — the pulsing
- * in-progress dot.
+ * On-brand placeholder for pages whose real content isn't written yet — the
+ * legal pages (legal, privacy, terms, cookies, via `section`) and the offer
+ * landings still in preparation (via the `eyebrow`/`title`/… overrides). Same
+ * calm surface as the contact page: WebGL arc disabled, flat Swiss-paper dot
+ * grid, single screen with the footer pinned below. Left-anchored so the
+ * negative space falls to the right (Swiss, asymmetric). Accent is reserved for
+ * the one spot of "life" — the pulsing in-progress dot.
  */
-export function ComingSoon({ locale, section }: Props) {
+export function ComingSoon({
+  locale,
+  section,
+  eyebrow,
+  title,
+  description,
+  status,
+}: Props) {
   const t = (key: string) => getTranslation(locale, key);
+
+  const eyebrowLabel = eyebrow ?? (section ? t(`footer.${section}`) : "");
+  const heading = title ?? t("wip.title");
+  const body = description ?? t("wip.description");
+  const statusLabel = status ?? t("wip.status");
 
   return (
     <WebGLAnimationModeOverride mode="none">
@@ -78,14 +99,14 @@ export function ComingSoon({ locale, section }: Props) {
       <section className="flex min-h-[calc(100dvh-4rem)] flex-col">
         <div className="mx-auto flex w-full max-w-screen-xl flex-1 items-center px-4 py-10 md:py-14">
           <div className="hero-entrance hero-entrance-1 w-full max-w-xl">
-            <EyebrowBadge>{t(`footer.${section}`)}</EyebrowBadge>
+            <EyebrowBadge>{eyebrowLabel}</EyebrowBadge>
 
             <h1 className="mt-6 font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              {t("wip.title")}
+              {heading}
             </h1>
 
             <p className="mt-4 max-w-md text-base leading-relaxed text-foreground/55">
-              {t("wip.description")}
+              {body}
             </p>
 
             {/* In-progress indicator — the page's only spot of accent. The ping
@@ -95,7 +116,7 @@ export function ComingSoon({ locale, section }: Props) {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60 motion-reduce:hidden" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent shadow-[0_0_0_3px_rgba(58,123,213,0.18)]" />
               </span>
-              {t("wip.status")}
+              {statusLabel}
             </div>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">

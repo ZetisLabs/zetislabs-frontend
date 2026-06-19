@@ -8,7 +8,18 @@
     "blog": "Blog",
     "homeAriaLabel": "Navigate to home",
     "blogAriaLabel": "Navigate to blog",
-    "logoAriaLabel": "ZetisLabs home"
+    "logoAriaLabel": "ZetisLabs home",
+    "offers": {
+      "label": "Offers",
+      "ariaLabel": "View our offers",
+      "menuLabel": "Our offers",
+      "items": {
+        "veilleAo": {
+          "label": "Tender Watch",
+          "description": "Never miss a public tender again"
+        }
+      }
+    }
   },
   "footer": {
     "copyright": "© {year} ZetisLabs",
@@ -29,6 +40,14 @@
     "contactAriaLabel": "Go to the contact page",
     "metaTitleSuffix": "Coming soon",
     "metaDescription": "This page is being written and will be available soon."
+  },
+  "veilleAo": {
+    "eyebrow": "Tender Watch",
+    "title": "Coming soon",
+    "description": "Our AI-powered tender monitoring is launching very soon. Drop us a line to be the first to know.",
+    "status": "In the works",
+    "metaTitle": "Tender Watch — Coming soon",
+    "metaDescription": "Our AI-powered tender watch offer is coming soon. Get in touch to learn more."
   },
   "contact": {
     "metadata": {
