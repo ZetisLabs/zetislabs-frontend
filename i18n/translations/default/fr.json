@@ -8,7 +8,18 @@
     "blog": "Blog",
     "homeAriaLabel": "Aller à l'accueil",
     "blogAriaLabel": "Aller au blog",
-    "logoAriaLabel": "Accueil ZetisLabs"
+    "logoAriaLabel": "Accueil ZetisLabs",
+    "offers": {
+      "label": "Offre",
+      "ariaLabel": "Voir nos offres",
+      "menuLabel": "Nos offres",
+      "items": {
+        "veilleAo": {
+          "label": "Veille d'AO",
+          "description": "Ne ratez plus aucun appel d'offres"
+        }
+      }
+    }
   },
   "footer": {
     "copyright": "© {year} ZetisLabs",
@@ -29,6 +40,14 @@
     "contactAriaLabel": "Aller à la page de contact",
     "metaTitleSuffix": "Bientôt disponible",
     "metaDescription": "Cette page est en cours de rédaction et sera bientôt disponible."
+  },
+  "veilleAo": {
+    "eyebrow": "Veille d'AO",
+    "title": "Bientôt disponible",
+    "description": "Notre veille d'appels d'offres propulsée par l'IA arrive très bientôt. Écrivez-nous pour être prévenu·e dès le lancement.",
+    "status": "En préparation",
+    "metaTitle": "Veille d'AO — Bientôt disponible",
+    "metaDescription": "Notre offre de veille d'appels d'offres propulsée par l'IA arrive bientôt. Contactez-nous pour en savoir plus."
   },
   "contact": {
     "metadata": {

@@ -145,6 +145,10 @@ header:has(.nav-link-home:hover) .nav-link-home-shadow {
   opacity: 1;
 }
 
+header:has(.nav-link-offer:hover) .nav-link-offer-shadow {
+  opacity: 1;
+}
+
 header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   opacity: 1;
 }
@@ -206,5 +210,28 @@ header:has(.nav-link-blog:hover) .nav-link-blog-shadow {
   .hero-entrance {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* Offers dropdown entrance — fast fade with a slight rise + scale from the top
+   edge. Transform + opacity only (GPU-composited), ease-out, well under 300ms. */
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-in {
+  animation: dropdown-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-in {
+    animation: none;
   }
 }
