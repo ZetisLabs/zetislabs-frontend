@@ -54,10 +54,17 @@ export function proxy(request: NextRequest) {
       }
     }
 
-    // Redirect to detected locale
+    // Redirect to the detected locale. The destination depends on the
+    // Accept-Language header, so this stays a *temporary* (307) redirect and
+    // advertises `Vary: Accept-Language` — that way shared caches (CDN/browser)
+    // key the redirect on the language and never serve one visitor's locale to
+    // another. A permanent (308) redirect here could be cached and pin every
+    // visitor to a single locale.
     const url = request.nextUrl.clone();
     url.pathname = `/${detectedLocale}`;
-    return NextResponse.redirect(url);
+    const response = NextResponse.redirect(url);
+    response.headers.set("Vary", "Accept-Language");
+    return response;
   }
 
   // For other paths without locale, redirect to default locale
