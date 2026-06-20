@@ -260,7 +260,7 @@ function MailPreview({ data }: { data: Notif }) {
         <span className="text-sm font-semibold text-foreground">
           {card.title}
         </span>
-        <span className="text-sm text-foreground/40">— {card.week}</span>
+        <span className="text-sm text-foreground/40">: {card.week}</span>
         <Mail
           className="ml-auto h-4 w-4 text-foreground/30"
           aria-hidden="true"
@@ -370,7 +370,7 @@ function TelegramPreview({ data }: { data: Notif }) {
             {chat.sender}
           </div>
           <p className="mt-0.5 text-[13px] font-semibold text-[#111b21]">
-            🔔 {card.title} — {card.week}
+            🔔 {card.title} : {card.week}
           </p>
           <p className="text-[13px] text-[#3b4a54]">{card.summary}</p>
 
@@ -467,7 +467,7 @@ function WhatsAppPreview({ data }: { data: Notif }) {
             style={{ clipPath: "polygon(100% 0, 100% 100%, 0 0)" }}
           />
           <p className="text-[13px] font-semibold text-[#111b21]">
-            🔔 {card.title} — {card.week}
+            🔔 {card.title} : {card.week}
           </p>
           <p className="text-[13px] text-[#3b4a54]">{card.summary}</p>
 

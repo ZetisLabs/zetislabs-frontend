@@ -51,7 +51,7 @@
         "thin": " To find 2 or 3 relevant tenders.",
         "accent": " We automate that."
       },
-      "subtitle": "A system that scans the public sources, filters by your criteria, and sends you what concerns you — in real time, daily, or weekly, you choose. 30 minutes of reading instead of 6 hours of searching.",
+      "subtitle": "A system that scans the public sources, filters by your criteria, and sends you what concerns you. In real time, daily, or weekly, you choose. 30 minutes of reading instead of 6 hours of searching.",
       "ctaPrimary": {
         "label": "Book a call — 30 min",
         "href": "https://calendly.com/lucien-zetislabs/30min",
@@ -75,7 +75,7 @@
     "solution": {
       "eyebrow": "The solution",
       "title": "A short-list, at your pace.",
-      "body": "We set up a system that scans the public sources — BOAMP, regional platforms, AWS Achats — filters tenders against your precise criteria, and sends you what actually concerns you. In real time, daily, or weekly — you choose.",
+      "body": "We set up a system that scans the public sources (BOAMP, regional platforms, AWS Achats), filters tenders against your precise criteria, and sends you what actually concerns you. In real time, daily, or weekly, you choose.",
       "highlight": "30 minutes reading it, instead of 6 hours hunting for it.",
       "features": [
         {
@@ -99,7 +99,7 @@
     "notification": {
       "eyebrow": "What you receive",
       "title": "Your watch, delivered.",
-      "subtitle": "At the frequency you choose — real time, daily, or weekly — on the channel of your choice.",
+      "subtitle": "At the frequency you choose (real time, daily, or weekly), on the channel of your choice.",
       "channels": ["Email", "Telegram", "WhatsApp", "CRM"],
       "card": {
         "title": "Tender Watch",
@@ -166,7 +166,7 @@
         "Training (30 min)",
         "60 days of support included"
       ],
-      "note": "The code is yours. The monthly maintenance covers updates and support — it's optional: without it, the system keeps running."
+      "note": "The code is yours. The monthly maintenance covers updates and support. It's optional: without it, the system keeps running."
     },
     "pricing": {
       "eyebrow": "Pricing",
@@ -192,53 +192,7 @@
         "guarantee": "Price locked for life as long as the subscription is active.",
         "exchange": "In exchange: your feedback on the product for the first 3 months, and a testimonial if it works."
       },
-      "comparison": {
-        "title": "Compared with tender-monitoring SaaS (public prices verified June 2026)",
-        "colSolution": "Solution",
-        "colMonthly": "Monthly price",
-        "colThreeYear": "Cost over 3 years",
-        "rows": [
-          {
-            "solution": "PublikConnect Pro",
-            "monthly": "€49",
-            "threeYear": "€1,764"
-          },
-          {
-            "solution": "TenderWolf Standard",
-            "monthly": "€79",
-            "threeYear": "€2,844"
-          },
-          {
-            "solution": "France Marchés",
-            "monthly": "€100-200",
-            "threeYear": "€3,600-7,200"
-          },
-          {
-            "solution": "Double Trade (BTP)",
-            "monthly": "€150-250",
-            "threeYear": "€5,400-9,000"
-          },
-          {
-            "solution": "Explore (Spigao)",
-            "monthly": "€200-400",
-            "threeYear": "€7,200-14,400"
-          },
-          {
-            "solution": "Vecteur Plus",
-            "monthly": "€300-500",
-            "threeYear": "€10,800-18,000"
-          }
-        ],
-        "us": {
-          "solution": "ZetisLabs (founder price)",
-          "monthly": "€100 / mo + €1,500 setup",
-          "threeYear": "€5,100"
-        },
-        "notes": [
-          "SaaS tools rent you access. You pay for life, and the day you stop, you're left with nothing. With ZetisLabs, the code is yours.",
-          "Yes, a PublikConnect at €49/month is cheaper. But it does no personalised filtering: it doesn't know your trade, doesn't learn from your feedback, and doesn't adapt to your profile. You get every tender in your area — not the tenders that concern you."
-        ]
-      }
+      "comparison": "A high-end tender-monitoring SaaS charges €300 to €500/month, i.e. €3,600 to €6,000 a year, every year. ZetisLabs: €2,000 once, then €150/month. From the second year on, you pay two to three times less. And the code is yours."
     },
     "process": {
       "eyebrow": "How it works",

@@ -334,75 +334,13 @@ function Pricing({ data }: { data: Content["pricing"] }) {
           </Reveal>
         </div>
 
-        <PricingComparison data={data.comparison} />
+        <Reveal once delay={0.05}>
+          <p className="mx-auto mt-14 max-w-2xl text-center text-sm leading-relaxed text-foreground/55 tabular-nums">
+            {data.comparison}
+          </p>
+        </Reveal>
       </div>
     </section>
-  );
-}
-
-function PricingComparison({
-  data,
-}: {
-  data: Content["pricing"]["comparison"];
-}) {
-  return (
-    <Reveal once delay={0.05}>
-      <div className="mx-auto mt-16 max-w-2xl">
-        <p className="text-center text-xs tracking-[0.06em] text-foreground/45 uppercase">
-          {data.title}
-        </p>
-
-        <div className="mt-4 overflow-hidden rounded-2xl border border-border/40 bg-card">
-          <div className="overflow-x-auto">
-            <div className="min-w-[460px]">
-              {/* Column headers */}
-              <div className="grid grid-cols-[1.4fr_1.2fr_1fr] gap-3 px-4 py-2.5 text-[11px] tracking-[0.08em] text-foreground/40 uppercase">
-                <span>{data.colSolution}</span>
-                <span className="text-right">{data.colMonthly}</span>
-                <span className="text-right">{data.colThreeYear}</span>
-              </div>
-
-              {/* Competitor rows */}
-              {data.rows.map((row, i) => (
-                <div
-                  key={i}
-                  className="grid grid-cols-[1.4fr_1.2fr_1fr] gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-foreground/[0.02]"
-                >
-                  <span className="text-foreground/70">{row.solution}</span>
-                  <span className="text-right text-foreground/55 tabular-nums">
-                    {row.monthly}
-                  </span>
-                  <span className="text-right text-foreground/55 tabular-nums">
-                    {row.threeYear}
-                  </span>
-                </div>
-              ))}
-
-              {/* Our row — the one spot of accent in the table */}
-              <div className="grid grid-cols-[1.4fr_1.2fr_1fr] items-center gap-3 bg-accent/5 px-4 py-3 text-sm ring-1 ring-accent/15 ring-inset">
-                <span className="font-semibold text-foreground">
-                  {data.us.solution}
-                </span>
-                <span className="text-right leading-tight font-medium text-accent tabular-nums">
-                  {data.us.monthly}
-                </span>
-                <span className="text-right font-semibold text-accent tabular-nums">
-                  {data.us.threeYear}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-5 space-y-3">
-          {data.notes.map((note, i) => (
-            <p key={i} className="text-sm leading-relaxed text-foreground/60">
-              {note}
-            </p>
-          ))}
-        </div>
-      </div>
-    </Reveal>
   );
 }
 

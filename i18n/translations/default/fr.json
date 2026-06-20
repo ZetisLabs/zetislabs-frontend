@@ -51,7 +51,7 @@
         "thin": " Pour trouver 2 ou 3 appels d'offres pertinents.",
         "accent": " On automatise ça."
       },
-      "subtitle": "Un système qui scanne les sources publiques, filtre selon vos critères, et vous envoie ce qui vous concerne — en temps réel, quotidien ou hebdomadaire, vous choisissez. 30 minutes de lecture au lieu de 6 heures de recherche.",
+      "subtitle": "Un système qui scanne les sources publiques, filtre selon vos critères, et vous envoie ce qui vous concerne. En temps réel, quotidien ou hebdomadaire, vous choisissez. 30 minutes de lecture au lieu de 6 heures de recherche.",
       "ctaPrimary": {
         "label": "Prendre rendez-vous — 30 min",
         "href": "https://calendly.com/lucien-zetislabs/30min",
@@ -75,7 +75,7 @@
     "solution": {
       "eyebrow": "La solution",
       "title": "Une short-list, à votre rythme.",
-      "body": "On installe un système qui scanne les sources publiques — BOAMP, plateformes régionales, AWS Achats — filtre les appels d'offres selon vos critères précis, et vous envoie ce qui vous concerne vraiment. En temps réel, chaque jour, ou chaque semaine — vous choisissez.",
+      "body": "On installe un système qui scanne les sources publiques (BOAMP, plateformes régionales, AWS Achats), filtre les appels d'offres selon vos critères précis, et vous envoie ce qui vous concerne vraiment. En temps réel, chaque jour, ou chaque semaine, vous choisissez.",
       "highlight": "30 minutes à la lire, au lieu de 6 heures à la chercher.",
       "features": [
         {
@@ -99,7 +99,7 @@
     "notification": {
       "eyebrow": "Ce que vous recevez",
       "title": "Votre veille, livrée.",
-      "subtitle": "À la fréquence que vous choisissez — temps réel, quotidien ou hebdomadaire — sur le canal de votre choix.",
+      "subtitle": "À la fréquence que vous choisissez (temps réel, quotidien ou hebdomadaire), sur le canal de votre choix.",
       "channels": ["Mail", "Telegram", "WhatsApp", "CRM"],
       "card": {
         "title": "Veille AO",
@@ -166,7 +166,7 @@
         "Formation (30 min)",
         "60 jours de support inclus"
       ],
-      "note": "Le code est à vous. La maintenance mensuelle couvre les mises à jour et le support — elle est optionnelle : sans elle, le système continue de tourner."
+      "note": "Le code est à vous. La maintenance mensuelle couvre les mises à jour et le support. Elle est optionnelle : sans elle, le système continue de tourner."
     },
     "pricing": {
       "eyebrow": "Prix",
@@ -192,53 +192,7 @@
         "guarantee": "Prix garanti à vie tant que l'abonnement est actif.",
         "exchange": "En échange : votre retour sur le produit pendant les 3 premiers mois, et un témoignage si ça marche."
       },
-      "comparison": {
-        "title": "Comparaison avec les SaaS de veille AO (tarifs publics vérifiés juin 2026)",
-        "colSolution": "Solution",
-        "colMonthly": "Prix mensuel",
-        "colThreeYear": "Coût sur 3 ans",
-        "rows": [
-          {
-            "solution": "PublikConnect Pro",
-            "monthly": "49 €",
-            "threeYear": "1 764 €"
-          },
-          {
-            "solution": "TenderWolf Standard",
-            "monthly": "79 €",
-            "threeYear": "2 844 €"
-          },
-          {
-            "solution": "France Marchés",
-            "monthly": "100-200 €",
-            "threeYear": "3 600 - 7 200 €"
-          },
-          {
-            "solution": "Double Trade (BTP)",
-            "monthly": "150-250 €",
-            "threeYear": "5 400 - 9 000 €"
-          },
-          {
-            "solution": "Explore (Spigao)",
-            "monthly": "200-400 €",
-            "threeYear": "7 200 - 14 400 €"
-          },
-          {
-            "solution": "Vecteur Plus",
-            "monthly": "300-500 €",
-            "threeYear": "10 800 - 18 000 €"
-          }
-        ],
-        "us": {
-          "solution": "ZetisLabs (tarif fondateur)",
-          "monthly": "100 € / mois + 1 500 € setup",
-          "threeYear": "5 100 €"
-        },
-        "notes": [
-          "Les SaaS vous louent un accès. Vous payez à vie, et le jour où vous arrêtez, vous n'avez plus rien. Avec ZetisLabs, le code vous appartient.",
-          "Oui, un PublikConnect à 49 €/mois est moins cher. Mais il ne fait pas de filtrage personnalisé : il ne connaît pas votre métier, n'apprend pas de vos retours, et ne s'adapte pas à votre profil. Vous obtenez tous les AO de votre département, pas les AO qui vous concernent."
-        ]
-      }
+      "comparison": "Un SaaS de veille AO haut de gamme facture 300 à 500 €/mois, soit 3 600 à 6 000 €/an, tous les ans. ZetisLabs : 2 000 € une fois, puis 150 €/mois. Dès la deuxième année, vous payez deux à trois fois moins cher. Et le code vous appartient."
     },
     "process": {
       "eyebrow": "Comment ça se passe",
