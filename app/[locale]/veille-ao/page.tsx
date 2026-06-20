@@ -5,9 +5,12 @@ import {
   defaultLocale,
   locales,
 } from "@/i18n/config";
-import { getTranslation } from "@/lib/i18n";
+import { getTranslation, getTranslations } from "@/lib/i18n";
 import { siteConfig } from "@/lib/seo/config";
-import { ComingSoon } from "@/components/layout/ComingSoon";
+import { WebGLAnimationModeOverride } from "@/components/providers";
+import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import Footer from "@/components/layout/Footer";
+import { VeilleAoContent } from "./components/VeilleAoContent";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -35,9 +38,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url, languages },
-    // Placeholder offer landing — keep it out of the index until the real
-    // content ships.
-    robots: { index: false, follow: true },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: siteConfig.name,
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      type: "website",
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: siteConfig.twitter,
+      images: [siteConfig.ogImage],
+    },
+    // Real conversion page now — index it (the previous coming-soon was noindex).
+    robots: { index: true, follow: true },
   };
 }
 
@@ -47,14 +72,32 @@ export default async function VeilleAoPage({ params }: Props) {
     ? localeParam
     : defaultLocale;
   const t = (key: string) => getTranslation(locale, key);
+  const dict = getTranslations(locale);
 
   return (
-    <ComingSoon
-      locale={locale}
-      eyebrow={t("veilleAo.eyebrow")}
-      title={t("veilleAo.title")}
-      description={t("veilleAo.description")}
-      status={t("veilleAo.status")}
-    />
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: t("header.home"), url: `${siteConfig.url}/${locale}` },
+          {
+            name: t("veilleAo.hero.eyebrow"),
+            url: `${siteConfig.url}/${locale}/veille-ao`,
+          },
+        ]}
+      />
+
+      {/* Calm long-form surface: WebGL arc off, flat swiss-paper dot grid behind
+          the whole page (consistent with the contact / coming-soon screens). */}
+      <WebGLAnimationModeOverride mode="none">
+        <div
+          className="pointer-events-none fixed inset-0 -z-10 swiss-paper"
+          aria-hidden="true"
+        />
+
+        <VeilleAoContent content={dict.veilleAo} />
+
+        <Footer locale={locale} />
+      </WebGLAnimationModeOverride>
+    </>
   );
 }

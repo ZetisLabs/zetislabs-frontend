@@ -42,12 +42,241 @@
     "metaDescription": "This page is being written and will be available soon."
   },
   "veilleAo": {
-    "eyebrow": "Tender Watch",
-    "title": "Coming soon",
-    "description": "Our AI-powered tender monitoring is launching very soon. Drop us a line to be the first to know.",
-    "status": "In the works",
-    "metaTitle": "Tender Watch — Coming soon",
-    "metaDescription": "Our AI-powered tender watch offer is coming soon. Get in touch to learn more."
+    "metaTitle": "Automated tender monitoring — never miss a tender again | ZetisLabs",
+    "metaDescription": "We set up a system that scans the BOAMP, regional platforms and AWS Achats, filters tenders against your criteria, and sends them to you at the frequency you choose: real time, daily, or weekly. The code is yours.",
+    "hero": {
+      "eyebrow": "Tender Watch",
+      "title": {
+        "lead": "You comb through the BOAMP every week.",
+        "thin": " To find 2 or 3 relevant tenders.",
+        "accent": " We automate that."
+      },
+      "subtitle": "A system that scans the public sources, filters by your criteria, and sends you what concerns you — in real time, daily, or weekly, you choose. 30 minutes of reading instead of 6 hours of searching.",
+      "ctaPrimary": {
+        "label": "Book a call — 30 min",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
+        "ariaLabel": "Book a 30-minute call on Calendly"
+      },
+      "ctaSecondary": {
+        "label": "See how it works",
+        "href": "#solution",
+        "ariaLabel": "See how tender monitoring works"
+      }
+    },
+    "problem": {
+      "eyebrow": "The problem",
+      "title": "The tender you never saw.",
+      "body": [
+        "The BOAMP and regional platforms publish hundreds of tenders every week. You go through them one by one. You look for the lots that match your trade, you filter by area, by amount, by contract type.",
+        "By the end of the week, you've spent the equivalent of a full working day on monitoring. And you're still not sure you didn't miss anything."
+      ],
+      "conclusion": "Because the real problem isn't the time spent. It's the tender you never saw."
+    },
+    "solution": {
+      "eyebrow": "The solution",
+      "title": "A short-list, at your pace.",
+      "body": "We set up a system that scans the public sources — BOAMP, regional platforms, AWS Achats — filters tenders against your precise criteria, and sends you what actually concerns you. In real time, daily, or weekly — you choose.",
+      "highlight": "30 minutes reading it, instead of 6 hours hunting for it.",
+      "features": [
+        {
+          "title": "Multi-source scraper",
+          "description": "BOAMP, regional platforms, AWS Achats — scanned continuously."
+        },
+        {
+          "title": "Profile-based filtering",
+          "description": "Trade, area, amount, lots, CPV codes. Your criteria, not a recommendation."
+        },
+        {
+          "title": "Learning",
+          "description": "The system remembers the tenders that interest you and sharpens over time."
+        },
+        {
+          "title": "Delivered how you want",
+          "description": "Email, Telegram, WhatsApp or CRM — in real time, daily, or weekly."
+        }
+      ]
+    },
+    "notification": {
+      "eyebrow": "What you receive",
+      "title": "Your watch, delivered.",
+      "subtitle": "At the frequency you choose — real time, daily, or weekly — on the channel of your choice.",
+      "channels": ["Email", "Telegram", "WhatsApp", "CRM"],
+      "card": {
+        "title": "Tender Watch",
+        "week": "Week 24",
+        "summary": "3 tenders match your profile",
+        "deadlineLabel": "Deadline",
+        "amountLabel": "Amount",
+        "locationLabel": "Location",
+        "matchLabel": "Match",
+        "linkLabel": "Tender docs",
+        "items": [
+          {
+            "org": "Lyon Metropolis",
+            "deadline": "15 July 2026",
+            "amount": "€45,000 excl. VAT",
+            "location": "Lyon (69)",
+            "match": "plumbing + heating"
+          },
+          {
+            "org": "Rhône Departmental Council",
+            "deadline": "22 July 2026",
+            "amount": "€120,000 excl. VAT",
+            "location": "Rhône (69)",
+            "match": "electrical + low-voltage"
+          },
+          {
+            "org": "City of Villeurbanne",
+            "deadline": "29 July 2026",
+            "amount": "€78,000 excl. VAT",
+            "location": "Villeurbanne (69)",
+            "match": "HVAC + maintenance"
+          }
+        ]
+      },
+      "tablistLabel": "Choose a delivery channel",
+      "chat": {
+        "sender": "Tender Watch",
+        "time": "09:00",
+        "cta": "View tender docs",
+        "today": "Today",
+        "input": "Message"
+      },
+      "telegram": { "tag": "bot" },
+      "whatsapp": { "tag": "Business account" },
+      "crm": {
+        "title": "3 new opportunities created",
+        "source": "Tender Watch",
+        "status": "To qualify",
+        "colDeal": "Opportunity",
+        "colDeadline": "Due date",
+        "colAmount": "Amount",
+        "colStatus": "Status"
+      },
+      "factual": "The match score is factual: it's the number of your criteria that match. The tool never tells you to \"bid on this one\". You decide."
+    },
+    "deliverables": {
+      "eyebrow": "What you get",
+      "title": "The whole system — yours.",
+      "items": [
+        "Source code of the monitoring pipeline",
+        "Configuration of your criteria (editable)",
+        "Automatic notifications (real time, daily, or weekly)",
+        "Full documentation",
+        "Training (30 min)",
+        "60 days of support included"
+      ],
+      "note": "The code is yours. The monthly maintenance covers updates and support — it's optional: without it, the system keeps running."
+    },
+    "pricing": {
+      "eyebrow": "Pricing",
+      "title": "Clear pricing, no surprises.",
+      "catalogue": {
+        "label": "Catalogue price",
+        "setupLabel": "Setup",
+        "setupValue": "€2,000 excl. VAT",
+        "setupNote": "one-off — configuration, source connection, filtering on your criteria, test on real data.",
+        "maintenanceLabel": "Maintenance",
+        "maintenanceValue": "€150 excl. VAT / mo",
+        "maintenanceNote": "criteria adjustments, new sources, fixes if a scraper breaks."
+      },
+      "founder": {
+        "badge": "3 seats",
+        "label": "Founder price",
+        "setupLabel": "Setup",
+        "setupValue": "€1,500 excl. VAT",
+        "setupWas": "€2,000",
+        "maintenanceLabel": "Maintenance",
+        "maintenanceValue": "€100 excl. VAT / mo",
+        "maintenanceWas": "€150",
+        "guarantee": "Price locked for life as long as the subscription is active.",
+        "exchange": "In exchange: your feedback on the product for the first 3 months, and a testimonial if it works."
+      },
+      "comparison": {
+        "title": "Compared with tender-monitoring SaaS (public prices verified June 2026)",
+        "colSolution": "Solution",
+        "colMonthly": "Monthly price",
+        "colThreeYear": "Cost over 3 years",
+        "rows": [
+          {
+            "solution": "PublikConnect Pro",
+            "monthly": "€49",
+            "threeYear": "€1,764"
+          },
+          {
+            "solution": "TenderWolf Standard",
+            "monthly": "€79",
+            "threeYear": "€2,844"
+          },
+          {
+            "solution": "France Marchés",
+            "monthly": "€100-200",
+            "threeYear": "€3,600-7,200"
+          },
+          {
+            "solution": "Double Trade (BTP)",
+            "monthly": "€150-250",
+            "threeYear": "€5,400-9,000"
+          },
+          {
+            "solution": "Explore (Spigao)",
+            "monthly": "€200-400",
+            "threeYear": "€7,200-14,400"
+          },
+          {
+            "solution": "Vecteur Plus",
+            "monthly": "€300-500",
+            "threeYear": "€10,800-18,000"
+          }
+        ],
+        "us": {
+          "solution": "ZetisLabs (founder price)",
+          "monthly": "€100 / mo + €1,500 setup",
+          "threeYear": "€5,100"
+        },
+        "notes": [
+          "SaaS tools rent you access. You pay for life, and the day you stop, you're left with nothing. With ZetisLabs, the code is yours.",
+          "Yes, a PublikConnect at €49/month is cheaper. But it does no personalised filtering: it doesn't know your trade, doesn't learn from your feedback, and doesn't adapt to your profile. You get every tender in your area — not the tenders that concern you."
+        ]
+      }
+    },
+    "process": {
+      "eyebrow": "How it works",
+      "title": "From your criteria to your first watch.",
+      "steps": [
+        {
+          "number": "01",
+          "duration": "1h together",
+          "title": "We define your criteria",
+          "description": "Trade, geographic area, amount ranges, target lots, CPV codes. Everything that makes a tender relevant to you — or not."
+        },
+        {
+          "number": "02",
+          "duration": "2 to 5 days",
+          "title": "We build",
+          "description": "Source connection, AI filtering system, notification format."
+        },
+        {
+          "number": "03",
+          "duration": "1 week",
+          "title": "We test on a real week",
+          "description": "You receive your first watch. We adjust the criteria if needed."
+        },
+        {
+          "number": "04",
+          "duration": "Handover",
+          "title": "We hand it over",
+          "description": "Code, configuration, documentation, training. It's yours."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Stop hunting for tenders by hand.",
+      "subtitle": "30 minutes to see if it fits your business — with a live demo on the call.",
+      "ctaLabel": "Book a call — 30 min",
+      "ctaHref": "https://calendly.com/lucien-zetislabs/30min",
+      "ctaAriaLabel": "Book a 30-minute call on Calendly"
+    }
   },
   "contact": {
     "metadata": {
