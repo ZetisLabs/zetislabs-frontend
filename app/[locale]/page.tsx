@@ -1,8 +1,13 @@
-import { getTranslation, getTranslations } from "@/lib/i18n";
+import { getTranslations } from "@/lib/i18n";
 import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
-import { HeroSection } from "@/components/HeroSection";
+import {
+  Hero,
+  WhatWeDo,
+  WhyNotSaas,
+  HowWeWork,
+  Offers,
+} from "@/components/home";
 import { CTAContent } from "@/components/CTAContent";
-import { SectionRenderer, type SectionConfig } from "@/lib/sections";
 import Footer from "@/components/layout/Footer";
 
 type Props = {
@@ -10,69 +15,67 @@ type Props = {
 };
 
 /**
- * Home Page
+ * Home page — the "Architect's Paper" rebuild (see design-direction.md).
  *
- * Uses a dynamic section composition system:
- * - Hero and CTA sections are static (always present)
- * - Other sections are dynamically rendered based on i18n configuration
+ * The scroll tells the story: arrive (Hero) → understand (What we do) →
+ * differentiate (Why not a SaaS) → trust (How we work) → act (Offers + final CTA).
+ * Copy is driven entirely by the typed i18n dictionary; the WebGL sunrise + grain
+ * (mounted in the layout / below) carry the organic counterpoint.
  */
 export default async function Home({ params }: Props) {
   const { locale: localeParam } = await params;
   const locale: Locale = isValidLocale(localeParam)
     ? localeParam
     : defaultLocale;
-  const t = (key: string) => getTranslation(locale, key);
-  const dict = getTranslations(locale);
-
-  // Get sections configuration from i18n
-  const sections = (dict.home.sections || []) as SectionConfig[];
+  const { home } = getTranslations(locale);
 
   return (
     <>
-      {/* Static: Hero Section */}
-      <HeroSection
-        eyebrow={t("home.hero.eyebrow")}
-        title={{
-          default: t("home.hero.title.default"),
-          thin: t("home.hero.title.thin"),
-          accent: t("home.hero.title.accent"),
-        }}
-        subtitle={t("home.hero.subtitle")}
-        cta={{
-          primary: {
-            label: t("home.hero.cta.primary.label"),
-            href: t("home.hero.cta.primary.href"),
-            ariaLabel: t("home.hero.cta.primary.ariaLabel"),
-          },
-          secondary: {
-            label: t("home.hero.cta.secondary.label"),
-            href: t("home.hero.cta.secondary.href"),
-            ariaLabel: t("home.hero.cta.secondary.ariaLabel"),
-          },
-        }}
+      {/* Film grain — static "paper" warmth over the WebGL grid, behind all
+          content. Static, so no reduced-motion fallback is needed. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 grain opacity-[0.018]"
       />
 
-      {/* Dynamic: Sections from i18n configuration */}
-      <SectionRenderer sections={sections} locale={locale} t={t} dict={dict} />
+      <Hero
+        eyebrow={home.hero.eyebrow}
+        title={home.hero.title}
+        subtitle={home.hero.subtitle}
+        cta={home.hero.cta.primary}
+      />
 
-      {/* Static: Call to Action Section + Footer.
-          CTAContent owns its <section data-section="cta"> and pins its content like the
-          hero (revealed in place on scroll); the Footer is passed as children and sits
-          pinned at the bottom of that section. */}
-      <CTAContent
-        title={t("home.cta.title")}
-        description={t("home.cta.description")}
-        primaryCTA={{
-          label: t("home.cta.primary.label"),
-          href: t("home.cta.primary.href"),
-          ariaLabel: t("home.cta.primary.ariaLabel"),
-        }}
-        secondaryCTA={{
-          label: t("home.cta.secondary.label"),
-          href: t("home.cta.secondary.href"),
-          ariaLabel: t("home.cta.secondary.ariaLabel"),
-        }}
-      >
+      <WhatWeDo
+        eyebrow={home.whatWeDo.eyebrow}
+        lead={home.whatWeDo.lead}
+        body={home.whatWeDo.body}
+        capabilities={home.whatWeDo.capabilities}
+      />
+
+      <WhyNotSaas
+        eyebrow={home.whyNotSaas.eyebrow}
+        rent={home.whyNotSaas.rent}
+        ownLead={home.whyNotSaas.ownLead}
+        ownAccent={home.whyNotSaas.ownAccent}
+        closing={home.whyNotSaas.closing}
+      />
+
+      <HowWeWork
+        eyebrow={home.howWeWork.eyebrow}
+        thesis={home.howWeWork.thesis}
+        steps={home.howWeWork.steps}
+      />
+
+      <Offers
+        eyebrow={home.offers.eyebrow}
+        primary={home.offers.primary}
+        more={home.offers.more}
+      />
+
+      {/* Final CTA + Footer. CTAContent owns <section data-section="cta">, pins its
+          content like the hero (revealed in place on scroll), and renders the
+          Footer pinned at the bottom of that section. */}
+      <CTAContent title={home.cta.title} primaryCTA={home.cta.primary}>
         <Footer locale={locale} />
       </CTAContent>
     </>

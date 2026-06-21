@@ -28,5 +28,6 @@ export {
   useTransform,
   useReducedMotion,
   useMotionValue,
+  useMotionTemplate,
   animate,
 } from "framer-motion";

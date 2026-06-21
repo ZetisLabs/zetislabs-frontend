@@ -6,13 +6,13 @@ import { CTAButton } from "@/lib/ui";
 
 interface CTAContentProps {
   title: string;
-  description: string;
+  description?: string;
   primaryCTA: {
     label: string;
     href: string;
     ariaLabel: string;
   };
-  secondaryCTA: {
+  secondaryCTA?: {
     label: string;
     href: string;
     ariaLabel: string;
@@ -116,16 +116,18 @@ export function CTAContent({
             {title}
           </motion.h2>
 
-          <motion.p
-            className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
-            style={
-              enableScrollEffects
-                ? { opacity: descOpacity, scale: descScale }
-                : undefined
-            }
-          >
-            {description}
-          </motion.p>
+          {description && (
+            <motion.p
+              className="mx-auto mt-4 max-w-2xl text-pretty text-foreground/75 sm:text-lg"
+              style={
+                enableScrollEffects
+                  ? { opacity: descOpacity, scale: descScale }
+                  : undefined
+              }
+            >
+              {description}
+            </motion.p>
+          )}
 
           {/* CTAs */}
           <div className="mt-8 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row">
@@ -146,22 +148,24 @@ export function CTAContent({
               </CTAButton>
             </motion.div>
 
-            <motion.div
-              className="w-full sm:w-auto"
-              style={
-                enableScrollEffects
-                  ? { opacity: secondaryOpacity, scale: secondaryScale }
-                  : undefined
-              }
-            >
-              <CTAButton
-                href={secondaryCTA.href}
-                variant="secondary"
-                ariaLabel={secondaryCTA.ariaLabel}
+            {secondaryCTA && (
+              <motion.div
+                className="w-full sm:w-auto"
+                style={
+                  enableScrollEffects
+                    ? { opacity: secondaryOpacity, scale: secondaryScale }
+                    : undefined
+                }
               >
-                {secondaryCTA.label}
-              </CTAButton>
-            </motion.div>
+                <CTAButton
+                  href={secondaryCTA.href}
+                  variant="secondary"
+                  ariaLabel={secondaryCTA.ariaLabel}
+                >
+                  {secondaryCTA.label}
+                </CTAButton>
+              </motion.div>
+            )}
           </div>
         </motion.div>
       </motion.div>
