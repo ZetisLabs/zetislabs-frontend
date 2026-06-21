@@ -8,7 +8,18 @@
     "blog": "Blog",
     "homeAriaLabel": "Aller à l'accueil",
     "blogAriaLabel": "Aller au blog",
-    "logoAriaLabel": "Accueil ZetisLabs"
+    "logoAriaLabel": "Accueil ZetisLabs",
+    "offers": {
+      "label": "Offre",
+      "ariaLabel": "Voir nos offres",
+      "menuLabel": "Nos offres",
+      "items": {
+        "veilleAo": {
+          "label": "Veille d'AO",
+          "description": "Ne ratez plus aucun appel d'offres"
+        }
+      }
+    }
   },
   "footer": {
     "copyright": "© {year} ZetisLabs",
@@ -29,6 +40,197 @@
     "contactAriaLabel": "Aller à la page de contact",
     "metaTitleSuffix": "Bientôt disponible",
     "metaDescription": "Cette page est en cours de rédaction et sera bientôt disponible."
+  },
+  "veilleAo": {
+    "metaTitle": "Veille d'AO automatisée — ne ratez plus aucun appel d'offres | ZetisLabs",
+    "metaDescription": "On installe un système qui scanne le BOAMP, les plateformes régionales et AWS Achats, filtre les appels d'offres selon vos critères, et vous les envoie à la fréquence de votre choix : temps réel, quotidien ou hebdomadaire. Le code est à vous.",
+    "hero": {
+      "eyebrow": "Veille d'AO",
+      "title": {
+        "lead": "Vous parcourez le BOAMP chaque semaine.",
+        "thin": " Pour trouver 2 ou 3 appels d'offres pertinents.",
+        "accent": " On automatise ça."
+      },
+      "subtitle": "Un système qui scanne les sources publiques, filtre selon vos critères, et vous envoie ce qui vous concerne. En temps réel, quotidien ou hebdomadaire, vous choisissez. 30 minutes de lecture au lieu de 6 heures de recherche.",
+      "ctaPrimary": {
+        "label": "Prendre rendez-vous — 30 min",
+        "href": "https://calendly.com/lucien-zetislabs/30min",
+        "ariaLabel": "Prendre un rendez-vous de 30 minutes sur Calendly"
+      },
+      "ctaSecondary": {
+        "label": "Voir comment ça marche",
+        "href": "#solution",
+        "ariaLabel": "Voir comment fonctionne la veille d'AO"
+      }
+    },
+    "problem": {
+      "eyebrow": "Le problème",
+      "title": "L'AO que vous n'avez pas vu.",
+      "body": [
+        "Le BOAMP et les plateformes régionales publient des centaines d'appels d'offres chaque semaine. Vous les parcourez un par un. Vous cherchez les lots qui correspondent à votre métier, vous filtrez par zone, par montant, par type de marché.",
+        "À la fin de la semaine, vous avez passé l'équivalent d'une journée de travail sur de la veille. Et vous n'êtes même pas sûr de n'avoir rien raté."
+      ],
+      "conclusion": "Parce que le vrai problème, ce n'est pas le temps passé. C'est l'AO que vous n'avez pas vu."
+    },
+    "solution": {
+      "eyebrow": "La solution",
+      "title": "Une short-list, à votre rythme.",
+      "body": "On installe un système qui scanne les sources publiques (BOAMP, plateformes régionales, AWS Achats), filtre les appels d'offres selon vos critères précis, et vous envoie ce qui vous concerne vraiment. En temps réel, chaque jour, ou chaque semaine, vous choisissez.",
+      "highlight": "30 minutes à la lire, au lieu de 6 heures à la chercher.",
+      "features": [
+        {
+          "title": "Scraper multi-source",
+          "description": "BOAMP, plateformes régionales, AWS Achats — scannés en continu."
+        },
+        {
+          "title": "Filtrage par profil",
+          "description": "Métier, zone, montant, lots, codes CPV. Vos critères, pas une recommandation."
+        },
+        {
+          "title": "Apprentissage",
+          "description": "Le système retient les AO qui vous intéressent et s'affine au fil du temps."
+        },
+        {
+          "title": "Livraison comme vous voulez",
+          "description": "Mail, Telegram, WhatsApp ou CRM — en temps réel, quotidien ou hebdomadaire."
+        }
+      ]
+    },
+    "notification": {
+      "eyebrow": "Ce que vous recevez",
+      "title": "Votre veille, livrée.",
+      "subtitle": "À la fréquence que vous choisissez (temps réel, quotidien ou hebdomadaire), sur le canal de votre choix.",
+      "channels": ["Mail", "Telegram", "WhatsApp", "CRM"],
+      "card": {
+        "title": "Veille AO",
+        "week": "Semaine 24",
+        "summary": "3 appels d'offres correspondent à votre profil",
+        "deadlineLabel": "Date limite",
+        "amountLabel": "Montant",
+        "locationLabel": "Lieu",
+        "matchLabel": "Correspondance",
+        "linkLabel": "Lien DCE",
+        "items": [
+          {
+            "org": "Métropole de Lyon",
+            "deadline": "15 juillet 2026",
+            "amount": "45 000 € HT",
+            "location": "Lyon (69)",
+            "match": "fluides + chauffage"
+          },
+          {
+            "org": "Conseil Départemental du Rhône",
+            "deadline": "22 juillet 2026",
+            "amount": "120 000 € HT",
+            "location": "Rhône (69)",
+            "match": "électricité + courants faibles"
+          },
+          {
+            "org": "Ville de Villeurbanne",
+            "deadline": "29 juillet 2026",
+            "amount": "78 000 € HT",
+            "location": "Villeurbanne (69)",
+            "match": "CVC + maintenance"
+          }
+        ]
+      },
+      "tablistLabel": "Choisir un canal de livraison",
+      "chat": {
+        "sender": "Veille AO",
+        "time": "09:00",
+        "cta": "Voir le DCE",
+        "today": "Aujourd'hui",
+        "input": "Message"
+      },
+      "telegram": { "tag": "bot" },
+      "whatsapp": { "tag": "Compte Business" },
+      "crm": {
+        "title": "3 nouvelles opportunités créées",
+        "source": "Veille AO",
+        "status": "À qualifier",
+        "colDeal": "Opportunité",
+        "colDeadline": "Échéance",
+        "colAmount": "Montant",
+        "colStatus": "Statut"
+      },
+      "factual": "Le score de correspondance est factuel : c'est le nombre de vos critères qui matchent. L'outil ne vous dit jamais « répondez à celle-ci ». C'est vous qui décidez."
+    },
+    "deliverables": {
+      "eyebrow": "Ce que vous obtenez",
+      "title": "Le système complet, à vous.",
+      "items": [
+        "Code source du pipeline de veille",
+        "Configuration de vos critères (modifiable)",
+        "Notifications automatiques (temps réel, quotidien ou hebdomadaire)",
+        "Documentation complète",
+        "Formation (30 min)",
+        "60 jours de support inclus"
+      ],
+      "note": "Le code est à vous. La maintenance mensuelle couvre les mises à jour et le support. Elle est optionnelle : sans elle, le système continue de tourner."
+    },
+    "pricing": {
+      "eyebrow": "Prix",
+      "title": "Un prix clair, pas de surprise.",
+      "catalogue": {
+        "label": "Tarif catalogue",
+        "setupLabel": "Installation",
+        "setupValue": "2 000 € HT",
+        "setupNote": "une fois — configuration, connexion des sources, filtrage selon vos critères, test sur données réelles.",
+        "maintenanceLabel": "Maintenance",
+        "maintenanceValue": "150 € HT / mois",
+        "maintenanceNote": "ajustements de critères, ajout de sources, corrections si un scraper casse."
+      },
+      "founder": {
+        "badge": "3 places",
+        "label": "Prix fondateur",
+        "setupLabel": "Installation",
+        "setupValue": "1 500 € HT",
+        "setupWas": "2 000 €",
+        "maintenanceLabel": "Maintenance",
+        "maintenanceValue": "100 € HT / mois",
+        "maintenanceWas": "150 €",
+        "guarantee": "Prix garanti à vie tant que l'abonnement est actif.",
+        "exchange": "En échange : votre retour sur le produit pendant les 3 premiers mois, et un témoignage si ça marche."
+      },
+      "comparison": "Un SaaS de veille AO haut de gamme facture 300 à 500 €/mois, soit 3 600 à 6 000 €/an, tous les ans. ZetisLabs : 2 000 € une fois, puis 150 €/mois. Dès la deuxième année, vous payez deux à trois fois moins cher. Et le code vous appartient."
+    },
+    "process": {
+      "eyebrow": "Comment ça se passe",
+      "title": "De vos critères à votre première veille.",
+      "steps": [
+        {
+          "number": "01",
+          "duration": "1h ensemble",
+          "title": "On définit vos critères",
+          "description": "Métier, zone géographique, fourchettes de montant, lots cibles, codes CPV. Tout ce qui fait qu'un AO vous concerne — ou pas."
+        },
+        {
+          "number": "02",
+          "duration": "2 à 5 jours",
+          "title": "On construit",
+          "description": "Connexion aux sources, système de filtrage IA, format de notification."
+        },
+        {
+          "number": "03",
+          "duration": "1 semaine",
+          "title": "On teste sur une vraie semaine",
+          "description": "Vous recevez votre première veille. On ajuste les critères si nécessaire."
+        },
+        {
+          "number": "04",
+          "duration": "Livraison",
+          "title": "On livre",
+          "description": "Code, configuration, documentation, formation. C'est à vous."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Arrêtez de chercher des AO à la main.",
+      "subtitle": "30 minutes pour voir si ça colle à votre activité — avec une démo live sur l'appel.",
+      "ctaLabel": "Prendre rendez-vous — 30 min",
+      "ctaHref": "https://calendly.com/lucien-zetislabs/30min",
+      "ctaAriaLabel": "Prendre un rendez-vous de 30 minutes sur Calendly"
+    }
   },
   "contact": {
     "metadata": {
