@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "ZetisLabs — Save 20 hours per week with automation",
-    "description": "Your teams waste time on repetitive tasks? We automate your processes and help you save up to 20 hours per week. Guaranteed ROI."
+    "title": "ZetisLabs — Automation tools you actually own",
+    "description": "We build custom automation systems for companies losing time on repetitive processes. Proprietary code, one-time payment, you own everything."
   },
   "header": {
     "home": "Home",
@@ -44,8 +44,14 @@
     },
     "form": {
       "heading": "Send us a message",
-      "name": { "label": "Name", "placeholder": "John Doe" },
-      "email": { "label": "Email", "placeholder": "john@company.com" },
+      "name": {
+        "label": "Name",
+        "placeholder": "John Doe"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "john@company.com"
+      },
       "company": {
         "label": "Company",
         "optional": "optional",
@@ -84,130 +90,86 @@
     }
   },
   "home": {
-    "sections": [
-      { "type": "problemSolution", "id": "problem-solution" },
-      { "type": "useCases", "id": "use-cases" },
-      { "type": "process", "id": "process" }
-    ],
     "hero": {
-      "eyebrow": "Custom automation for SMBs",
+      "eyebrow": "Custom automation",
       "title": {
-        "default": "",
-        "thin": "20 hours saved per week. ",
-        "accent": "Per employee."
+        "lead": "Tools that do the work.",
+        "trail": "Not tools that bill you for it."
       },
-      "subtitle": "Your teams waste time on repetitive tasks? We automate them so you can focus on what truly moves your business forward.",
+      "subtitle": "We build custom automation systems for companies losing time on repetitive processes. Proprietary code, one-time payment, you own everything.",
       "cta": {
         "primary": {
-          "label": "Estimate my time savings",
-          "href": "https://calendly.com/lucien-zetislabs/30min",
-          "ariaLabel": "Estimate my time savings"
-        },
-        "secondary": {
-          "label": "See real examples",
-          "href": "#use-cases",
-          "ariaLabel": "See real examples"
+          "label": "See our offers",
+          "href": "#offres",
+          "ariaLabel": "See our offers"
         }
       }
     },
-    "ProblemSolution": {
-      "titleProblem": "How many hours lost this week?",
-      "description": "Copy-pasting data between tools\nSending the same follow-up emails\nGenerating reports manually\nChecking Excel spreadsheets\nAnswering the same questions\n\nThese tasks don't create value. They consume time. Your time.",
-      "titleSolution": "We automate, you breathe",
-      "body": "We analyze how you work. We identify time-consuming tasks. And we create custom automations that do the work for you.",
-      "stat": {
-        "value": "20h",
-        "label": "saved on average per week"
+    "whatWeDo": {
+      "eyebrow": "What we do",
+      "lead": "We take a process that costs you time — tender monitoring, data extraction, document analysis — and turn it into an automated system.",
+      "body": "No generic SaaS. No subscription idling away for years. Code you own, that runs on your side, and that you understand.",
+      "capabilities": [
+        {
+          "title": "Tender tracking",
+          "body": "Track the public tenders that match your business."
+        },
+        {
+          "title": "Data extraction",
+          "body": "Pull the key data out of a complex document in seconds."
+        },
+        {
+          "title": "Tool integration",
+          "body": "Connect your tools to each other to remove manual work."
+        }
+      ]
+    },
+    "whyNotSaas": {
+      "eyebrow": "Why not a SaaS?",
+      "rent": "Most automation tools rent you access. You pay every month, you depend on their platform, and the day they change their pricing or shut down, you start over from scratch.",
+      "ownLead": "At Zetislabs, we build, we deliver, and ",
+      "ownAccent": "the code is yours.",
+      "closing": "It costs more upfront than a €30/month subscription. It costs less over two years. And you depend on no one."
+    },
+    "howWeWork": {
+      "eyebrow": "How we work",
+      "thesis": "From the first call to delivered code, you see everything.",
+      "steps": [
+        {
+          "marker": "30 minutes, free",
+          "title": "We talk through your problem",
+          "body": "We pinpoint the process that eats the most time."
+        },
+        {
+          "marker": "2 to 5 days, usually",
+          "title": "We build",
+          "body": "You see the result at every step. No black box."
+        },
+        {
+          "marker": "Delivery",
+          "title": "We deliver",
+          "body": "Source code, documentation, training. It's all yours. 60 days of support included."
+        }
+      ]
+    },
+    "offers": {
+      "eyebrow": "Our offers",
+      "primary": {
+        "name": "Veille AO",
+        "description": "Never miss a public tender that matches your profile.",
+        "cta": {
+          "label": "Discover the offer",
+          "href": "/contact"
+        }
       },
-      "accent": "Result: your teams focus on what matters. You see the difference in your results."
-    },
-    "UseCases": {
-      "title": "Real examples",
-      "infoCard": {
-        "first": {
-          "title": "Sales management",
-          "description": "A CRM that updates automatically from your emails, generates follow-ups, and produces a weekly report.",
-          "footer": "Saved: 8h/week"
-        },
-        "second": {
-          "title": "Customer support",
-          "description": "An AI agent that answers frequently asked questions, sorts requests, and escalates urgent issues.",
-          "footer": "Saved: 12h/week"
-        },
-        "third": {
-          "title": "Administrative",
-          "description": "Invoices generated automatically, payment reminders, accounting synchronization.",
-          "footer": "Saved: 6h/week"
-        }
-      }
-    },
-    "Trust": {
-      "title": "They trust us",
-      "logos": {
-        "first": "Controle-G",
-        "second": "Atelier Stéphane Fernandez"
-      }
-    },
-    "Process": {
-      "label": "Process",
-      "title": "How it works",
-      "subtitle": "Simple steps to transform your workflow",
-      "route": {
-        "1": {
-          "title": "Free audit",
-          "description": "We identify your quick wins"
-        },
-        "2": {
-          "title": "Detailed proposal",
-          "description": "Estimated ROI before we start"
-        },
-        "3": {
-          "title": "Development",
-          "description": "Fast iterations, regular demos"
-        },
-        "4": {
-          "title": "Results",
-          "description": "You measure the time saved from the first month"
-        }
-      }
-    },
-    "qa": {
-      "title": "Frequently asked questions",
-      "questions": {
-        "1": {
-          "question": "How much does it cost?",
-          "response": "Every project is different. We always start with a free 30-minute audit to estimate the scope and give you a clear quote, with no surprises."
-        },
-        "2": {
-          "question": "How long until I see results?",
-          "response": "The first automations are typically in place within 2 to 4 weeks. You'll measure the time saved from the first month."
-        },
-        "3": {
-          "question": "Does it work with my current tools?",
-          "response": "Yes. We adapt to your existing stack — CRM, ERP, business tools, Google Workspace, etc. No need to change everything."
-        },
-        "4": {
-          "question": "What if it doesn't work for me?",
-          "response": "The audit is free and comes with no commitment. You then decide whether to move forward or not, in full transparency."
-        },
-        "5": {
-          "question": "What's the difference from no-code tools like Zapier?",
-          "response": "We develop native code, not visual workflows. Result: more flexibility, fewer limitations, and solutions that stand the test of time."
-        }
-      }
+      "more": "More offers in the works."
     },
     "cta": {
-      "title": "How many hours could you get back?",
-      "description": "Free audit. We analyze your processes and tell you where you can save time.",
+      "title": "Is a process costing you time?",
       "primary": {
-        "label": "Book my free audit",
+        "label": "Let's talk — 30 min",
         "href": "https://calendly.com/lucien-zetislabs/30min",
-        "ariaLabel": "Book my free audit"
-      },
-      "secondary": {
-        "label": "Learn more",
-        "href": "#what-we-make",
-        "ariaLabel": "Learn more about our services"
+        "ariaLabel": "Book a 30-minute call"
       }
     }
   }

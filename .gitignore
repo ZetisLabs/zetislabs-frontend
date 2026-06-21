@@ -37,3 +37,9 @@ next-env.d.ts
 
 # local agent worktrees
 .worktrees/
+/.claude/worktrees/
+
+# local design iteration / verification artifacts (screenshots, MCP captures)
+/.playwright-mcp/
+/redesign/
+/*.png

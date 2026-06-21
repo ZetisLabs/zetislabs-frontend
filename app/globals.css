@@ -109,6 +109,17 @@ input {
   background-size: 22px 22px;
 }
 
+/* Film grain — a STATIC fractal-noise overlay for tactile "paper" warmth on the
+   near-white surface (wiki "grain SVG overlay opacity ~0.018"). Static, so it
+   needs no reduced-motion fallback and is effectively free. Apply to a
+   pointer-events:none layer and keep opacity ~0.015–0.02 — above ~0.12 it reads
+   as compressed-JPEG dirt on near-white. The home uses this (+ the WebGL grid)
+   instead of swiss-paper to avoid a double dot-grid. */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
 /* Vertical scroll fade — articles dissolve near the top/bottom edges of a
    scroll container as they scroll out. Subtle at the top, stronger at the
    bottom (hints at more below). Pure CSS, GPU-composited. */
