@@ -1,5 +1,11 @@
 import { siteConfig } from "@/lib/seo/config";
+import { localeUrl } from "@/lib/seo/alternates";
+import { isValidLocale, defaultLocale, type Locale } from "@/i18n/config";
 import type { Article } from "@/lib/articles";
+
+/** Narrow a possibly-untrusted locale string to a Locale, defaulting to fr. */
+const asLocale = (locale: string): Locale =>
+  isValidLocale(locale) ? locale : defaultLocale;
 
 interface JsonLdProps {
   data: Record<string, unknown>;
@@ -46,7 +52,7 @@ export function WebSiteJsonLd({ locale }: { locale: string }) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteConfig.name,
-    url: `${siteConfig.url}/${locale}`,
+    url: localeUrl(asLocale(locale), "/"),
     inLanguage: locale === "fr" ? "fr-FR" : "en-US",
     publisher: {
       "@type": "Organization",
@@ -87,7 +93,7 @@ export function ArticleJsonLd({ article, locale }: ArticleJsonLdProps) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${siteConfig.url}/${locale}/blog/${article.slug}`,
+      "@id": localeUrl(asLocale(locale), `/blog/${article.slug}`),
     },
     inLanguage: locale === "fr" ? "fr-FR" : "en-US",
   };

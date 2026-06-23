@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getTranslation } from "@/lib/i18n";
-import { type Locale } from "@/i18n/config";
+import { type Locale, localePath } from "@/i18n/config";
 import { useElementEffect } from "../effects/hooks/useElementEffect";
 import { EFFECT_LAYERS } from "../effects/EffectLayerProvider";
 import { Menu, X, ChevronDown, ArrowUpRight } from "lucide-react";
@@ -32,7 +32,7 @@ export default function Header({ locale }: Props) {
 
   // The offers shown in the dropdown. One for now (veille d'AO); the menu is
   // built to grow as we add more. `id` keys into header.offers.items.<id>.
-  const offers = [{ id: "veilleAo", href: `/${locale}/veille-ao` }];
+  const offers = [{ id: "veilleAo", href: localePath(locale, "/veille-ao") }];
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -107,7 +107,7 @@ export default function Header({ locale }: Props) {
           <div className="animate-slide-down flex w-auto items-center justify-center gap-4 rounded-md border-[0.75px] border-border/50 bg-background/75 px-4 py-0 shadow-sm backdrop-blur-md md:gap-6 md:px-6">
             {/* Brand logo */}
             <Link
-              href={`/${locale}`}
+              href={localePath(locale, "/")}
               className="flex items-center gap-2"
               aria-label={t("header.logoAriaLabel")}
             >
@@ -124,7 +124,7 @@ export default function Header({ locale }: Props) {
             {/* Desktop Navigation menu - hidden on mobile */}
             <nav className="hidden items-center gap-4 text-sm text-foreground md:flex">
               <Link
-                href={`/${locale}`}
+                href={localePath(locale, "/")}
                 className="nav-link nav-link-home group relative mx-1 rounded-full px-3 py-0.5 transition-colors hover:text-accent"
                 aria-label={t("header.homeAriaLabel")}
               >
@@ -178,7 +178,7 @@ export default function Header({ locale }: Props) {
               </div>
 
               <Link
-                href={`/${locale}/blog`}
+                href={localePath(locale, "/blog")}
                 className="nav-link nav-link-blog group relative mx-1 rounded-full px-3 py-0.5 transition-colors hover:text-accent"
                 aria-label={t("header.blogAriaLabel")}
               >
@@ -257,7 +257,7 @@ export default function Header({ locale }: Props) {
             {/* Menu Header */}
             <div className="flex items-center justify-between border-b border-border/40 px-6 py-4">
               <Link
-                href={`/${locale}`}
+                href={localePath(locale, "/")}
                 onClick={() => setIsMenuOpen(false)}
                 aria-label={t("header.logoAriaLabel")}
               >
@@ -282,7 +282,7 @@ export default function Header({ locale }: Props) {
             {/* Menu Links */}
             <nav className="flex flex-col px-6 py-8">
               <Link
-                href={`/${locale}`}
+                href={localePath(locale, "/")}
                 onClick={() => setIsMenuOpen(false)}
                 className="flex h-14 items-center border-b border-border/20 text-lg font-medium text-foreground transition-colors hover:text-accent"
               >
@@ -317,7 +317,7 @@ export default function Header({ locale }: Props) {
                 ))}
 
               <Link
-                href={`/${locale}/blog`}
+                href={localePath(locale, "/blog")}
                 onClick={() => setIsMenuOpen(false)}
                 className="flex h-14 items-center border-b border-border/20 text-lg font-medium text-foreground transition-colors hover:text-accent"
               >

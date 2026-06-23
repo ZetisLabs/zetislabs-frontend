@@ -2,13 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Linkedin, Github, ArrowUpRight } from "lucide-react";
 import { getTranslation } from "@/lib/i18n";
-import {
-  type Locale,
-  isValidLocale,
-  defaultLocale,
-  locales,
-} from "@/i18n/config";
+import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
+import { buildAlternates, localeUrl } from "@/lib/seo/alternates";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { CTAButton, EyebrowBadge } from "@/lib/ui";
 import Footer from "@/components/layout/Footer";
@@ -28,22 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = t("contact.metadata.title");
   const description = t("contact.metadata.description");
-  const url = `${siteConfig.url}/${locale}/contact`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of locales) {
-    languages[loc] = `${siteConfig.url}/${loc}/contact`;
-  }
-  languages["x-default"] = `${siteConfig.url}/${defaultLocale}/contact`;
+  const url = localeUrl(locale, "/contact");
 
   return {
     title,
     description,
     metadataBase: new URL(siteConfig.url),
-    alternates: {
-      canonical: url,
-      languages,
-    },
+    alternates: buildAlternates(locale, "/contact"),
     openGraph: {
       title,
       description,
@@ -100,10 +87,10 @@ export default async function ContactPage({ params }: Props) {
     <>
       <BreadcrumbJsonLd
         items={[
-          { name: t("header.home"), url: `${siteConfig.url}/${locale}` },
+          { name: t("header.home"), url: localeUrl(locale, "/") },
           {
             name: t("contact.eyebrow"),
-            url: `${siteConfig.url}/${locale}/contact`,
+            url: localeUrl(locale, "/contact"),
           },
         ]}
       />

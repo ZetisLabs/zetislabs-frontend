@@ -361,7 +361,7 @@
         "description": "Ne ratez plus les appels d'offres qui correspondent à votre profil.",
         "cta": {
           "label": "Découvrir l'offre",
-          "href": "/fr/veille-ao"
+          "href": "/veille-ao"
         }
       },
       "more": "D'autres offres en préparation."

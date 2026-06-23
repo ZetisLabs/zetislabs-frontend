@@ -1,7 +1,13 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { locales, localeNames, type Locale } from "@/i18n/config";
+import {
+  locales,
+  localeNames,
+  localePath,
+  stripLocalePrefix,
+  type Locale,
+} from "@/i18n/config";
 
 type Props = {
   currentLocale: Locale;
@@ -25,10 +31,9 @@ export default function LanguageSwitcher({ currentLocale }: Props) {
       return;
     }
 
-    // Replace the locale in the pathname
-    const segments = pathname.split("/");
-    segments[1] = newLocale;
-    const newPath = segments.join("/");
+    // Keep the same page, swap the locale: strip any current locale prefix to
+    // the logical path, then re-prefix for the target locale (fr → root, en → /en).
+    const newPath = localePath(newLocale, stripLocalePrefix(pathname));
 
     router.push(newPath);
     setIsOpen(false);
