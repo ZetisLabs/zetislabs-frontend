@@ -1,76 +1,45 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { defaultLocale, isValidLocale, locales } from "@/i18n/config";
+import { defaultLocale } from "@/i18n/config";
 
 /**
- * Proxy for locale detection and routing
- * - Detects browser language preference
- * - Redirects root `/` to `/en` or `/fr` based on browser language
- * - Validates locale in URL and falls back to default if invalid
+ * Proxy for locale routing — "French at the root, /en for English".
+ *
+ * The default locale (fr) is served WITHOUT a URL prefix so the homepage and
+ * every French page lives at the canonical root (`/`, `/blog`, `/contact`…).
+ * There is no Accept-Language detection and no redirect on `/`: a French
+ * prospect typing `zetislabs.com` gets French content with zero hops, and all
+ * link equity stays on the root URLs.
+ *
+ *   - `/en`, `/en/…`  → served as-is (English keeps its prefix).
+ *   - `/fr`, `/fr/…`  → 301 permanent to the prefix-less path (legacy URLs that
+ *                       Google may already have indexed; consolidates equity).
+ *   - everything else → internally rewritten to `/fr/…` so the `[locale]`
+ *                       segment renders French while the visible URL stays clean.
  */
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Check if pathname already has a locale
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-
-  // If pathname already has a valid locale, continue
-  if (pathnameHasLocale) {
-    return NextResponse.next();
-  }
-
-  // Extract locale from pathname if present
-  const pathnameLocale = pathname.split("/")[1];
-
-  // If the first segment is a valid locale, continue
-  if (isValidLocale(pathnameLocale)) {
-    return NextResponse.next();
-  }
-
-  // For root path `/`, detect browser language
-  if (pathname === "/") {
-    const acceptLanguage = request.headers.get("accept-language");
-    let detectedLocale = defaultLocale;
-
-    if (acceptLanguage) {
-      // Parse Accept-Language header
-      const languages = acceptLanguage
-        .split(",")
-        .map((lang) => {
-          const [locale, q = "q=1"] = lang.trim().split(";");
-          const quality = parseFloat(q.replace("q=", ""));
-          return { locale: locale.split("-")[0].toLowerCase(), quality };
-        })
-        .sort((a, b) => b.quality - a.quality);
-
-      // Find first supported locale
-      for (const lang of languages) {
-        if (isValidLocale(lang.locale)) {
-          detectedLocale = lang.locale;
-          break;
-        }
-      }
-    }
-
-    // Redirect to the detected locale. The destination depends on the
-    // Accept-Language header, so this stays a *temporary* (307) redirect and
-    // advertises `Vary: Accept-Language` — that way shared caches (CDN/browser)
-    // key the redirect on the language and never serve one visitor's locale to
-    // another. A permanent (308) redirect here could be cached and pin every
-    // visitor to a single locale.
+  // Legacy `/fr` URLs → 301 to the prefix-less canonical path.
+  if (
+    pathname === `/${defaultLocale}` ||
+    pathname.startsWith(`/${defaultLocale}/`)
+  ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${detectedLocale}`;
-    const response = NextResponse.redirect(url);
-    response.headers.set("Vary", "Accept-Language");
-    return response;
+    url.pathname = pathname.slice(`/${defaultLocale}`.length) || "/";
+    return NextResponse.redirect(url, 301);
   }
 
-  // For other paths without locale, redirect to default locale
+  // English keeps its `/en` prefix — serve as-is.
+  if (pathname === "/en" || pathname.startsWith("/en/")) {
+    return NextResponse.next();
+  }
+
+  // Default locale (fr) at the root: rewrite to the `[locale]` tree internally,
+  // keeping the visible URL prefix-less.
   const url = request.nextUrl.clone();
-  url.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(url);
+  url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;
+  return NextResponse.rewrite(url);
 }
 
 export const config = {

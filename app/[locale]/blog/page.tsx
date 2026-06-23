@@ -1,12 +1,8 @@
 import { Metadata } from "next";
 import { getAllArticles } from "@/lib/articles";
-import {
-  isValidLocale,
-  defaultLocale,
-  locales,
-  type Locale,
-} from "@/i18n/config";
+import { isValidLocale, defaultLocale, type Locale } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
+import { buildAlternates, localeUrl } from "@/lib/seo/alternates";
 import { BlogClient } from "./components/BlogClient";
 
 interface Props {
@@ -25,22 +21,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? "Découvrez nos articles sur l'IA, l'automatisation et l'ingénierie logicielle."
       : "Discover our articles on AI, automation and software engineering.";
 
-  const url = `${siteConfig.url}/${locale}/blog`;
-
-  // Build hreflang alternates
-  const languages: Record<string, string> = {};
-  for (const loc of locales) {
-    languages[loc] = `${siteConfig.url}/${loc}/blog`;
-  }
-  languages["x-default"] = `${siteConfig.url}/${defaultLocale}/blog`;
+  const url = localeUrl(locale, "/blog");
 
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages,
-    },
+    alternates: buildAlternates(locale, "/blog"),
     openGraph: {
       title,
       description,

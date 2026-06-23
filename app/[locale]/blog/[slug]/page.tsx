@@ -7,9 +7,11 @@ import {
   isValidLocale,
   defaultLocale,
   locales,
+  localePath,
   type Locale,
 } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
+import { localeUrl } from "@/lib/seo/alternates";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ArticleContent } from "../components/ArticleContent";
 
@@ -53,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const url = `${siteConfig.url}/${locale}/blog/${slug}`;
+  const url = localeUrl(locale, `/blog/${slug}`);
 
   // Build hreflang alternates for this article
   const languages: Record<string, string> = {};
@@ -61,8 +63,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // Check if article exists in this locale
     const locArticle = getArticleBySlug(slug, loc);
     if (locArticle) {
-      languages[loc] = `${siteConfig.url}/${loc}/blog/${slug}`;
+      languages[loc] = localeUrl(loc, `/blog/${slug}`);
     }
+  }
+  // x-default → the French version when it exists (primary market).
+  if (languages[defaultLocale]) {
+    languages["x-default"] = languages[defaultLocale];
   }
 
   return {
@@ -114,9 +120,9 @@ export default async function ArticlePage({ params }: Props) {
   }
 
   const breadcrumbs = [
-    { name: "Home", url: `${siteConfig.url}/${locale}` },
-    { name: "Blog", url: `${siteConfig.url}/${locale}/blog` },
-    { name: article.title, url: `${siteConfig.url}/${locale}/blog/${slug}` },
+    { name: "Home", url: localeUrl(locale, "/") },
+    { name: "Blog", url: localeUrl(locale, "/blog") },
+    { name: article.title, url: localeUrl(locale, `/blog/${slug}`) },
   ];
 
   const isFr = locale === "fr";
@@ -133,7 +139,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="mx-auto max-w-2xl px-6 pt-28 pb-24 md:pt-36">
           {/* Back to the Journal — quiet eyebrow, the arrow wakes to accent */}
           <Link
-            href={`/${locale}/blog`}
+            href={localePath(locale, "/blog")}
             className="hero-entrance hero-entrance-1 group inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.18em] text-foreground/40 uppercase transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:text-accent motion-reduce:transition-none" />
@@ -178,7 +184,7 @@ export default async function ArticlePage({ params }: Props) {
               className="block h-0.5 w-6 rounded-full bg-foreground/20"
             />
             <Link
-              href={`/${locale}/blog`}
+              href={localePath(locale, "/blog")}
               className="group inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.18em] text-foreground/45 uppercase transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:text-accent motion-reduce:transition-none" />

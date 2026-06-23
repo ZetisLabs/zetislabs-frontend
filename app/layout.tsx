@@ -89,7 +89,8 @@ const generalSans = localFont({
 /**
  * Root Layout
  * Next.js requires the root layout to have html and body tags.
- * The lang attribute is set dynamically by the locale layout via script tag.
+ * Defaults to `fr` (the site's primary language, served at the root); the
+ * locale layout's LocaleScript switches it to `en` on the `/en` routes.
  */
 export default function RootLayout({
   children,
@@ -97,7 +98,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Preconnect to Google Fonts for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

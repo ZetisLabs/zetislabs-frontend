@@ -7,13 +7,9 @@ import {
 } from "@/components/providers";
 import { WebGLBackgroundLazy } from "@/components/webgl/WebGLBackgroundLazy";
 import { getTranslation } from "@/lib/i18n";
-import {
-  type Locale,
-  isValidLocale,
-  defaultLocale,
-  locales,
-} from "@/i18n/config";
+import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
+import { buildAlternates, localeUrl } from "@/lib/seo/alternates";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/JsonLd";
 
 type Props = {
@@ -30,22 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = t("metadata.title");
   const description = t("metadata.description");
-  const url = `${siteConfig.url}/${locale}`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of locales) {
-    languages[loc] = `${siteConfig.url}/${loc}`;
-  }
-  languages["x-default"] = `${siteConfig.url}/${defaultLocale}`;
+  const url = localeUrl(locale, "/");
 
   return {
     title,
     description,
     metadataBase: new URL(siteConfig.url),
-    alternates: {
-      canonical: url,
-      languages,
-    },
+    alternates: buildAlternates(locale, "/"),
     openGraph: {
       title,
       description,

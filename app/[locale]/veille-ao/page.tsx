@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import {
-  type Locale,
-  isValidLocale,
-  defaultLocale,
-  locales,
-} from "@/i18n/config";
+import { type Locale, isValidLocale, defaultLocale } from "@/i18n/config";
 import { getTranslation, getTranslations } from "@/lib/i18n";
 import { siteConfig } from "@/lib/seo/config";
+import { buildAlternates, localeUrl } from "@/lib/seo/alternates";
 import { WebGLAnimationModeOverride } from "@/components/providers";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import Footer from "@/components/layout/Footer";
@@ -25,19 +21,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = t("veilleAo.metaTitle");
   const description = t("veilleAo.metaDescription");
-  const url = `${siteConfig.url}/${locale}/veille-ao`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of locales) {
-    languages[loc] = `${siteConfig.url}/${loc}/veille-ao`;
-  }
-  languages["x-default"] = `${siteConfig.url}/${defaultLocale}/veille-ao`;
+  const url = localeUrl(locale, "/veille-ao");
 
   return {
     title,
     description,
     metadataBase: new URL(siteConfig.url),
-    alternates: { canonical: url, languages },
+    alternates: buildAlternates(locale, "/veille-ao"),
     openGraph: {
       title,
       description,
@@ -78,10 +68,10 @@ export default async function VeilleAoPage({ params }: Props) {
     <>
       <BreadcrumbJsonLd
         items={[
-          { name: t("header.home"), url: `${siteConfig.url}/${locale}` },
+          { name: t("header.home"), url: localeUrl(locale, "/") },
           {
             name: t("veilleAo.hero.eyebrow"),
-            url: `${siteConfig.url}/${locale}/veille-ao`,
+            url: localeUrl(locale, "/veille-ao"),
           },
         ]}
       />

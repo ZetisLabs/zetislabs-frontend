@@ -7,9 +7,10 @@ import {
   type Locale,
   isValidLocale,
   defaultLocale,
-  locales,
+  localePath,
 } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
+import { buildAlternates } from "@/lib/seo/alternates";
 
 /** Footer section keys that currently resolve to a placeholder page. */
 export type WipSection = "legal" | "privacy" | "terms" | "cookies";
@@ -31,19 +32,12 @@ export function buildWipMetadata(
   const sectionLabel = t(`footer.${section}`);
   const title = `${sectionLabel} — ${t("wip.metaTitleSuffix")}`;
   const description = t("wip.metaDescription");
-  const url = `${siteConfig.url}/${locale}/${section}`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of locales) {
-    languages[loc] = `${siteConfig.url}/${loc}/${section}`;
-  }
-  languages["x-default"] = `${siteConfig.url}/${defaultLocale}/${section}`;
 
   return {
     title,
     description,
     metadataBase: new URL(siteConfig.url),
-    alternates: { canonical: url, languages },
+    alternates: buildAlternates(locale, `/${section}`),
     // Placeholder — do not index until the real content ships.
     robots: { index: false, follow: true },
   };
@@ -121,14 +115,14 @@ export function ComingSoon({
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <CTAButton
-                href={`/${locale}/contact`}
+                href={localePath(locale, "/contact")}
                 variant="primary"
                 ariaLabel={t("wip.contactAriaLabel")}
               >
                 {t("wip.contactCta")}
               </CTAButton>
               <CTAButton
-                href={`/${locale}`}
+                href={localePath(locale, "/")}
                 variant="secondary"
                 ariaLabel={t("wip.backAriaLabel")}
               >

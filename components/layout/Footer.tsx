@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Linkedin } from "lucide-react";
 import { getTranslation } from "@/lib/i18n";
-import { type Locale } from "@/i18n/config";
+import { type Locale, localePath } from "@/i18n/config";
 import { siteConfig } from "@/lib/seo/config";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
@@ -23,15 +23,14 @@ export default function Footer({ locale }: Props) {
     currentYear.toString()
   );
 
-  // Locale-prefixed so the links stay on the visitor's language. Without the
-  // prefix, the proxy treats a locale-less path as the default locale (fr) and
-  // redirects there — e.g. an English visitor would land on /fr/contact.
+  // Locale-aware hrefs: French (default) resolves to the prefix-less root path,
+  // English keeps its /en prefix — so each link stays on the visitor's language.
   const footerLinks = [
-    { href: `/${locale}/legal`, label: t("footer.legal") },
-    { href: `/${locale}/privacy`, label: t("footer.privacy") },
-    { href: `/${locale}/terms`, label: t("footer.terms") },
-    { href: `/${locale}/cookies`, label: t("footer.cookies") },
-    { href: `/${locale}/contact`, label: t("footer.contact") },
+    { href: localePath(locale, "/legal"), label: t("footer.legal") },
+    { href: localePath(locale, "/privacy"), label: t("footer.privacy") },
+    { href: localePath(locale, "/terms"), label: t("footer.terms") },
+    { href: localePath(locale, "/cookies"), label: t("footer.cookies") },
+    { href: localePath(locale, "/contact"), label: t("footer.contact") },
   ];
 
   // Company LinkedIn — the one social entry point in the footer. Same hover

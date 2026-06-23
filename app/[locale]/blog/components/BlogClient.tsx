@@ -5,6 +5,12 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Reveal } from "@/lib/motion";
 import type { Article } from "@/lib/articles";
+import {
+  localePath,
+  isValidLocale,
+  defaultLocale,
+  type Locale,
+} from "@/i18n/config";
 
 /**
  * Blog — abstract single-screen list with a continuous "loupe".
@@ -55,14 +61,15 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
   const ulRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
+  const safeLocale: Locale = isValidLocale(locale) ? locale : defaultLocale;
   const lang = locale === "fr" ? "fr" : "en";
   const t = COPY[lang];
 
   // Backward-compat: legacy ?article=<slug> links now redirect to the page.
   useEffect(() => {
     const legacy = searchParams.get("article");
-    if (legacy) router.replace(`/${locale}/blog/${legacy}`);
-  }, [searchParams, router, locale]);
+    if (legacy) router.replace(localePath(safeLocale, `/blog/${legacy}`));
+  }, [searchParams, router, safeLocale]);
 
   // Lock page scroll on the index — only the list scrolls. Article pages don't
   // mount this component, so their normal scroll is unaffected.
@@ -163,7 +170,7 @@ export function BlogClient({ articles, locale }: BlogClientProps) {
               >
                 <Reveal once delay={Math.min(i * 0.04, 0.24)}>
                   <Link
-                    href={`/${locale}/blog/${article.slug}`}
+                    href={localePath(safeLocale, `/blog/${article.slug}`)}
                     className="group block rounded-lg px-3 py-6 transition-colors duration-300 hover:bg-foreground/[0.02] active:opacity-90 motion-reduce:transition-none"
                   >
                     {/* Quiet eyebrow — wakes to accent on contact */}
